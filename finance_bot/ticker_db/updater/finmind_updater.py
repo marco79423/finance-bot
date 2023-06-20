@@ -12,7 +12,7 @@ def get_finmind_loader():
     return api
 
 
-class FindMindUpdater:
+class FinmindUpdater:
     def __init__(self):
         self.api = get_finmind_loader()
 
@@ -45,7 +45,7 @@ class FindMindUpdater:
 if __name__ == '__main__':
     from finance_bot.ticker_db.database import get_engine
 
-    updater = FindMindUpdater()
+    updater = FinmindUpdater()
 
     engine = get_engine()
     with Session(engine) as s:
