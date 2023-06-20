@@ -1,0 +1,13 @@
+general:
+  timezone: Asia/Taipei
+
+ticker_db:
+  updater:
+    findmind:
+      api_token: <token>
+
+notifications:
+  telegram_bot:
+    url: <url>
+    token: <token>
+    bot_username: <username>

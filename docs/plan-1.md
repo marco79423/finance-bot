@@ -6,6 +6,7 @@
 
 * 自動搜集股票相關資訊
 * 提供選股的工具函式庫（包含回測）
+* 完成課程的資優生選股策略
 
 ## 發想
 
@@ -30,23 +31,24 @@
             cli.py
         server/  # 參考 jessigod
         strategy/
+            condition/ 
             strategy_base.py
         backtest/
-        database/
-          ticker_database.py
-          ticker.py
+        ticker_db/
+          model/
           updater/
             yfinance_udpater.py
             finlab_updater.py
             finmind_updater.py
+          __init__.py
+          ticker.py
+          ticker_db.py
         tech_tool/
     lab/
         study.ipynb
         test.py
     pyproject.toml 參考 yuki-yaya
 
-## 基本使用的構想
+## 資料源存儲規則
 
-```python
-
-```
+* 盡量依數據源的格式存儲，先保留下來
