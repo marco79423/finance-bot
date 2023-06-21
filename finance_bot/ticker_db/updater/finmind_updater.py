@@ -18,6 +18,7 @@ class FinmindUpdater:
 
     def update_taiwan_stock_info(self, session):
         df = self.data_loader.taiwan_stock_info()
+
         for _, data in df.iterrows():
             self._save_or_update_taiwan_stock_info(session, data)
         session.commit()
