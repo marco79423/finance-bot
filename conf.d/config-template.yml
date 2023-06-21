@@ -5,6 +5,8 @@ ticker_db:
   updater:
     findmind:
       api_token: <token>
+    finlab:
+      api_token: <token>
 
 notifications:
   telegram_bot:
