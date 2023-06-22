@@ -41,7 +41,6 @@
             finlab_updater.py
             finmind_updater.py
           __init__.py
-          ticker.py
           ticker_db.py
         tech_tool/
     lab/
