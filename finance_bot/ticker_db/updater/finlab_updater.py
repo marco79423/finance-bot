@@ -17,29 +17,33 @@ class FinlabUpdater:
 
     def update_price_close(self, session):
         df = self.data_loader.get('price:收盤價')
-        df = df.stack().reset_index()
-        df.columns = ['date', 'stock_id', 'price']
 
-        df['date'] = df['date'].astype('datetime64[ns]')
-
-        for _, data in df.iterrows():
-            self._save_or_update_price_close(session, data)
-        session.commit()
+        for date, price_data in df.iterrows():
+            print(f'Download {date} ...')
+            price_data.dropna(inplace=True)
+            for symbol, price in price_data.items():
+                data = {
+                    'date': date.to_pydatetime(),   # Must be native datetime for SQLAlchemy with sqlite3
+                    'symbol': symbol,
+                    'price': price,
+                }
+                self._save_or_update_price_close(session, data)
+            session.commit()
 
     @staticmethod
     def _save_or_update_price_close(session, data):
         ticker = session.scalar(
             select(FinlabPriceClose)
-            .where(FinlabPriceClose.stock_id == data['stock_id'])
-            .where(FinlabPriceClose.stock_id == data['date'])
+            .where(FinlabPriceClose.symbol == data['symbol'])
+            .where(FinlabPriceClose.date == data['date'])
             .limit(1)
         )
 
         if ticker:
             session.execute(
                 update(FinlabPriceClose)
-                .where(FinlabPriceClose.stock_id == data['stock_id'])
-                .where(FinlabPriceClose.stock_id == data['date'])
+                .where(FinlabPriceClose.symbol == data['symbol'])
+                .where(FinlabPriceClose.date == data['date'])
                 .values(**data)
             )
         else:
