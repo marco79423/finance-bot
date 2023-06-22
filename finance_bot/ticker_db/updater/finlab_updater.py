@@ -4,6 +4,7 @@ from sqlalchemy.orm import Session
 
 from finance_bot.config import conf
 from finance_bot.ticker_db.model.finlab_price_close import FinlabPriceClose
+from finance_bot.ticker_db.updater.base import UpdaterBase
 
 
 def get_finlab_data_loader():
@@ -11,11 +12,12 @@ def get_finlab_data_loader():
     return finlab.data
 
 
-class FinlabUpdater:
-    def __init__(self):
+class FinlabUpdater(UpdaterBase):
+    def __init__(self, session):
+        super().__init__(session)
         self.data_loader = get_finlab_data_loader()
 
-    def update_price_close(self, session):
+    def update_price_close(self):
         df = self.data_loader.get('price:收盤價')
 
         for date, price_data in df.iterrows():
@@ -27,12 +29,11 @@ class FinlabUpdater:
                     'symbol': symbol,
                     'price': price,
                 }
-                self._save_or_update_price_close(session, data)
-            session.commit()
+                self._save_or_update_price_close(data)
+            self.session.commit()
 
-    @staticmethod
-    def _save_or_update_price_close(session, data):
-        ticker = session.scalar(
+    def _save_or_update_price_close(self, data):
+        ticker = self.session.scalar(
             select(FinlabPriceClose)
             .where(FinlabPriceClose.symbol == data['symbol'])
             .where(FinlabPriceClose.date == data['date'])
@@ -40,21 +41,20 @@ class FinlabUpdater:
         )
 
         if ticker:
-            session.execute(
+            self.session.execute(
                 update(FinlabPriceClose)
                 .where(FinlabPriceClose.symbol == data['symbol'])
                 .where(FinlabPriceClose.date == data['date'])
                 .values(**data)
             )
         else:
-            session.add(FinlabPriceClose(**data))
+            self.session.add(FinlabPriceClose(**data))
 
 
 if __name__ == '__main__':
     from finance_bot.ticker_db.database import get_engine
 
-    updater = FinlabUpdater()
-
     engine = get_engine()
-    with Session(engine) as s:
-        updater.update_price_close(s)
+    with Session(engine) as session:
+        updater = FinlabUpdater(session)
+        updater.update_price_close()

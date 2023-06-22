@@ -4,6 +4,7 @@ from sqlalchemy.orm import Session
 
 from finance_bot.config import conf
 from finance_bot.ticker_db.model import FinmindTaiwanStockInfo
+from finance_bot.ticker_db.updater import UpdaterBase
 
 
 def get_finmind_data_loader():
@@ -12,40 +13,39 @@ def get_finmind_data_loader():
     return api
 
 
-class FinmindUpdater:
-    def __init__(self):
+class FinmindUpdater(UpdaterBase):
+    def __init__(self, session):
+        super().__init__(session)
         self.data_loader = get_finmind_data_loader()
 
-    def update_taiwan_stock_info(self, session):
+    def update_taiwan_stock_info(self):
         df = self.data_loader.taiwan_stock_info()
 
         for _, data in df.iterrows():
-            self._save_or_update_taiwan_stock_info(session, data)
-        session.commit()
+            self._save_or_update_taiwan_stock_info(data)
+        self.session.commit()
 
-    @staticmethod
-    def _save_or_update_taiwan_stock_info(session, data):
-        ticker = session.scalar(
+    def _save_or_update_taiwan_stock_info(self, data):
+        ticker = self.session.scalar(
             select(FinmindTaiwanStockInfo)
             .where(FinmindTaiwanStockInfo.stock_id == data['stock_id'])
             .limit(1)
         )
 
         if ticker:
-            session.execute(
+            self.session.execute(
                 update(FinmindTaiwanStockInfo)
                 .where(FinmindTaiwanStockInfo.stock_id == data['stock_id'])
                 .values(**data)
             )
         else:
-            session.add(FinmindTaiwanStockInfo(**data))
+            self.session.add(FinmindTaiwanStockInfo(**data))
 
 
 if __name__ == '__main__':
     from finance_bot.ticker_db.database import get_engine
 
-    updater = FinmindUpdater()
-
     engine = get_engine()
-    with Session(engine) as s:
-        updater.update_taiwan_stock_info(s)
+    with Session(engine) as session:
+        updater = FinmindUpdater(session)
+        updater.update_taiwan_stock_info()
