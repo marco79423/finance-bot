@@ -32,7 +32,7 @@
         server/  # 參考 jessigod
         strategy/
             condition/ 
-            strategy_base.py
+            base.py
         backtest/
         ticker_db/
           model/
