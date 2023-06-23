@@ -1,4 +1,5 @@
 import click
+import requests
 
 from finance_bot.server.api_server import APIServer
 
@@ -26,5 +27,18 @@ def create_cli():
             port=port,
             is_dev=dev,
         )
+
+    @cli.group('remote')
+    def remote():
+        pass
+
+    @remote.command('ping')
+    @click.option('--url', default='http://localhost:8888', help='理財機器人的 URL')
+    def ping(url):
+        try:
+            resp = requests.get(f'{url}/debug/ping')
+            print(resp.text)
+        except requests.exceptions.RequestException:
+            print(f'理財機器人 ({url}) 連線失敗')
 
     return cli

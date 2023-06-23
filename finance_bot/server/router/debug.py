@@ -6,7 +6,7 @@ from finance_bot.config import conf
 router = fastapi.APIRouter(prefix='/debug')
 
 
-@router.get('/ping')
+@router.get('/ping', response_class=fastapi.responses.PlainTextResponse)
 async def ping():
     return 'pong'
 
