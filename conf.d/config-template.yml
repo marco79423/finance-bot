@@ -8,8 +8,7 @@ ticker_db:
     finlab:
       api_token: <token>
 
-notifications:
-  telegram_bot:
-    url: <url>
+notification:
+  telegram:
+    chat_id: <url>
     token: <token>
-    bot_username: <username>
