@@ -51,3 +51,14 @@
 ## 資料源存儲規則
 
 * 盡量依數據源的格式存儲，先保留下來
+
+## 命令列
+
+```shell
+finb serve  # 啟動服務器
+
+finb shell
+
+finb remote update
+finb local update
+```
