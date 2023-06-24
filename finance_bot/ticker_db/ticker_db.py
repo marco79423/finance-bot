@@ -31,6 +31,16 @@ class Ticker:
         df.index = pd.PeriodIndex(df.index, freq='Q')
         return df['value']
 
+    def get_free_cash_flow(self) -> pd.Series:
+        df = pd.read_sql(
+            sql=text("SELECT value, date FROM finlab_free_cash_flow WHERE symbol=:symbol"),
+            params={'symbol': self.symbol},
+            con=self.ticker_db.engine,
+            index_col='date',
+        )
+        df.index = pd.PeriodIndex(df.index, freq='Q')
+        return df['value']
+
 
 class TickerDB:
 
@@ -51,7 +61,7 @@ class TickerDB:
 
 if __name__ == '__main__':
     ticker_db = TickerDB()
-    ticker = ticker_db.get_ticker('0050')
-    print(ticker.get_close_prices())
     ticker = ticker_db.get_ticker('1101')
-    print(ticker.get_share_capitals())
+    # print(ticker.get_close_prices())
+    # print(ticker.get_share_capitals())
+    print(ticker.get_free_cash_flow())

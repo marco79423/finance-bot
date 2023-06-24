@@ -3,8 +3,7 @@ from sqlalchemy import select, update
 from sqlalchemy.orm import Session
 
 from finance_bot.config import conf
-from finance_bot.ticker_db.model.finlab_price_close import FinlabPriceClose
-from finance_bot.ticker_db.model.finlab_share_capital import FinlabShareCapital
+from finance_bot.ticker_db.model import FinlabPriceClose, FinlabShareCapital, FinlabFreeCashFlow
 from finance_bot.ticker_db.updater.base import UpdaterBase
 
 
@@ -48,6 +47,21 @@ class FinlabUpdater(UpdaterBase):
                 self._save_or_update_share_capital(data)
             self.session.commit()
 
+    def update_free_cash_flow(self):
+        df = self.data_loader.get('fundamental_features:自由現金流量')
+
+        for date, value_data in df.iterrows():
+            print(f'Download {date} ...')
+            value_data.dropna(inplace=True)
+            for symbol, value in value_data.items():
+                data = {
+                    'date': date,  # e.g. 2013-Q3
+                    'symbol': symbol,
+                    'value': value * 1000,  # 原單位為：仟元
+                }
+                self._save_or_update_free_cash_flow(data)
+            self.session.commit()
+
     def _save_or_update_price_close(self, data):
         ticker = self.session.scalar(
             select(FinlabPriceClose)
@@ -84,6 +98,24 @@ class FinlabUpdater(UpdaterBase):
         else:
             self.session.add(FinlabShareCapital(**data))
 
+    def _save_or_update_free_cash_flow(self, data):
+        free_cash_flow = self.session.scalar(
+            select(FinlabFreeCashFlow)
+            .where(FinlabFreeCashFlow.symbol == data['symbol'])
+            .where(FinlabFreeCashFlow.date == data['date'])
+            .limit(1)
+        )
+
+        if free_cash_flow:
+            self.session.execute(
+                update(FinlabFreeCashFlow)
+                .where(FinlabFreeCashFlow.symbol == data['symbol'])
+                .where(FinlabFreeCashFlow.date == data['date'])
+                .values(**data)
+            )
+        else:
+            self.session.add(FinlabFreeCashFlow(**data))
+
 
 if __name__ == '__main__':
     from finance_bot.ticker_db.database import get_engine
@@ -92,4 +124,5 @@ if __name__ == '__main__':
     with Session(engine) as session:
         updater = FinlabUpdater(session)
         # updater.update_price_close()
-        updater.update_share_capital()
+        # updater.update_share_capital()
+        updater.update_free_cash_flow()
