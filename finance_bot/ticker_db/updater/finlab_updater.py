@@ -26,7 +26,7 @@ class FinlabUpdater(UpdaterBase):
             price_data.dropna(inplace=True)
             for symbol, price in price_data.items():
                 data = {
-                    'date': date.to_pydatetime(),   # Must be native datetime for SQLAlchemy with sqlite3
+                    'date': date.to_pydatetime(),  # Must be native datetime for SQLAlchemy with sqlite3
                     'symbol': symbol,
                     'price': price,
                 }
@@ -41,9 +41,9 @@ class FinlabUpdater(UpdaterBase):
             value_data.dropna(inplace=True)
             for symbol, value in value_data.items():
                 data = {
-                    'date': date,   # e.g. 2013-Q3
+                    'date': date,  # e.g. 2013-Q3
                     'symbol': symbol,
-                    'value': value,
+                    'value': value * 1000,  # 原單位為：仟元
                 }
                 self._save_or_update_share_capital(data)
             self.session.commit()

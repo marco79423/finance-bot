@@ -13,13 +13,23 @@ class Ticker:
 
     def get_close_prices(self) -> pd.Series:
         df = pd.read_sql(
-            sql=text("SELECT symbol, price, date FROM finlab_price_close WHERE symbol=:symbol"),
+            sql=text("SELECT price, date FROM finlab_price_close WHERE symbol=:symbol"),
             params={'symbol': self.symbol},
             con=self.ticker_db.engine,
             index_col='date',
             parse_dates=['date'],
         )
         return df['price']
+
+    def get_share_capitals(self) -> pd.Series:
+        df = pd.read_sql(
+            sql=text("SELECT value, date FROM finlab_share_capital WHERE symbol=:symbol"),
+            params={'symbol': self.symbol},
+            con=self.ticker_db.engine,
+            index_col='date',
+        )
+        df.index = pd.PeriodIndex(df.index, freq='Q')
+        return df['value']
 
 
 class TickerDB:
@@ -43,3 +53,5 @@ if __name__ == '__main__':
     ticker_db = TickerDB()
     ticker = ticker_db.get_ticker('0050')
     print(ticker.get_close_prices())
+    ticker = ticker_db.get_ticker('1101')
+    print(ticker.get_share_capitals())
