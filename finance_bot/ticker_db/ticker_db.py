@@ -12,6 +12,7 @@ class Ticker:
         self.symbol = symbol
 
     def get_close_prices(self) -> pd.Series:
+        """取得收盤價"""
         df = pd.read_sql(
             sql=text("SELECT price, date FROM finlab_price_close WHERE symbol=:symbol"),
             params={'symbol': self.symbol},
@@ -22,6 +23,7 @@ class Ticker:
         return df['price']
 
     def get_share_capitals(self) -> pd.Series:
+        """取得股本"""
         df = pd.read_sql(
             sql=text("SELECT value, date FROM finlab_share_capital WHERE symbol=:symbol"),
             params={'symbol': self.symbol},
@@ -32,6 +34,7 @@ class Ticker:
         return df['value']
 
     def get_free_cash_flow(self) -> pd.Series:
+        """取得自由現金流"""
         df = pd.read_sql(
             sql=text("SELECT value, date FROM finlab_free_cash_flow WHERE symbol=:symbol"),
             params={'symbol': self.symbol},
