@@ -6,8 +6,8 @@ from .base import Base
 class FinlabPriceClose(Base):
     __tablename__ = 'finlab_price_close'
     __table_args__ = (
-        Index('idx_date', 'date'),
-        Index('uk_symbol_date', 'symbol', 'date', unique=True),
+        Index('idx_finlab_price_close_date', 'date'),
+        Index('uk_finlab_price_close_symbol_date', 'symbol', 'date', unique=True),
     )
 
     id = Column(Integer, primary_key=True)

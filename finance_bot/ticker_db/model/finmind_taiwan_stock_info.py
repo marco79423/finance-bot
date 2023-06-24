@@ -6,8 +6,8 @@ from .base import Base
 class FinmindTaiwanStockInfo(Base):
     __tablename__ = 'finmind_taiwan_stock_info'
     __table_args__ = (
-        Index('idx_industry_category', 'industry_category'),
-        Index('idx_type', 'type'),
+        Index('idx_finmind_taiwan_stock_info_industry_category', 'industry_category'),
+        Index('idx_finmind_taiwan_stock_info_type', 'type'),
     )
 
     stock_id = Column(String, nullable=False, primary_key=True)
