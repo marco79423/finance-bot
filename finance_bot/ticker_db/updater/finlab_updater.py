@@ -4,6 +4,7 @@ from sqlalchemy.orm import Session
 
 from finance_bot.config import conf
 from finance_bot.ticker_db.model.finlab_price_close import FinlabPriceClose
+from finance_bot.ticker_db.model.finlab_share_capital import FinlabShareCapital
 from finance_bot.ticker_db.updater.base import UpdaterBase
 
 
@@ -32,6 +33,21 @@ class FinlabUpdater(UpdaterBase):
                 self._save_or_update_price_close(data)
             self.session.commit()
 
+    def update_share_capital(self):
+        df = self.data_loader.get('financial_statement:股本')
+
+        for date, value_data in df.iterrows():
+            print(f'Download {date} ...')
+            value_data.dropna(inplace=True)
+            for symbol, value in value_data.items():
+                data = {
+                    'date': date,   # e.g. 2013-Q3
+                    'symbol': symbol,
+                    'value': value,
+                }
+                self._save_or_update_share_capital(data)
+            self.session.commit()
+
     def _save_or_update_price_close(self, data):
         ticker = self.session.scalar(
             select(FinlabPriceClose)
@@ -50,6 +66,24 @@ class FinlabUpdater(UpdaterBase):
         else:
             self.session.add(FinlabPriceClose(**data))
 
+    def _save_or_update_share_capital(self, data):
+        share_capital = self.session.scalar(
+            select(FinlabShareCapital)
+            .where(FinlabShareCapital.symbol == data['symbol'])
+            .where(FinlabShareCapital.date == data['date'])
+            .limit(1)
+        )
+
+        if share_capital:
+            self.session.execute(
+                update(FinlabShareCapital)
+                .where(FinlabShareCapital.symbol == data['symbol'])
+                .where(FinlabShareCapital.date == data['date'])
+                .values(**data)
+            )
+        else:
+            self.session.add(FinlabShareCapital(**data))
+
 
 if __name__ == '__main__':
     from finance_bot.ticker_db.database import get_engine
@@ -57,4 +91,5 @@ if __name__ == '__main__':
     engine = get_engine()
     with Session(engine) as session:
         updater = FinlabUpdater(session)
-        updater.update_price_close()
+        # updater.update_price_close()
+        updater.update_share_capital()
