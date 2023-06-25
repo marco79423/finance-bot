@@ -3,7 +3,7 @@ from sqlalchemy import select, update
 from sqlalchemy.orm import Session
 
 from finance_bot.config import conf
-from finance_bot.ticker_db.model import FinlabPriceClose, FinlabShareCapital, FinlabFreeCashFlow
+from finance_bot.ticker_db.model import FinlabPriceClose, FinlabShareCapital, FinlabFreeCashFlow, FinlabEarningPerShare
 from finance_bot.ticker_db.updater.base import UpdaterBase
 
 
@@ -62,15 +62,30 @@ class FinlabUpdater(UpdaterBase):
                 self._save_or_update_free_cash_flow(data)
             self.session.commit()
 
+    def update_earning_per_share(self):
+        df = self.data_loader.get('fundamental_features:每股稅後淨利')
+
+        for date, value_data in df.iterrows():
+            print(f'Download {date} ...')
+            value_data.dropna(inplace=True)
+            for symbol, value in value_data.items():
+                data = {
+                    'date': date,  # e.g. 2013-Q3
+                    'symbol': symbol,
+                    'value': value,  # 原單位為：元
+                }
+                self._save_or_update_earning_per_share(data)
+            self.session.commit()
+
     def _save_or_update_price_close(self, data):
-        ticker = self.session.scalar(
+        row = self.session.scalar(
             select(FinlabPriceClose)
             .where(FinlabPriceClose.symbol == data['symbol'])
             .where(FinlabPriceClose.date == data['date'])
             .limit(1)
         )
 
-        if ticker:
+        if row:
             self.session.execute(
                 update(FinlabPriceClose)
                 .where(FinlabPriceClose.symbol == data['symbol'])
@@ -81,14 +96,14 @@ class FinlabUpdater(UpdaterBase):
             self.session.add(FinlabPriceClose(**data))
 
     def _save_or_update_share_capital(self, data):
-        share_capital = self.session.scalar(
+        row = self.session.scalar(
             select(FinlabShareCapital)
             .where(FinlabShareCapital.symbol == data['symbol'])
             .where(FinlabShareCapital.date == data['date'])
             .limit(1)
         )
 
-        if share_capital:
+        if row:
             self.session.execute(
                 update(FinlabShareCapital)
                 .where(FinlabShareCapital.symbol == data['symbol'])
@@ -99,14 +114,14 @@ class FinlabUpdater(UpdaterBase):
             self.session.add(FinlabShareCapital(**data))
 
     def _save_or_update_free_cash_flow(self, data):
-        free_cash_flow = self.session.scalar(
+        row = self.session.scalar(
             select(FinlabFreeCashFlow)
             .where(FinlabFreeCashFlow.symbol == data['symbol'])
             .where(FinlabFreeCashFlow.date == data['date'])
             .limit(1)
         )
 
-        if free_cash_flow:
+        if row:
             self.session.execute(
                 update(FinlabFreeCashFlow)
                 .where(FinlabFreeCashFlow.symbol == data['symbol'])
@@ -115,6 +130,24 @@ class FinlabUpdater(UpdaterBase):
             )
         else:
             self.session.add(FinlabFreeCashFlow(**data))
+
+    def _save_or_update_earning_per_share(self, data):
+        row = self.session.scalar(
+            select(FinlabEarningPerShare)
+            .where(FinlabEarningPerShare.symbol == data['symbol'])
+            .where(FinlabEarningPerShare.date == data['date'])
+            .limit(1)
+        )
+
+        if row:
+            self.session.execute(
+                update(FinlabEarningPerShare)
+                .where(FinlabEarningPerShare.symbol == data['symbol'])
+                .where(FinlabEarningPerShare.date == data['date'])
+                .values(**data)
+            )
+        else:
+            self.session.add(FinlabEarningPerShare(**data))
 
 
 if __name__ == '__main__':
@@ -125,4 +158,5 @@ if __name__ == '__main__':
         updater = FinlabUpdater(session)
         # updater.update_price_close()
         # updater.update_share_capital()
-        updater.update_free_cash_flow()
+        # updater.update_free_cash_flow()
+        updater.update_earning_per_share()

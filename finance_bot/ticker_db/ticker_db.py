@@ -44,6 +44,17 @@ class Ticker:
         df.index = pd.PeriodIndex(df.index, freq='Q')
         return df['value']
 
+    def get_earning_per_share(self) -> pd.Series:
+        """取得每股稅後淨利(EPS)"""
+        df = pd.read_sql(
+            sql=text("SELECT value, date FROM finlab_earning_per_share WHERE symbol=:symbol"),
+            params={'symbol': self.symbol},
+            con=self.ticker_db.engine,
+            index_col='date',
+        )
+        df.index = pd.PeriodIndex(df.index, freq='Q')
+        return df['value']
+
 
 class TickerDB:
 
@@ -67,4 +78,5 @@ if __name__ == '__main__':
     ticker = ticker_db.get_ticker('1101')
     # print(ticker.get_close_prices())
     # print(ticker.get_share_capitals())
-    print(ticker.get_free_cash_flow())
+    # print(ticker.get_free_cash_flow())
+    print(ticker.get_earning_per_share())
