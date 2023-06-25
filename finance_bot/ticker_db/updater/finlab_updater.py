@@ -4,7 +4,7 @@ from sqlalchemy.orm import Session
 
 from finance_bot.config import conf
 from finance_bot.ticker_db.model import FinlabPriceClose, FinlabShareCapital, FinlabFreeCashFlow, FinlabEarningPerShare, \
-    FinlabReturnOnEquity
+    FinlabReturnOnEquity, FinlabOperatingIncome
 from finance_bot.ticker_db.updater.base import UpdaterBase
 
 
@@ -91,6 +91,21 @@ class FinlabUpdater(UpdaterBase):
                     'value': value,
                 }
                 self._save_or_update_return_on_equity(data)
+            self.session.commit()
+
+    def update_operating_income(self):
+        df = self.data_loader.get('fundamental_features:營業利益')
+
+        for date, value_data in df.iterrows():
+            print(f'Download {date} ...')
+            value_data.dropna(inplace=True)
+            for symbol, value in value_data.items():
+                data = {
+                    'date': date,  # e.g. 2013-Q3
+                    'symbol': symbol,
+                    'value': value * 1000,  # 原單位為：仟元
+                }
+                self._save_or_update_operating_income(data)
             self.session.commit()
 
     def _save_or_update_price_close(self, data):
@@ -183,6 +198,24 @@ class FinlabUpdater(UpdaterBase):
         else:
             self.session.add(FinlabReturnOnEquity(**data))
 
+    def _save_or_update_operating_income(self, data):
+        row = self.session.scalar(
+            select(FinlabOperatingIncome)
+            .where(FinlabOperatingIncome.symbol == data['symbol'])
+            .where(FinlabOperatingIncome.date == data['date'])
+            .limit(1)
+        )
+
+        if row:
+            self.session.execute(
+                update(FinlabOperatingIncome)
+                .where(FinlabOperatingIncome.symbol == data['symbol'])
+                .where(FinlabOperatingIncome.date == data['date'])
+                .values(**data)
+            )
+        else:
+            self.session.add(FinlabOperatingIncome(**data))
+
 
 if __name__ == '__main__':
     from finance_bot.ticker_db.database import get_engine
@@ -194,4 +227,5 @@ if __name__ == '__main__':
         # updater.update_share_capital()
         # updater.update_free_cash_flow()
         # updater.update_earning_per_share()
-        updater.update_return_on_equity()
+        # updater.update_return_on_equity()
+        updater.update_operating_income()

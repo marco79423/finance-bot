@@ -66,6 +66,16 @@ class Ticker:
         df.index = pd.PeriodIndex(df.index, freq='Q')
         return df['value']
 
+    def get_operating_income(self) -> pd.Series:
+        """取得營業利益"""
+        df = pd.read_sql(
+            sql=text("SELECT value, date FROM finlab_operating_income WHERE symbol=:symbol"),
+            params={'symbol': self.symbol},
+            con=self.ticker_db.engine,
+            index_col='date',
+        )
+        df.index = pd.PeriodIndex(df.index, freq='Q')
+        return df['value']
 
 class TickerDB:
 
@@ -91,4 +101,5 @@ if __name__ == '__main__':
     # print(ticker.get_share_capitals())
     # print(ticker.get_free_cash_flow())
     # print(ticker.get_earning_per_share())
-    print(ticker.get_return_on_equity())
+    # print(ticker.get_return_on_equity())
+    print(ticker.get_operating_income())
