@@ -34,10 +34,11 @@ class Ticker:
                 con=self.ticker_db.engine,
                 index_col='date',
             )
+
+            df.index = pd.PeriodIndex(df.index, freq='Q')
             if to_date:
-                df.index = df.index.astype('datetime64[ns]')
-            else:
-                df.index = pd.PeriodIndex(df.index, freq='Q')
+                df.index = df.index.to_timestamp()
+
             self._metric_cache['share_capitals'] = df['value']
         return self._metric_cache['share_capitals']
 
@@ -63,10 +64,11 @@ class Ticker:
                 con=self.ticker_db.engine,
                 index_col='date',
             )
+
+            df.index = pd.PeriodIndex(df.index, freq='Q')
             if to_date:
-                df.index = df.index.astype('datetime64[ns]')
-            else:
-                df.index = pd.PeriodIndex(df.index, freq='Q')
+                df.index = df.index.to_timestamp()
+
             self._metric_cache['free_cash_flow'] = df['value']
         return self._metric_cache['free_cash_flow']
 
@@ -79,10 +81,11 @@ class Ticker:
                 con=self.ticker_db.engine,
                 index_col='date',
             )
+
+            df.index = pd.PeriodIndex(df.index, freq='Q')
             if to_date:
-                df.index = df.index.astype('datetime64[ns]')
-            else:
-                df.index = pd.PeriodIndex(df.index, freq='Q')
+                df.index = df.index.to_timestamp()
+
             self._metric_cache['earning_per_share'] = df['value']
         return self._metric_cache['earning_per_share']
 
@@ -95,10 +98,11 @@ class Ticker:
                 con=self.ticker_db.engine,
                 index_col='date',
             )
+
+            df.index = pd.PeriodIndex(df.index, freq='Q')
             if to_date:
-                df.index = df.index.astype('datetime64[ns]')
-            else:
-                df.index = pd.PeriodIndex(df.index, freq='Q')
+                df.index = df.index.to_timestamp()
+
             self._metric_cache['return_on_equity'] = df['value']
         return self._metric_cache['return_on_equity']
 
@@ -111,10 +115,11 @@ class Ticker:
                 con=self.ticker_db.engine,
                 index_col='date',
             )
+
+            df.index = pd.PeriodIndex(df.index, freq='Q')
             if to_date:
-                df.index = df.index.astype('datetime64[ns]')
-            else:
-                df.index = pd.PeriodIndex(df.index, freq='Q')
+                df.index = df.index.to_timestamp()
+
             self._metric_cache['operating_income'] = df['value']
         return self._metric_cache['operating_income']
 
