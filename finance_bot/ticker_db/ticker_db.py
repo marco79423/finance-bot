@@ -128,6 +128,17 @@ class Ticker:
             s = self._metric_cache[cache_key] = df['operating_income']
         return s.copy()
 
+    def get_operating_income_growth_rate(self, to_date=False) -> pd.Series:
+        """取得營業利益成長率"""
+        cache_key = f'operating_income_growth_rate:{to_date}'
+        s = self._metric_cache.get(cache_key)
+        if s is None:
+            s = self.get_operating_income() / self.get_operating_income().shift(4)
+            if to_date:
+                s.index = s.index.to_timestamp()
+            self._metric_cache[cache_key] = s
+        return s.copy()
+
     def get_all_metrics(self):
         df = pd.DataFrame({
             'symbol': self.symbol,
@@ -137,6 +148,7 @@ class Ticker:
             'earning_per_share': self.get_earning_per_share(to_date=True),
             'return_on_equity': self.get_return_on_equity(to_date=True),
             'operating_income': self.get_operating_income(to_date=True),
+            'operating_income_growth_rate': self.get_operating_income_growth_rate(to_date=True),
             'market_capitalization': self.get_market_capitalization(),
         })
         df = df.fillna(method='ffill')
@@ -192,6 +204,5 @@ if __name__ == '__main__':
     # print(ticker.get_free_cash_flow())
     # print(ticker.get_earning_per_share())
     # print(ticker.get_return_on_equity())
-    # print(ticker.get_operating_income(to_date=True))
-    print(ticker.get_all_metrics())
-    print(ticker.get_all_metrics())
+    print(ticker.get_operating_income_growth_rate(True))
+
