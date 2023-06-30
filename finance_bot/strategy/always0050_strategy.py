@@ -1,7 +1,5 @@
 import datetime as dt
 
-import pandas as pd
-
 from finance_bot.strategy.base import StrategyBase
 from finance_bot.ticker_db.ticker_db import Ticker
 
@@ -14,10 +12,8 @@ class Always0050Strategy(StrategyBase):
             self.ticker_db.get_ticker(symbol='0050'),
         ]
 
-    def get_buy_points(self, symbol: str):
-        close_prices = self.ticker_db.get_ticker(symbol='0050').get_close_prices()
-        return pd.Series(True, index=close_prices.index)
+    def is_buy_point(self, symbol: str, date: dt.datetime) -> bool:
+        return True
 
-    def get_sell_points(self, symbol: str):
-        close_prices = self.ticker_db.get_ticker(symbol='0050').get_close_prices()
-        return pd.Series(False, index=close_prices.index)
+    def is_sell_point(self, symbol: str, date: dt.datetime) -> bool:
+        return False

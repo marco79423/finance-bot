@@ -17,20 +17,10 @@ class StrategyBase(abc.ABC):
         """挑選符合條件的股票"""
         pass
 
-    @abc.abstractmethod
-    def get_buy_points(self, symbol: str) -> pd.Series:
-        """選擇適合的買點時間列表"""
-        pass
-
-    @abc.abstractmethod
-    def get_sell_points(self, symbol: str) -> pd.Series:
-        """選擇適合的賣點時間列表"""
-        pass
-
     def is_buy_point(self, symbol: str, date: dt.datetime) -> bool:
         """選擇適合的買點"""
-        return self.get_buy_points(symbol)[date]
+        pass
 
     def is_sell_point(self, symbol: str, date: dt.datetime) -> bool:
         """選擇適合的賣點"""
-        return self.get_sell_points(symbol)[date]
+        pass

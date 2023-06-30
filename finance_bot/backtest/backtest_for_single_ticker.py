@@ -4,7 +4,7 @@ from typing import Optional
 
 import pandas as pd
 
-from finance_bot.strategy import Always0050Strategy
+from finance_bot.strategy import Always0050Strategy, FinlabStrategy
 from finance_bot.strategy.base import StrategyBase
 from finance_bot.ticker_db.ticker_db import Ticker, TickerDB
 
@@ -105,10 +105,6 @@ def backtest_for_single_ticker(init_funds, ticker: Ticker, strategy: StrategyBas
     funds = init_funds
     shares = 0
 
-    # 獲取買入和賣出的時間點
-    buy_points = strategy.get_buy_points(ticker.symbol)
-    sell_points = strategy.get_sell_points(ticker.symbol)
-
     # 獲取股票的收盤價
     close_prices = ticker.get_close_prices()
 
@@ -119,7 +115,7 @@ def backtest_for_single_ticker(init_funds, ticker: Ticker, strategy: StrategyBas
 
     # 遍歷每一天
     for date, price in close_prices.items():
-        if sell_points[date] or close_prices.index[-1] == date:
+        if strategy.is_sell_point(ticker.symbol, date) or close_prices.index[-1] == date:
             for position in positions:
                 # 更新資訊
                 position.end_date = date
@@ -135,7 +131,7 @@ def backtest_for_single_ticker(init_funds, ticker: Ticker, strategy: StrategyBas
             positions = []
 
         # 如果今天是買入的時間點，並且持有的股票數量小於最大持有數量
-        if funds > price and buy_points[date] and close_prices.index[-1] != date:
+        if funds > price and strategy.is_buy_point(ticker.symbol, date) and close_prices.index[-1] != date:
             # 計算可以買入的股票數量
             buy_shares = funds // price
             if max_holdings:
@@ -169,9 +165,10 @@ def backtest_for_single_ticker(init_funds, ticker: Ticker, strategy: StrategyBas
 
 if __name__ == '__main__':
     ticker_db = TickerDB()
-    strategy = Always0050Strategy(ticker_db)
+    # strategy = Always0050Strategy(ticker_db)
+    strategy = FinlabStrategy(ticker_db)
 
-    tickers = strategy.select_tickers(dt.datetime.now())
+    tickers = strategy.select_tickers(dt.datetime(year=2020, month=1, day=1))
     report = backtest_for_single_ticker(
         init_funds=300000,
         ticker=tickers[0],

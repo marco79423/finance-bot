@@ -152,6 +152,7 @@ class Ticker:
             'market_capitalization': self.get_market_capitalization(),
         })
         df = df.fillna(method='ffill')
+        df = df.sort_index()
         return df
 
     def empty(self):
@@ -184,14 +185,14 @@ class TickerDB:
         )
         return [self.get_ticker(symbol=stock_id) for stock_id in df['stock_id']]
 
-    def get_all_tickers_with_all_metrics(self):
-        if self._all_metrics_cache is None:
+    def get_all_metrics(self, tickers: [Ticker] = None):
+        if tickers is None:
             tickers = self.get_all_tickers()
-            self._all_metrics_cache = pd.concat(
-                [ticker.get_all_metrics() for ticker in tickers if not ticker.empty()]
-            )
-        return self._all_metrics_cache
-
+        df = pd.concat(
+            [ticker.get_all_metrics() for ticker in tickers if not ticker.empty()]
+        )
+        df = df.sort_index()
+        return df
 
 if __name__ == '__main__':
     ticker_db = TickerDB()
@@ -205,4 +206,3 @@ if __name__ == '__main__':
     # print(ticker.get_earning_per_share())
     # print(ticker.get_return_on_equity())
     print(ticker.get_operating_income_growth_rate(True))
-
