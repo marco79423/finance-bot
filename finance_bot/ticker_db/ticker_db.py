@@ -27,7 +27,7 @@ class Ticker:
             s = self._metric_cache[cache_key] = df['close']
         return s.copy()
 
-    def get_share_capitals(self, to_date=False) -> pd.Series:
+    def get_share_capital(self, to_date=False) -> pd.Series:
         """取得股本"""
         cache_key = f'share_capitals:{to_date}'
         s = self._metric_cache.get(cache_key)
