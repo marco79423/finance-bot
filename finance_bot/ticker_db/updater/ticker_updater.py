@@ -7,12 +7,27 @@ from finance_bot.ticker_db.updater import UpdaterBase
 
 
 class TickerUpdater(UpdaterBase):
-    def __init__(self, session):
-        super().__init__(session)
-
     def update(self):
         self.update_finlab_close_prices()
         self.update_finlab_share_capital()
+
+    def update_finmind_taiwan_stock_info(self):
+        """取得 Finmind 的台股資訊"""
+        df = pd.read_sql(
+            sql=text("SELECT stock_id as symbol, stock_name as name, type FROM finmind_taiwan_stock_info"),
+            con=self.session.get_bind(),
+        )
+
+        for _, data in df.iterrows():
+            symbol = data['symbol']
+            print(f'update {symbol} ...')
+            stmt = (
+                update(Ticker).
+                where(Ticker.symbol == symbol).
+                values(data)
+            )
+            self.session.execute(stmt)
+            self.session.commit()
 
     def update_finlab_close_prices(self):
         """取得 Finlab 的收盤價"""
@@ -148,5 +163,6 @@ if __name__ == '__main__':
         # updater.update_finlab_close_prices()
         # updater.update_finlab_share_capital()
         # updater.update_finlab_free_cash_flow()
-        updater.update_finlab_return_on_equity()
-        updater.update_finlab_operating_income()
+        # updater.update_finlab_return_on_equity()
+        # updater.update_finlab_operating_income()
+        updater.update_finmind_taiwan_stock_info()
