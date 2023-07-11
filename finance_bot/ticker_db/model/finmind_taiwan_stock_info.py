@@ -10,11 +10,11 @@ class FinmindTaiwanStockInfo(Base):
         Index('idx_finmind_taiwan_stock_info_type', 'type'),
     )
 
-    stock_id = Column(String, nullable=False, primary_key=True)
-    industry_category = Column(String, nullable=False, default='')
-    stock_name = Column(String, nullable=False, default='')
-    type = Column(String, nullable=False, default='')
-    date = Column(String, nullable=False)
+    stock_id = Column(String(32), nullable=False, primary_key=True)
+    industry_category = Column(String(32), nullable=False, default='')
+    stock_name = Column(String(60), nullable=False, default='')
+    type = Column(String(32), nullable=False, default='')
+    date = Column(String(10), nullable=False)
 
     created_at = Column(DateTime, nullable=False, server_default=func.now())
     updated_at = Column(DateTime, nullable=False, server_default=func.now(), onupdate=func.now())

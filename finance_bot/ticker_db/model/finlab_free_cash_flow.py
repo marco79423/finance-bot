@@ -11,9 +11,9 @@ class FinlabFreeCashFlow(Base):
     )
 
     id = Column(Integer, primary_key=True)
-    symbol = Column(String, nullable=False)
-    value = Column(Numeric(precision=18, scale=8), nullable=False)
-    date = Column(String, nullable=False)
+    symbol = Column(String(32), nullable=False)
+    value = Column(Numeric(precision=65, scale=8), nullable=False)
+    date = Column(String(8), nullable=False)
 
     created_at = Column(DateTime, nullable=False, server_default=func.now())
     updated_at = Column(DateTime, nullable=False, server_default=func.now(), onupdate=func.now())
