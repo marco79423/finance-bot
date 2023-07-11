@@ -10,24 +10,11 @@ class TickerUpdater(UpdaterBase):
     def update(self):
         self.update_finlab_close_prices()
         self.update_finlab_share_capital()
-
-    def update_finmind_taiwan_stock_info(self):
-        """取得 Finmind 的台股資訊"""
-        df = pd.read_sql(
-            sql=text("SELECT stock_id as symbol, stock_name as name, type FROM finmind_taiwan_stock_info"),
-            con=self.session.get_bind(),
-        )
-
-        for _, data in df.iterrows():
-            symbol = data['symbol']
-            print(f'update {symbol} ...')
-            stmt = (
-                update(Ticker).
-                where(Ticker.symbol == symbol).
-                values(data)
-            )
-            self.session.execute(stmt)
-            self.session.commit()
+        self.update_finlab_free_cash_flow()
+        self.update_finlab_earning_per_share()
+        self.update_finlab_return_on_equity()
+        self.update_finlab_operating_income()
+        self.update_finmind_taiwan_stock_info()
 
     def update_finlab_close_prices(self):
         """取得 Finlab 的收盤價"""
@@ -151,6 +138,24 @@ class TickerUpdater(UpdaterBase):
 
         for _, group in merged_df.groupby(merged_df.index // 1000):
             group.apply(lambda data: self.save_or_update(Ticker, data), axis=1)
+            self.session.commit()
+
+    def update_finmind_taiwan_stock_info(self):
+        """取得 Finmind 的台股資訊"""
+        df = pd.read_sql(
+            sql=text("SELECT stock_id as symbol, stock_name as name, type FROM finmind_taiwan_stock_info"),
+            con=self.session.get_bind(),
+        )
+
+        for _, data in df.iterrows():
+            symbol = data['symbol']
+            print(f'update {symbol} ...')
+            stmt = (
+                update(Ticker).
+                where(Ticker.symbol == symbol).
+                values(data)
+            )
+            self.session.execute(stmt)
             self.session.commit()
 
 
