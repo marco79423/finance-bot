@@ -30,13 +30,13 @@ class TickerUpdater(UpdaterBase):
         """取得 Finlab 股本資訊"""
         base_df = pd.read_sql(
             sql=text("SELECT symbol, date FROM ticker"),
-            con=engine,
+            con=self.session.get_bind(),
             parse_dates=['date'],
         )
 
         df = pd.read_sql(
             sql=text("SELECT symbol, date, value AS share_capital FROM finlab_share_capital"),
-            con=engine,
+            con=self.session.get_bind(),
         )
         df['date'] = df['date'].apply(lambda x: pd.Period(x, freq='Q').to_timestamp())
 
