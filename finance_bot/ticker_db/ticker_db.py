@@ -92,11 +92,23 @@ class TickerDB:
         self.engine = get_engine()
         self.session = Session(self.engine)
 
-        self.finlab_updater = FinlabUpdater(self.session)
-        self.finmind_updater = FinmindUpdater(self.session)
+        self._finlab_updater = None
+        self._finmind_updater = None
 
         self._ticker_cache = {}
         self._all_metrics_cache = None
+
+    @property
+    def finlab_updater(self):
+        if self._finlab_updater is None:
+            self._finlab_updater = FinlabUpdater(self.session)
+        return self._finlab_updater
+
+    @property
+    def finmind_updater(self):
+        if self._finmind_updater is None:
+            self._finmind_updater = FinmindUpdater(self.session)
+        return self._finmind_updater
 
     def get_ticker(self, symbol: str) -> Ticker:
         """取得指定 Ticker"""
