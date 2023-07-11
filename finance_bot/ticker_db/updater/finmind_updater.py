@@ -22,24 +22,8 @@ class FinmindUpdater(UpdaterBase):
         df = self.data_loader.taiwan_stock_info()
 
         for _, data in df.iterrows():
-            self._save_or_update_taiwan_stock_info(data)
+            self.save_or_update(FinmindTaiwanStockInfo, data)
         self.session.commit()
-
-    def _save_or_update_taiwan_stock_info(self, data):
-        ticker = self.session.scalar(
-            select(FinmindTaiwanStockInfo)
-            .where(FinmindTaiwanStockInfo.stock_id == data['stock_id'])
-            .limit(1)
-        )
-
-        if ticker:
-            self.session.execute(
-                update(FinmindTaiwanStockInfo)
-                .where(FinmindTaiwanStockInfo.stock_id == data['stock_id'])
-                .values(**data)
-            )
-        else:
-            self.session.add(FinmindTaiwanStockInfo(**data))
 
 
 if __name__ == '__main__':

@@ -2,6 +2,8 @@ general:
   timezone: Asia/Taipei
 
 ticker_db:
+  database:
+    url: <url>
   updater:
     findmind:
       api_token: <token>

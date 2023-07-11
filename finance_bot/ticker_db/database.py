@@ -1,10 +1,24 @@
 from sqlalchemy import create_engine
 
+from finance_bot.config import conf
 from finance_bot.ticker_db.model.base import Base
 from finance_bot.utility import get_project_folder
 
 
 def get_engine():
+    engine = create_engine(
+        conf.ticker_db.database.url,
+        pool_recycle=3600,  # 多少時間自動重連 (MySQL 預設會 8 小時踢人)
+    )
+
+    # 自動進行 Migrate
+    migrate(engine)
+
+    return engine
+
+
+def get_sqlite3_engine():
+    """Deprecated: 請改用 get_engine"""
     db_path = get_data_db_path()
     engine = create_engine(f'sqlite:///{db_path}')
 

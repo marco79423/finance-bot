@@ -30,7 +30,7 @@ class FinlabUpdater(UpdaterBase):
                     'symbol': symbol,
                     'price': price,
                 }
-                self._save_or_update_price_close(data)
+                self.save_or_update(FinlabPriceClose, data)
             self.session.commit()
 
     def update_share_capital(self):
@@ -45,7 +45,7 @@ class FinlabUpdater(UpdaterBase):
                     'symbol': symbol,
                     'value': value * 1000,  # 原單位為：仟元
                 }
-                self._save_or_update_share_capital(data)
+                self.save_or_update(FinlabShareCapital, data)
             self.session.commit()
 
     def update_free_cash_flow(self):
@@ -60,7 +60,7 @@ class FinlabUpdater(UpdaterBase):
                     'symbol': symbol,
                     'value': value * 1000,  # 原單位為：仟元
                 }
-                self._save_or_update_free_cash_flow(data)
+                self.save_or_update(FinlabFreeCashFlow, data)
             self.session.commit()
 
     def update_earning_per_share(self):
@@ -75,7 +75,7 @@ class FinlabUpdater(UpdaterBase):
                     'symbol': symbol,
                     'value': value,  # 原單位為：元
                 }
-                self._save_or_update_earning_per_share(data)
+                self.save_or_update(FinlabEarningPerShare, data)
             self.session.commit()
 
     def update_return_on_equity(self):
@@ -90,7 +90,7 @@ class FinlabUpdater(UpdaterBase):
                     'symbol': symbol,
                     'value': value,
                 }
-                self._save_or_update_return_on_equity(data)
+                self.save_or_update(FinlabReturnOnEquity, data)
             self.session.commit()
 
     def update_operating_income(self):
@@ -105,116 +105,8 @@ class FinlabUpdater(UpdaterBase):
                     'symbol': symbol,
                     'value': value * 1000,  # 原單位為：仟元
                 }
-                self._save_or_update_operating_income(data)
+                self.save_or_update(FinlabOperatingIncome, data)
             self.session.commit()
-
-    def _save_or_update_price_close(self, data):
-        row = self.session.scalar(
-            select(FinlabPriceClose)
-            .where(FinlabPriceClose.symbol == data['symbol'])
-            .where(FinlabPriceClose.date == data['date'])
-            .limit(1)
-        )
-
-        if row:
-            self.session.execute(
-                update(FinlabPriceClose)
-                .where(FinlabPriceClose.symbol == data['symbol'])
-                .where(FinlabPriceClose.date == data['date'])
-                .values(**data)
-            )
-        else:
-            self.session.add(FinlabPriceClose(**data))
-
-    def _save_or_update_share_capital(self, data):
-        row = self.session.scalar(
-            select(FinlabShareCapital)
-            .where(FinlabShareCapital.symbol == data['symbol'])
-            .where(FinlabShareCapital.date == data['date'])
-            .limit(1)
-        )
-
-        if row:
-            self.session.execute(
-                update(FinlabShareCapital)
-                .where(FinlabShareCapital.symbol == data['symbol'])
-                .where(FinlabShareCapital.date == data['date'])
-                .values(**data)
-            )
-        else:
-            self.session.add(FinlabShareCapital(**data))
-
-    def _save_or_update_free_cash_flow(self, data):
-        row = self.session.scalar(
-            select(FinlabFreeCashFlow)
-            .where(FinlabFreeCashFlow.symbol == data['symbol'])
-            .where(FinlabFreeCashFlow.date == data['date'])
-            .limit(1)
-        )
-
-        if row:
-            self.session.execute(
-                update(FinlabFreeCashFlow)
-                .where(FinlabFreeCashFlow.symbol == data['symbol'])
-                .where(FinlabFreeCashFlow.date == data['date'])
-                .values(**data)
-            )
-        else:
-            self.session.add(FinlabFreeCashFlow(**data))
-
-    def _save_or_update_earning_per_share(self, data):
-        row = self.session.scalar(
-            select(FinlabEarningPerShare)
-            .where(FinlabEarningPerShare.symbol == data['symbol'])
-            .where(FinlabEarningPerShare.date == data['date'])
-            .limit(1)
-        )
-
-        if row:
-            self.session.execute(
-                update(FinlabEarningPerShare)
-                .where(FinlabEarningPerShare.symbol == data['symbol'])
-                .where(FinlabEarningPerShare.date == data['date'])
-                .values(**data)
-            )
-        else:
-            self.session.add(FinlabEarningPerShare(**data))
-
-    def _save_or_update_return_on_equity(self, data):
-        row = self.session.scalar(
-            select(FinlabReturnOnEquity)
-            .where(FinlabReturnOnEquity.symbol == data['symbol'])
-            .where(FinlabReturnOnEquity.date == data['date'])
-            .limit(1)
-        )
-
-        if row:
-            self.session.execute(
-                update(FinlabReturnOnEquity)
-                .where(FinlabReturnOnEquity.symbol == data['symbol'])
-                .where(FinlabReturnOnEquity.date == data['date'])
-                .values(**data)
-            )
-        else:
-            self.session.add(FinlabReturnOnEquity(**data))
-
-    def _save_or_update_operating_income(self, data):
-        row = self.session.scalar(
-            select(FinlabOperatingIncome)
-            .where(FinlabOperatingIncome.symbol == data['symbol'])
-            .where(FinlabOperatingIncome.date == data['date'])
-            .limit(1)
-        )
-
-        if row:
-            self.session.execute(
-                update(FinlabOperatingIncome)
-                .where(FinlabOperatingIncome.symbol == data['symbol'])
-                .where(FinlabOperatingIncome.date == data['date'])
-                .values(**data)
-            )
-        else:
-            self.session.add(FinlabOperatingIncome(**data))
 
 
 if __name__ == '__main__':
@@ -223,9 +115,9 @@ if __name__ == '__main__':
     engine = get_engine()
     with Session(engine) as session:
         updater = FinlabUpdater(session)
-        # updater.update_price_close()
+        updater.update_price_close()
         # updater.update_share_capital()
         # updater.update_free_cash_flow()
         # updater.update_earning_per_share()
         # updater.update_return_on_equity()
-        updater.update_operating_income()
+        # updater.update_operating_income()
