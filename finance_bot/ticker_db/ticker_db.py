@@ -1,7 +1,8 @@
 import pandas as pd
-from sqlalchemy import text
+from sqlalchemy import text, select
 from sqlalchemy.orm import Session
 
+from finance_bot.ticker_db import model
 from finance_bot.ticker_db.database import get_engine
 from finance_bot.ticker_db.updater import FinlabUpdater, FinmindUpdater
 
@@ -20,6 +21,10 @@ class Ticker:
             index_col='date',
             parse_dates=['date'],
         )
+
+        df['market_capitalization'] = df['close'] * df['share_capital'] / 10
+        df['operating_income_growth_rate'] = df['operating_income'] / df['operating_income'].shift(4)
+
         df = df.fillna(method='ffill')
         df = df.sort_index()
         self._cache = df
@@ -40,8 +45,6 @@ class Ticker:
         """取得市值"""
         if self._cache is None:
             self.load()
-        if 'market_capitalization' not in self._cache.index:
-            self._cache['market_capitalization'] = self._cache['close'] * self._cache['share_capital'] / 10
         return self._cache['market_capitalization'].copy()
 
     def get_free_cash_flow(self) -> pd.Series:
@@ -72,18 +75,20 @@ class Ticker:
         """取得營業利益成長率"""
         if self._cache is None:
             self.load()
-        if 'operating_income_growth_rate' not in self._cache.index:
-            self._cache[
-                'operating_income_growth_rate'] = self.get_operating_income() / self.get_operating_income().shift(4)
         return self._cache['operating_income_growth_rate'].copy()
 
-    def get_all_metrics(self):
+    def get_all_metrics(self, date=None):
         if self._cache is None:
             self.load()
-        return self._cache
+        if date is not None:
+            return self._cache[self._cache.index == date]
+        return self._cache.copy()
 
     def empty(self):
         return self.get_close_prices().empty
+
+    def __repr__(self):
+        return f'Ticker<{self.symbol}>'
 
 
 class TickerDB:
@@ -116,19 +121,24 @@ class TickerDB:
             self._ticker_cache[symbol] = Ticker(self, symbol)
         return self._ticker_cache[symbol]
 
-    def get_all_tickers(self):
-        """取得所有 Ticker"""
-        df = pd.read_sql(
-            sql=text("SELECT stock_id FROM finmind_taiwan_stock_info"),
-            con=self.engine,
-        )
-        return [self.get_ticker(symbol=stock_id) for stock_id in df['stock_id']]
+    def get_tickers(self, ticker_type=None, date=None):
+        """取得 Ticker"""
+        stmt = select(model.Ticker.symbol)
+        if ticker_type is not None:
+            stmt = stmt.where(model.Ticker.type == ticker_type)
+        if date is not None:
+            stmt = stmt.where(model.Ticker.date == date)
+        stmt = stmt.distinct()
+        return [self.get_ticker(symbol=symbol) for symbol, in self.session.execute(stmt).all()]
 
-    def get_all_metrics(self, tickers: [Ticker] = None):
+    def get_ticker_metrics(self, tickers: [Ticker] = None, date=None):
         if tickers is None:
-            tickers = self.get_all_tickers()
+            tickers = self.get_tickers(date=date)
+        if not tickers:
+            raise ValueError('tickers 輸入不合法')
+
         df = pd.concat(
-            [ticker.get_all_metrics() for ticker in tickers if not ticker.empty()]
+            [ticker.get_all_metrics(date=date) for ticker in tickers if not ticker.empty()]
         )
         df = df.sort_index()
         return df
@@ -136,13 +146,15 @@ class TickerDB:
 
 if __name__ == '__main__':
     ticker_db = TickerDB()
-    # print(ticker_db.get_all_tickers())
+    print(len(ticker_db.get_tickers()))
+    print(len(ticker_db.get_tickers(ticker_type='twse')))
+    print(len(ticker_db.get_tickers(ticker_type='twse', date='2020-12-31')))
     # print(ticker_db.get_all_tickers_with_all_metrics())
-    ticker = ticker_db.get_ticker('1101')
-    print(ticker.get_close_prices())
-    print(ticker.get_share_capital())
-    print(ticker.get_market_capitalization())
-    print(ticker.get_free_cash_flow())
-    print(ticker.get_earning_per_share())
-    print(ticker.get_return_on_equity())
-    print(ticker.get_operating_income_growth_rate(True))
+    # ticker = ticker_db.get_ticker('1101')
+    # print(ticker.get_close_prices())
+    # print(ticker.get_share_capital())
+    # print(ticker.get_market_capitalization())
+    # print(ticker.get_free_cash_flow())
+    # print(ticker.get_earning_per_share())
+    # print(ticker.get_return_on_equity())
+    # print(ticker.get_operating_income_growth_rate(True))

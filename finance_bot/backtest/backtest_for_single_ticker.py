@@ -168,7 +168,7 @@ if __name__ == '__main__':
     # strategy = Always0050Strategy(ticker_db)
     strategy = FinlabStrategy(ticker_db)
 
-    tickers = strategy.select_tickers(dt.datetime(year=2020, month=1, day=1))
+    tickers = strategy.select_tickers(dt.datetime(year=2020, month=12, day=1))
     report = backtest_for_single_ticker(
         init_funds=300000,
         ticker=tickers[0],
