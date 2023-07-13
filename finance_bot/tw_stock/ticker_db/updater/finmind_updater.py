@@ -1,15 +1,14 @@
 from FinMind.data import DataLoader
-from sqlalchemy import select, update
 from sqlalchemy.orm import Session
 
 from finance_bot.config import conf
-from finance_bot.ticker_db.model import FinmindTaiwanStockInfo
-from finance_bot.ticker_db.updater import UpdaterBase
+from finance_bot.tw_stock.ticker_db.model import FinmindTaiwanStockInfo
+from finance_bot.tw_stock.ticker_db.updater import UpdaterBase
 
 
 def get_finmind_data_loader():
     api = DataLoader()
-    api.login_by_token(api_token=conf.ticker_db.updater.finmind.api_token)
+    api.login_by_token(api_token=conf.tw_stock.updater.finmind.api_token)
     return api
 
 
@@ -27,7 +26,7 @@ class FinmindUpdater(UpdaterBase):
 
 
 if __name__ == '__main__':
-    from finance_bot.ticker_db.database import get_engine
+    from finance_bot.tw_stock.ticker_db.database import get_engine
 
     engine = get_engine()
     with Session(engine) as session:

@@ -1,15 +1,14 @@
 import finlab
-from sqlalchemy import select, update
 from sqlalchemy.orm import Session
 
 from finance_bot.config import conf
-from finance_bot.ticker_db.model import FinlabPriceClose, FinlabShareCapital, FinlabFreeCashFlow, FinlabEarningPerShare, \
+from finance_bot.tw_stock.ticker_db.model import FinlabPriceClose, FinlabShareCapital, FinlabFreeCashFlow, FinlabEarningPerShare, \
     FinlabReturnOnEquity, FinlabOperatingIncome
-from finance_bot.ticker_db.updater.base import UpdaterBase
+from finance_bot.tw_stock.ticker_db.updater.base import UpdaterBase
 
 
 def get_finlab_data_loader():
-    finlab.login(api_token=conf.ticker_db.updater.finlab.api_token)
+    finlab.login(api_token=conf.tw_stock.updater.finlab.api_token)
     return finlab.data
 
 
@@ -110,7 +109,7 @@ class FinlabUpdater(UpdaterBase):
 
 
 if __name__ == '__main__':
-    from finance_bot.ticker_db.database import get_engine
+    from finance_bot.tw_stock.ticker_db.database import get_engine
 
     engine = get_engine()
     with Session(engine) as session:

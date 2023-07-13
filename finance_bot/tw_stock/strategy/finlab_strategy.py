@@ -1,7 +1,7 @@
 import datetime as dt
 
-from finance_bot.strategy.base import StrategyBase
-from finance_bot.ticker_db.ticker_db import Ticker, TickerDB
+from finance_bot.tw_stock.strategy.base import StrategyBase
+from finance_bot.tw_stock.ticker_db.ticker_db import Ticker, TickerDB
 
 
 class FinlabStrategy(StrategyBase):

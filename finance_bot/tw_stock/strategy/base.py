@@ -1,9 +1,7 @@
 import abc
 import datetime as dt
 
-import pandas as pd
-
-from finance_bot.ticker_db.ticker_db import TickerDB, Ticker
+from finance_bot.tw_stock.ticker_db.ticker_db import TickerDB, Ticker
 
 
 class StrategyBase(abc.ABC):

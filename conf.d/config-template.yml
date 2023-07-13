@@ -1,7 +1,7 @@
 general:
   timezone: Asia/Taipei
 
-ticker_db:
+tw_stock:
   database:
     url: <url>
   updater:
