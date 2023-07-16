@@ -19,6 +19,8 @@ def load_config():
     if not config_file.exists():
         raise ValueError('找不到設定檔 conf.d/config.yml')
     config.merge_with(OmegaConf.load(config_file))
+    OmegaConf.set_readonly(config, True)
+
     return config
 
 
@@ -26,6 +28,11 @@ def reload():
     """重新取得設定檔"""
     global conf
     conf = load_config()
+
+
+def select_conf(key):
+    global conf
+    return OmegaConf.select(conf, key)
 
 
 conf = load_config()

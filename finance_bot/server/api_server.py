@@ -4,7 +4,9 @@ import uvicorn
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from fastapi.middleware.cors import CORSMiddleware
 
-from finance_bot.server.router import debug
+from finance_bot.config import conf
+from finance_bot.server.daemon.lending_daemon import LendingDaemon
+from finance_bot.server.router import debug, lending
 
 
 class APIServer:
@@ -18,12 +20,12 @@ class APIServer:
 
         # 設定 Scheduler
         scheduler = AsyncIOScheduler()
-        scheduler.start()
 
         app = fastapi.FastAPI()
         app.state.logger = logging.getLogger()
         app.state.scheduler = scheduler
         app.state.is_dev = is_dev
+        app.state.daemon = {}
 
         # 設定第三方擴充
         app.add_middleware(
@@ -37,6 +39,17 @@ class APIServer:
 
         # 設定路由
         app.include_router(debug.router)
+
+        # 設定 Daemon
+        if conf.server.daemon.lending:
+            daemon = LendingDaemon(app)
+            daemon.start()
+            app.state.daemon['lending'] = daemon
+            app.include_router(lending.router)
+
+        @app.on_event("startup")
+        def startup():
+            scheduler.start()
 
         uvicorn.run(app, host=host, port=port)
 

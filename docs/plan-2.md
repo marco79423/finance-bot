@@ -17,8 +17,46 @@
         cmd/  # 參考 paji
             __init__.py
             cli.py
-        server/  # 參考 jessigod
+        server/
+            daemon/
+                lending.py
         lending/
-        stock/
+        tw_stock/
+        infrastructure/
           ...
     ...
+
+## 設定檔
+
+```yaml
+general:
+  timezone: Asia/Taipei
+
+lending:
+  enabled: false
+  api_key: <token>
+  api_secret: <token>
+  schdule:
+    lending_task: '* * * * *'
+    sending_stats: '0 8 * * *'
+
+tw_stock:
+  database:
+    url: <url>
+  updater:
+    findmind:
+      api_token: <token>
+    finlab:
+      api_token: <token>
+
+notification:
+  telegram:
+    chat_id: <url>
+    token: <token>
+
+```
+
+## API 定義
+
+    /lending/stats
+    /lending/wallets

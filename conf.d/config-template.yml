@@ -1,6 +1,14 @@
 general:
   timezone: Asia/Taipei
 
+lending:
+  enabled: false
+  api_key: <token>
+  api_secret: <token>
+  schedule:
+    lending_task: '* * * * *'
+    sending_stats: '0 8 * * *'
+
 tw_stock:
   database:
     url: <url>
