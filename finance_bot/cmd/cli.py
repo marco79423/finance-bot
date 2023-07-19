@@ -1,7 +1,10 @@
+import IPython
 import click
+import requests
 
-from finance_bot.cmd.remote import create_remote_cli
-from finance_bot.cmd.server import create_server_cli
+from finance_bot.server.api_server import APIServer
+from finance_bot.shell.config import get_config
+from finance_bot.cmd.lending import create_lending_cli
 
 
 def create_cli():
@@ -10,7 +13,34 @@ def create_cli():
         """兩大類專用理財小工具"""
         pass
 
-    cli.add_command(create_server_cli())
-    cli.add_command(create_remote_cli())
+    @cli.command('ping')
+    @click.option('--url', default='http://localhost:8888', help='理財機器人的 URL')
+    def ping(url):
+        try:
+            resp = requests.get(f'{url}/debug/ping')
+            print(resp.text)
+        except requests.exceptions.RequestException:
+            print(f'理財機器人 ({url}) 連線失敗')
+
+    @cli.command('serve', short_help='啟動理財機器人')
+    @click.option('--host', default='0.0.0.0', help='啟動的 host')
+    @click.option('-p', '--port', default=8888, help='啟動的 port')
+    @click.option('-d', '--dev', is_flag=True, default=False, help='開發者模式')
+    def serve(host: str, port: int, dev: bool):
+        print(f'啟動理財機器人 {host}:{port} (dev: {dev}) ...')
+        server = APIServer()
+        server.serve(
+            host=host,
+            port=port,
+            is_dev=dev,
+        )
+
+    @cli.command('shell', short_help='啟動理財機器人 Shell')
+    @click.option('--url', default='http://localhost:8888', help='理財機器人的 URL')
+    def shell(url):
+        c = get_config(url)
+        IPython.start_ipython(header='理財機器人 Shell', config=c, argv=[])
+
+    cli.add_command(create_lending_cli())
 
     return cli
