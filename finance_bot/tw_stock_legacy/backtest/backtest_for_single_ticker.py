@@ -4,9 +4,9 @@ from typing import Optional
 
 import pandas as pd
 
-from finance_bot.tw_stock.strategy import FinlabStrategy
-from finance_bot.tw_stock.strategy.base import StrategyBase
-from finance_bot.tw_stock.ticker_db.ticker_db import Ticker, TickerDB
+from finance_bot.tw_stock_legacy.strategy import FinlabStrategy
+from finance_bot.tw_stock_legacy.strategy.base import StrategyBase
+from finance_bot.tw_stock_legacy.ticker_db.ticker_db import Ticker, TickerDB
 
 
 @dataclasses.dataclass

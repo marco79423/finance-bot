@@ -2,8 +2,8 @@ import pandas as pd
 from sqlalchemy import update, text
 from sqlalchemy.orm import Session
 
-from finance_bot.tw_stock.ticker_db.model import Ticker
-from finance_bot.tw_stock.ticker_db.updater import UpdaterBase
+from finance_bot.tw_stock_legacy.ticker_db.model import Ticker
+from finance_bot.tw_stock_legacy.ticker_db.updater import UpdaterBase
 
 
 class TickerUpdater(UpdaterBase):
@@ -160,7 +160,7 @@ class TickerUpdater(UpdaterBase):
 
 
 if __name__ == '__main__':
-    from finance_bot.tw_stock.ticker_db.database import get_engine
+    from finance_bot.tw_stock_legacy.ticker_db.database import get_engine
 
     engine = get_engine()
     with Session(engine) as session:
