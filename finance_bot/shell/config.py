@@ -11,6 +11,9 @@ def get_config(url):
 
         # 環境變數
         f'os.environ["FINB_SERVER_URL"]="{url}"',
+
+        # 重要設定
+        'pd.set_option("plotting.backend", "plotly")',
     ]
     c.InteractiveShellApp.extensions = [
         'finance_bot.shell.extension'
