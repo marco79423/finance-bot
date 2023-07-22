@@ -1,8 +1,10 @@
-general:
+server:
   timezone: Asia/Taipei
+  daemon:
+    lending: false
+    tw_stock: false
 
 lending:
-  enabled: false
   api_key: <token>
   api_secret: <token>
   schedule:
@@ -12,6 +14,11 @@ lending:
 tw_stock:
   database:
     url: <url>
+  schedule:
+    update_prices_task:
+      - '0 8 * * tue,wed,thu,fri
+      - '0 12 * * sat
+
   updater:
     findmind:
       api_token: <token>

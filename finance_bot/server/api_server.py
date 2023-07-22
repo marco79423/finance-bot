@@ -6,7 +6,8 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from finance_bot.config import conf
 from finance_bot.server.daemon.lending_daemon import LendingDaemon
-from finance_bot.server.router import debug, lending
+from finance_bot.server.daemon.tw_stock_daemon import TWStockDaemon
+from finance_bot.server.router import debug, lending, tw_stock
 
 
 class APIServer:
@@ -42,10 +43,18 @@ class APIServer:
 
         # 設定 Daemon
         if conf.server.daemon.lending:
+            app.state.logger.info('啟動 Lending 功能')
             daemon = LendingDaemon(app)
             daemon.start()
             app.state.daemon['lending'] = daemon
             app.include_router(lending.router)
+
+        if conf.server.daemon.tw_stock:
+            app.state.logger.info('啟動 TW Stock 功能')
+            daemon = TWStockDaemon(app)
+            daemon.start()
+            app.state.daemon['tw_stock'] = daemon
+            app.include_router(tw_stock.router)
 
         @app.on_event("startup")
         def startup():

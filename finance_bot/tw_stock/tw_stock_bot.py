@@ -33,7 +33,9 @@ class TWStockBot:
         for date in reversed(date_range):
             self.update_prices_for_date(date)
             if random_delay:
-                time.sleep(random.randint(1, 10))
+                delay_seconds = random.randint(1, 10)
+                self.logger.info(f'等待 {delay_seconds} 秒 ...')
+                time.sleep(delay_seconds)
         self.logger.info(f'{start:%Y-%m-%d}-{end:%Y-%m-%d} 股價資訊更新完成')
 
     def update_prices_for_date(self, date=None):
@@ -150,7 +152,7 @@ if __name__ == '__main__':
 
         logger = logging.getLogger()
         bot = TWStockBot(logger=logger)
-        bot.update_prices_for_date_range('2004-01-01', '2022-02-24')
+        bot.update_prices_for_date_range('2004-01-01', '2022-02-14')
 
 
     main()
