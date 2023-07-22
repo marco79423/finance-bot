@@ -24,8 +24,22 @@ class TWStockBot:
         self.engine = get_engine()
         self.user_agent = UserAgent()
 
-    def update_price(self, date: dt.datetime):
-        self.logger.info('開始更新 {date} 股價資訊 ...'.format(date=date.strftime('%Y-%m-%d')))
+    def update_prices_for_date_range(self, start=None, end=None, random_delay=True):
+        start = pd.Timestamp(start if start is not None else '2004-01-01')  # 證交所最早只到 2004-01-01
+        end = pd.Timestamp(end if end is not None else pd.Timestamp.today().normalize())
+
+        date_range = pd.date_range(start, end, freq='B')
+        self.logger.info(f'開始更新 {start:%Y-%m-%d} ~ {end:%Y-%m-%d} 股價資訊 ...')
+        for date in reversed(date_range):
+            self.update_prices_for_date(date)
+            if random_delay:
+                time.sleep(random.randint(1, 10))
+        self.logger.info(f'{start:%Y-%m-%d}-{end:%Y-%m-%d} 股價資訊更新完成')
+
+    def update_prices_for_date(self, date=None):
+        date = pd.Timestamp(date if date is not None else pd.Timestamp.today().normalize())
+
+        self.logger.info(f'開始更新 {date:%Y-%m-%d} 股價資訊 ...')
         raw_df = self.crawl_price(date)
         if raw_df is None or raw_df.empty:
             self.logger.info('沒有股價資訊')
@@ -57,7 +71,7 @@ class TWStockBot:
             self.logger.info(f'開始更新共 {len(df)} 筆的股票資訊 ...')
             self.save_or_update_list(session, TWStock, df)
 
-        self.logger.info('{date} 股價資訊更新完成'.format(date=date.strftime('%Y-%m-%d')))
+        self.logger.info(f'{date:%Y-%m-%d} 股價資訊更新完成')
 
     def crawl_price(self, date: dt.datetime):
         r = requests.post(
@@ -136,9 +150,7 @@ if __name__ == '__main__':
 
         logger = logging.getLogger()
         bot = TWStockBot(logger=logger)
-        for t in reversed(pd.date_range('2004-01-01', '2022-11-23', freq='B')):
-            bot.update_price(t)
-            time.sleep(5 + random.randint(1, 6))
+        bot.update_prices_for_date_range('2004-01-01', '2022-02-24')
 
 
     main()
