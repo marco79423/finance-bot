@@ -68,6 +68,7 @@ class LendingDaemon(DaemonBase):
                         average_rate=round(stats.average_rate * 100, 6),
                     )
                 )
+                return
             except Exception as e:
                 await self.telegram_bot.send_message(
                     chat_id=conf.notification.telegram.chat_id,

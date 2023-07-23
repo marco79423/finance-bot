@@ -48,19 +48,21 @@ class TWStockDaemon(DaemonBase):
             except Exception as e:
                 await self.telegram_bot.send_message(
                     chat_id=conf.notification.telegram.chat_id,
-                    text=f'{yesterday::%Y-%m-%d} 股價更新失敗 [{i+1} 次]\n{str(e)}'
+                    text=f'{yesterday::%Y-%m-%d} 股價更新失敗 [{i + 1} 次]\n{str(e)}'
                 )
                 await asyncio.sleep(60)
 
     async def update_prices_for_date_range(self, start, end):
-        try:
-            self.tw_stock_bot.update_prices_for_date_range(start, end)
-            await self.telegram_bot.send_message(
-                chat_id=conf.notification.telegram.chat_id,
-                text=f'{start} ~ {end} 股價更新完畢'
-            )
-        except Exception as e:
-            await self.telegram_bot.send_message(
-                chat_id=conf.notification.telegram.chat_id,
-                text=f'{start} ~ {end} 股價更新失敗\n{str(e)}'
-            )
+        for i in range(5):
+            try:
+                self.tw_stock_bot.update_prices_for_date_range(start, end)
+                await self.telegram_bot.send_message(
+                    chat_id=conf.notification.telegram.chat_id,
+                    text=f'{start} ~ {end} 股價更新完畢'
+                )
+                return
+            except Exception as e:
+                await self.telegram_bot.send_message(
+                    chat_id=conf.notification.telegram.chat_id,
+                    text=f'{start} ~ {end} 股價更新失敗\n{str(e)}'
+                )
