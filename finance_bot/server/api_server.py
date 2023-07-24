@@ -1,3 +1,4 @@
+import datetime as dt
 import logging
 import fastapi
 import uvicorn
@@ -5,6 +6,7 @@ from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from fastapi.middleware.cors import CORSMiddleware
 
 from finance_bot.config import conf
+from finance_bot.infrastructure import get_now
 from finance_bot.server.daemon.lending_daemon import LendingDaemon
 from finance_bot.server.daemon.tw_stock_daemon import TWStockDaemon
 from finance_bot.server.router import debug, lending, tw_stock
@@ -18,6 +20,7 @@ class APIServer:
             datefmt='%Y-%m-%d %H:%M:%S',
             format='[%(asctime)s][%(levelname)s] %(message)s',
         )
+        logging.Formatter.converter = lambda *args: get_now().timetuple()
 
         # 設定 Scheduler
         scheduler = AsyncIOScheduler()
