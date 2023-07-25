@@ -25,15 +25,13 @@ class TWStockDaemon(DaemonBase):
             if not isinstance(update_prices_task_schedule, ListConfig):
                 update_prices_task_schedule = [update_prices_task_schedule]
 
-            self.scheduler.add_job(
-                self.execute_update_prices_task,
-                OrTrigger(
-                    CronTrigger.from_crontab(schedule, timezone=pytz.timezone(conf.server.timezone))
-                    for schedule in update_prices_task_schedule
-                ),
-                max_instances=1,
-                misfire_grace_time=60 * 5
-            )
+            for schedule in update_prices_task_schedule:
+                self.scheduler.add_job(
+                    self.execute_update_prices_task,
+                    CronTrigger.from_crontab(schedule, timezone=pytz.timezone(conf.server.timezone)),
+                    max_instances=1,
+                    misfire_grace_time=60 * 5
+                )
 
     async def execute_update_prices_task(self):
         for i in range(5):

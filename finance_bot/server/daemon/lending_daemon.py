@@ -23,29 +23,26 @@ class LendingDaemon(DaemonBase):
         if lending_task_schedule:
             if not isinstance(lending_task_schedule, ListConfig):
                 lending_task_schedule = [lending_task_schedule]
-            self.scheduler.add_job(
-                self.execute_lending_task,
-                OrTrigger(
-                    CronTrigger.from_crontab(schedule, timezone=pytz.timezone(conf.server.timezone))
-                    for schedule in lending_task_schedule
-                ),
-                max_instances=1
-            )
+
+            for schedule in lending_task_schedule:
+                self.scheduler.add_job(
+                    self.execute_lending_task,
+                    CronTrigger.from_crontab(schedule, timezone=pytz.timezone(conf.server.timezone)),
+                    max_instances=1
+                )
 
         sending_stats_schedule = select_conf('lending.schedule.sending_stats')
         if sending_stats_schedule:
             if not isinstance(sending_stats_schedule, ListConfig):
                 sending_stats_schedule = [sending_stats_schedule]
 
-            self.scheduler.add_job(
-                self.send_stats,
-                OrTrigger(
-                    CronTrigger.from_crontab(schedule, timezone=pytz.timezone(conf.server.timezone))
-                    for schedule in sending_stats_schedule
-                ),
-                max_instances=1,
-                misfire_grace_time=60 * 5
-            )
+            for schedule in sending_stats_schedule:
+                self.scheduler.add_job(
+                    self.send_stats,
+                    CronTrigger.from_crontab(schedule, timezone=pytz.timezone(conf.server.timezone)),
+                    max_instances=1,
+                    misfire_grace_time=60 * 5
+                )
 
     async def get_lending_records(self):
         return await self.lending_bot.get_lending_records()
