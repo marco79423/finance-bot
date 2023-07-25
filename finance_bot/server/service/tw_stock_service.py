@@ -3,23 +3,23 @@ import asyncio
 import pandas as pd
 import pytz
 import telegram
-from apscheduler.triggers.combining import OrTrigger
 from apscheduler.triggers.cron import CronTrigger
 from omegaconf import ListConfig
 
 from finance_bot.config import conf, select_conf
-from finance_bot.server.daemon.base import DaemonBase
+from finance_bot.server.service.base import ServiceBase
 from finance_bot.tw_stock.tw_stock_bot import TWStockBot
 
 
-class TWStockDaemon(DaemonBase):
+class TWStockService(ServiceBase):
+    name = 'tw-stock'
 
     def __init__(self, app):
         super().__init__(app)
         self.tw_stock_bot = TWStockBot(logger=self.logger)
         self.telegram_bot = telegram.Bot(conf.notification.telegram.token)
 
-    def start(self):
+    def set_schedules(self):
         update_prices_task_schedule = select_conf('tw_stock.schedule.update_prices_task')
         if update_prices_task_schedule:
             if not isinstance(update_prices_task_schedule, ListConfig):

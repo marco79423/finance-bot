@@ -7,8 +7,8 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from finance_bot.config import conf
 from finance_bot.infrastructure import get_now
-from finance_bot.server.daemon.lending_daemon import LendingDaemon
-from finance_bot.server.daemon.tw_stock_daemon import TWStockDaemon
+from finance_bot.server.service.lending_service import LendingService
+from finance_bot.server.service.tw_stock_service import TWStockService
 from finance_bot.server.router import debug, lending, tw_stock
 
 
@@ -18,18 +18,19 @@ class APIServer:
         logging.basicConfig(
             level=logging.INFO,
             datefmt='%Y-%m-%d %H:%M:%S',
-            format='[%(asctime)s][%(levelname)s] %(message)s',
+            format='[%(asctime)s][%(name)s][%(levelname)s] %(message)s',
         )
         logging.Formatter.converter = lambda *args: get_now().timetuple()
 
         # 設定 Scheduler
-        scheduler = AsyncIOScheduler()
+        logger = logging.getLogger()
+        scheduler = AsyncIOScheduler(logger=logger.getChild('scheduler'))
 
         app = fastapi.FastAPI()
-        app.state.logger = logging.getLogger()
+        app.state.logger = logger
         app.state.scheduler = scheduler
         app.state.is_dev = is_dev
-        app.state.daemon = {}
+        app.state.service = {}
 
         # 設定第三方擴充
         app.add_middleware(
@@ -44,19 +45,15 @@ class APIServer:
         # 設定路由
         app.include_router(debug.router)
 
-        # 設定 Daemon
-        if conf.server.daemon.lending:
-            app.state.logger.info('啟動 Lending 功能')
-            daemon = LendingDaemon(app)
-            daemon.start()
-            app.state.daemon['lending'] = daemon
+        # 設定 Service
+        if conf.server.service.lending:
+            service = LendingService(app)
+            service.start()
             app.include_router(lending.router)
 
-        if conf.server.daemon.tw_stock:
-            app.state.logger.info('啟動 TW Stock 功能')
-            daemon = TWStockDaemon(app)
-            daemon.start()
-            app.state.daemon['tw_stock'] = daemon
+        if conf.server.service.tw_stock:
+            service = TWStockService(app)
+            service.start()
             app.include_router(tw_stock.router)
 
         @app.on_event("startup")

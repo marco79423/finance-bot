@@ -1,6 +1,6 @@
 server:
   timezone: Asia/Taipei
-  daemon:
+  service:
     lending: false
     tw_stock: false
 

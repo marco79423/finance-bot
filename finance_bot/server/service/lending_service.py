@@ -2,23 +2,23 @@ import asyncio
 
 import pytz
 import telegram
-from apscheduler.triggers.combining import OrTrigger
 from apscheduler.triggers.cron import CronTrigger
 from omegaconf import ListConfig
 
 from finance_bot.config import conf, select_conf
 from finance_bot.lending.lending_bot import LendingBot
-from finance_bot.server.daemon.base import DaemonBase
+from finance_bot.server.service.base import ServiceBase
 
 
-class LendingDaemon(DaemonBase):
+class LendingService(ServiceBase):
+    name = 'lending'
 
     def __init__(self, app):
         super().__init__(app)
         self.lending_bot = LendingBot(logger=self.logger)
         self.telegram_bot = telegram.Bot(conf.notification.telegram.token)
 
-    def start(self):
+    def set_schedules(self):
         lending_task_schedule = select_conf('lending.schedule.lending_task')
         if lending_task_schedule:
             if not isinstance(lending_task_schedule, ListConfig):
