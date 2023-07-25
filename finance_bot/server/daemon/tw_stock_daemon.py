@@ -39,7 +39,7 @@ class TWStockDaemon(DaemonBase):
         for i in range(5):
             yesterday = pd.Timestamp.today().normalize() - pd.Timedelta(days=1)
             try:
-                await self.tw_stock_bot.update_prices_for_date(yesterday)
+                self.tw_stock_bot.update_prices_for_date(yesterday)
                 await self.telegram_bot.send_message(
                     chat_id=conf.notification.telegram.chat_id,
                     text=f'{yesterday::%Y-%m-%d} 股價更新完畢'
