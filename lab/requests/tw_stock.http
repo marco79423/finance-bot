@@ -1,0 +1,9 @@
+### 更新股價資訊
+
+POST {{host}}/tw-stock/update-prices-tasks
+Content-Type: application/json
+
+{
+  "start": "2023-07-24",
+  "end": "2023-07-24"
+}

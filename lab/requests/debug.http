@@ -1,0 +1,4 @@
+### 取得 Schedule Jobs
+
+GET {{host}}/debug/scheduled-jobs
+Content-Type: application/json

@@ -1,0 +1,3 @@
+### 取得借貸狀況
+
+GET {{host}}/lending/records
