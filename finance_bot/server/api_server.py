@@ -21,6 +21,7 @@ class APIServer:
             format='[%(asctime)s][%(name)s][%(levelname)s] %(message)s',
         )
         logging.Formatter.converter = lambda *args: get_now().timetuple()
+        logging.getLogger('apscheduler').setLevel(logging.WARN)
 
         # 設定 Scheduler
         logger = logging.getLogger()
