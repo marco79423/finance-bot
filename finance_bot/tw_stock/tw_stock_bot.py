@@ -24,6 +24,25 @@ class TWStockBot:
         self.engine = get_engine()
         self.user_agent = UserAgent()
 
+    def update_stocks(self):
+        self.logger.info(f'開始更新台灣股票資訊 ...')
+        df = self.crawl_stocks()
+
+        self.logger.info(f'取得 {len(df)} 筆資訊')
+
+        df[['stock_id', 'name']] = df['有價證券代號及名稱'].str.extract(r'([^\s]+)\s+(.*)')
+        df = df.drop(columns=['有價證券代號及名稱', '國際證券辨識號碼(ISIN Code)', 'CFICode', '市場別', '備註'])
+        df = df.rename(columns={
+            '上市日': 'listing_date',
+            '產業別': 'industry'
+        })
+
+        with Session(self.engine) as session:
+            df = df[['stock_id', 'name', 'listing_date', 'industry']]
+            df = df[df['stock_id'].notna()]
+            self.save_or_update_list(session, TWStock, df)
+        self.logger.info('台灣股票資訊更新完成')
+
     def update_prices_for_date_range(self, start=None, end=None, random_delay=True):
         start = pd.Timestamp(start if start is not None else '2004-01-01')  # 證交所最早只到 2004-01-01
         end = pd.Timestamp(end if end is not None else pd.Timestamp.today().normalize())
@@ -69,11 +88,24 @@ class TWStockBot:
             self.logger.info(f'開始更新共 {len(df)} 筆的股價資訊 ...')
             self.save_or_update_list(session, TWStockPrice, df)
 
-            df = raw_df[['stock_id', 'name']].drop_duplicates()
-            self.logger.info(f'開始更新共 {len(df)} 筆的股票資訊 ...')
-            self.save_or_update_list(session, TWStock, df)
-
         self.logger.info(f'{date:%Y-%m-%d} 股價資訊更新完成')
+
+    def crawl_stocks(self):
+        res = requests.get(
+            'https://isin.twse.com.tw/isin/C_public.jsp',
+            params={
+                'strMode': '2',
+            },
+            headers={
+                'user-agent': self.user_agent.random
+            }
+        )
+        df = pd.read_html(res.text)[0]
+
+        df.columns = df.iloc[0]
+        df = df.iloc[2:]
+        df = df.dropna(thresh=3, axis=0)
+        return df
 
     def crawl_price(self, date: dt.datetime):
         r = requests.post(
@@ -152,7 +184,8 @@ if __name__ == '__main__':
 
         logger = logging.getLogger()
         bot = TWStockBot(logger=logger)
-        bot.update_prices_for_date_range('2004-01-01', '2022-02-14')
+        bot.update_stocks()
+        # bot.update_prices_for_date_range('2004-01-01', '2022-02-14')
 
 
     main()
