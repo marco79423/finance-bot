@@ -10,7 +10,7 @@ from finance_bot.tw_stock.tw_stock_bot import TWStockBot
 
 
 class TWStockService(ServiceBase):
-    name = 'tw-stock'
+    name = 'tw_stock'
 
     def __init__(self, app):
         super().__init__(app)

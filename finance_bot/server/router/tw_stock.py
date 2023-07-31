@@ -12,7 +12,7 @@ class UpdateTask(BaseModel):
 @router.post('/update-prices-tasks')
 async def update_prices_tasks(task: UpdateTask, request: fastapi.Request):
     request.app.state.scheduler.add_job(
-        request.app.state.daemon['tw_stock'].update_prices_for_date_range,
+        request.app.state.service['tw_stock'].update_prices_for_date_range,
         kwargs={
             'start': task.start,
             'end': task.end,
