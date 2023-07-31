@@ -44,14 +44,14 @@ class LendingService(ServiceBase):
                     misfire_grace_time=60 * 5
                 )
 
+    async def execute_lending_task(self):
+        await self.execute_task(
+            self.lending_bot.execute_lending_task,
+            error_message=f'借錢任務執行失敗',
+        )
+
     async def get_lending_records(self):
         return await self.lending_bot.get_lending_records()
-
-    async def execute_lending_task(self):
-        try:
-            await self.lending_bot.execute_lending_task()
-        except Exception as e:
-            self.logger.error(f'execute_lending_task 執行失敗: {str(e)}')
 
     async def send_stats(self):
         for i in range(5):

@@ -1,5 +1,3 @@
-import asyncio
-
 import pandas as pd
 import pytz
 import telegram
@@ -34,48 +32,27 @@ class TWStockService(ServiceBase):
                 )
 
     async def execute_update_prices_task(self):
-        for i in range(5):
-            try:
-                self.tw_stock_bot.update_stocks()
-                await self.telegram_bot.send_message(
-                    chat_id=conf.notification.telegram.chat_id,
-                    text=f'台灣股票資訊更新完畢'
-                )
-                return
-            except Exception as e:
-                await self.telegram_bot.send_message(
-                    chat_id=conf.notification.telegram.chat_id,
-                    text=f'台灣股票資訊更新失敗 [{i + 1} 次]\n{str(e)}'
-                )
-                await asyncio.sleep(60)
+        await self.execute_task(
+            self.tw_stock_bot.update_stocks,
+            success_message='台灣股票資訊更新完畢',
+            error_message='台灣股票資訊更新失敗',
+            retries=5,
+        )
 
-        for i in range(5):
-            yesterday = pd.Timestamp.today().normalize() - pd.Timedelta(days=1)
-            try:
-                self.tw_stock_bot.update_prices_for_date(yesterday)
-                await self.telegram_bot.send_message(
-                    chat_id=conf.notification.telegram.chat_id,
-                    text=f'{yesterday::%Y-%m-%d} 股價更新完畢'
-                )
-                return
-            except Exception as e:
-                await self.telegram_bot.send_message(
-                    chat_id=conf.notification.telegram.chat_id,
-                    text=f'{yesterday::%Y-%m-%d} 股價更新失敗 [{i + 1} 次]\n{str(e)}'
-                )
-                await asyncio.sleep(60)
+        yesterday = pd.Timestamp.today().normalize() - pd.Timedelta(days=1)
+        await self.execute_task(
+            self.tw_stock_bot.update_stocks,
+            args=[yesterday],
+            success_message=f'{yesterday::%Y-%m-%d} 股價更新完畢',
+            error_message=f'{yesterday::%Y-%m-%d} 股價更新失敗',
+            retries=5,
+        )
 
     async def update_prices_for_date_range(self, start, end):
-        for i in range(5):
-            try:
-                self.tw_stock_bot.update_prices_for_date_range(start, end)
-                await self.telegram_bot.send_message(
-                    chat_id=conf.notification.telegram.chat_id,
-                    text=f'{start} ~ {end} 股價更新完畢'
-                )
-                return
-            except Exception as e:
-                await self.telegram_bot.send_message(
-                    chat_id=conf.notification.telegram.chat_id,
-                    text=f'{start} ~ {end} 股價更新失敗\n{str(e)}'
-                )
+        await self.execute_task(
+            self.tw_stock_bot.update_prices_for_date_range,
+            args=[start, end],
+            success_message=f'{start} ~ {end} 股價更新完畢',
+            error_message=f'{start} ~ {end} 股價更新失敗'
+        )
+
