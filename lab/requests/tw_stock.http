@@ -7,3 +7,15 @@ Content-Type: application/json
   "start": "2023-07-24",
   "end": "2023-07-24"
 }
+
+### 更新個股財報
+
+POST {{host}}/tw-stock/update-statements-tasks
+Content-Type: application/json
+
+{
+  "stock_id": "1101",
+  "year": 2023,
+  "season": 1
+}
+

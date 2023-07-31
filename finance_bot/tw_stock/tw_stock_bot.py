@@ -12,6 +12,7 @@ from sqlalchemy.orm import Session
 
 from finance_bot.tw_stock.database import get_engine
 from finance_bot.tw_stock.model import TWStockPrice, TWStock
+from finance_bot.utility import get_data_folder, get_statements_folder
 
 
 class TWStockBot:
@@ -90,6 +91,9 @@ class TWStockBot:
 
         self.logger.info(f'{date:%Y-%m-%d} 股價資訊更新完成')
 
+    def update_statements(self, stock_id, year, season):
+        self.crawl_statements(stock_id, year, season)
+
     def crawl_stocks(self):
         res = requests.get(
             'https://isin.twse.com.tw/isin/C_public.jsp',
@@ -155,6 +159,28 @@ class TWStockBot:
         df['date'] = pd.to_datetime(date)
 
         return df
+
+    def crawl_statements(self, stock_id, year, season):
+        res = requests.get(
+            'https://mops.twse.com.tw/server-java/t164sb01',
+            params={
+                'step': 1,  # 不知啥用的
+                'CO_ID': stock_id,
+                'SYEAR': year,
+                'SSEASON': season,
+                'REPORT_ID': 'C',  # 個別財報(A) / 個體財報(B) / 合併報表(C)
+            },
+            headers={
+                'user-agent': self.user_agent.random
+            }
+        )
+        res.encoding = 'big5'
+        body = res.text
+
+        statements_folder = get_statements_folder(stock_id)
+        target_file = statements_folder / f'{year}Q{season}.html'
+        with target_file.open('w', encoding='big5') as fp:
+            fp.write(body)
 
     def save_or_update_list(self, session, model, df):
         for _, group in df.groupby(df.index // self.COMMIT_GROUP_SIZE):
