@@ -39,7 +39,11 @@ class ServiceBase:
 
         for i in range(retries+1):
             try:
-                func(*args, **kargs)
+                if asyncio.iscoroutinefunction(func):
+                    await func(*args, **kargs)
+                else:
+                    func(*args, **kargs)
+
                 if success_message:
                     await self.telegram_bot.send_message(
                         chat_id=conf.notification.telegram.chat_id,
