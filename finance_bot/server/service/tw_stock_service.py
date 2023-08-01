@@ -41,10 +41,10 @@ class TWStockService(ServiceBase):
 
         yesterday = pd.Timestamp.today().normalize() - pd.Timedelta(days=1)
         await self.execute_task(
-            self.tw_stock_bot.update_stocks,
+            self.tw_stock_bot.update_prices_for_date,
             args=[yesterday],
-            success_message=f'{yesterday::%Y-%m-%d} 股價更新完畢',
-            error_message=f'{yesterday::%Y-%m-%d} 股價更新失敗',
+            success_message=f'{yesterday:%Y-%m-%d} 股價更新完畢',
+            error_message=f'{yesterday:%Y-%m-%d} 股價更新失敗',
             retries=5,
         )
 
