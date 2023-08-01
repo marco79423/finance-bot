@@ -3,11 +3,10 @@ import asyncio
 import pytz
 import telegram
 from apscheduler.triggers.cron import CronTrigger
-from omegaconf import ListConfig
-
 from finance_bot.config import conf, select_conf
 from finance_bot.lending.lending_bot import LendingBot
 from finance_bot.server.service.base import ServiceBase
+from omegaconf import ListConfig
 
 
 class LendingService(ServiceBase):
@@ -47,28 +46,25 @@ class LendingService(ServiceBase):
     async def execute_lending_task(self):
         await self.execute_task(
             self.lending_bot.execute_lending_task,
-            error_message=f'借錢任務執行失敗',
+            error_message='借錢任務執行失敗\n{error}',
         )
 
     async def get_lending_records(self):
         return await self.lending_bot.get_lending_records()
 
     async def send_stats(self):
-        for i in range(5):
-            try:
-                stats = await self.lending_bot.get_stats()
-                await self.telegram_bot.send_message(
-                    chat_id=conf.notification.telegram.chat_id,
-                    text='總借出: {lending_amount:.2f}\n預估日收益: {daily_earn:.2f} (平均利率: {average_rate:.6f}%)'.format(
-                        lending_amount=round(stats.lending_amount, 2),
-                        daily_earn=round(stats.daily_earn, 2),
-                        average_rate=round(stats.average_rate * 100, 6),
-                    )
-                )
-                return
-            except Exception as e:
-                await self.telegram_bot.send_message(
-                    chat_id=conf.notification.telegram.chat_id,
-                    text=f'計算統計失敗 [{i + 1} 次]\n{str(e)}'
-                )
-                await asyncio.sleep(60)
+        async def get_stats_msg():
+            stats = await self.lending_bot.get_stats()
+            return {
+                'lending_amount': round(stats.lending_amount, 2),
+                'daily_earn': round(stats.daily_earn, 2),
+                'average_rate': round(stats.average_rate * 100, 6),
+            }
+
+        await self.execute_task(
+            get_stats_msg,
+            success_message='總借出: {lending_amount:.2f}\n預估日收益: {daily_earn:.2f} (平均利率: {average_rate:.6f}%)',
+            error_message='計算統計執行失敗 [{retry_count}]\n{error}',
+            retries=5
+        )
+

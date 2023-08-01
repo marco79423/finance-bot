@@ -40,23 +40,28 @@ class ServiceBase:
         for i in range(retries+1):
             try:
                 if asyncio.iscoroutinefunction(func):
-                    await func(*args, **kargs)
+                    result = await func(*args, **kargs)
                 else:
-                    func(*args, **kargs)
+                    result = func(*args, **kargs)
 
                 if success_message:
+                    message = success_message.format(*args, **kargs)
+                    if isinstance(result, dict):
+                        message = message.format(**result)
+
                     await self.telegram_bot.send_message(
                         chat_id=conf.notification.telegram.chat_id,
-                        text=success_message
+                        text=message
                     )
                 return
             except Exception as e:
-                if retries > 0:
-                    error_message += f' [{i + 1} 次]'
-
                 if error_message:
+                    message = error_message.format(*args, **kargs, error=str(e))
+                    if retries > 0:
+                        message.format(retry_count=i+1)
+
                     await self.telegram_bot.send_message(
                         chat_id=conf.notification.telegram.chat_id,
-                        text=f'{error_message}\n{str(e)}'
+                        text=message
                     )
                 await asyncio.sleep(60)

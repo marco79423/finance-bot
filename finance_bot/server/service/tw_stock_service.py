@@ -2,11 +2,10 @@ import pandas as pd
 import pytz
 import telegram
 from apscheduler.triggers.cron import CronTrigger
-from omegaconf import ListConfig
-
 from finance_bot.config import conf, select_conf
 from finance_bot.server.service.base import ServiceBase
 from finance_bot.tw_stock.tw_stock_bot import TWStockBot
+from omegaconf import ListConfig
 
 
 class TWStockService(ServiceBase):
@@ -42,24 +41,24 @@ class TWStockService(ServiceBase):
         yesterday = pd.Timestamp.today().normalize() - pd.Timedelta(days=1)
         await self.execute_task(
             self.tw_stock_bot.update_prices_for_date,
-            args=[yesterday],
-            success_message=f'{yesterday:%Y-%m-%d} 股價更新完畢',
-            error_message=f'{yesterday:%Y-%m-%d} 股價更新失敗',
+            kargs={'date': yesterday},
+            success_message='{date:%Y-%m-%d} 股價更新完畢',
+            error_message='{date:%Y-%m-%d} 股價更新失敗 [{retry_count}]\n{error}',
             retries=5,
         )
 
     async def update_prices_for_date_range(self, start, end):
         await self.execute_task(
             self.tw_stock_bot.update_prices_for_date_range,
-            args=[start, end],
-            success_message=f'{start} ~ {end} 股價更新完畢',
-            error_message=f'{start} ~ {end} 股價更新失敗'
+            kargs={'start': start, 'end': end},
+            success_message='{start} ~ {end} 股價更新完畢',
+            error_message='{start} ~ {end} 股價更新失敗 [{retry_count}]\n{error}',
         )
 
     async def update_statements(self, stock_id, year, season):
         await self.execute_task(
             self.tw_stock_bot.update_statements,
-            args=[stock_id, year, season],
-            success_message=f'{stock_id} 的 {year}Q{season} 財報更新完畢',
-            error_message=f'{stock_id} 的 {year}Q{season} 財報更新失敗'
+            kargs={'stock_id': stock_id, 'year': year, 'season': season},
+            success_message='{stock_id} 的 {year}Q{season} 財報更新完畢',
+            error_message='{stock_id} 的 {year}Q{season} 財報更新失敗 [{retry_count}]\n{error}',
         )
