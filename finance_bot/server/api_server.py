@@ -11,7 +11,7 @@ from finance_bot.infrastructure import get_now
 from finance_bot.server.router import debug, lending, tw_stock
 from finance_bot.server.service.lending_service import LendingService
 from finance_bot.server.service.tw_stock_service import TWStockService
-from utility import get_data_folder
+from finance_bot.utility import get_data_folder
 
 
 class APIServer:
