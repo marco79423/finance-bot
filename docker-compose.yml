@@ -5,3 +5,4 @@ services:
       - "8888:8888"
     volumes:
       - "./conf.d:/app/conf.d"
+      - "./data:/app/data"
