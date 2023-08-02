@@ -1,15 +1,17 @@
-import datetime as dt
 import logging
+
 import fastapi
 import uvicorn
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
 
 from finance_bot.config import conf
 from finance_bot.infrastructure import get_now
+from finance_bot.server.router import debug, lending, tw_stock
 from finance_bot.server.service.lending_service import LendingService
 from finance_bot.server.service.tw_stock_service import TWStockService
-from finance_bot.server.router import debug, lending, tw_stock
+from utility import get_data_folder
 
 
 class APIServer:
@@ -43,8 +45,9 @@ class APIServer:
             allow_headers=["*"],
         )
 
-        # 設定路由
+        # 設定預設路由
         app.include_router(debug.router)
+        app.mount('/data', StaticFiles(directory=get_data_folder()), name="data")
 
         # 設定 Service
         if conf.server.service.lending:

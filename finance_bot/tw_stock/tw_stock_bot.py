@@ -181,7 +181,7 @@ class TWStockBot:
         target_folder = data_folder / 'financial_statements' / stock_id
         target_folder.mkdir(parents=True, exist_ok=True)
         target_file = target_folder / f'{year}Q{season}.html'
-        with target_file.open('w', encoding='big5') as fp:
+        with target_file.open('w', encoding='utf-8') as fp:
             fp.write(body)
 
     def save_or_update_list(self, session, model, df):
