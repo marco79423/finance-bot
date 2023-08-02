@@ -4,13 +4,13 @@ POST {{host}}/tw-stock/update-prices-tasks
 Content-Type: application/json
 
 {
-  "start": "2023-07-24",
-  "end": "2023-07-24"
+  "start": "2023-08-01",
+  "end": "2023-08-01"
 }
 
-### 更新個股財報
+### 更新個股綜合財報
 
-POST {{host}}/tw-stock/update-statements-tasks
+POST {{host}}/tw-stock/update-financial-statements-tasks
 Content-Type: application/json
 
 {

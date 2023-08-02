@@ -12,7 +12,7 @@ from sqlalchemy.orm import Session
 
 from finance_bot.tw_stock.database import get_engine
 from finance_bot.tw_stock.model import TWStockPrice, TWStock
-from finance_bot.utility import get_data_folder, get_statements_folder
+from finance_bot.utility import get_data_folder
 
 
 class TWStockBot:
@@ -91,8 +91,8 @@ class TWStockBot:
 
         self.logger.info(f'{date:%Y-%m-%d} 股價資訊更新完成')
 
-    def update_statements(self, stock_id, year, season):
-        self.crawl_statements(stock_id, year, season)
+    def update_financial_statements(self, stock_id, year, season):
+        self.crawl_financial_statements(stock_id, year, season)
 
     def crawl_stocks(self):
         res = requests.get(
@@ -160,7 +160,7 @@ class TWStockBot:
 
         return df
 
-    def crawl_statements(self, stock_id, year, season):
+    def crawl_financial_statements(self, stock_id, year, season):
         res = requests.get(
             'https://mops.twse.com.tw/server-java/t164sb01',
             params={
@@ -177,8 +177,10 @@ class TWStockBot:
         res.encoding = 'big5'
         body = res.text
 
-        statements_folder = get_statements_folder(stock_id)
-        target_file = statements_folder / f'{year}Q{season}.html'
+        data_folder = get_data_folder()
+        target_folder = data_folder / 'financial_statements' / stock_id
+        target_folder.mkdir(parents=True, exist_ok=True)
+        target_file = target_folder / f'{year}Q{season}.html'
         with target_file.open('w', encoding='big5') as fp:
             fp.write(body)
 

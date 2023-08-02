@@ -28,10 +28,10 @@ class UpdateStatementsTask(BaseModel):
     season: int
 
 
-@router.post('/update-statements-tasks')
-async def update_statements_tasks(task: UpdateStatementsTask, request: fastapi.Request):
+@router.post('/update-financial-statements-tasks')
+async def update_financial_statements_tasks(task: UpdateStatementsTask, request: fastapi.Request):
     request.app.state.scheduler.add_job(
-        request.app.state.service['tw_stock'].update_statements,
+        request.app.state.service['tw_stock'].update_financial_statements,
         kwargs={
             'stock_id': task.stock_id,
             'year': task.year,

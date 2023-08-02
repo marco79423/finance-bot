@@ -55,9 +55,9 @@ class TWStockService(ServiceBase):
             error_message='{start} ~ {end} 股價更新失敗 [{retry_count}]\n{error}',
         )
 
-    async def update_statements(self, stock_id, year, season):
+    async def update_financial_statements(self, stock_id, year, season):
         await self.execute_task(
-            self.tw_stock_bot.update_statements,
+            self.tw_stock_bot.update_financial_statements,
             kargs={'stock_id': stock_id, 'year': year, 'season': season},
             success_message='{stock_id} 的 {year}Q{season} 財報更新完畢',
             error_message='{stock_id} 的 {year}Q{season} 財報更新失敗 [{retry_count}]\n{error}',
