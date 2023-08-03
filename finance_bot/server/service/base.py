@@ -37,7 +37,7 @@ class ServiceBase:
         if kargs is None:
             kargs = {}
 
-        for i in range(retries+1):
+        for i in range(retries + 1):
             try:
                 if asyncio.iscoroutinefunction(func):
                     result = await func(*args, **kargs)
@@ -45,9 +45,11 @@ class ServiceBase:
                     result = func(*args, **kargs)
 
                 if success_message:
-                    message = success_message.format(*args, **kargs)
-                    if isinstance(result, dict):
-                        message = message.format(**result)
+                    message = success_message.format(
+                        *args,
+                        **kargs,
+                        **(result if isinstance(result, dict) else {})
+                    )
 
                     await self.telegram_bot.send_message(
                         chat_id=conf.notification.telegram.chat_id,
@@ -56,9 +58,12 @@ class ServiceBase:
                 return
             except Exception as e:
                 if error_message:
-                    message = error_message.format(*args, **kargs, error=str(e))
-                    if retries > 0:
-                        message.format(retry_count=i+1)
+                    message = error_message.format(
+                        *args,
+                        **kargs,
+                        error=str(e),
+                        retry_count=i + 1 if retries > 0 else 0
+                    )
 
                     await self.telegram_bot.send_message(
                         chat_id=conf.notification.telegram.chat_id,
