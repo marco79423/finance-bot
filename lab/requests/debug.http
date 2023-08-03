@@ -1,3 +1,12 @@
+### Ping
+
+GET {{host}}/debug/ping
+Content-Type: application/json
+
+### 通知
+GET {{host}}/debug/notification
+Content-Type: application/json
+
 ### 取得 Schedule Jobs
 
 GET {{host}}/debug/scheduled-jobs

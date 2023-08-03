@@ -24,10 +24,12 @@
             __init__.py
             cli.py
         server/
-            daemon/
+            service/
                 lending.py
-        lending/
-        tw_stock/
+        model/
+        bot/
+            lending/
+            tw_stock/
         infrastructure/
           ...
     ...

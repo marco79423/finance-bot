@@ -1,29 +1,22 @@
 import datetime as dt
 import io
-import logging
 import random
 import time
 
 import pandas as pd
-import requests
-from fake_useragent import UserAgent
 from sqlalchemy.dialects.mysql import insert
 from sqlalchemy.orm import Session
 
-from finance_bot.tw_stock.database import get_engine
-from finance_bot.tw_stock.model import TWStockPrice, TWStock
+from finance_bot.bot.base import BotBase
+from finance_bot.infrastructure import infra
+from finance_bot.model import TWStockPrice, TWStock
 from finance_bot.utility import get_data_folder
 
 
-class TWStockBot:
-    COMMIT_GROUP_SIZE = 1000
+class TWStockBot(BotBase):
+    name = 'tw_stock_bot'
 
-    def __init__(self, logger=None):
-        if logger is None:
-            logger = logging.getLogger()
-        self.logger = logger
-        self.engine = get_engine()
-        self.user_agent = UserAgent()
+    COMMIT_GROUP_SIZE = 1000
 
     def update_stocks(self):
         self.logger.info(f'開始更新台灣股票資訊 ...')
@@ -38,7 +31,7 @@ class TWStockBot:
             '產業別': 'industry'
         })
 
-        with Session(self.engine) as session:
+        with Session(infra.db.engine) as session:
             df = df[['stock_id', 'name', 'listing_date', 'industry']]
             df = df[df['stock_id'].notna()]
             self.save_or_update_list(session, TWStock, df)
@@ -83,7 +76,7 @@ class TWStockBot:
             "最後揭示賣量": "last_ask_volume",
         })
 
-        with Session(self.engine) as session:
+        with Session(infra.db.engine) as session:
             df = raw_df.drop(columns=['name'])
             df = df.where(pd.notnull(df), None)  # 將 DataFrame 中的所有 NaN 值轉換為 None
             self.logger.info(f'開始更新共 {len(df)} 筆的股價資訊 ...')
@@ -94,15 +87,13 @@ class TWStockBot:
     def update_financial_statements(self, stock_id, year, season):
         self.crawl_financial_statements(stock_id, year, season)
 
-    def crawl_stocks(self):
-        res = requests.get(
+    @staticmethod
+    def crawl_stocks():
+        res = infra.api.get(
             'https://isin.twse.com.tw/isin/C_public.jsp',
             params={
                 'strMode': '2',
             },
-            headers={
-                'user-agent': self.user_agent.random
-            }
         )
         df = pd.read_html(res.text)[0]
 
@@ -111,8 +102,9 @@ class TWStockBot:
         df = df.dropna(thresh=3, axis=0)
         return df
 
-    def crawl_price(self, date: dt.datetime):
-        r = requests.post(
+    @staticmethod
+    def crawl_price(date: dt.datetime):
+        r = infra.api.post(
             'https://www.twse.com.tw/exchangeReport/MI_INDEX',
             params={
                 'response': 'csv',
@@ -120,9 +112,6 @@ class TWStockBot:
                 'type': 'ALLBUT0999',  # 全部(不含權證、牛熊證、可展延牛熊證)
                 '_': int(dt.datetime.now().timestamp() * 1000),
             },
-            headers={
-                'user-agent': self.user_agent.random
-            }
         )
 
         content = r.text.replace('=', '')  # 例子： ="0050"
@@ -161,7 +150,7 @@ class TWStockBot:
         return df
 
     def crawl_financial_statements(self, stock_id, year, season):
-        res = requests.get(
+        res = infra.api.get(
             'https://mops.twse.com.tw/server-java/t164sb01',
             params={
                 'step': 1,  # 不知啥用的
@@ -170,9 +159,6 @@ class TWStockBot:
                 'SSEASON': season,
                 'REPORT_ID': 'C',  # 個別財報(A) / 個體財報(B) / 合併報表(C)
             },
-            headers={
-                'user-agent': self.user_agent.random
-            }
         )
         res.encoding = 'big5'
         body = res.text
@@ -204,14 +190,7 @@ class TWStockBot:
 
 if __name__ == '__main__':
     def main():
-        logging.basicConfig(
-            level=logging.INFO,
-            datefmt='%Y-%m-%d %H:%M:%S',
-            format='[%(asctime)s][%(levelname)s] %(message)s',
-        )
-
-        logger = logging.getLogger()
-        bot = TWStockBot(logger=logger)
+        bot = TWStockBot()
         bot.update_stocks()
         # bot.update_prices_for_date_range('2004-01-01', '2022-02-14')
 

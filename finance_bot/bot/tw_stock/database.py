@@ -1,7 +1,7 @@
 from sqlalchemy import create_engine
 
 from finance_bot.config import conf
-from .model.base import Base
+from finance_bot.model.base import Base
 
 
 def get_engine():

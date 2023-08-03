@@ -1,19 +1,16 @@
 import abc
 import asyncio
 
-import telegram
-
-from finance_bot.config import conf
+from finance_bot.infrastructure import infra
 
 
-class ServiceBase:
+class ServiceBase(abc.ABC):
     name = 'service_base'
 
     def __init__(self, app):
         app.state.service[self.name] = self
         self.app = app
-        self.logger = app.state.logger.getChild(self.name)
-        self.telegram_bot = telegram.Bot(conf.notification.telegram.token)
+        self.logger = infra.logger.getChild(self.name)
 
     def start(self):
         self.logger.info(f'啟動 {self.name} 功能...')
@@ -23,15 +20,8 @@ class ServiceBase:
     def set_schedules(self):
         pass
 
-    @property
-    def config(self):
-        return self.app.state.config
-
-    @property
-    def scheduler(self):
-        return self.app.state.scheduler
-
-    async def execute_task(self, func, *, args=None, kargs=None, success_message=None, error_message=None, retries=0):
+    @staticmethod
+    async def execute_task(func, *, args=None, kargs=None, success_message=None, error_message=None, retries=0):
         if args is None:
             args = []
         if kargs is None:
@@ -51,10 +41,7 @@ class ServiceBase:
                         **(result if isinstance(result, dict) else {})
                     )
 
-                    await self.telegram_bot.send_message(
-                        chat_id=conf.notification.telegram.chat_id,
-                        text=message
-                    )
+                    await infra.notifier.send(message)
                 return
             except Exception as e:
                 if error_message:
@@ -65,8 +52,5 @@ class ServiceBase:
                         retry_count=i + 1 if retries > 0 else 0
                     )
 
-                    await self.telegram_bot.send_message(
-                        chat_id=conf.notification.telegram.chat_id,
-                        text=message
-                    )
+                    await infra.notifier.send(message)
                 await asyncio.sleep(60)

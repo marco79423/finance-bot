@@ -1,6 +1,8 @@
 import fastapi
 from pydantic import BaseModel
 
+from finance_bot.infrastructure import infra
+
 router = fastapi.APIRouter(prefix='/tw-stock')
 
 
@@ -11,7 +13,7 @@ class UpdatePricesTask(BaseModel):
 
 @router.post('/update-prices-tasks')
 async def update_prices_tasks(task: UpdatePricesTask, request: fastapi.Request):
-    request.app.state.scheduler.add_job(
+    infra.scheduler.add_job(
         request.app.state.service['tw_stock'].update_prices_for_date_range,
         kwargs={
             'start': task.start,
@@ -30,7 +32,7 @@ class UpdateStatementsTask(BaseModel):
 
 @router.post('/update-financial-statements-tasks')
 async def update_financial_statements_tasks(task: UpdateStatementsTask, request: fastapi.Request):
-    request.app.state.scheduler.add_job(
+    infra.scheduler.add_job(
         request.app.state.service['tw_stock'].update_financial_statements,
         kwargs={
             'stock_id': task.stock_id,

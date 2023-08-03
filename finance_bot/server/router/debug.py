@@ -1,7 +1,6 @@
 import fastapi
-import telegram
 
-from finance_bot.config import conf
+from finance_bot.infrastructure import infra
 
 router = fastapi.APIRouter(prefix='/debug')
 
@@ -13,11 +12,10 @@ async def ping():
 
 @router.get('/notification')
 async def send_notification():
-    bot = telegram.Bot(conf.notification.telegram.token)
-    await bot.send_message(chat_id=conf.notification.telegram.chat_id, text='理財機器人通知測試')
+    await infra.notifier.send(message='理財機器人通知測試')
 
 
 @router.get('/scheduled-jobs')
-async def get_scheduled_jobs(request: fastapi.Request):
-    jobs = request.app.state.scheduler.get_jobs()
+async def get_scheduled_jobs():
+    jobs = infra.scheduler.get_jobs()
     return [str(job) for job in jobs]

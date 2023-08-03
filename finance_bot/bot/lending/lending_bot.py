@@ -1,11 +1,10 @@
 import dataclasses
 import datetime as dt
-import logging
 
 import bfxapi
 
-from finance_bot.config import conf
-from finance_bot.infrastructure import get_now, from_milli_timestamp
+from finance_bot.bot.base import BotBase
+from finance_bot.infrastructure import infra
 
 
 @dataclasses.dataclass
@@ -43,7 +42,7 @@ class LendingRecord:
             'period': self.period,
             'start': self.start.isoformat(),
             'end': self.end.isoformat(),
-            'last_time': str(self.end - get_now())
+            'last_time': str(self.end - infra.time.get_now())
         }
 
 
@@ -55,7 +54,9 @@ class Stats:
     daily_earn: float
 
 
-class LendingBot:
+class LendingBot(BotBase):
+    name = 'lending_bot'
+
     BITFINEX_FEES = 0.15
 
     MAX_OFFER_AMOUNT = 1000
@@ -63,33 +64,31 @@ class LendingBot:
     MIN_RATE_INCR_PER_DAY = 0.00003
     POSSIBLE_PERIOD = (2, 3, 4, 5, 6, 7, 8, 10, 14, 15, 16, 20, 21, 22, 24, 30)
 
-    def __init__(self, logger=None):
-        if logger is None:
-            logger = logging.getLogger()
-        self.logger = logger
+    def __init__(self):
+        super().__init__()
 
-        self.client = bfxapi.Client(
-            API_KEY=conf.lending.api_key,
-            API_SECRET=conf.lending.api_secret,
+        self._client = bfxapi.Client(
+            API_KEY=infra.conf.lending.api_key,
+            API_SECRET=infra.conf.lending.api_secret,
         )
 
     async def execute_lending_task(self):
         strategy = await self.make_strategy()
 
         # 取消所有不同策略的訂單
-        offers = await self.client.rest.get_funding_offers(symbol='fUSD')
+        offers = await self._client.rest.get_funding_offers(symbol='fUSD')
         for offer in offers:
             if offer.f_type == bfxapi.FundingOffer.Type.FRR_DELTA:
                 continue
 
             if not strategy.is_used_by(offer):
-                await self.client.rest.submit_cancel_funding_offer(offer.id)
+                await self._client.rest.submit_cancel_funding_offer(offer.id)
                 self.logger.info(f'[{dt.datetime.now()}] 取消訂單 {offer}')
 
         # 如果錢包有錢但是小於 150，取消金額最小的訂單
         balance_available = await self.get_funding_balance()
         if 1 < balance_available < 150:
-            offers = await self.client.rest.get_funding_offers(symbol='fUSD')
+            offers = await self._client.rest.get_funding_offers(symbol='fUSD')
 
             min_amount_offer = None
             for offer in offers:
@@ -100,7 +99,7 @@ class LendingBot:
                     min_amount_offer = offer
 
             if min_amount_offer:
-                await self.client.rest.submit_cancel_funding_offer(min_amount_offer.id)
+                await self._client.rest.submit_cancel_funding_offer(min_amount_offer.id)
                 self.logger.info(f'[{dt.datetime.now()}] 取消訂單 {min_amount_offer}')
 
         # 如果沒有 FRR 訂單，就下一個
@@ -110,7 +109,7 @@ class LendingBot:
             if amount > self.MAX_OFFER_AMOUNT:
                 amount = self.MAX_OFFER_AMOUNT
 
-            resp = await self.client.rest.submit_funding_offer(
+            resp = await self._client.rest.submit_funding_offer(
                 symbol='fUSD',
                 amount=amount,
                 rate=0,
@@ -126,7 +125,7 @@ class LendingBot:
             if balance_available - self.MAX_OFFER_AMOUNT < 150:
                 amount = balance_available
 
-            resp = await self.client.rest.submit_funding_offer(
+            resp = await self._client.rest.submit_funding_offer(
                 symbol='fUSD',
                 amount=amount,
                 rate=strategy.rate,
@@ -138,11 +137,11 @@ class LendingBot:
 
     async def get_lending_records(self):
         """取得當下的借貸資訊"""
-        now = get_now()
+        now = infra.time.get_now()
         frr_rate = await self.get_frr_rate()
 
         lending_credits = []
-        for credit in await self.client.rest.get_funding_credits(symbol='fUSD'):
+        for credit in await self._client.rest.get_funding_credits(symbol='fUSD'):
             rate = credit.rate
 
             # 如果 rate = 0 就當 FRR
@@ -154,8 +153,8 @@ class LendingBot:
                 current_rate=rate,
                 amount=credit.amount,
                 period=credit.period,
-                start=from_milli_timestamp(credit.mts_opening),
-                end=from_milli_timestamp(credit.mts_opening) + dt.timedelta(days=credit.period),
+                start=infra.time.from_milli_timestamp(credit.mts_opening),
+                end=infra.time.from_milli_timestamp(credit.mts_opening) + dt.timedelta(days=credit.period),
             ))
         return lending_credits
 
@@ -168,7 +167,7 @@ class LendingBot:
 
         average_rate = daily_earn / lending_amount
         return Stats(
-            time=get_now(),
+            time=infra.time.get_now(),
             lending_amount=lending_amount,
             average_rate=average_rate,
             daily_earn=daily_earn * (1 - self.BITFINEX_FEES)
@@ -210,13 +209,13 @@ class LendingBot:
         )
 
     async def get_frr_rate(self):
-        [frr_rate, *_] = await self.client.rest.get_public_ticker('fUSD')
+        [frr_rate, *_] = await self._client.rest.get_public_ticker('fUSD')
         return frr_rate
 
     async def get_highest_rate(self, period, timeframe, start=None, end=None):
         highest_rate = None
 
-        candles = await self.client.rest.get_public_candles(f'fUSD:p{period}', start=start, end=end, tf=timeframe)
+        candles = await self._client.rest.get_public_candles(f'fUSD:p{period}', start=start, end=end, tf=timeframe)
         for candle in candles:
             [mts, open, close, high, low, volume] = candle
             if volume > 0:
@@ -225,26 +224,26 @@ class LendingBot:
         return highest_rate
 
     async def get_funding_balance(self):
-        wallets = await self.client.rest.get_wallets()
+        wallets = await self._client.rest.get_wallets()
         for wallet in wallets:
             if wallet.type == 'funding' and wallet.currency == 'USD':
                 return wallet.balance_available
 
     async def has_frr_offer(self):
-        offers = await self.client.rest.get_funding_offers(symbol='fUSD')
+        offers = await self._client.rest.get_funding_offers(symbol='fUSD')
         for offer in offers:
             if offer.f_type == bfxapi.FundingOffer.Type.FRR_DELTA:
                 return True
         return False
 
     async def get_total_asset(self):
-        wallets = await self.client.rest.get_wallets()
+        wallets = await self._client.rest.get_wallets()
         for wallet in wallets:
             if wallet.type == 'funding' and wallet.currency == 'USD':
                 return wallet.balance
 
     async def get_min_amount_offer(self):
-        offers = await self.client.rest.get_funding_offers(symbol='fUSD')
+        offers = await self._client.rest.get_funding_offers(symbol='fUSD')
 
         min_amount_offer = None
         for offer in offers:

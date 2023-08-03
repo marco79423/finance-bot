@@ -1,5 +1,3 @@
-import pathlib
-
 from omegaconf import OmegaConf
 
 from finance_bot.utility import get_project_folder
@@ -28,11 +26,6 @@ def reload():
     """重新取得設定檔"""
     global conf
     conf = load_config()
-
-
-def select_conf(key):
-    global conf
-    return OmegaConf.select(conf, key)
 
 
 conf = load_config()
