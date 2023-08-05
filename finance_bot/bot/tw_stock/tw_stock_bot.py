@@ -9,7 +9,7 @@ from sqlalchemy.orm import Session
 
 from finance_bot.bot.base import BotBase
 from finance_bot.infrastructure import infra
-from finance_bot.model import TWStockPrice, TWStock
+from finance_bot.model import TWStockPrice, TWStock, TWStockMonthlyRevenue
 from finance_bot.utility import get_data_folder
 from .data_getter import DataGetter
 
@@ -159,12 +159,35 @@ class TWStockBot(BotBase):
         return df
 
     def crawl_monthly_revenue(self, year, month):
-        url = 'https://mops.twse.com.tw/nas/t21/{listing_status}/t21sc03_{year}_{month}_{company_type}.html'.format(
-            year=year - 1911,
-            listing_status='sii',  # sii: 上市公司, otc: 上櫃公司, rotc: 興櫃公司, pub: 公開發行公司
-            month=month,
-            company_type=0,  # 0: 國內公司, 1: 國外 KY 公司
+        if year - 1911 < 101:
+            raise ValueError('最早只到民國 101 年 1 月')
+
+        listing_status = 'sii'  # sii: 上市公司, otc: 上櫃公司, rotc: 興櫃公司, pub: 公開發行公司
+        company_type = 0  # 0: 國內公司, 1: 國外 KY 公司
+
+        url = 'https://mops.twse.com.tw/server-java/FileDownLoad'
+        res = infra.api.post(
+            url,
+            data={
+                'step': 9,  # 不知啥用的
+                'functionName': 'show_file2',
+                'filePath': f'/t21/{listing_status}/',
+                'fileName': f't21sc03_{year - 1911}_{month}.csv',
+            },
         )
+        res.encoding = 'big-5'
+        df = pd.read_csv(io.StringIO(res.text))
+
+        df = df[['公司代號', '營業收入-當月營收']]
+        df = df.rename(columns={
+            '公司代號': 'stock_id',
+            '營業收入-當月營收': 'revenue',
+        })
+        df['date'] = f'{year}-{month:02}'
+        with Session(infra.db.engine) as session:
+            self.save_or_update_list(session, TWStockMonthlyRevenue, df)
+
+        url = f'https://mops.twse.com.tw/nas/t21/{listing_status}/t21sc03_{year - 1911}_{month}_{company_type}.html'
 
         res = infra.api.get(url)
         res.encoding = 'big5'

@@ -19,11 +19,12 @@ class APIManager(ManagerBase):
             }
         )
 
-    def post(self, url, *, params=None):
+    def post(self, url, **kargs):
         return requests.post(
             url=url,
-            params=params,
+            **kargs,
             headers={
-                'user-agent': self._user_agent.random
-            }
+                'user-agent': self._user_agent.random,
+                **kargs.get('headers', {})
+            },
         )

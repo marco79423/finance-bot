@@ -51,7 +51,7 @@ class TWStockService(ServiceBase):
             self.tw_stock_bot.update_prices_for_date_range,
             kargs={'start': start, 'end': end},
             success_message='{start} ~ {end} 股價更新完畢',
-            error_message='{start} ~ {end} 股價更新失敗 [{retry_count}]\n{error}',
+            error_message='{start} ~ {end} 股價更新失敗',
         )
 
     async def update_monthly_revenue(self, year, month):
@@ -59,7 +59,7 @@ class TWStockService(ServiceBase):
             self.tw_stock_bot.crawl_monthly_revenue,
             kargs={'year': year, 'month': month},
             success_message='{year}-{month} 月營收財報更新完畢',
-            error_message='{year}-{month} 月營收財報更新失敗 [{retry_count}]\n{error}',
+            error_message='{year}-{month} 月營收財報更新失敗',
         )
 
     async def update_financial_statements(self, stock_id, year, season):
@@ -67,5 +67,5 @@ class TWStockService(ServiceBase):
             self.tw_stock_bot.update_financial_statements,
             kargs={'stock_id': stock_id, 'year': year, 'season': season},
             success_message='{stock_id} 的 {year}Q{season} 財報更新完畢',
-            error_message='{stock_id} 的 {year}Q{season} 財報更新失敗 [{retry_count}]\n{error}',
+            error_message='{stock_id} 的 {year}Q{season} 財報更新失敗',
         )
