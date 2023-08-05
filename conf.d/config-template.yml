@@ -1,31 +1,32 @@
 server:
   timezone: Asia/Taipei
   service:
-    lending: false
-    tw_stock: false
+    lending: true
+    tw_stock: true
 
 lending:
-  api_key: <token>
+  api_key: <key>
   api_secret: <token>
   schedule:
-    lending_task: '* * * * *'
-    sending_stats: '0 8 * * *'
+    lending_task: '*/10 * * * *'
+    sending_stats:
+      - '0 8 * * mon,tue,wed,thu,fri'
+      - '0 12 * * sat,sun'
 
 tw_stock:
   database:
     url: <url>
   schedule:
     update_prices_task:
-      - '0 8 * * tue,wed,thu,fri
-      - '0 12 * * sat
-
+      - '0 8 * * mon,tue,wed,thu,fri'
+      - '0 12 * * sat'
   updater:
-    findmind:
+    finmind:
       api_token: <token>
     finlab:
       api_token: <token>
 
 notification:
   telegram:
-    chat_id: <url>
+    chat_id: <chat_id>
     token: <token>
