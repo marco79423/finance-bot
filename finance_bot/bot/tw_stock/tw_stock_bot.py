@@ -149,6 +149,25 @@ class TWStockBot(BotBase):
 
         return df
 
+    def crawl_monthly_revenue(self, year, month):
+        url = 'https://mops.twse.com.tw/nas/t21/{listing_status}/t21sc03_{year}_{month}_{company_type}.html'.format(
+            year=year - 1911,
+            listing_status='sii',  # sii: 上市公司, otc: 上櫃公司, rotc: 興櫃公司, pub: 公開發行公司
+            month=month,
+            company_type=0,  # 0: 國內公司, 1: 國外 KY 公司
+        )
+
+        res = infra.api.get(url)
+        res.encoding = 'big5'
+        body = res.text
+
+        data_folder = get_data_folder()
+        target_folder = data_folder / 'monthly_revenue'
+        target_folder.mkdir(parents=True, exist_ok=True)
+        target_file = target_folder / f'{year}_{month}.html'
+        with target_file.open('w', encoding='utf-8') as fp:
+            fp.write(body)
+
     def crawl_financial_statements(self, stock_id, year, season):
         res = infra.api.get(
             'https://mops.twse.com.tw/server-java/t164sb01',

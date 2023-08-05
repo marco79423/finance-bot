@@ -24,14 +24,32 @@ async def update_prices_tasks(task: UpdatePricesTask, request: fastapi.Request):
     return 'ok'
 
 
-class UpdateStatementsTask(BaseModel):
+class UpdateMonthlyRevenueTask(BaseModel):
+    year: int
+    month: int
+
+
+@router.post('/update-monthly-revenue-tasks')
+async def update_monthly_revenue_tasks(task: UpdateMonthlyRevenueTask, request: fastapi.Request):
+    infra.scheduler.add_job(
+        request.app.state.service['tw_stock'].update_monthly_revenue,
+        kwargs={
+            'year': task.year,
+            'month': task.month,
+        }
+    )
+
+    return 'ok'
+
+
+class UpdateFinancialStatementsTask(BaseModel):
     stock_id: str
     year: int
     season: int
 
 
 @router.post('/update-financial-statements-tasks')
-async def update_financial_statements_tasks(task: UpdateStatementsTask, request: fastapi.Request):
+async def update_financial_statements_tasks(task: UpdateFinancialStatementsTask, request: fastapi.Request):
     infra.scheduler.add_job(
         request.app.state.service['tw_stock'].update_financial_statements,
         kwargs={
