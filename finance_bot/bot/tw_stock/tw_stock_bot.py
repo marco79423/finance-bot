@@ -11,12 +11,21 @@ from finance_bot.bot.base import BotBase
 from finance_bot.infrastructure import infra
 from finance_bot.model import TWStockPrice, TWStock
 from finance_bot.utility import get_data_folder
+from .data_getter import DataGetter
 
 
 class TWStockBot(BotBase):
     name = 'tw_stock_bot'
 
     COMMIT_GROUP_SIZE = 1000
+
+    def __init__(self):
+        super().__init__()
+        self._data_getter = DataGetter()
+
+    @property
+    def data(self):
+        return self._data_getter
 
     def update_stocks(self):
         self.logger.info(f'開始更新台灣股票資訊 ...')
