@@ -19,6 +19,8 @@ class TWStockService(ServiceBase):
         )
 
     async def execute_schedule_update_task(self):
+        today = pd.Timestamp.today().normalize()
+
         await self.execute_task(
             self.tw_stock_bot.update_stocks,
             success_message='台灣股票資訊更新完畢',
@@ -26,13 +28,23 @@ class TWStockService(ServiceBase):
             retries=5,
         )
 
-        yesterday = pd.Timestamp.today().normalize() - pd.Timedelta(days=1)
+        yesterday = today - pd.Timedelta(days=1)
         await self.execute_task(
             self.tw_stock_bot.update_prices_for_date,
             kargs={'date': yesterday},
             success_message='{date:%Y-%m-%d} 股價更新完畢',
             error_message='{date:%Y-%m-%d} 股價更新失敗 [{retry_count}]\n{error}',
             retries=5,
+        )
+
+        # 根據規定上市櫃公司營收必須在次月的10號前公告，但遇假期可以延期，如 10 號是週六，可以等下週一才公布
+        # 但我想每天都抓應該也不會怎樣
+        last_month = today - pd.DateOffset(months=1)
+        await self.execute_task(
+            self.tw_stock_bot.update_monthly_revenue,
+            kargs={'year': last_month.year, 'month': last_month.month},
+            success_message='{year}-{month} 月營收財報更新完畢',
+            error_message='{year}-{month} 月營收財報更新失敗',
         )
 
     async def update_prices_for_date_range(self, start, end):
@@ -45,7 +57,7 @@ class TWStockService(ServiceBase):
 
     async def update_monthly_revenue(self, year, month):
         await self.execute_task(
-            self.tw_stock_bot.crawl_monthly_revenue,
+            self.tw_stock_bot.update_monthly_revenue,
             kargs={'year': year, 'month': month},
             success_message='{year}-{month} 月營收財報更新完畢',
             error_message='{year}-{month} 月營收財報更新失敗',

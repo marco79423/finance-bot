@@ -158,7 +158,7 @@ class TWStockBot(BotBase):
 
         return df
 
-    def crawl_monthly_revenue(self, year, month):
+    def update_monthly_revenue(self, year, month):
         if year - 1911 < 101:
             raise ValueError('最早只到民國 101 年 1 月')
 
