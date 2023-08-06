@@ -17,7 +17,7 @@ tw_stock:
   database:
     url: <url>
   schedule:
-    update_prices_task:
+    schedule_update_task:
       - '0 8 * * mon,tue,wed,thu,fri'
       - '0 12 * * sat'
   updater:

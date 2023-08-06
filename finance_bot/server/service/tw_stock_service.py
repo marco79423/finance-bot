@@ -14,11 +14,11 @@ class TWStockService(ServiceBase):
 
     def set_schedules(self):
         infra.scheduler.add_schedule_task(
-            self.execute_update_prices_task,
-            schedule_conf_key='tw_stock.schedule.update_prices_task',
+            self.execute_schedule_update_task,
+            schedule_conf_key='tw_stock.schedule.schedule_update_task',
         )
 
-    async def execute_update_prices_task(self):
+    async def execute_schedule_update_task(self):
         await self.execute_task(
             self.tw_stock_bot.update_stocks,
             success_message='台灣股票資訊更新完畢',
