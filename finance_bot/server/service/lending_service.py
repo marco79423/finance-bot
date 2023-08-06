@@ -1,7 +1,3 @@
-import pytz
-from apscheduler.triggers.cron import CronTrigger
-from omegaconf import ListConfig
-
 from finance_bot.bot.lending import LendingBot
 from finance_bot.infrastructure import infra
 from finance_bot.server.service.base import ServiceBase
@@ -15,30 +11,16 @@ class LendingService(ServiceBase):
         self.lending_bot = LendingBot()
 
     def set_schedules(self):
-        lending_task_schedule = infra.select_conf('lending.schedule.lending_task')
-        if lending_task_schedule:
-            if not isinstance(lending_task_schedule, ListConfig):
-                lending_task_schedule = [lending_task_schedule]
+        infra.scheduler.add_schedule_task(
+            self.execute_lending_task,
+            schedule_conf_key='lending.schedule.lending_task',
+        )
 
-            for schedule in lending_task_schedule:
-                infra.scheduler.add_job(
-                    self.execute_lending_task,
-                    CronTrigger.from_crontab(schedule, timezone=pytz.timezone(infra.conf.server.timezone)),
-                    max_instances=1
-                )
-
-        sending_stats_schedule = infra.select_conf('lending.schedule.sending_stats')
-        if sending_stats_schedule:
-            if not isinstance(sending_stats_schedule, ListConfig):
-                sending_stats_schedule = [sending_stats_schedule]
-
-            for schedule in sending_stats_schedule:
-                infra.scheduler.add_job(
-                    self.send_stats,
-                    CronTrigger.from_crontab(schedule, timezone=pytz.timezone(infra.conf.server.timezone)),
-                    max_instances=1,
-                    misfire_grace_time=60 * 5
-                )
+        infra.scheduler.add_schedule_task(
+            self.send_stats,
+            schedule_conf_key='lending.schedule.sending_stats',
+            misfire_grace_time=60 * 5
+        )
 
     async def execute_lending_task(self):
         await self.execute_task(

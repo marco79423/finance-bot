@@ -1,7 +1,4 @@
 import pandas as pd
-import pytz
-from apscheduler.triggers.cron import CronTrigger
-from omegaconf import ListConfig
 
 from finance_bot.bot.tw_stock.tw_stock_bot import TWStockBot
 from finance_bot.infrastructure import infra
@@ -16,18 +13,10 @@ class TWStockService(ServiceBase):
         self.tw_stock_bot = TWStockBot()
 
     def set_schedules(self):
-        update_prices_task_schedule = infra.select_conf('tw_stock.schedule.update_prices_task')
-        if update_prices_task_schedule:
-            if not isinstance(update_prices_task_schedule, ListConfig):
-                update_prices_task_schedule = [update_prices_task_schedule]
-
-            for schedule in update_prices_task_schedule:
-                infra.scheduler.add_job(
-                    self.execute_update_prices_task,
-                    CronTrigger.from_crontab(schedule, timezone=pytz.timezone(infra.conf.server.timezone)),
-                    max_instances=1,
-                    misfire_grace_time=60 * 5
-                )
+        infra.scheduler.add_schedule_task(
+            self.execute_update_prices_task,
+            schedule_conf_key='tw_stock.schedule.update_prices_task',
+        )
 
     async def execute_update_prices_task(self):
         await self.execute_task(

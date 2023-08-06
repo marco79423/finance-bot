@@ -1,13 +1,13 @@
 import logging
 
-from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from omegaconf import OmegaConf
 
 from .api_manager import APIManager
 from .database_manager import DatabaseManager
 from .notifier_manager import NotifierManager
+from .schedule_manager import ScheduleManager
 from .time_manager import TimeManager
-from ..config import conf
+from finance_bot.config import conf
 
 
 class Infrastructure:
@@ -16,7 +16,7 @@ class Infrastructure:
         self.conf = conf
 
         self._logger = None
-        self._scheduler = None
+        self._schedule_manager = None
         self._time_manager = None
         self._database_manager = None
         self._notifier_manager = None
@@ -26,11 +26,11 @@ class Infrastructure:
         pass
 
     @property
-    def scheduler(self) -> AsyncIOScheduler:
-        if self._scheduler is None:
-            self._scheduler = AsyncIOScheduler(logger=self.logger.getChild('scheduler'))
-            self._scheduler.start()
-        return self._scheduler
+    def scheduler(self) -> ScheduleManager:
+        if self._schedule_manager is None:
+            self._schedule_manager = ScheduleManager(self)
+            self._schedule_manager.start()
+        return self._schedule_manager
 
     @property
     def logger(self) -> logging.Logger:

@@ -1,0 +1,34 @@
+import pytz
+from apscheduler.schedulers.asyncio import AsyncIOScheduler
+from apscheduler.triggers.cron import CronTrigger
+from omegaconf import ListConfig
+
+from finance_bot.infrastructure.base import ManagerBase
+
+
+class ScheduleManager(ManagerBase):
+
+    def __init__(self, infra):
+        super().__init__(infra)
+        self._scheduler = AsyncIOScheduler(logger=self.logger.getChild('scheduler'))
+
+    def start(self):
+        self._scheduler.start()
+
+    def add_schedule_task(self, task, schedule_conf_key, **kargs):
+        schedules = self.select_conf_for_schedules(schedule_conf_key)
+        if schedules:
+            for schedule in schedules:
+                self._scheduler.add_job(
+                    task,
+                    CronTrigger.from_crontab(schedule, timezone=pytz.timezone(self.conf.server.timezone)),
+                    max_instances=1,
+                    **kargs
+                )
+
+    def select_conf_for_schedules(self, key):
+        schedules = self.infra.select_conf(key)
+        if schedules:
+            if not isinstance(schedules, ListConfig):
+                schedules = [schedules]
+        return schedules
