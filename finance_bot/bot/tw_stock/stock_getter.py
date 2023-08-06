@@ -9,7 +9,7 @@ class StockGetter:
     def __init__(self, stock_id):
         self.stock_id = stock_id
         self._prices_df = None
-        self._monthly_revenue_df = None
+        self._monthly_revenue_s = None
 
     @property
     def open(self):
@@ -23,18 +23,18 @@ class StockGetter:
 
     @property
     def monthly_revenue(self):
-        if self._monthly_revenue_df is None:
-            self._monthly_revenue_df = pd.read_sql(
-                sql=text("SELECT * FROM tw_stock_monthly_revenue WHERE stock_id=:stock_id"),
+        if self._monthly_revenue_s is None:
+            df = pd.read_sql(
+                sql=text("SELECT date, revenue FROM tw_stock_monthly_revenue WHERE stock_id=:stock_id"),
                 params={
                     'stock_id': str(self.stock_id),  # 確保輸入的是字串
                 },
                 con=infra.db.engine,
             )
-            self._monthly_revenue_df['date'] = pd.to_datetime(self._monthly_revenue_df['date']).dt.to_period('M')
-            self._monthly_revenue_df.set_index('date')
-
-        return self._monthly_revenue_df
+            df['date'] = pd.to_datetime(df['date']).dt.to_period('M')
+            df.set_index('date')
+            self._monthly_revenue_s = df['revenue']
+        return self._monthly_revenue_s
 
     def _get_prices_df(self):
         if self._prices_df is None:
