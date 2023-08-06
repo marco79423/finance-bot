@@ -32,7 +32,7 @@ class StockGetter:
                 con=infra.db.engine,
             )
             df['date'] = pd.to_datetime(df['date']).dt.to_period('M')
-            df.set_index('date')
+            df = df.set_index('date')
             self._monthly_revenue_s = df['revenue']
         return self._monthly_revenue_s
 
