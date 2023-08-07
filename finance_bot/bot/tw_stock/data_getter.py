@@ -15,9 +15,39 @@ class DataGetter:
         return StockGetter(stock_id)
 
     @property
+    def open(self):
+        df = self._get_prices_df()
+        return df.pivot(columns='stock_id', values='open')
+
+    @property
     def close(self):
         df = self._get_prices_df()
         return df.pivot(columns='stock_id', values='close')
+
+    @property
+    def high(self):
+        df = self._get_prices_df()
+        return df.pivot(columns='stock_id', values='high')
+
+    @property
+    def low(self):
+        df = self._get_prices_df()
+        return df.pivot(columns='stock_id', values='low')
+
+    @property
+    def volume(self):
+        df = self._get_prices_df()
+        return df.pivot(columns='stock_id', values='volume')
+
+    @property
+    def traded_value(self):
+        df = self._get_prices_df()
+        return df.pivot(columns='stock_id', values='traded_value')
+
+    @property
+    def transaction_count(self):
+        df = self._get_prices_df()
+        return df.pivot(columns='stock_id', values='transaction_count')
 
     @property
     def monthly_revenue(self):

@@ -22,6 +22,51 @@ class StockGetter:
         return df['close']
 
     @property
+    def high(self):
+        df = self._get_prices_df()
+        return df['high']
+
+    @property
+    def low(self):
+        df = self._get_prices_df()
+        return df['low']
+
+    @property
+    def volume(self):
+        df = self._get_prices_df()
+        return df['volume']
+
+    @property
+    def traded_value(self):
+        df = self._get_prices_df()
+        return df['traded_value']
+
+    @property
+    def transaction_count(self):
+        df = self._get_prices_df()
+        return df['transaction_count']
+
+    @property
+    def last_bid_price(self):
+        df = self._get_prices_df()
+        return df['last_bid_price']
+
+    @property
+    def last_bid_volume(self):
+        df = self._get_prices_df()
+        return df['last_bid_volume']
+
+    @property
+    def last_ask_price(self):
+        df = self._get_prices_df()
+        return df['last_ask_price']
+
+    @property
+    def last_ask_volume(self):
+        df = self._get_prices_df()
+        return df['last_ask_volume']
+
+    @property
     def monthly_revenue(self):
         if self._monthly_revenue_s is None:
             df = pd.read_sql(
