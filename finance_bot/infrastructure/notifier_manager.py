@@ -12,5 +12,7 @@ class NotifierManager(ManagerBase):
     async def send(self, message: str):
         await self._telegram_bot.send_message(
             chat_id=self.conf.notification.telegram.chat_id,
-            text=message
+            text=message,
+            connect_timeout=60,
+            pool_timeout=5 * 60,
         )
