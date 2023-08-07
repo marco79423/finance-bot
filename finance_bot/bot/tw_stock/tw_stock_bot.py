@@ -8,10 +8,10 @@ from sqlalchemy.dialects.mysql import insert
 from sqlalchemy.orm import Session
 
 from finance_bot.bot.base import BotBase
+from finance_bot.bot.tw_stock.data_getter import DataGetter
 from finance_bot.infrastructure import infra
 from finance_bot.model import TWStockPrice, TWStock, TWStockMonthlyRevenue
 from finance_bot.utility import get_data_folder
-from .data_getter import DataGetter
 
 
 class TWStockBot(BotBase):
@@ -159,8 +159,10 @@ class TWStockBot(BotBase):
         return df
 
     def update_monthly_revenue(self, year, month):
-        if year - 1911 < 101:
-            raise ValueError('最早只到民國 101 年 1 月')
+        if year < 2012:
+            raise ValueError('最早只到 2012 年 1 月 (民國 101 年)')
+        if year == 2012:
+            raise ValueError('2012 年都沒有 CSV，所以懶得處理')
 
         listing_status = 'sii'  # sii: 上市公司, otc: 上櫃公司, rotc: 興櫃公司, pub: 公開發行公司
         company_type = 0  # 0: 國內公司, 1: 國外 KY 公司
@@ -241,9 +243,14 @@ class TWStockBot(BotBase):
 
 if __name__ == '__main__':
     def main():
+        import time
         bot = TWStockBot()
-        bot.update_stocks()
+        # bot.update_stocks()
         # bot.update_prices_for_date_range('2004-01-01', '2022-02-14')
+        for d in pd.date_range('2014-07', '2023-07', freq='MS'):
+            print(f'{d.year}-{d.month:02}')
+            bot.update_monthly_revenue(year=d.year, month=d.month)
+            time.sleep(30)
 
 
     main()
