@@ -4,7 +4,6 @@ import random
 import time
 
 import pandas as pd
-from sqlalchemy.dialects.mysql import insert
 from sqlalchemy.orm import Session
 
 from finance_bot.bot.base import BotBase
@@ -43,7 +42,7 @@ class TWStockBot(BotBase):
         with Session(infra.db.engine) as session:
             df = df[['stock_id', 'name', 'listing_date', 'industry']]
             df = df[df['stock_id'].notna()]
-            self.save_or_update_list(session, TWStock, df)
+            infra.db.batch_insert_or_update(session, TWStock, df)
         self.logger.info('台灣股票資訊更新完成')
 
     def update_prices_for_date_range(self, start=None, end=None, random_delay=True):
@@ -85,11 +84,12 @@ class TWStockBot(BotBase):
             "最後揭示賣量": "last_ask_volume",
         })
 
+        df = raw_df.drop(columns=['name'])
+        df = df.where(pd.notnull(df), None)  # 將 DataFrame 中的所有 NaN 值轉換為 None
+
+        self.logger.info(f'開始更新共 {len(df)} 筆的股價資訊 ...')
         with Session(infra.db.engine) as session:
-            df = raw_df.drop(columns=['name'])
-            df = df.where(pd.notnull(df), None)  # 將 DataFrame 中的所有 NaN 值轉換為 None
-            self.logger.info(f'開始更新共 {len(df)} 筆的股價資訊 ...')
-            self.save_or_update_list(session, TWStockPrice, df)
+            infra.db.batch_insert_or_update(session, TWStockPrice, df)
 
         self.logger.info(f'{date:%Y-%m-%d} 股價資訊更新完成')
 
@@ -187,7 +187,7 @@ class TWStockBot(BotBase):
         })
         df['date'] = f'{year}-{month:02}'
         with Session(infra.db.engine) as session:
-            self.save_or_update_list(session, TWStockMonthlyRevenue, df)
+            infra.db.batch_insert_or_update(session, TWStockMonthlyRevenue, df)
 
         url = f'https://mops.twse.com.tw/nas/t21/{listing_status}/t21sc03_{year - 1911}_{month}_{company_type}.html'
 
@@ -222,23 +222,6 @@ class TWStockBot(BotBase):
         target_file = target_folder / f'{year}Q{season}.html'
         with target_file.open('w', encoding='utf-8') as fp:
             fp.write(body)
-
-    def save_or_update_list(self, session, model, df):
-        for _, group in df.groupby(df.index // self.COMMIT_GROUP_SIZE):
-            group.apply(lambda x: self.save_or_update(session, model, x, auto_commit=False), axis=1)
-            session.commit()
-
-    @staticmethod
-    def save_or_update(session, model, data, auto_commit=True):
-        modified = {
-            key: value if pd.notnull(value) else None
-            for key, value in data.items()
-        }
-
-        insert_stmt = insert(model).values(**modified).on_duplicate_key_update(**modified)
-        session.execute(insert_stmt)
-        if auto_commit:
-            session.commit()
 
 
 if __name__ == '__main__':
