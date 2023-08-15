@@ -15,6 +15,13 @@ class ScheduleManager(ManagerBase):
     def start(self):
         self._scheduler.start()
 
+    def add_task(self, task, **kargs):
+        self._scheduler.add_job(
+            task,
+            max_instances=1,
+            **kargs
+        )
+
     def add_schedule_task(self, task, schedule_conf_key, **kargs):
         schedules = self.select_conf_for_schedules(schedule_conf_key)
         if schedules:
