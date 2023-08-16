@@ -94,18 +94,18 @@ class TWStockBot(BotBase):
 
         self.logger.info(f'{date:%Y-%m-%d} 股價資訊更新完成')
 
-    def update_financial_statements_by_season(self, year, season):
+    def update_all_financial_statements_by_quarter(self, year, quarter):
         raise NotImplementedError
 
-    def update_financial_statements(self, stock_id, year, season):
-        period = pd.Period(f'{year}Q{season}')
+    def update_financial_statements_for_stock_by_quarter(self, stock_id, year, quarter):
+        period = pd.Period(f'{year}Q{quarter}')
         self.logger.info(f'更新 {stock_id} {period} 財報 ...')
         with Session(infra.db.engine) as session:
             data = self.crawl_financial_statements(stock_id, period.year, period.quarter)
             if data:
                 infra.db.insert_or_update(session, TWStockFinancialStatements, data)
 
-    def update_all_financial_statements_by_stock_id(self, stock_id, random_delay=True):
+    def update_all_financial_statements_for_stock_id(self, stock_id, random_delay=True):
         with Session(infra.db.engine) as session:
             date, = session.execute(
                 select(TWStock.listing_date)
@@ -121,7 +121,7 @@ class TWStockBot(BotBase):
         )
 
         for period in periods:
-            self.update_financial_statements(stock_id, period.year, period.quarter)
+            self.update_financial_statements_for_stock_by_quarter(stock_id, period.year, period.quarter)
             if random_delay:
                 delay_seconds = random.randint(1, 10)
                 self.logger.info(f'等待 {delay_seconds} 秒 ...')
@@ -233,7 +233,7 @@ class TWStockBot(BotBase):
         with target_file.open('w', encoding='utf-8') as fp:
             fp.write(body)
 
-    def crawl_financial_statements(self, stock_id, year, season):
+    def crawl_financial_statements(self, stock_id, year, quarter):
         if year < 2013:
             raise ValueError('2013  (民國 102 年) 前不處理')
 
@@ -243,7 +243,7 @@ class TWStockBot(BotBase):
                 'step': 1,  # 不知啥用的
                 'CO_ID': stock_id,
                 'SYEAR': year,
-                'SSEASON': season,
+                'SSEASON': quarter,
                 'REPORT_ID': 'C',  # 個別財報(A) / 個體財報(B) / 合併報表(C)
             },
         )
@@ -253,7 +253,7 @@ class TWStockBot(BotBase):
         data_folder = get_data_folder()
         target_folder = data_folder / 'financial_statements' / stock_id
         target_folder.mkdir(parents=True, exist_ok=True)
-        target_file = target_folder / f'{year}Q{season}.html'
+        target_file = target_folder / f'{year}Q{quarter}.html'
         with target_file.open('w', encoding='utf-8') as fp:
             fp.write(body)
 
@@ -270,7 +270,7 @@ class TWStockBot(BotBase):
 
             return {
                 'stock_id': stock_id,
-                'date': f'{year}Q{season}',
+                'date': f'{year}Q{quarter}',
                 'share_capital': df['value'].loc['股本合計'],
             }
         else:
@@ -284,7 +284,7 @@ class TWStockBot(BotBase):
                 df = df.dropna()
                 return {
                     'stock_id': stock_id,
-                    'date': f'{year}Q{season}',
+                    'date': f'{year}Q{quarter}',
                     'share_capital': df['value'].loc['3100'],
                 }
             except ValueError:
@@ -301,7 +301,7 @@ if __name__ == '__main__':
         #     print(f'{d.year}-{d.month:02}')
         #     bot.update_monthly_revenue(year=d.year, month=d.month)
         #     time.sleep(30)
-        bot.update_all_financial_statements_by_stock_id('1101')
+        bot.update_all_financial_statements_for_stock_id('1101')
 
 
     main()

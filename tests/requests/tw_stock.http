@@ -28,6 +28,6 @@ Content-Type: application/json
 {
   "stock_id": "1101",
   "year": 2023,
-  "season": 1
+  "quarter": 1
 }
 

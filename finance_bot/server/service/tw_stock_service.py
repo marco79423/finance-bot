@@ -65,7 +65,7 @@ class TWStockService(ServiceBase):
 
     async def update_financial_statements(self, stock_id, year, season):
         await self.execute_task(
-            self.tw_stock_bot.update_financial_statements,
+            self.tw_stock_bot.update_financial_statements_for_stock_by_quarter,
             kargs={'stock_id': stock_id, 'year': year, 'season': season},
             success_message='{stock_id} 的 {year}Q{season} 財報更新完畢',
             error_message='{stock_id} 的 {year}Q{season} 財報更新失敗',
