@@ -4,12 +4,13 @@ import random
 import time
 
 import pandas as pd
+from sqlalchemy import select
 from sqlalchemy.orm import Session
 
 from finance_bot.bot.base import BotBase
 from finance_bot.bot.tw_stock.data_getter import DataGetter
 from finance_bot.infrastructure import infra
-from finance_bot.model import TWStockPrice, TWStock, TWStockMonthlyRevenue
+from finance_bot.model import TWStockPrice, TWStock, TWStockMonthlyRevenue, TWStockFinancialStatements
 from finance_bot.utility import get_data_folder
 
 
@@ -93,8 +94,38 @@ class TWStockBot(BotBase):
 
         self.logger.info(f'{date:%Y-%m-%d} 股價資訊更新完成')
 
+    def update_financial_statements_by_season(self, year, season):
+        raise NotImplementedError
+
     def update_financial_statements(self, stock_id, year, season):
-        self.crawl_financial_statements(stock_id, year, season)
+        period = pd.Period(f'{year}Q{season}')
+        self.logger.info(f'更新 {stock_id} {period} 財報 ...')
+        with Session(infra.db.engine) as session:
+            data = self.crawl_financial_statements(stock_id, period.year, period.quarter)
+            if data:
+                infra.db.insert_or_update(session, TWStockFinancialStatements, data)
+
+    def update_all_financial_statements_by_stock_id(self, stock_id, random_delay=True):
+        with Session(infra.db.engine) as session:
+            date, = session.execute(
+                select(TWStock.listing_date)
+                .where(TWStock.stock_id == stock_id)
+                .limit(1)
+            ).first()
+
+        start_date = max(pd.Timestamp(date), pd.Timestamp('2013'))
+        periods = pd.period_range(
+            pd.Period(start_date, freq='Q'),
+            pd.Period(pd.Timestamp.now(), freq='Q') - 1,  # 上一季
+            freq='Q',
+        )
+
+        for period in periods:
+            self.update_financial_statements(stock_id, period.year, period.quarter)
+            if random_delay:
+                delay_seconds = random.randint(1, 10)
+                self.logger.info(f'等待 {delay_seconds} 秒 ...')
+                time.sleep(delay_seconds)
 
     @staticmethod
     def crawl_stocks():
@@ -203,6 +234,9 @@ class TWStockBot(BotBase):
             fp.write(body)
 
     def crawl_financial_statements(self, stock_id, year, season):
+        if year < 2013:
+            raise ValueError('2013  (民國 102 年) 前不處理')
+
         res = infra.api.get(
             'https://mops.twse.com.tw/server-java/t164sb01',
             params={
@@ -223,6 +257,39 @@ class TWStockBot(BotBase):
         with target_file.open('w', encoding='utf-8') as fp:
             fp.write(body)
 
+        if year < 2019:
+            dfs = pd.read_html(io.StringIO(body))
+            if len(dfs) < 2:
+                return None
+            df = dfs[1]
+            df = df.iloc[:, :2]
+            df.columns = ['name', 'value']
+            df['value'] = pd.to_numeric(df['value'], 'coerce')
+            df = df.dropna()
+            df = df.set_index('name')
+
+            return {
+                'stock_id': stock_id,
+                'date': f'{year}Q{season}',
+                'share_capital': df['value'].loc['股本合計'],
+            }
+        else:
+            try:
+                dfs = pd.read_html(io.StringIO(body))
+                df = dfs[0]
+                df = df.iloc[:, :3]
+                df.columns = ['code', 'name', 'value']
+                df = df.set_index('code')
+                df['value'] = pd.to_numeric(df['value'], 'coerce')
+                df = df.dropna()
+                return {
+                    'stock_id': stock_id,
+                    'date': f'{year}Q{season}',
+                    'share_capital': df['value'].loc['3100'],
+                }
+            except ValueError:
+                return None
+
 
 if __name__ == '__main__':
     def main():
@@ -230,10 +297,11 @@ if __name__ == '__main__':
         bot = TWStockBot()
         # bot.update_stocks()
         # bot.update_prices_for_date_range('2004-01-01', '2022-02-14')
-        for d in pd.date_range('2014-07', '2023-07', freq='MS'):
-            print(f'{d.year}-{d.month:02}')
-            bot.update_monthly_revenue(year=d.year, month=d.month)
-            time.sleep(30)
+        # for d in pd.date_range('2014-07', '2023-07', freq='MS'):
+        #     print(f'{d.year}-{d.month:02}')
+        #     bot.update_monthly_revenue(year=d.year, month=d.month)
+        #     time.sleep(30)
+        bot.update_all_financial_statements_by_stock_id('1101')
 
 
     main()

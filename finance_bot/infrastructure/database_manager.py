@@ -28,11 +28,11 @@ class DatabaseManager(ManagerBase):
 
     def batch_insert_or_update(self, session, model, df):
         for _, group in df.groupby(df.index // self.COMMIT_GROUP_SIZE):
-            group.apply(lambda x: self._insert_or_update(session, model, x), axis=1)
+            group.apply(lambda x: self.insert_or_update(session, model, x, False), axis=1)
             session.commit()
 
     @staticmethod
-    def _insert_or_update(session, model, data):
+    def insert_or_update(session, model, data, auto_commit=True):
         # 移除 data 的空值不更新
         modified = {
             key: value if pd.notnull(value) else None
@@ -41,3 +41,5 @@ class DatabaseManager(ManagerBase):
 
         insert_stmt = insert(model).values(**modified).on_duplicate_key_update(**modified)
         session.execute(insert_stmt)
+        if auto_commit:
+            session.commit()
