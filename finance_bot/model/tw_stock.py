@@ -10,7 +10,6 @@ class TWStock(Base):
     name = Column(String(60), default='', comment='證券名稱')
     industry = Column(String(60), default='', comment='產業別')
     listing_date = Column(DateTime, comment='上市日')
-    track_stock_price = Column(Boolean, nullable=False, default=True, comment='是否關注其股價')
     fetch_financial_reports = Column(Boolean, nullable=False, default=True, comment='是否抓取其財報')
 
     created_at = Column(DateTime, nullable=False, server_default=func.now())
