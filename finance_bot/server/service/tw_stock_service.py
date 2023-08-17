@@ -63,10 +63,27 @@ class TWStockService(ServiceBase):
             error_message='{year}-{month} 月營收財報更新失敗',
         )
 
-    async def update_financial_statements(self, stock_id, year, season):
-        await self.execute_task(
-            self.tw_stock_bot.update_financial_statements_for_stock_by_quarter,
-            kargs={'stock_id': stock_id, 'year': year, 'season': season},
-            success_message='{stock_id} 的 {year}Q{season} 財報更新完畢',
-            error_message='{stock_id} 的 {year}Q{season} 財報更新失敗',
-        )
+    async def update_financial_statements(self, stock_id=None, year=None, quarter=None):
+        if stock_id and year and quarter:
+            await self.execute_task(
+                self.tw_stock_bot.update_financial_statements_for_stock_by_quarter,
+                kargs={'stock_id': stock_id, 'year': year, 'quarter': quarter},
+                success_message='{stock_id} 的 {year}Q{quarter} 財報更新完畢',
+                error_message='{stock_id} 的 {year}Q{quarter} 財報更新失敗',
+            )
+        elif stock_id and not year and not quarter:
+            await self.execute_task(
+                self.tw_stock_bot.update_all_financial_statements_for_stock_id,
+                kargs={'stock_id': stock_id},
+                success_message='{stock_id} 的財報更新完畢',
+                error_message='{stock_id} 的財報更新失敗',
+            )
+        elif not stock_id and year and quarter:
+            await self.execute_task(
+                self.tw_stock_bot.update_all_financial_statements_by_quarter,
+                kargs={'year': year, 'quarter': quarter},
+                success_message='{year}Q{quarter} 財報更新完畢',
+                error_message='{year}Q{quarter} 財報更新失敗',
+            )
+        else:
+            raise ValueError('不支援的操作')

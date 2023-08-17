@@ -1,3 +1,5 @@
+from typing import Optional
+
 import fastapi
 from pydantic import BaseModel
 
@@ -43,20 +45,19 @@ async def update_monthly_revenue_tasks(task: UpdateMonthlyRevenueTask, request: 
 
 
 class UpdateFinancialStatementsTask(BaseModel):
-    stock_id: str
-    year: int
-    quarter: int
+    stock_id: Optional[str]
+    year: Optional[int]
+    quarter: Optional[int]
 
 
 @router.post('/update-financial-statements-tasks')
 async def update_financial_statements_tasks(task: UpdateFinancialStatementsTask, request: fastapi.Request):
     infra.scheduler.add_task(
-        request.app.state.service['tw_stock'].update_financial_statements_for_stock_by_quarter,
+        request.app.state.service['tw_stock'].update_financial_statements,
         kwargs={
             'stock_id': task.stock_id,
             'year': task.year,
             'quarter': task.quarter,
         }
     )
-
     return 'ok'
