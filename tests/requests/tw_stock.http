@@ -1,3 +1,8 @@
+### 更新股票資訊
+
+POST {{host}}/tw-stock/update-stocks-tasks
+Content-Type: application/json
+
 ### 更新股價資訊
 
 POST {{host}}/tw-stock/update-prices-tasks

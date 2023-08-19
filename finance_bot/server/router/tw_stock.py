@@ -8,6 +8,15 @@ from finance_bot.infrastructure import infra
 router = fastapi.APIRouter(prefix='/tw-stock')
 
 
+@router.post('/update-stocks-tasks')
+async def update_prices_tasks(request: fastapi.Request):
+    infra.scheduler.add_task(
+        request.app.state.service['tw_stock'].update_stocks,
+    )
+
+    return 'ok'
+
+
 class UpdatePricesTask(BaseModel):
     start: str
     end: str

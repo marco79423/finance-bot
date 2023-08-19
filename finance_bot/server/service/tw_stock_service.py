@@ -47,6 +47,13 @@ class TWStockService(ServiceBase):
             error_message='{year}-{month} 月營收財報更新失敗',
         )
 
+    async def update_stocks(self):
+        await self.execute_task(
+            self.tw_stock_bot.update_stocks,
+            success_message='台灣股票資訊更新完畢',
+            error_message='台灣股票資訊更新失敗',
+        )
+
     async def update_prices_for_date_range(self, start, end):
         await self.execute_task(
             self.tw_stock_bot.update_prices_for_date_range,
