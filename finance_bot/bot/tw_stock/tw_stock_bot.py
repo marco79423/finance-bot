@@ -32,17 +32,7 @@ class TWStockBot(BotBase):
         df = self.crawl_stocks()
 
         self.logger.info(f'取得 {len(df)} 筆資訊')
-
-        df[['stock_id', 'name']] = df['有價證券代號及名稱'].str.extract(r'([^\s]+)\s+(.*)')
-        df = df.drop(columns=['有價證券代號及名稱', '國際證券辨識號碼(ISIN Code)', 'CFICode', '市場別', '備註'])
-        df = df.rename(columns={
-            '上市日': 'listing_date',
-            '產業別': 'industry'
-        })
-
         with Session(infra.db.engine) as session:
-            df = df[['stock_id', 'name', 'listing_date', 'industry']]
-            df = df[df['stock_id'].notna()]
             infra.db.batch_insert_or_update(session, TWStock, df)
         self.logger.info('台灣股票資訊更新完成')
 
@@ -136,10 +126,17 @@ class TWStockBot(BotBase):
             },
         )
         df = pd.read_html(res.text)[0]
-
         df.columns = df.iloc[0]
-        df = df.iloc[2:]
-        df = df.dropna(thresh=3, axis=0)
+
+        df['instrument_type'] = df.iloc[:, 6].fillna(method='ffill')
+        df = df.iloc[1:, ]
+        df = df[df['有價證券代號及名稱'] != df['國際證券辨識號碼(ISIN Code)']]
+        df[['stock_id', 'name']] = df['有價證券代號及名稱'].str.extract(r'([^\s]+)\s+(.*)')
+        df = df.drop(columns=['有價證券代號及名稱', '國際證券辨識號碼(ISIN Code)', 'CFICode', '市場別', '備註'])
+        df = df.rename(columns={
+            '上市日': 'listing_date',
+            '產業別': 'industry'
+        })
         return df
 
     @staticmethod
