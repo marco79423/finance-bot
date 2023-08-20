@@ -15,8 +15,8 @@ class APIManager(ManagerBase):
         self._next_avail_request_time = dt.datetime.now()
 
     def get(self, url, *, params=None, cooling_time=None):
-        if dt.datetime.now() > self._next_avail_request_time:
-            wait_seconds = (dt.datetime.now() - self._next_avail_request_time).total_seconds()
+        if dt.datetime.now() < self._next_avail_request_time:
+            wait_seconds = int((self._next_avail_request_time - dt.datetime.now()).total_seconds())
             self.logger.info(f'請求冷卻 {wait_seconds} 秒 ...')
             time.sleep(wait_seconds)
         try:
