@@ -60,13 +60,18 @@ class UpdateFinancialStatementsTask(BaseModel):
 
 
 @router.post('/update-financial-statements-tasks')
-async def update_financial_statements_tasks(task: UpdateFinancialStatementsTask, request: fastapi.Request):
-    infra.scheduler.add_task(
-        request.app.state.service['tw_stock'].update_financial_statements,
-        kwargs={
-            'stock_id': task.stock_id,
-            'year': task.year,
-            'quarter': task.quarter,
-        }
-    )
+async def update_financial_statements_tasks(task: Optional[UpdateFinancialStatementsTask], request: fastapi.Request):
+    if task:
+        infra.scheduler.add_task(
+            request.app.state.service['tw_stock'].update_financial_statements,
+            kwargs={
+                'stock_id': task.stock_id,
+                'year': task.year,
+                'quarter': task.quarter,
+            }
+        )
+    else:
+        infra.scheduler.add_task(
+            request.app.state.service['tw_stock'].update_financial_statements,
+        )
     return 'ok'

@@ -84,18 +84,57 @@ class TWStockBot(BotBase):
 
         self.logger.info(f'{date:%Y-%m-%d} 股價資訊更新完成')
 
-    def update_all_financial_statements_by_quarter(self, year, quarter):
-        raise NotImplementedError
+    def update_all_financial_statements(self, delay_time=6):
+        with Session(infra.db.engine) as session:
+            q = session.execute(
+                select(TWStock)
+                .join(TWStockFinancialStatements, TWStock.stock_id == TWStockFinancialStatements.stock_id, isouter=True)
+                .where(TWStock.tracked == True)
+                .where(TWStock.instrument_type == '股票')
+                .where(TWStockFinancialStatements.stock_id == None)
+            ).scalars()
+            for tw_stock in q:
+                self.update_all_financial_statements_for_stock_id(tw_stock.stock_id, delay_time)
+                if delay_time:
+                    self.logger.info(f'等待 {delay_time} 秒 ...')
+                    time.sleep(delay_time)
 
-    def update_financial_statements_for_stock_by_quarter(self, stock_id, year, quarter):
+    def update_all_financial_statements_by_quarter(self, year, quarter, delay_time=6):
+        period = pd.Period(f'{year}Q{quarter}')
+        self.logger.info(f'更新 {period} 財報 ...')
+        with Session(infra.db.engine) as session:
+            q = session.execute(
+                select(TWStock)
+                .join(TWStockFinancialStatements, TWStock.stock_id == TWStockFinancialStatements.stock_id, isouter=True)
+                .where(TWStock.tracked == True)
+                .where(TWStock.instrument_type == '股票')
+                .where(TWStockFinancialStatements.stock_id == None)
+            ).scalars()
+            for tw_stock in q:
+                self.update_financial_statements_for_stock_by_quarter(tw_stock.stock_id, period.year, period.quarter)
+                if delay_time:
+                    self.logger.info(f'等待 {delay_time} 秒 ...')
+                    time.sleep(delay_time)
+
+    def update_financial_statements_for_stock_by_quarter(self, stock_id, year, quarter, retries=0):
         period = pd.Period(f'{year}Q{quarter}')
         self.logger.info(f'更新 {stock_id} {period} 財報 ...')
         with Session(infra.db.engine) as session:
-            data = self.crawl_financial_statements(stock_id, period.year, period.quarter)
-            if data:
-                infra.db.insert_or_update(session, TWStockFinancialStatements, data)
+            for i in range(1 + retries):
+                try:
+                    data = self.crawl_financial_statements(stock_id, period.year, period.quarter)
+                    if data:
+                        infra.db.insert_or_update(session, TWStockFinancialStatements, data)
+                    break
+                except Exception as e:
+                    if i < 1 + retries:
+                        self.logger.info(f'更新 {stock_id} {period} 財報失敗，等待重試中... :{str(e)}')
+                        time.sleep(60)
+                    else:
+                        raise e
 
-    def update_all_financial_statements_for_stock_id(self, stock_id, random_delay=True):
+    def update_all_financial_statements_for_stock_id(self, stock_id, delay_time=6):
+        self.logger.info(f'更新 {stock_id} 所有財報 ...')
         with Session(infra.db.engine) as session:
             date, = session.execute(
                 select(TWStock.listing_date)
@@ -112,10 +151,9 @@ class TWStockBot(BotBase):
 
         for period in periods:
             self.update_financial_statements_for_stock_by_quarter(stock_id, period.year, period.quarter)
-            if random_delay:
-                delay_seconds = random.randint(1, 10)
-                self.logger.info(f'等待 {delay_seconds} 秒 ...')
-                time.sleep(delay_seconds)
+            if delay_time:
+                self.logger.info(f'等待 {delay_time} 秒 ...')
+                time.sleep(delay_time)
 
     @staticmethod
     def crawl_stocks():
@@ -230,10 +268,19 @@ class TWStockBot(BotBase):
         with target_file.open('w', encoding='utf-8') as fp:
             fp.write(body)
 
-    def crawl_financial_statements(self, stock_id, year, quarter):
+    @staticmethod
+    def _get_financial_statements_path(stock_id, year, quarter):
+        data_folder = get_data_folder()
+        target_folder = data_folder / 'financial_statements' / stock_id
+        target_folder.mkdir(parents=True, exist_ok=True)
+        target_path = target_folder / f'{year}Q{quarter}.html'
+        return target_path
+
+    def download_financial_statements(self, stock_id, year, quarter):
         if year < 2013:
             raise ValueError('2013  (民國 102 年) 前不處理')
 
+        self.logger.info(f'下載 {stock_id} 報表中 ...')
         res = infra.api.get(
             'https://mops.twse.com.tw/server-java/t164sb01',
             params={
@@ -246,13 +293,39 @@ class TWStockBot(BotBase):
         )
         res.encoding = 'big5'
         body = res.text
-
-        data_folder = get_data_folder()
-        target_folder = data_folder / 'financial_statements' / stock_id
-        target_folder.mkdir(parents=True, exist_ok=True)
-        target_file = target_folder / f'{year}Q{quarter}.html'
+        target_file = self._get_financial_statements_path(stock_id, year, quarter)
         with target_file.open('w', encoding='utf-8') as fp:
             fp.write(body)
+
+    def crawl_financial_statements(self, stock_id, year, quarter):
+        if year < 2013:
+            raise ValueError('2013  (民國 102 年) 前不處理')
+
+        target_file = self._get_financial_statements_path(stock_id, year, quarter)
+        if not target_file.exists():
+            self.logger.info(f'下載 {stock_id} 報表中 ...')
+            res = infra.api.get(
+                'https://mops.twse.com.tw/server-java/t164sb01',
+                params={
+                    'step': 1,  # 不知啥用的
+                    'CO_ID': stock_id,
+                    'SYEAR': year,
+                    'SSEASON': quarter,
+                    'REPORT_ID': 'C',  # 個別財報(A) / 個體財報(B) / 合併報表(C)
+                },
+            )
+            res.encoding = 'big5'
+            body = res.text
+
+            data_folder = get_data_folder()
+            target_folder = data_folder / 'financial_statements' / stock_id
+            target_folder.mkdir(parents=True, exist_ok=True)
+            target_file = target_folder / f'{year}Q{quarter}.html'
+            with target_file.open('w', encoding='utf-8') as fp:
+                fp.write(body)
+
+        with target_file.open('r', encoding='utf-8') as fp:
+            body = fp.read()
 
         if year < 2019:
             dfs = pd.read_html(io.StringIO(body))
@@ -279,13 +352,28 @@ class TWStockBot(BotBase):
                 df = df.set_index('code')
                 df['value'] = pd.to_numeric(df['value'], 'coerce')
                 df = df.dropna()
+
+                # 有些股票如 5867 是 31100，原因未知
+                share_capital = self._get_df_value(df, ['3100', '31100'])
+
                 return {
                     'stock_id': stock_id,
                     'date': f'{year}Q{quarter}',
-                    'share_capital': df['value'].loc['3100'],
+                    'share_capital': share_capital,
                 }
             except ValueError:
                 return None
+
+    @staticmethod
+    def _get_df_value(df, possible_indexes, column_name='value'):
+        value = None
+        for possible_index in possible_indexes:
+            if value is None:
+                try:
+                    value = df.at[possible_index, column_name]
+                except KeyError:
+                    pass
+        return value
 
 
 if __name__ == '__main__':
