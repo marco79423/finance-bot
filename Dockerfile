@@ -4,8 +4,9 @@ WORKDIR /app
 
 COPY . .
 
-RUN pip install -e .
+RUN pip install poetry
+RUN poetry install
 
-ENTRYPOINT ["finb"]
+ENTRYPOINT ["poetry", "run", "finb"]
 CMD ["serve"]
 EXPOSE 8888
