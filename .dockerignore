@@ -146,3 +146,5 @@ cython_debug/
 
 # Project
 docs/
+data/
+lab/
