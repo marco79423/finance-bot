@@ -123,17 +123,21 @@ class TWStockBot(BotBase):
         for i in range(1 + retries):
             try:
                 with Session(infra.db.engine) as session:
-                    if financial_statements_path:
-                        self._download_financial_statements(
-                            stock_id, period.year,
-                            period.quarter,
-                            financial_statements_path
-                        )
+                    if not financial_statements_path.exists():
+                        for report_type in ['C', 'A']:
+                            valid = self._download_financial_statements(
+                                stock_id, period.year,
+                                period.quarter,
+                                report_type,
+                                financial_statements_path
+                            )
+                            if valid:
+                                break
+                        if not valid:
+                            financial_statements_path.unlink(missing_ok=True)
+                            return
 
                     data = self._parse_financial_statements(year, financial_statements_path)
-                    if not data:
-                        financial_statements_path.unlink(missing_ok=True)
-
                     if data:
                         data = {
                             'stock_id': stock_id,
@@ -289,9 +293,11 @@ class TWStockBot(BotBase):
         target_path = target_folder / f'{year}Q{quarter}.html'
         return target_path
 
-    def _download_financial_statements(self, stock_id, year, quarter, dest_path):
+    def _download_financial_statements(self, stock_id, year, quarter, report_type, dest_path):
         if year < 2013:
             raise ValueError('2013  (民國 102 年) 前不處理')
+        if report_type not in ['A', 'B', 'C']:
+            raise ValueError('不支援的 Report type (A：個別財報 / B：個體財報 / C：合併報表)')
 
         self.logger.info(f'下載 {stock_id} 報表中 ...')
         res = infra.api.get(
@@ -301,7 +307,7 @@ class TWStockBot(BotBase):
                 'CO_ID': stock_id,
                 'SYEAR': year,
                 'SSEASON': quarter,
-                'REPORT_ID': 'C',  # 個別財報(A) / 個體財報(B) / 合併報表(C)
+                'REPORT_ID': report_type,  # 個別財報(A) / 個體財報(B) / 合併報表(C)
             },
             cooling_time=dt.timedelta(seconds=6)
         )
@@ -309,6 +315,11 @@ class TWStockBot(BotBase):
         body = res.text
         with dest_path.open('w', encoding='utf-8') as fp:
             fp.write(body)
+
+        for pattern in ['查無資料', '檔案不存在']:
+            if pattern in body:
+                return True
+        return False
 
     def _parse_financial_statements(self, year, source_path):
         with source_path.open('r', encoding='utf-8') as fp:
@@ -338,7 +349,7 @@ class TWStockBot(BotBase):
                 df['value'] = pd.to_numeric(df['value'], 'coerce')
                 df = df.dropna()
 
-                # 有些股票如 5867 是 31100，原因未知
+                # 金融保險業 (如 5876) 是 31100
                 share_capital = self._get_df_value(df, ['3100', '31100'])
 
                 return {
