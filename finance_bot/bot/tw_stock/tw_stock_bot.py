@@ -125,15 +125,15 @@ class TWStockBot(BotBase):
                 with Session(infra.db.engine) as session:
                     if not financial_statements_path.exists():
                         for report_type in ['C', 'A']:
-                            valid = self._download_financial_statements(
+                            ok = self._download_financial_statements(
                                 stock_id, period.year,
                                 period.quarter,
                                 report_type,
                                 financial_statements_path
                             )
-                            if valid:
+                            if ok:
                                 break
-                        if not valid:
+                        if not ok:
                             self.logger.info(f'沒抓到 {stock_id} {period} 財報 ...')
                             financial_statements_path.unlink(missing_ok=True)
                             return
@@ -319,8 +319,8 @@ class TWStockBot(BotBase):
 
         for pattern in ['查無資料', '檔案不存在']:
             if pattern in body:
-                return True
-        return False
+                return False
+        return True
 
     def _parse_financial_statements(self, year, source_path):
         with source_path.open('r', encoding='utf-8') as fp:
