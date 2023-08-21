@@ -134,6 +134,7 @@ class TWStockBot(BotBase):
                             if valid:
                                 break
                         if not valid:
+                            self.logger.info(f'沒抓到 {stock_id} {period} 財報 ...')
                             financial_statements_path.unlink(missing_ok=True)
                             return
 
