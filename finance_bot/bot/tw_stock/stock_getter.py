@@ -10,6 +10,7 @@ class StockGetter:
         self.stock_id = stock_id
         self._prices_df = None
         self._monthly_revenue_s = None
+        self._financial_statements_df = None
 
     @property
     def open(self):
@@ -67,6 +68,11 @@ class StockGetter:
         return df['last_ask_volume']
 
     @property
+    def share_capital(self):
+        df = self._get_financial_statements_df()
+        return df['share_capital']
+
+    @property
     def monthly_revenue(self):
         if self._monthly_revenue_s is None:
             df = pd.read_sql(
@@ -93,3 +99,17 @@ class StockGetter:
                 parse_dates=['date'],
             )
         return self._prices_df
+
+    def _get_financial_statements_df(self):
+        if self._financial_statements_df is None:
+            df = pd.read_sql(
+                sql=text("SELECT * FROM tw_stock_financial_statements WHERE stock_id=:stock_id"),
+                params={
+                    'stock_id': str(self.stock_id),  # 確保輸入的是字串
+                },
+                con=infra.db.engine,
+                index_col='date',
+            )
+            df.index = df.index.astype('period[Q]')
+            self._financial_statements_df = df
+        return self._financial_statements_df

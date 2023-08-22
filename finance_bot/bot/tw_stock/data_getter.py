@@ -10,6 +10,7 @@ class DataGetter:
     def __init__(self):
         self._prices_df = None
         self._monthly_revenue_df = None
+        self._financial_statements_df = None
 
     def __getitem__(self, stock_id):
         return StockGetter(stock_id)
@@ -61,6 +62,11 @@ class DataGetter:
             self._monthly_revenue_df = df.pivot(columns='stock_id', values='revenue')
         return self._monthly_revenue_df
 
+    @property
+    def share_capital(self):
+        df = self._get_financial_statements_df()
+        return df.pivot(columns='stock_id', values='share_capital')
+
     def _get_prices_df(self):
         if self._prices_df is None:
             self._prices_df = pd.read_sql(
@@ -70,3 +76,14 @@ class DataGetter:
                 parse_dates=['date'],
             )
         return self._prices_df
+
+    def _get_financial_statements_df(self):
+        if self._financial_statements_df is None:
+            df = pd.read_sql(
+                sql=text("SELECT * FROM tw_stock_financial_statements"),
+                con=infra.db.engine,
+                index_col='date',
+            )
+            df.index = df.index.astype('period[Q]')
+            self._financial_statements_df = df
+        return self._financial_statements_df
