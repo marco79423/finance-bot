@@ -32,8 +32,8 @@ class APIManager(ManagerBase):
                 self._next_avail_request_time = dt.datetime.now() + cooling_time
 
     def post(self, url, cooling_time=None, **kargs):
-        if dt.datetime.now() > self._next_avail_request_time:
-            wait_seconds = (dt.datetime.now() - self._next_avail_request_time).total_seconds()
+        if dt.datetime.now() < self._next_avail_request_time:
+            wait_seconds = int((self._next_avail_request_time - dt.datetime.now()).total_seconds())
             self.logger.info(f'請求冷卻 {wait_seconds} 秒 ...')
             time.sleep(wait_seconds)
 
