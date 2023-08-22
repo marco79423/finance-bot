@@ -31,9 +31,9 @@ POST {{host}}/tw-stock/update-financial-statements-tasks
 Content-Type: application/json
 
 {
-  "stock_id": "1413",
-  "year": 2023,
-  "quarter": 1
+  "stock_id": "1438",
+  "year": 2013,
+  "quarter": 2
 }
 
 ### 更新個股綜合財報
@@ -59,3 +59,5 @@ Content-Type: application/json
 
 POST {{host}}/tw-stock/update-financial-statements-tasks
 Content-Type: application/json
+
+{}
