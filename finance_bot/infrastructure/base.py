@@ -2,7 +2,6 @@ import abc
 
 
 class ManagerBase(abc.ABC):
-
     def __init__(self, infra):
         self.infra = infra
 
@@ -11,7 +10,7 @@ class ManagerBase(abc.ABC):
 
     @property
     def logger(self):
-        return self.infra.logger
+        return self.infra.logger.bind(name='infra')
 
     @property
     def conf(self):
