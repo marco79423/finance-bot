@@ -1,4 +1,6 @@
-import pathlib
+from pathlib import Path
+
+from aiopath import AsyncPath
 
 from finance_bot.infrastructure.base import ManagerBase
 
@@ -7,16 +9,16 @@ class PathManager(ManagerBase):
 
     @property
     def project_folder(self):
-        return pathlib.Path(__file__).resolve().parent.parent.parent
+        return AsyncPath(Path(__file__).resolve().parent.parent.parent)
 
     @property
     def data_folder(self):
         data_folder = self.project_folder / 'data'
-        data_folder.mkdir(exist_ok=True)
+        Path(data_folder).mkdir(exist_ok=True)
         return data_folder
 
     @property
     def logs_folder(self):
-        data_folder = self.project_folder / 'logs'
-        data_folder.mkdir(exist_ok=True)
-        return data_folder
+        log_folder = self.project_folder / 'logs'
+        Path(log_folder).mkdir(exist_ok=True)
+        return log_folder

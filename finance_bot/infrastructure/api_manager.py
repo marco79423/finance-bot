@@ -1,7 +1,7 @@
+import asyncio
 import datetime as dt
-import time
 
-import requests
+import httpx
 from fake_useragent import UserAgent
 
 from finance_bot.infrastructure.base import ManagerBase
@@ -14,38 +14,39 @@ class APIManager(ManagerBase):
         self._user_agent = UserAgent()
         self._next_avail_request_time = dt.datetime.now()
 
-    def get(self, url, *, params=None, cooling_time=None):
+    async def get(self, url, *, params=None, cooling_time=None):
         if dt.datetime.now() < self._next_avail_request_time:
             wait_seconds = int((self._next_avail_request_time - dt.datetime.now()).total_seconds())
             self.logger.info(f'請求冷卻 {wait_seconds} 秒 ...')
-            time.sleep(wait_seconds)
+            await asyncio.sleep(wait_seconds)
         try:
-            return requests.get(
-                url=url,
-                params=params,
-                headers={
-                    'user-agent': self._user_agent.random
-                }
-            )
+            async with httpx.AsyncClient() as client:
+                return await client.get(
+                    url=url, params=params,
+                    headers={
+                        'user-agent': self._user_agent.random
+                    }
+                )
         finally:
             if cooling_time:
                 self._next_avail_request_time = dt.datetime.now() + cooling_time
 
-    def post(self, url, cooling_time=None, **kargs):
+    async def post(self, url, cooling_time=None, **kargs):
         if dt.datetime.now() < self._next_avail_request_time:
             wait_seconds = int((self._next_avail_request_time - dt.datetime.now()).total_seconds())
             self.logger.info(f'請求冷卻 {wait_seconds} 秒 ...')
-            time.sleep(wait_seconds)
+            await asyncio.sleep(wait_seconds)
 
         try:
-            return requests.post(
-                url=url,
-                **kargs,
-                headers={
-                    'user-agent': self._user_agent.random,
-                    **kargs.get('headers', {})
-                },
-            )
+            async with httpx.AsyncClient() as client:
+                return await client.post(
+                    url=url,
+                    **kargs,
+                    headers={
+                        'user-agent': self._user_agent.random,
+                        **kargs.get('headers', {})
+                    },
+                )
         finally:
             if cooling_time:
                 self._next_avail_request_time = dt.datetime.now() + cooling_time

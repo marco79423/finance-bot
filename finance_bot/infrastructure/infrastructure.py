@@ -1,4 +1,5 @@
 import logging
+import pathlib
 import sys
 
 import pytz
@@ -40,7 +41,7 @@ class Infrastructure:
 
             project_folder = self.path.project_folder
             config_file = project_folder / 'conf.d' / 'config.yml'
-            if not config_file.exists():
+            if not pathlib.Path(config_file).exists():
                 raise ValueError('找不到設定檔 conf.d/config.yml')
             config.merge_with(OmegaConf.load(config_file))
             OmegaConf.set_readonly(config, True)

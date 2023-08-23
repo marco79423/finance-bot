@@ -1,11 +1,11 @@
+import asyncio
 import datetime as dt
 import io
 import random
-import time
 
 import pandas as pd
 from sqlalchemy import select
-from sqlalchemy.orm import Session
+from sqlalchemy.ext.asyncio import AsyncSession
 
 from finance_bot.bot.base import BotBase
 from finance_bot.bot.tw_stock.data_getter import DataGetter
@@ -26,34 +26,34 @@ class TWStockBot(BotBase):
     def data(self):
         return self._data_getter
 
-    def update_stocks(self):
+    async def update_stocks(self):
         self.logger.info(f'開始更新台灣股票資訊 ...')
-        df = self.crawl_stocks()
+        df = await self.crawl_stocks()
 
         self.logger.info(f'取得 {len(df)} 筆資訊')
-        with Session(infra.db.engine) as session:
-            infra.db.batch_insert_or_update(session, TWStock, df)
+        async with AsyncSession(infra.db.engine) as session:
+            await infra.db.batch_insert_or_update(session, TWStock, df)
         self.logger.info('台灣股票資訊更新完成')
 
-    def update_prices_for_date_range(self, start=None, end=None, random_delay=True):
+    async def update_prices_for_date_range(self, start=None, end=None, random_delay=True):
         start = pd.Timestamp(start if start is not None else '2004-01-01')  # 證交所最早只到 2004-01-01
         end = pd.Timestamp(end if end is not None else pd.Timestamp.today().normalize())
 
         date_range = pd.date_range(start, end, freq='B')
         self.logger.info(f'開始更新 {start:%Y-%m-%d} ~ {end:%Y-%m-%d} 股價資訊 ...')
         for date in reversed(date_range):
-            self.update_prices_for_date(date)
+            await self.update_prices_for_date(date)
             if random_delay:
                 delay_seconds = random.randint(1, 10)
                 self.logger.info(f'等待 {delay_seconds} 秒 ...')
-                time.sleep(delay_seconds)
+                await asyncio.sleep(delay_seconds)
         self.logger.info(f'{start:%Y-%m-%d}-{end:%Y-%m-%d} 股價資訊更新完成')
 
-    def update_prices_for_date(self, date=None):
+    async def update_prices_for_date(self, date=None):
         date = pd.Timestamp(date if date is not None else pd.Timestamp.today().normalize())
 
         self.logger.info(f'開始更新 {date:%Y-%m-%d} 股價資訊 ...')
-        raw_df = self.crawl_price(date)
+        raw_df = await self.crawl_price(date)
         if raw_df is None or raw_df.empty:
             self.logger.info('沒有股價資訊')
             return
@@ -78,38 +78,39 @@ class TWStockBot(BotBase):
         df = df.where(pd.notnull(df), None)  # 將 DataFrame 中的所有 NaN 值轉換為 None
 
         self.logger.info(f'開始更新共 {len(df)} 筆的股價資訊 ...')
-        with Session(infra.db.engine) as session:
-            infra.db.batch_insert_or_update(session, TWStockPrice, df)
+        async with AsyncSession(infra.db.engine) as session:
+            await infra.db.batch_insert_or_update(session, TWStockPrice, df)
 
         self.logger.info(f'{date:%Y-%m-%d} 股價資訊更新完成')
 
-    def update_all_financial_statements(self):
-        with Session(infra.db.engine) as session:
-            q = session.execute(
+    async def update_all_financial_statements(self):
+        async with AsyncSession(infra.db.engine) as session:
+            q = await session.execute(
                 select(TWStock)
                 .where(TWStock.tracked == True)
                 .where(TWStock.instrument_type == '股票')
-            ).scalars()
-            for tw_stock in q:
-                self.update_all_financial_statements_for_stock_id(tw_stock.stock_id)
+            )
+            for tw_stock in q.scalars():
+                await self.update_all_financial_statements_for_stock_id(tw_stock.stock_id)
 
-    def update_all_financial_statements_by_quarter(self, year, quarter):
+    async def update_all_financial_statements_by_quarter(self, year, quarter):
         period = pd.Period(f'{year}Q{quarter}')
         self.logger.info(f'更新 {period} 財報 ...')
-        with Session(infra.db.engine) as session:
-            q = session.execute(
+        async with AsyncSession(infra.db.engine) as session:
+            q = await session.execute(
                 select(TWStock)
                 .where(TWStock.tracked == True)
                 .where(TWStock.instrument_type == '股票')
-            ).scalars()
-            for tw_stock in q:
-                self.update_financial_statements_for_stock_by_quarter(tw_stock.stock_id, period.year, period.quarter)
+            )
+            for tw_stock in q.scalars():
+                await self.update_financial_statements_for_stock_by_quarter(tw_stock.stock_id, period.year,
+                                                                            period.quarter)
 
-    def update_financial_statements_for_stock_by_quarter(self, stock_id, year, quarter, retries=0):
+    async def update_financial_statements_for_stock_by_quarter(self, stock_id, year, quarter, retries=0):
         period = pd.Period(f'{year}Q{quarter}')
         self.logger.info(f'更新 {stock_id} {period} 財報 ...')
 
-        financial_statements_path = self._get_financial_statements_path(
+        financial_statements_path = await self._get_financial_statements_path(
             stock_id,
             period.year,
             period.quarter
@@ -117,10 +118,10 @@ class TWStockBot(BotBase):
 
         for i in range(1 + retries):
             try:
-                with Session(infra.db.engine) as session:
-                    if not financial_statements_path.exists():
+                async with AsyncSession(infra.db.engine) as session:
+                    if not await financial_statements_path.exists():
                         for report_type in ['C', 'A']:
-                            ok = self._download_financial_statements(
+                            ok = await self._download_financial_statements(
                                 stock_id, period.year,
                                 period.quarter,
                                 report_type,
@@ -130,33 +131,35 @@ class TWStockBot(BotBase):
                                 break
                         if not ok:
                             self.logger.info(f'沒抓到 {stock_id} {period} 財報 ...')
-                            financial_statements_path.unlink(missing_ok=True)
+                            await financial_statements_path.unlink(missing_ok=True)
                             return
 
-                    data = self._parse_financial_statements(year, financial_statements_path)
+                    data = await self._parse_financial_statements(year, financial_statements_path)
                     if data:
                         data = {
                             'stock_id': stock_id,
                             'date': f'{year}Q{quarter}',
                             **data,
                         }
-                        infra.db.insert_or_update(session, TWStockFinancialStatements, data)
+                        await infra.db.insert_or_update(session, TWStockFinancialStatements, data)
                     break
             except Exception as e:
+                self.logger.exception(f'更新 {stock_id} {period} 財報失敗，等待重試中... :')
                 if i < 1 + retries:
                     self.logger.info(f'更新 {stock_id} {period} 財報失敗，等待重試中... :{str(e)}')
-                    time.sleep(60)
+                    await asyncio.sleep(60)
                 else:
                     raise e
 
-    def update_all_financial_statements_for_stock_id(self, stock_id):
+    async def update_all_financial_statements_for_stock_id(self, stock_id):
         self.logger.info(f'更新 {stock_id} 所有財報 ...')
-        with Session(infra.db.engine) as session:
-            date, = session.execute(
+        async with AsyncSession(infra.db.engine) as session:
+            q = await session.execute(
                 select(TWStock.listing_date)
                 .where(TWStock.stock_id == stock_id)
                 .limit(1)
-            ).first()
+            )
+            date, = q.first()
 
         start_date = max(pd.Timestamp(date), pd.Timestamp('2013'))
         periods = pd.period_range(
@@ -166,11 +169,11 @@ class TWStockBot(BotBase):
         )
 
         for period in periods:
-            self.update_financial_statements_for_stock_by_quarter(stock_id, period.year, period.quarter)
+            await self.update_financial_statements_for_stock_by_quarter(stock_id, period.year, period.quarter)
 
     @staticmethod
-    def crawl_stocks():
-        res = infra.api.get(
+    async def crawl_stocks():
+        res = await infra.api.get(
             'https://isin.twse.com.tw/isin/C_public.jsp',
             params={
                 'strMode': '2',
@@ -191,8 +194,8 @@ class TWStockBot(BotBase):
         return df
 
     @staticmethod
-    def crawl_price(date: dt.datetime):
-        r = infra.api.post(
+    async def crawl_price(date: dt.datetime):
+        r = await infra.api.post(
             'https://www.twse.com.tw/exchangeReport/MI_INDEX',
             params={
                 'response': 'csv',
@@ -237,7 +240,8 @@ class TWStockBot(BotBase):
 
         return df
 
-    def update_monthly_revenue(self, year, month):
+    @staticmethod
+    async def update_monthly_revenue(year, month):
         if year < 2012:
             raise ValueError('最早只到 2012 年 1 月 (民國 101 年)')
         if year == 2012:
@@ -247,7 +251,7 @@ class TWStockBot(BotBase):
         company_type = 0  # 0: 國內公司, 1: 國外 KY 公司
 
         url = 'https://mops.twse.com.tw/server-java/FileDownLoad'
-        res = infra.api.post(
+        res = await infra.api.post(
             url,
             data={
                 'step': 9,  # 不知啥用的
@@ -265,36 +269,36 @@ class TWStockBot(BotBase):
             '營業收入-當月營收': 'revenue',
         })
         df['date'] = f'{year}-{month:02}'
-        with Session(infra.db.engine) as session:
-            infra.db.batch_insert_or_update(session, TWStockMonthlyRevenue, df)
+        async with AsyncSession(infra.db.engine) as session:
+            await infra.db.batch_insert_or_update(session, TWStockMonthlyRevenue, df)
 
         url = f'https://mops.twse.com.tw/nas/t21/{listing_status}/t21sc03_{year - 1911}_{month}_{company_type}.html'
 
-        res = infra.api.get(url)
+        res = await infra.api.get(url)
         res.encoding = 'big5'
         body = res.text
 
         target_folder = infra.path.data_folder / 'monthly_revenue'
         target_folder.mkdir(parents=True, exist_ok=True)
         target_file = target_folder / f'{year}_{month}.html'
-        with target_file.open('w', encoding='utf-8') as fp:
-            fp.write(body)
+        async with target_file.open('w', encoding='utf-8') as fp:
+            await fp.write(body)
 
     @staticmethod
-    def _get_financial_statements_path(stock_id, year, quarter):
+    async def _get_financial_statements_path(stock_id, year, quarter):
         target_folder = infra.path.data_folder / 'financial_statements' / stock_id
-        target_folder.mkdir(parents=True, exist_ok=True)
+        await target_folder.mkdir(parents=True, exist_ok=True)
         target_path = target_folder / f'{year}Q{quarter}.html'
         return target_path
 
-    def _download_financial_statements(self, stock_id, year, quarter, report_type, dest_path):
+    async def _download_financial_statements(self, stock_id, year, quarter, report_type, dest_path):
         if year < 2013:
             raise ValueError('2013  (民國 102 年) 前不處理')
         if report_type not in ['A', 'B', 'C']:
             raise ValueError('不支援的 Report type (A：個別財報 / B：個體財報 / C：合併報表)')
 
         self.logger.info(f'下載 {stock_id} 報表中 ...')
-        res = infra.api.get(
+        res = await infra.api.get(
             'https://mops.twse.com.tw/server-java/t164sb01',
             params={
                 'step': 1,  # 不知啥用的
@@ -307,17 +311,17 @@ class TWStockBot(BotBase):
         )
         res.encoding = 'big5'
         body = res.text
-        with dest_path.open('w', encoding='utf-8') as fp:
-            fp.write(body)
+        async with dest_path.open('w', encoding='utf-8') as fp:
+            await fp.write(body)
 
         for pattern in ['查無資料', '檔案不存在']:
             if pattern in body:
                 return False
         return True
 
-    def _parse_financial_statements(self, year, source_path):
-        with source_path.open('r', encoding='utf-8') as fp:
-            body = fp.read()
+    async def _parse_financial_statements(self, year, source_path):
+        async with source_path.open('r', encoding='utf-8') as fp:
+            body = await fp.read()
 
         if year < 2019:
             dfs = pd.read_html(io.StringIO(body))
@@ -366,7 +370,6 @@ class TWStockBot(BotBase):
 
 if __name__ == '__main__':
     def main():
-        import time
         bot = TWStockBot()
         # bot.update_stocks()
         # bot.update_prices_for_date_range('2004-01-01', '2022-02-14')
