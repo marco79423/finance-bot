@@ -5,7 +5,6 @@ import pytz
 from loguru import logger
 from omegaconf import OmegaConf
 
-from finance_bot.config import conf
 from .api_manager import APIManager
 from .database_manager import DatabaseManager
 from .notifier_manager import NotifierManager
@@ -13,12 +12,16 @@ from .path_manager import PathManager
 from .schedule_manager import ScheduleManager
 from .time_manager import TimeManager
 
+# 預設設定檔
+DEFAULT_CONFIG = {
+
+}
+
 
 class Infrastructure:
 
     def __init__(self):
-        self.conf = conf
-
+        self._conf = None
         self._logger = None
         self._schedule_manager = None
         self._time_manager = None
@@ -29,6 +32,20 @@ class Infrastructure:
 
     def start(self):
         pass
+
+    @property
+    def conf(self):
+        if self._conf is None:
+            config = OmegaConf.create(DEFAULT_CONFIG)
+
+            project_folder = self.path.project_folder
+            config_file = project_folder / 'conf.d' / 'config.yml'
+            if not config_file.exists():
+                raise ValueError('找不到設定檔 conf.d/config.yml')
+            config.merge_with(OmegaConf.load(config_file))
+            OmegaConf.set_readonly(config, True)
+            self._conf = config
+        return self._conf
 
     @property
     def scheduler(self) -> ScheduleManager:

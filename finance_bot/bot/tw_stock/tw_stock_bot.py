@@ -11,7 +11,6 @@ from finance_bot.bot.base import BotBase
 from finance_bot.bot.tw_stock.data_getter import DataGetter
 from finance_bot.infrastructure import infra
 from finance_bot.model import TWStockPrice, TWStock, TWStockMonthlyRevenue, TWStockFinancialStatements
-from finance_bot.utility import get_data_folder
 
 
 class TWStockBot(BotBase):
@@ -279,7 +278,7 @@ class TWStockBot(BotBase):
         res.encoding = 'big5'
         body = res.text
 
-        data_folder = get_data_folder()
+        data_folder = infra.path.get_data_folder()
         target_folder = data_folder / 'monthly_revenue'
         target_folder.mkdir(parents=True, exist_ok=True)
         target_file = target_folder / f'{year}_{month}.html'
@@ -288,7 +287,7 @@ class TWStockBot(BotBase):
 
     @staticmethod
     def _get_financial_statements_path(stock_id, year, quarter):
-        data_folder = get_data_folder()
+        data_folder = infra.path.get_data_folder()
         target_folder = data_folder / 'financial_statements' / stock_id
         target_folder.mkdir(parents=True, exist_ok=True)
         target_path = target_folder / f'{year}Q{quarter}.html'

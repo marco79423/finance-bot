@@ -1,13 +1,12 @@
 from sqlalchemy import create_engine
 
-from finance_bot.config import conf
+from finance_bot.infrastructure import infra
 from finance_bot.tw_stock_legacy.ticker_db.model.base import Base
-from finance_bot.utility import get_project_folder
 
 
 def get_engine():
     engine = create_engine(
-        conf.tw_stock.database.url,
+        infra.conf.tw_stock.database.url,
         pool_recycle=3600,  # 多少時間自動重連 (MySQL 預設會 8 小時踢人)
     )
 
@@ -29,7 +28,7 @@ def get_sqlite3_engine():
 
 
 def get_data_db_path():
-    data_folder = get_project_folder() / 'data'
+    data_folder = infra.path.get_project_folder() / 'data'
     if not data_folder.exists():
         data_folder.mkdir()
     return data_folder / 'ticker.db'

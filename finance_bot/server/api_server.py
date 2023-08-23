@@ -3,11 +3,10 @@ import uvicorn
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 
-from finance_bot.config import conf
+from finance_bot.infrastructure import infra
 from finance_bot.server.router import debug, lending, tw_stock
 from finance_bot.server.service.lending_service import LendingService
 from finance_bot.server.service.tw_stock_service import TWStockService
-from finance_bot.utility import get_data_folder
 
 
 class APIServer:
@@ -28,17 +27,17 @@ class APIServer:
 
         # 設定預設路由
         app.include_router(debug.router)
-        app.mount('/data', StaticFiles(directory=get_data_folder()), name="data")
+        app.mount('/data', StaticFiles(directory=infra.path.data_folder), name="data")
 
         @app.on_event("startup")
         def startup():
             # 設定 Service
-            if conf.server.service.lending:
+            if infra.conf.server.service.lending:
                 service = LendingService(app)
                 service.start()
                 app.include_router(lending.router)
 
-            if conf.server.service.tw_stock:
+            if infra.conf.server.service.tw_stock:
                 service = TWStockService(app)
                 service.start()
                 app.include_router(tw_stock.router)
