@@ -87,10 +87,8 @@ class TWStockBot(BotBase):
         with Session(infra.db.engine) as session:
             q = session.execute(
                 select(TWStock)
-                .join(TWStockFinancialStatements, TWStock.stock_id == TWStockFinancialStatements.stock_id, isouter=True)
                 .where(TWStock.tracked == True)
                 .where(TWStock.instrument_type == '股票')
-                .where(TWStockFinancialStatements.stock_id == None)
             ).scalars()
             for tw_stock in q:
                 self.update_all_financial_statements_for_stock_id(tw_stock.stock_id)
@@ -101,10 +99,8 @@ class TWStockBot(BotBase):
         with Session(infra.db.engine) as session:
             q = session.execute(
                 select(TWStock)
-                .join(TWStockFinancialStatements, TWStock.stock_id == TWStockFinancialStatements.stock_id, isouter=True)
                 .where(TWStock.tracked == True)
                 .where(TWStock.instrument_type == '股票')
-                .where(TWStockFinancialStatements.stock_id == None)
             ).scalars()
             for tw_stock in q:
                 self.update_financial_statements_for_stock_by_quarter(tw_stock.stock_id, period.year, period.quarter)
@@ -278,8 +274,7 @@ class TWStockBot(BotBase):
         res.encoding = 'big5'
         body = res.text
 
-        data_folder = infra.path.get_data_folder()
-        target_folder = data_folder / 'monthly_revenue'
+        target_folder = infra.path.data_folder / 'monthly_revenue'
         target_folder.mkdir(parents=True, exist_ok=True)
         target_file = target_folder / f'{year}_{month}.html'
         with target_file.open('w', encoding='utf-8') as fp:
@@ -287,8 +282,7 @@ class TWStockBot(BotBase):
 
     @staticmethod
     def _get_financial_statements_path(stock_id, year, quarter):
-        data_folder = infra.path.get_data_folder()
-        target_folder = data_folder / 'financial_statements' / stock_id
+        target_folder = infra.path.data_folder / 'financial_statements' / stock_id
         target_folder.mkdir(parents=True, exist_ok=True)
         target_path = target_folder / f'{year}Q{quarter}.html'
         return target_path
@@ -380,7 +374,8 @@ if __name__ == '__main__':
         #     print(f'{d.year}-{d.month:02}')
         #     bot.update_monthly_revenue(year=d.year, month=d.month)
         #     time.sleep(30)
-        bot.update_all_financial_statements_for_stock_id('1101')
+        bot.update_all_financial_statements_for_stock_id('2330')
+        bot.update_all_financial_statements_by_quarter(2022, 1)
 
 
     main()
