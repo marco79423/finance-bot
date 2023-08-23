@@ -6,3 +6,4 @@ services:
     volumes:
       - "./conf.d:/app/conf.d"
       - "./data:/app/data"
+      - "./logs:/app/logs"

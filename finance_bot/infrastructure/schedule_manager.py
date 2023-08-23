@@ -10,7 +10,7 @@ class ScheduleManager(ManagerBase):
 
     def __init__(self, infra):
         super().__init__(infra)
-        self._scheduler = AsyncIOScheduler(logger=self.logger.getChild('scheduler'))
+        self._scheduler = AsyncIOScheduler()
 
     def start(self):
         self._scheduler.start()

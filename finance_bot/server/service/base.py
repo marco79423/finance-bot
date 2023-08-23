@@ -1,4 +1,5 @@
 import abc
+
 import asyncio
 
 from finance_bot.infrastructure import infra
@@ -10,7 +11,7 @@ class ServiceBase(abc.ABC):
     def __init__(self, app):
         app.state.service[self.name] = self
         self.app = app
-        self.logger = infra.logger.getChild(self.name)
+        self.logger = infra.logger.bind(name=self.name)
 
     def start(self):
         self.logger.info(f'啟動 {self.name} 功能...')
@@ -20,8 +21,14 @@ class ServiceBase(abc.ABC):
     def set_schedules(self):
         pass
 
-    @staticmethod
-    async def execute_task(func, *, args=None, kargs=None, success_message=None, error_message=None, retries=0):
+    async def execute_task(self,
+                           func,
+                           *,
+                           args=None,
+                           kargs=None,
+                           success_message=None,
+                           error_message=None,
+                           retries=0):
         if args is None:
             args = []
         if kargs is None:
@@ -44,13 +51,17 @@ class ServiceBase(abc.ABC):
                     await infra.notifier.send(message)
                 return
             except Exception as e:
-                if error_message:
+                message = ''
+                if error_message is not None:
                     message = error_message.format(
                         *args,
                         **kargs,
-                        error=str(e),
                         retry_count=i + 1 if retries > 0 else 0
                     )
+                self.logger.exception(message)
 
+                if message:
+                    message += '\n' + str(e)
                     await infra.notifier.send(message)
+
                 await asyncio.sleep(60)

@@ -1,13 +1,17 @@
 import logging
+import sys
 
+import pytz
+from loguru import logger
 from omegaconf import OmegaConf
 
+from finance_bot.config import conf
 from .api_manager import APIManager
 from .database_manager import DatabaseManager
 from .notifier_manager import NotifierManager
+from .path_manager import PathManager
 from .schedule_manager import ScheduleManager
 from .time_manager import TimeManager
-from finance_bot.config import conf
 
 
 class Infrastructure:
@@ -21,6 +25,7 @@ class Infrastructure:
         self._database_manager = None
         self._notifier_manager = None
         self._api_manager = None
+        self._path_manager = None
 
     def start(self):
         pass
@@ -35,15 +40,38 @@ class Infrastructure:
     @property
     def logger(self) -> logging.Logger:
         if self._logger is None:
-            # 設定環境
-            logging.basicConfig(
-                level=logging.INFO,
-                datefmt='%Y-%m-%d %H:%M:%S',
-                format='[%(asctime)s][%(name)s][%(levelname)s] %(message)s',
+            error_format = '[<green>{time:YYYY-MM-DD HH:mm:ss.SSS}</green>][<level>{level: <5}</level>][{extra[name]}][<cyan>{name}</cyan>:<cyan>{function}</cyan>:<cyan>{line}</cyan>] {message}'
+            msg_format = '[<green>{time:YYYY-MM-DD HH:mm:ss.SSS}</green>][<level>{level: <5}</level>][{extra[name]}] {message}'
+
+            def fix_timezone(record):
+                tzinfo = pytz.timezone(self.conf.server.timezone)
+                record["time"] = record["time"].replace(tzinfo=tzinfo)
+
+            logger.configure(
+                handlers=[
+                    {
+                        'sink': sys.stdout,
+                        'level': 'INFO',
+                        'format': msg_format,
+                    },
+                    {
+                        'sink': self.path.logs_folder / '{time:%Y-%m-%d}.log',
+                        'level': 'DEBUG',
+                        'format': msg_format,
+                        'rotation': '00:00',
+                        'retention': '30 days',
+                    },
+                    {
+                        'sink': self.path.logs_folder / '{time:%Y-%m-%d}-error.log',
+                        'level': 'ERROR',
+                        'format': error_format,
+                        'rotation': '00:00',
+                        'retention': '30 days',
+                    },
+                ],
+                patcher=fix_timezone,
             )
-            logging.Formatter.converter = lambda *args: self.time.get_now().timetuple()
-            logging.getLogger('apscheduler').setLevel(logging.WARN)
-            self._logger = logging.getLogger()
+            self._logger = logger
         return self._logger
 
     @property
@@ -73,6 +101,13 @@ class Infrastructure:
             self._api_manager = APIManager(self)
             self._api_manager.start()
         return self._api_manager
+
+    @property
+    def path(self) -> PathManager:
+        if self._path_manager is None:
+            self._path_manager = PathManager(self)
+            self._path_manager.start()
+        return self._path_manager
 
     def select_conf(self, key):
         return OmegaConf.select(self.conf, key)
