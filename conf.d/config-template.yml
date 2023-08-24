@@ -16,6 +16,7 @@ lending:
 tw_stock:
   database:
     url: <url>
+    async_url: <url>
   schedule:
     schedule_update_task:
       - '0 8 * * mon,tue,wed,thu,fri'

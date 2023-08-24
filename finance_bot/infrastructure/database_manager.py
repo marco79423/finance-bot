@@ -1,6 +1,7 @@
 import asyncio
 
 import pandas as pd
+from sqlalchemy import create_engine
 from sqlalchemy.dialects.mysql import insert
 from sqlalchemy.ext.asyncio import create_async_engine
 
@@ -13,8 +14,12 @@ class DatabaseManager(ManagerBase):
 
     def __init__(self, infra):
         super().__init__(infra)
-        self._engine = create_async_engine(
+        self._engine = create_engine(
             self.conf.tw_stock.database.url,
+            pool_recycle=3600,  # 多少時間自動重連 (MySQL 預設會 8 小時踢人)
+        )
+        self._async_engine = create_async_engine(
+            self.conf.tw_stock.database.async_url,
             pool_recycle=3600,  # 多少時間自動重連 (MySQL 預設會 8 小時踢人)
         )
         self._migrated = False
@@ -23,8 +28,12 @@ class DatabaseManager(ManagerBase):
     def engine(self):
         return self._engine
 
+    @property
+    def async_engine(self):
+        return self._async_engine
+
     async def migrate(self):
-        async with self.engine.begin() as conn:
+        async with self.async_engine.begin() as conn:
             await conn.run_sync(Base.metadata.create_all)
         self._migrated = True
 

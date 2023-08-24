@@ -31,7 +31,7 @@ class TWStockBot(BotBase):
         df = await self.crawl_stocks()
 
         self.logger.info(f'取得 {len(df)} 筆資訊')
-        async with AsyncSession(infra.db.engine) as session:
+        async with AsyncSession(infra.db.async_engine) as session:
             await infra.db.batch_insert_or_update(session, TWStock, df)
         self.logger.info('台灣股票資訊更新完成')
 
@@ -78,13 +78,13 @@ class TWStockBot(BotBase):
         df = df.where(pd.notnull(df), None)  # 將 DataFrame 中的所有 NaN 值轉換為 None
 
         self.logger.info(f'開始更新共 {len(df)} 筆的股價資訊 ...')
-        async with AsyncSession(infra.db.engine) as session:
+        async with AsyncSession(infra.db.async_engine) as session:
             await infra.db.batch_insert_or_update(session, TWStockPrice, df)
 
         self.logger.info(f'{date:%Y-%m-%d} 股價資訊更新完成')
 
     async def update_all_financial_statements(self):
-        async with AsyncSession(infra.db.engine) as session:
+        async with AsyncSession(infra.db.async_engine) as session:
             q = await session.execute(
                 select(TWStock)
                 .where(TWStock.tracked == True)
@@ -96,7 +96,7 @@ class TWStockBot(BotBase):
     async def update_all_financial_statements_by_quarter(self, year, quarter):
         period = pd.Period(f'{year}Q{quarter}')
         self.logger.info(f'更新 {period} 財報 ...')
-        async with AsyncSession(infra.db.engine) as session:
+        async with AsyncSession(infra.db.async_engine) as session:
             q = await session.execute(
                 select(TWStock)
                 .where(TWStock.tracked == True)
@@ -118,7 +118,7 @@ class TWStockBot(BotBase):
 
         for i in range(1 + retries):
             try:
-                async with AsyncSession(infra.db.engine) as session:
+                async with AsyncSession(infra.db.async_engine) as session:
                     if not await financial_statements_path.exists():
                         for report_type in ['C', 'A']:
                             ok = await self._download_financial_statements(
@@ -153,7 +153,7 @@ class TWStockBot(BotBase):
 
     async def update_all_financial_statements_for_stock_id(self, stock_id):
         self.logger.info(f'更新 {stock_id} 所有財報 ...')
-        async with AsyncSession(infra.db.engine) as session:
+        async with AsyncSession(infra.db.async_engine) as session:
             q = await session.execute(
                 select(TWStock.listing_date)
                 .where(TWStock.stock_id == stock_id)
@@ -270,7 +270,7 @@ class TWStockBot(BotBase):
             '營業收入-當月營收': 'revenue',
         })
         df['date'] = f'{year}-{month:02}'
-        async with AsyncSession(infra.db.engine) as session:
+        async with AsyncSession(infra.db.async_engine) as session:
             await infra.db.batch_insert_or_update(session, TWStockMonthlyRevenue, df)
 
         url = f'https://mops.twse.com.tw/nas/t21/{listing_status}/t21sc03_{year - 1911}_{month}_{company_type}.html'
