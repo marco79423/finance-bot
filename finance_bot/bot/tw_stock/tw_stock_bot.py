@@ -260,7 +260,8 @@ class TWStockBot(BotBase):
                 'fileName': f't21sc03_{year - 1911}_{month}.csv',
             },
         )
-        res.encoding = 'big-5'
+
+        res.encoding = 'utf-8'  # HTTPX 自動偵測編碼會錯誤
         df = pd.read_csv(io.StringIO(res.text))
 
         df = df[['公司代號', '營業收入-當月營收']]
@@ -279,7 +280,7 @@ class TWStockBot(BotBase):
         body = res.text
 
         target_folder = infra.path.data_folder / 'monthly_revenue'
-        target_folder.mkdir(parents=True, exist_ok=True)
+        await target_folder.mkdir(parents=True, exist_ok=True)
         target_file = target_folder / f'{year}_{month}.html'
         async with target_file.open('w', encoding='utf-8') as fp:
             await fp.write(body)

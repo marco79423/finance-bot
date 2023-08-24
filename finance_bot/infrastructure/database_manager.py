@@ -1,3 +1,5 @@
+import asyncio
+
 import pandas as pd
 from sqlalchemy.dialects.mysql import insert
 from sqlalchemy.ext.asyncio import create_async_engine
@@ -31,7 +33,10 @@ class DatabaseManager(ManagerBase):
             await self.migrate()
 
         for _, group in df.groupby(df.index // self.COMMIT_GROUP_SIZE):
-            group.apply(lambda x: self.insert_or_update(session, model, x, False), axis=1)
+            await asyncio.gather(*[
+                self.insert_or_update(session, model, v, False)
+                for _, v in group.iterrows()
+            ])
             await session.commit()
 
     async def insert_or_update(self, session, model, data, auto_commit=True):
