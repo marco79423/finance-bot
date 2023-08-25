@@ -16,10 +16,14 @@ class DatabaseManager(ManagerBase):
         super().__init__(infra)
         self._engine = create_engine(
             self.conf.tw_stock.database.url,
+            echo_pool=True,
+            pool_pre_ping=True,
             pool_recycle=3600,  # 多少時間自動重連 (MySQL 預設會 8 小時踢人)
         )
         self._async_engine = create_async_engine(
             self.conf.tw_stock.database.async_url,
+            echo_pool=True,
+            pool_pre_ping=True,
             pool_recycle=3600,  # 多少時間自動重連 (MySQL 預設會 8 小時踢人)
         )
         self._migrated = False
