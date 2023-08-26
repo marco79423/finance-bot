@@ -57,6 +57,7 @@ class UpdateFinancialStatementsTask(BaseModel):
     stock_id: Optional[str]
     year: Optional[int]
     quarter: Optional[int]
+    force_update_db: Optional[bool] = False
 
 
 @router.post('/update-financial-statements-tasks')
@@ -68,6 +69,7 @@ async def update_financial_statements_tasks(task: Optional[UpdateFinancialStatem
                 'stock_id': task.stock_id,
                 'year': task.year,
                 'quarter': task.quarter,
+                'force_update_db': task.force_update_db,
             }
         )
     else:

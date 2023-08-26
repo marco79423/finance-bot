@@ -83,7 +83,7 @@ class TWStockBot(BotBase):
 
         self.logger.info(f'{date:%Y-%m-%d} 股價資訊更新完成')
 
-    async def update_all_financial_statements(self):
+    async def update_all_financial_statements(self, force_update_db=False):
         async with AsyncSession(infra.db.async_engine) as session:
             q = await session.execute(
                 select(TWStock)
@@ -91,7 +91,7 @@ class TWStockBot(BotBase):
                 .where(TWStock.instrument_type == '股票')
             )
             for tw_stock in q.scalars():
-                await self.update_all_financial_statements_for_stock_id(tw_stock.stock_id)
+                await self.update_all_financial_statements_for_stock_id(tw_stock.stock_id, force_update_db)
 
     async def update_all_financial_statements_by_quarter(self, year, quarter):
         period = pd.Period(f'{year}Q{quarter}')
@@ -103,10 +103,13 @@ class TWStockBot(BotBase):
                 .where(TWStock.instrument_type == '股票')
             )
             for tw_stock in q.scalars():
-                await self.update_financial_statements_for_stock_by_quarter(tw_stock.stock_id, period.year,
-                                                                            period.quarter)
+                await self.update_financial_statements_for_stock_by_quarter(
+                    tw_stock.stock_id,
+                    period.year,
+                    period.quarter,
+                )
 
-    async def update_financial_statements_for_stock_by_quarter(self, stock_id, year, quarter, retries=0):
+    async def update_financial_statements_for_stock_by_quarter(self, stock_id, year, quarter, *, retries=0):
         period = pd.Period(f'{year}Q{quarter}')
         self.logger.info(f'更新 {stock_id} {period} 財報 ...')
 
@@ -151,7 +154,7 @@ class TWStockBot(BotBase):
                 else:
                     raise e
 
-    async def update_all_financial_statements_for_stock_id(self, stock_id):
+    async def update_all_financial_statements_for_stock_id(self, stock_id, force_update_db=False):
         self.logger.info(f'更新 {stock_id} 所有財報 ...')
         async with AsyncSession(infra.db.async_engine) as session:
             q = await session.execute(
@@ -161,12 +164,22 @@ class TWStockBot(BotBase):
             )
             date, = q.first()
 
+            excluded_periods = []
+            if not force_update_db:
+                q = await session.execute(
+                    select(TWStockFinancialStatements.date)
+                    .where(TWStockFinancialStatements.stock_id == stock_id)
+                )
+                for date in q.scalars():
+                    excluded_periods.append(pd.Period(date))
+
         start_date = max(pd.Timestamp(date), pd.Timestamp('2013'))
         periods = pd.period_range(
             pd.Period(start_date, freq='Q'),
             pd.Period(pd.Timestamp.now(), freq='Q') - 1,  # 上一季
             freq='Q',
         )
+        periods = periods[~periods.isin(excluded_periods)]
 
         for period in periods:
             await self.update_financial_statements_for_stock_by_quarter(stock_id, period.year, period.quarter)
