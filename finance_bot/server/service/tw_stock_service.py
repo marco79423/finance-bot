@@ -37,6 +37,24 @@ class TWStockService(ServiceBase):
                                 success_message='{year}-{month} 月營收財報更新完畢',
                                 error_message='{year}-{month} 月營收財報更新失敗')
 
+        # 財報公布： 一般公司
+        # * 第一季（Q1）法說會：5/15 前
+        # * 第二季（Q2）財報：8/14 前
+        # * 第三季（Q3）財報：11/14 前
+        # * 第四季（Q4）財報及年報：隔年 3/31 前
+        #
+        # 財報公布： 金融業
+        # * 第一季（Q1）財報：5/15 前
+        # * 第二季（Q2）財報：8/31 前
+        # * 第三季（Q3）財報：11/14 前
+        last_period = pd.Period(pd.Timestamp.now(), freq='Q') - 1
+        await self.execute_task(
+            self.tw_stock_bot.update_all_financial_statements_by_quarter,
+            kargs={'year': last_period.year, 'quarter': last_period.quarter},
+            success_message='{year}Q{quarter} 財報更新完畢',
+            error_message='{year}Q{quarter} 財報更新失敗'
+        )
+
     async def update_stocks(self):
         await self.execute_task(self.tw_stock_bot.update_stocks, success_message='台灣股票資訊更新完畢',
                                 error_message='台灣股票資訊更新失敗')
