@@ -15,7 +15,7 @@ finlab = "^0.4.4"
 omegaconf = "^2.3.0"
 SQLAlchemy = "^2.0.16"
 APScheduler = "^3.10.1"
-pandas = {extras = ["hdf5", "html", "performance"], version = "^2.0.3"}
+pandas = {extras = ["html", "performance"], version = "^2.0.3"}
 requests = "^2.31.0"
 numpy = "^1.25.0"
 fastapi = "^0.97.0"
