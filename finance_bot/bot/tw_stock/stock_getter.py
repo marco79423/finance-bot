@@ -85,18 +85,20 @@ class StockGetter:
         return df['share_capital']
 
     @property
+    def total_shares_outstanding(self):
+        """取得公司發行並且目前在外流通的股票總數"""
+        return pd.Series(self.share_capital * 1000 / 10, name='total_shares_outstanding')
+
+    @property
     def market_capitalization(self):
         """取得市值"""
-        share_capital = self.share_capital.copy()
-        share_capital.index = share_capital.index.to_timestamp()
+        total_shares_outstanding = self.total_shares_outstanding.copy()
+        total_shares_outstanding.index = total_shares_outstanding.index.to_timestamp()
+        total_shares_outstanding = total_shares_outstanding.reindex(self.close.index).fillna(method='ffill')
 
-        df = pd.DataFrame({
-            'close': self.close,
-            'share_capital': share_capital,
-        })
-        df = df.fillna(method='ffill')  # 用前面的值補缺失值
-        df = df.dropna()
-        return df['close'] * (df['share_capital'] * 1000 / 10)
+        market_capitalization = pd.Series(self.close * total_shares_outstanding, name='market_capitalization')
+        market_capitalization = market_capitalization.dropna()
+        return market_capitalization
 
     @property
     def monthly_revenue(self):

@@ -64,8 +64,29 @@ class DataGetter:
 
     @property
     def share_capital(self):
+        """取得股本"""
         df = self._get_financial_statements_df()
         return df.pivot(columns='stock_id', values='share_capital')
+
+    @property
+    def total_shares_outstanding(self):
+        """取得公司發行並且目前在外流通的股票總數"""
+        return self.share_capital * 1000 / 10
+
+    @property
+    def market_capitalization(self):
+        """取得市值"""
+        close = self.close.copy()
+
+        total_shares_outstanding = self.total_shares_outstanding.copy()
+        total_shares_outstanding.index = total_shares_outstanding.index.to_timestamp()
+        total_shares_outstanding = total_shares_outstanding.reindex(close.index).fillna(method='ffill')
+
+        market_capitalization = close * total_shares_outstanding
+        market_capitalization = market_capitalization.dropna(how='all')
+        market_capitalization = market_capitalization.dropna(axis=1, how='all')
+
+        return market_capitalization
 
     def _get_prices_df(self):
         if self._prices_df is None:
