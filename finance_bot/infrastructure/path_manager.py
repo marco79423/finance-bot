@@ -22,3 +22,9 @@ class PathManager(ManagerBase):
         log_folder = self.project_folder / 'logs'
         Path(log_folder).mkdir(exist_ok=True)
         return log_folder
+
+    @property
+    def db_cache_folder(self):
+        db_cache_folder = self.project_folder / 'db_cache'
+        Path(db_cache_folder).mkdir(exist_ok=True)
+        return db_cache_folder

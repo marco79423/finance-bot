@@ -20,7 +20,7 @@ class TWStockBot(BotBase):
 
     def __init__(self):
         super().__init__()
-        self._data_getter = DataGetter()
+        self._data_getter = DataGetter(logger=self.logger)
 
     @property
     def data(self):

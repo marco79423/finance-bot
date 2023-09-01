@@ -7,6 +7,7 @@ from loguru import logger
 from omegaconf import OmegaConf
 
 from .api_manager import APIManager
+from .database_cache_manager import DatabaseCacheManager
 from .database_manager import DatabaseManager
 from .notifier_manager import NotifierManager
 from .path_manager import PathManager
@@ -27,6 +28,7 @@ class Infrastructure:
         self._schedule_manager = None
         self._time_manager = None
         self._database_manager = None
+        self._database_cache_manager = None
         self._notifier_manager = None
         self._api_manager = None
         self._path_manager = None
@@ -105,6 +107,13 @@ class Infrastructure:
             self._database_manager = DatabaseManager(self)
             self._database_manager.start()
         return self._database_manager
+
+    @property
+    def db_cache(self) -> DatabaseCacheManager:
+        if self._database_cache_manager is None:
+            self._database_cache_manager = DatabaseCacheManager(self)
+            self._database_cache_manager.start()
+        return self._database_cache_manager
 
     @property
     def notifier(self) -> NotifierManager:
