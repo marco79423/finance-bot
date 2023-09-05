@@ -106,9 +106,6 @@ class LendingBot(BotBase):
         balance_available = await self.get_funding_balance()
         if balance_available >= 150 and not await self.has_frr_offer():
             amount = balance_available
-            if amount > self.MAX_OFFER_AMOUNT:
-                amount = self.MAX_OFFER_AMOUNT
-
             resp = await self._client.rest.submit_funding_offer(
                 symbol='fUSD',
                 amount=amount,
