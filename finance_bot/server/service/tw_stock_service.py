@@ -55,11 +55,11 @@ class TWStockService(ServiceBase):
             error_message='{year}Q{quarter} 財報更新失敗'
         )
 
-        await self.execute_task(
-            self.tw_stock_bot.data.rebuild_cache,
-            success_message='台股資料快取完畢',
-            error_message='台股資料快取失敗'
-        )
+        # await self.execute_task(
+        #     self.tw_stock_bot.data.rebuild_cache,
+        #     success_message='台股資料快取完畢',
+        #     error_message='台股資料快取失敗'
+        # )
 
     async def update_stocks(self):
         await self.execute_task(self.tw_stock_bot.update_stocks, success_message='台灣股票資訊更新完畢',
