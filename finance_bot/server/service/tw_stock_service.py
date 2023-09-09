@@ -1,6 +1,6 @@
 import pandas as pd
 
-from finance_bot.core.tw_stock_manager import TWStockManager
+from finance_bot.core import TWStockManager
 from finance_bot.infrastructure import infra
 from .base import ServiceBase
 

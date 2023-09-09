@@ -1,4 +1,4 @@
-from finance_bot.core.lending_bot import LendingBot
+from finance_bot.core import LendingBot
 from finance_bot.infrastructure import infra
 from .base import ServiceBase
 
