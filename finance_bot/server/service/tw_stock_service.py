@@ -15,7 +15,7 @@ class TWStockService(ServiceBase):
     def set_schedules(self):
         infra.scheduler.add_schedule_task(
             self.execute_schedule_update_task,
-            schedule_conf_key='tw_stock.schedule.schedule_update_task',
+            schedule_conf_key='core.tw_stock_manager.schedule.schedule_update_task',
         )
 
     async def execute_schedule_update_task(self):
