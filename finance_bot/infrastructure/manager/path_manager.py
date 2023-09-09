@@ -2,14 +2,14 @@ from pathlib import Path
 
 from aiopath import AsyncPath
 
-from finance_bot.infrastructure.base import ManagerBase
+from finance_bot.infrastructure.manager.base import ManagerBase
 
 
 class PathManager(ManagerBase):
 
     @property
     def project_folder(self):
-        return AsyncPath(Path(__file__).resolve().parent.parent.parent)
+        return AsyncPath(Path(__file__).resolve().parent.parent.parent.parent)
 
     @property
     def data_folder(self):

@@ -6,13 +6,8 @@ import pytz
 from loguru import logger
 from omegaconf import OmegaConf
 
-from .api_manager import APIManager
-from .database_cache_manager import DatabaseCacheManager
-from .database_manager import DatabaseManager
-from .notifier_manager import NotifierManager
-from .path_manager import PathManager
-from .schedule_manager import ScheduleManager
-from .time_manager import TimeManager
+from finance_bot.infrastructure.manager import ScheduleManager, TimeManager, DatabaseManager, DatabaseCacheManager, \
+    NotifierManager, APIManager, PathManager
 
 # 預設設定檔
 DEFAULT_CONFIG = {

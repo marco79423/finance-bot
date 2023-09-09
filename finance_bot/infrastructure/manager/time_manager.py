@@ -3,7 +3,7 @@ import datetime as dt
 import pytz
 from dateutil.tz import tzutc
 
-from finance_bot.infrastructure.base import ManagerBase
+from finance_bot.infrastructure.manager.base import ManagerBase
 
 
 class TimeManager(ManagerBase):

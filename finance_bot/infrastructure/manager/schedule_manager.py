@@ -3,7 +3,7 @@ from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from apscheduler.triggers.cron import CronTrigger
 from omegaconf import ListConfig
 
-from finance_bot.infrastructure.base import ManagerBase
+from finance_bot.infrastructure.manager.base import ManagerBase
 
 
 class ScheduleManager(ManagerBase):

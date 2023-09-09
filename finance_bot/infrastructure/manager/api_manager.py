@@ -4,7 +4,7 @@ import datetime as dt
 import httpx
 from fake_useragent import UserAgent
 
-from finance_bot.infrastructure.base import ManagerBase
+from finance_bot.infrastructure.manager.base import ManagerBase
 
 
 class APIManager(ManagerBase):

@@ -3,7 +3,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.dialects.mysql import insert
 from sqlalchemy.ext.asyncio import create_async_engine
 
-from finance_bot.infrastructure.base import ManagerBase
+from finance_bot.infrastructure.manager.base import ManagerBase
 from finance_bot.model.base import Base
 
 

@@ -1,6 +1,6 @@
 import telegram
 
-from finance_bot.infrastructure.base import ManagerBase
+from finance_bot.infrastructure.manager.base import ManagerBase
 
 
 class NotifierManager(ManagerBase):
