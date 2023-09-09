@@ -9,10 +9,10 @@ from finance_bot.infrastructure.manager.base import ManagerBase
 class TimeManager(ManagerBase):
 
     def get_now(self):
-        return dt.datetime.now(tz=pytz.timezone(self.conf.server.timezone))
+        return dt.datetime.now(tz=pytz.timezone(self.conf.infrastructure.timezone))
 
     def to_server_timezone(self, time: dt.datetime):
-        return time.astimezone(pytz.timezone(self.conf.server.timezone))
+        return time.astimezone(pytz.timezone(self.conf.infrastructure.timezone))
 
     def from_milli_timestamp(self, millis):
         utc_time = dt.datetime(1970, 1, 1, tzinfo=tzutc()) + dt.timedelta(milliseconds=millis)

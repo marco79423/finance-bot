@@ -1,8 +1,8 @@
 import pandas as pd
 
-from finance_bot.bot.tw_stock.tw_stock_bot import TWStockBot
+from finance_bot.core.tw_stock import TWStockCore
 from finance_bot.infrastructure import infra
-from finance_bot.server.service.base import ServiceBase
+from .base import ServiceBase
 
 
 class TWStockService(ServiceBase):
@@ -10,7 +10,7 @@ class TWStockService(ServiceBase):
 
     def __init__(self, app):
         super().__init__(app)
-        self.tw_stock_bot = TWStockBot()
+        self.tw_stock_bot = TWStockCore()
 
     def set_schedules(self):
         infra.scheduler.add_schedule_task(

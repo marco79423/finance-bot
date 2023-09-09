@@ -1,6 +1,6 @@
-from finance_bot.bot.lending import LendingBot
+from finance_bot.core.lending import LendingCore
 from finance_bot.infrastructure import infra
-from finance_bot.server.service.base import ServiceBase
+from .base import ServiceBase
 
 
 class LendingService(ServiceBase):
@@ -8,7 +8,7 @@ class LendingService(ServiceBase):
 
     def __init__(self, app):
         super().__init__(app)
-        self.lending_bot = LendingBot()
+        self.lending_bot = LendingCore()
 
     def set_schedules(self):
         infra.scheduler.add_schedule_task(

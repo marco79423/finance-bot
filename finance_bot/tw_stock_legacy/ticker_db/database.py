@@ -6,7 +6,7 @@ from finance_bot.tw_stock_legacy.ticker_db.model.base import Base
 
 def get_engine():
     engine = create_engine(
-        infra.conf.tw_stock.database.url,
+        infra.conf.infrastructure.database.url,
         pool_recycle=3600,  # 多少時間自動重連 (MySQL 預設會 8 小時踢人)
     )
 

@@ -3,7 +3,7 @@ import datetime as dt
 
 import bfxapi
 
-from finance_bot.bot.base import BotBase
+from finance_bot.core.base import CoreBase
 from finance_bot.infrastructure import infra
 
 
@@ -54,7 +54,7 @@ class Stats:
     daily_earn: float
 
 
-class LendingBot(BotBase):
+class LendingCore(CoreBase):
     name = 'lending_bot'
 
     BITFINEX_FEES = 0.15
@@ -68,8 +68,8 @@ class LendingBot(BotBase):
         super().__init__()
 
         self._client = bfxapi.Client(
-            API_KEY=infra.conf.lending.api_key,
-            API_SECRET=infra.conf.lending.api_secret,
+            API_KEY=infra.conf.core.lending.api_key,
+            API_SECRET=infra.conf.core.lending.api_secret,
         )
 
     async def execute_lending_task(self):

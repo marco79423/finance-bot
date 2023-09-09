@@ -1,33 +1,35 @@
 server:
-  timezone: Asia/Taipei
   service:
-    lending: true
-    tw_stock: true
+    lending:
+      enabled: true
+      schedule:
+        lending_task: '*/10 * * * *'
+        sending_stats:
+          - '0 8 * * mon,tue,wed,thu,fri'
+          - '0 12 * * sat,sun'
+    tw_stock:
+      enabled: true
+      schedule:
+        schedule_update_task:
+          - '0 8 * * mon,tue,wed,thu,fri'
+          - '0 12 * * sat'
+core:
+  lending:
+    api_key: <key>
+    api_secret: <token>
 
-lending:
-  api_key: <key>
-  api_secret: <token>
-  schedule:
-    lending_task: '*/10 * * * *'
-    sending_stats:
-      - '0 8 * * mon,tue,wed,thu,fri'
-      - '0 12 * * sat,sun'
-
-tw_stock:
+  tw_stock:
+    updater:
+      finmind:
+        api_token: <token>
+      finlab:
+        api_token: <token>
+infrastructure:
+  timezone: Asia/Taipei
   database:
     url: <url>
     async_url: <url>
-  schedule:
-    schedule_update_task:
-      - '0 8 * * mon,tue,wed,thu,fri'
-      - '0 12 * * sat'
-  updater:
-    finmind:
-      api_token: <token>
-    finlab:
-      api_token: <token>
-
-notification:
-  telegram:
-    chat_id: <chat_id>
-    token: <token>
+  notification:
+    telegram:
+      chat_id: <chat_id>
+      token: <token>

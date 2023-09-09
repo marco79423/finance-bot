@@ -3,7 +3,7 @@ import abc
 from finance_bot.infrastructure import infra
 
 
-class BotBase(abc.ABC):
+class CoreBase(abc.ABC):
     name = 'bot_base'
 
     def __init__(self):

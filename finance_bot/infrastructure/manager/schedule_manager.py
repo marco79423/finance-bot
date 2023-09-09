@@ -28,7 +28,7 @@ class ScheduleManager(ManagerBase):
             for schedule in schedules:
                 self._scheduler.add_job(
                     task,
-                    CronTrigger.from_crontab(schedule, timezone=pytz.timezone(self.conf.server.timezone)),
+                    CronTrigger.from_crontab(schedule, timezone=pytz.timezone(self.conf.infrastructure.timezone)),
                     max_instances=1,
                     **kargs
                 )

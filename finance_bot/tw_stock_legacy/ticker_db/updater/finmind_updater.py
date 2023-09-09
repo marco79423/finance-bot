@@ -1,14 +1,14 @@
 from FinMind.data import DataLoader
 from sqlalchemy.orm import Session
 
-from finance_bot.config import conf
+from finance_bot.infrastructure import infra
 from finance_bot.tw_stock_legacy.ticker_db.model import FinmindTaiwanStockInfo
 from finance_bot.tw_stock_legacy.ticker_db.updater import UpdaterBase
 
 
 def get_finmind_data_loader():
     api = DataLoader()
-    api.login_by_token(api_token=conf.tw_stock.updater.finmind.api_token)
+    api.login_by_token(api_token=infra.conf.core.tw_stock.updater.finmind.api_token)
     return api
 
 

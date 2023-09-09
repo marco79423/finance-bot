@@ -59,7 +59,7 @@ class Infrastructure:
             msg_format = '[<green>{time:YYYY-MM-DD HH:mm:ss.SSS}</green>][<level>{level: <5}</level>][{extra[name]}] {message}'
 
             def fix_timezone(record):
-                tzinfo = pytz.timezone(self.conf.server.timezone)
+                tzinfo = pytz.timezone(self.conf.infrastructure.timezone)
                 record["time"] = record["time"].replace(tzinfo=tzinfo)
 
             logger.configure(

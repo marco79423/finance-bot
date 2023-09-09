@@ -32,12 +32,12 @@ class APIServer:
         @app.on_event("startup")
         def startup():
             # 設定 Service
-            if infra.conf.server.service.lending:
+            if infra.conf.server.service.lending.enabled:
                 service = LendingService(app)
                 service.start()
                 app.include_router(lending.router)
 
-            if infra.conf.server.service.tw_stock:
+            if infra.conf.server.service.tw_stock.enabled:
                 service = TWStockService(app)
                 service.start()
                 app.include_router(tw_stock.router)
