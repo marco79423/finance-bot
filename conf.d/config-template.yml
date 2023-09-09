@@ -14,11 +14,11 @@ server:
           - '0 8 * * mon,tue,wed,thu,fri'
           - '0 12 * * sat'
 core:
-  lending:
+  lending_bot:
     api_key: <key>
     api_secret: <token>
 
-  tw_stock:
+  tw_stock_manager:
     updater:
       finmind:
         api_token: <token>

@@ -8,13 +8,13 @@ from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from finance_bot.core.base import CoreBase
-from finance_bot.core.tw_stock.data_getter import DataGetter
+from finance_bot.core.tw_stock_manager.data_getter import DataGetter
 from finance_bot.infrastructure import infra
 from finance_bot.model import TWStockPrice, TWStock, TWStockMonthlyRevenue, TWStockFinancialStatements
 
 
-class TWStockCore(CoreBase):
-    name = 'tw_stock_bot'
+class TWStockManager(CoreBase):
+    name = 'tw_stock_manager'
 
     COMMIT_GROUP_SIZE = 1000
 
@@ -384,7 +384,7 @@ class TWStockCore(CoreBase):
 
 if __name__ == '__main__':
     def main():
-        bot = TWStockCore()
+        bot = TWStockManager()
         # bot.update_stocks()
         # bot.update_prices_for_date_range('2004-01-01', '2022-02-14')
         # for d in pd.date_range('2014-07', '2023-07', freq='MS'):

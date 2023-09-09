@@ -8,7 +8,7 @@ from finance_bot.tw_stock_legacy.ticker_db.updater.base import UpdaterBase
 
 
 def get_finlab_data_loader():
-    finlab.login(api_token=infra.conf.core.tw_stock.updater.finlab.api_token)
+    finlab.login(api_token=infra.conf.core.tw_stock_manager.updater.finlab.api_token)
     return finlab.data
 
 

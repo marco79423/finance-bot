@@ -8,7 +8,7 @@ from finance_bot.tw_stock_legacy.ticker_db.updater import UpdaterBase
 
 def get_finmind_data_loader():
     api = DataLoader()
-    api.login_by_token(api_token=infra.conf.core.tw_stock.updater.finmind.api_token)
+    api.login_by_token(api_token=infra.conf.core.tw_stock_manager.updater.finmind.api_token)
     return api
 
 
