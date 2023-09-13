@@ -13,12 +13,12 @@ class LendingService(ServiceBase):
     def set_schedules(self):
         infra.scheduler.add_schedule_task(
             self.execute_lending_task,
-            schedule_conf_key='core.lending_bot.schedule.lending_task',
+            schedule_conf_key='server.service.lending.schedule.lending_task',
         )
 
         infra.scheduler.add_schedule_task(
             self.send_stats,
-            schedule_conf_key='core.lending_bot.schedule.sending_stats',
+            schedule_conf_key='server.service.lending_bot.schedule.sending_stats',
             misfire_grace_time=60 * 5
         )
 
