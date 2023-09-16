@@ -2,7 +2,7 @@ services:
   finance-bot:
     build: .
     ports:
-      - "8888:8888"
+      - "16888:16888"
     volumes:
       - "./conf.d:/app/conf.d"
       - "./data:/app/data"

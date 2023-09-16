@@ -9,7 +9,7 @@ def create_lending_cli():
         pass
 
     @lending.command('records')
-    @click.option('--url', default='http://localhost:8888', help='理財機器人的 URL')
+    @click.option('--url', default='http://localhost:16888', help='理財機器人的 URL')
     def records(url):
         try:
             resp = requests.get(f'{url}/lending/records')

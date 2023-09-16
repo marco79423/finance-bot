@@ -9,4 +9,4 @@ RUN poetry install
 
 ENTRYPOINT ["poetry", "run", "finb"]
 CMD ["serve"]
-EXPOSE 8888
+EXPOSE 16888

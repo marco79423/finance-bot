@@ -14,7 +14,7 @@ def create_cli():
         pass
 
     @cli.command('ping')
-    @click.option('--url', default='http://localhost:8888', help='理財機器人的 URL')
+    @click.option('--url', default='http://localhost:16888', help='理財機器人的 URL')
     def ping(url):
         try:
             resp = requests.get(f'{url}/debug/ping')
@@ -24,7 +24,7 @@ def create_cli():
 
     @cli.command('serve', short_help='啟動理財機器人')
     @click.option('--host', default='0.0.0.0', help='啟動的 host')
-    @click.option('-p', '--port', default=8888, help='啟動的 port')
+    @click.option('-p', '--port', default=16888, help='啟動的 port')
     @click.option('-d', '--dev', is_flag=True, default=False, help='開發者模式')
     def serve(host: str, port: int, dev: bool):
         print(f'啟動理財機器人 {host}:{port} (dev: {dev}) ...')
@@ -36,7 +36,7 @@ def create_cli():
         )
 
     @cli.command('shell', short_help='啟動理財機器人 Shell')
-    @click.option('--url', default='http://localhost:8888', help='理財機器人的 URL')
+    @click.option('--url', default='http://localhost:16888', help='理財機器人的 URL')
     def shell(url):
         c = get_config(url)
         IPython.start_ipython(header='理財機器人 Shell', config=c, argv=[])
