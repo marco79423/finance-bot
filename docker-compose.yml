@@ -1,4 +1,9 @@
 services:
+  finance-bot-web:
+    build: web
+    ports:
+      - "16889:16889"
+
   finance-bot:
     build: .
     ports:
