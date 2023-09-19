@@ -1,0 +1,133 @@
+{
+  "site-name": "Finance bot",
+
+  "locales.zh-TW": "繁體中文",
+
+  "tool-category.all": "全部",
+  "tool-category.tw-stock":"台股",
+
+  "tool-group.analysis":"分析",
+
+  "tool-layout.search-results": "搜尋結果",
+  "tool-layout.search-placeholder": "輸入您要用的工具...",
+
+  "input-result-panel-tool-layout.input-label": "輸入",
+  "input-result-panel-tool-layout.result-label": "結果",
+  "input-result-panel-tool-layout.result-description": "結果會出現在這裡...",
+
+  "text-compare-layout.left-input-label": "原始文本 A",
+  "text-compare-layout.left-input-description": "請在此輸入框內填入您希望比較的文本",
+  "text-compare-layout.right-input-label": "對照文本 B",
+  "text-compare-layout.right-input-description": "請在此輸入框內填入您希望比較的文本",
+  "text-compare-layout.compare-button": "比對差異",
+  "text-compare-layout.compare-dialog-title": "比對差異的結果",
+
+  "home.title": "兩大類個人理財小工具",
+  "home.description": "兩大類個人理財小工具",
+  "home.keywords": "理財, 台股, 線上工具",
+  "home.settings-title": "設定",
+  "home.search-placeholder": "輸入您要用的工具...",
+  "home.tour.tool-dashboard": "您可以在此選擇任何您想要使用的免費線上工具",
+  "home.tour.tool-category": "您可以在此選擇工具的分類",
+  "home.tour.tool-search": "您可以直接搜尋您想要的工具",
+
+  "tw-stock-analysis": "台股分析",
+  "tw-stock-analysis.description": "台股分析",
+  "tw-stock-analysis.keywords": "台股分析",
+  "tw-stock-analysis.input-description": "將 Unix 時間戳（Timestamp）轉換為能方便理解的時間",
+  "tw-stock-analysis.input-box-description": "請輸入您想要轉換的 Timestamp",
+  "tw-stock-analysis.Timestamp": "Timestamp",
+  "tw-stock-analysis.transform-button": "轉換為時間",
+  "tw-stock-analysis.input-hint": "支援 Timestamp 的單位： 秒, 毫秒（1/10<sup>3</sup> 秒）, 微秒（1/10<sup>6</sup> 秒） 和奈秒（1/10<sup>9</sup> 秒）",
+  "tw-stock-analysis.error-hint": "請輸入一個數字",
+  "tw-stock-analysis.assume-description": "假設 Timestamp 的單位：",
+  "tw-stock-analysis.time-unit-days": "天",
+  "tw-stock-analysis.time-unit-minutes": "分鐘",
+  "tw-stock-analysis.time-unit-seconds": "秒",
+  "tw-stock-analysis.time-unit-milliseconds": "毫秒",
+  "tw-stock-analysis.time-unit-microseconds": "微秒",
+  "tw-stock-analysis.time-unit-nanoseconds": "奈秒",
+  "tw-stock-analysis.your-time-zone-title": "您所在的時區",
+  "tw-stock-analysis.relative-time-title": "相對時間",
+
+  "text-editor.aria-label": "文字輸入",
+  "text-editor.placeholder": "輸入 (或貼上) ...",
+  "text-editor.upload": "上傳檔案",
+  "text-editor.copy": "複製",
+  "text-editor.copy-success": "複製成功",
+  "text-editor.cut": "剪下",
+  "text-editor.cut-success": "剪下成功",
+  "text-editor.paste": "貼上",
+  "text-editor.clear": "清空",
+  "text-editor.fullscreen": "全螢幕模式",
+  "text-editor.file-upload-dialog.title": "上傳檔案",
+  "text-editor.file-upload-dialog.description": "從您的裝置選擇一個文本檔案進行上傳和編輯。",
+  "text-editor.file-upload-dialog.confirm": "確認",
+  "text-editor.file-upload-dialog.cancel": "取消",
+
+
+  "Tool Settings": "工具設定",
+  "Appearance": "外觀主題",
+  "Tour": "導航",
+
+  "Input mode": "输入模式",
+  "Text input": "文字輸入",
+  "From file": "從檔案上傳",
+  "Type (or paste) here...": "輸入 (或貼上) ...",
+
+  "download-control.title": "確認下載",
+  "download-control.description": "請入您想要下載的檔案名稱",
+
+  "filename": "檔案",
+  "Download": "下載",
+  "Processing failed": "處理失敗",
+  "Processing": "處理中",
+  "Processing success": "處理成功",
+
+  "Drag and drop a file here or click": "點擊框框或直接將檔案拖曳至此",
+  "Maximum allowed number of files exceeded. Only {{filesLimit}} allowed": "超過支援的檔案數量（上限為 {{filesLimit}}）",
+  "File {{fileName}} successfully added.": "檔案 {{fileName}} 上傳成功",
+  "File {{fileName}} removed.": "成功刪除檔案 {{fileName}}",
+  "File {{fileName}} was rejected.": "檔案 {{fileName}} 不支援",
+  "File is larger than {{fileSize}} bytes": "檔案超過 {{fileSize}} Bytes",
+
+  "Intent with 2 spaces": "縮排 2 個空格",
+  "Intent with 3 spaces": "縮排 3 個空格",
+  "Intent with 4 spaces": "縮排 4 個空格",
+  "Intent with 8 spaces": "縮排 8 個空格",
+  "Intent with a tab character": "縮排 1 個 Tab",
+
+  "Text output": "文字輸出",
+  "Preview is not supported.": "不支援預覽",
+
+  "Filename": "檔案名稱",
+
+  "Share link": "分享連結",
+  "Close": "關閉",
+  "Copy": "複製",
+  "Copied Successfully": "複製成功",
+  "Share": "分享",
+  "Including your input.": "包含您輸入的內容",
+
+  "Fullscreen": "全螢幕模式",
+
+  "warning-device-not-supported": "不支援此裝置",
+
+
+  "tour.nav": "您可以在此選擇其他線上工具",
+  "tour.tool-title": "這是您想要使用的線上工具",
+  "tour.tool-description": "這是工具的說明，可以協助您了解此工具的用途",
+  "tour.tool-content": "這是本線上工具的主要操作區域，您可以在此做任何您想要做的事情",
+  "tour.back": "上一步",
+  "tour.close": "關閉",
+  "tour.last": "結束",
+  "tour.next": "下一步",
+  "tour.open": "開啟導覽",
+  "tour.skip": "略過",
+
+  "leave-site-dialog.title": "您確定嗎？",
+  "leave-site-dialog.summary": "您將要離開",
+  "leave-site-dialog.detail": "前往網站:",
+  "leave-site-dialog.cancel": "取消",
+  "leave-site-dialog.leave": "離開網站"
+}

@@ -1,0 +1,10 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://paji-toolset.net
+
+# Sitemaps
+Sitemap: https://paji-toolset.net/sitemap.xml
+Sitemap: https://paji-toolset.net/server-sitemap.xml
