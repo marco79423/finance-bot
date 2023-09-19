@@ -1,10 +1,10 @@
 services:
-  finance-bot-web:
+  web:
     build: web
     ports:
       - "16889:16889"
 
-  finance-bot:
+  api-server:
     build: .
     ports:
       - "16888:16888"
