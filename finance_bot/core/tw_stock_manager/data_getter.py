@@ -24,7 +24,7 @@ class DataGetter:
         return df.pivot(columns='stock_id', values='open')
 
     @property
-    def close(self):
+    def close(self) -> pd.DataFrame:
         df = self._get_prices_df(self.use_cache)
         return df.pivot(columns='stock_id', values='close')
 
