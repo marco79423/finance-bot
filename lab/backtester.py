@@ -81,8 +81,8 @@ class Result:
     final_funds: int
     start: pd.Timestamp
     end: pd.Timestamp
-    positions: []
-    close_positions: []
+    positions: pd.DataFrame
+    close_positions: pd.DataFrame
     equity_curve: pd.Series
 
     @property
@@ -104,13 +104,14 @@ class Result:
         )
         fig.show()
         print('已關倉')
-        for position in self.close_positions:
-            position['total_return'] = (position['close_price'] - position['start_price']) * position['shares'] * 1000
-            print(position)
+        df = self.close_positions.copy()
+        df['total_return'] = (df['close_price'] - df['start_price']) * df['shares'] * 1000
+        print(df)
+
         print('仍持倉')
-        for position in self.positions:
-            position['total_return'] = (position['current_price'] - position['start_price']) * position['shares'] * 1000
-            print(position)
+        df = self.positions.copy()
+        df['total_return'] = (df['current_price'] - df['start_price']) * df['shares'] * 1000
+        print(df)
 
 
 class Backtester:
@@ -142,8 +143,8 @@ class Backtester:
 
         # 初始化資金和股票數量
         funds = init_funds
-        close_positions = []
-        positions = []
+        close_positions = pd.DataFrame(columns=['stock_id', 'shares', 'start_date', 'start_price', 'close_date', 'close_price', 'current_price'])
+        positions = pd.DataFrame(columns=['stock_id', 'shares', 'start_date', 'start_price', 'close_date', 'close_price', 'current_price'])
 
         buy_s = strategy.buy_sig.loc[start:end]  # 篩選時間
         buy_s = buy_s.loc[:, buy_s.any()]  # 直接濾掉全部值為 False 的股票
@@ -154,35 +155,27 @@ class Backtester:
         sell_sig = sell_sig.loc[:, sell_sig.any()]  # 直接濾掉全部值為 False 的股票
         sell_df = sell_sig.shift(1).fillna(False)  # 隔天
 
-        date_range_i = close_df.loc[start:end].index
+        date_range_i = close_df.loc[start:end].index # 交易日
 
         equity_curve = []
         for date in date_range_i:
-            new_positions = []
             max_f = funds // (partition - len(positions)) if partition - len(positions) >= 1 else 0
-            holding_stock_ids = [position['stock_id'] for position in positions]
+            holding_stock_ids = positions['stock_id']
 
             sell_stock_ids = []
             if date in sell_df.index:
                 s = sell_df.loc[date]
                 sell_stock_ids = s[s].index.tolist()
 
-            for position in positions:
-                stock_id = position['stock_id']
-                if stock_id in sell_stock_ids:
-                    open_price = open_df[stock_id][date]
-                    close_positions.append({
-                        **position,
-                        'close_date': date,
-                        'close_price': open_price
-                    })
-                    funds += (position['shares'] * 1000) * open_price * (1 - fee_rate - tax_rate)
-                else:
-                    # new_positions.append(position)
-                    new_positions.append({
-                        **position,
-                        'current_price': current_df[stock_id][date]
-                    })
+            new_close_positions = positions[positions['stock_id'].isin(sell_stock_ids)].copy()
+            if not new_close_positions.empty:
+                new_close_positions['close_date'] = date
+                new_close_positions['close_price'] = new_close_positions['stock_id'].map(open_df.loc[date, new_close_positions['stock_id']])
+                funds += sum(new_close_positions['shares'] * new_close_positions['close_price'] * (1 - fee_rate - tax_rate))
+                close_positions = pd.concat([close_positions, new_close_positions])
+
+            new_positions1 = positions[~positions['stock_id'].isin(sell_stock_ids)].copy()
+            new_positions1['current_price'] = new_positions1['stock_id'].map(current_df.loc[date, new_positions1['stock_id']])
 
             available_stock_ids = []
             if date in buy_weight_df.index:
@@ -191,31 +184,29 @@ class Backtester:
                 i = s.index[~s.index.isin(holding_stock_ids)]
                 available_stock_ids = i[:partition].tolist()
 
+            new_positions2 = []
             for stock_id in available_stock_ids:
-                if stock_id in [position['stock_id'] for position in positions]:
-                    continue
-
                 open_price = open_df[stock_id][date]
                 current_price = current_df[stock_id][date]
 
-                shares = max_f / (open_price * (1 + fee_rate)) // 1000
-                if shares < 1:
+                shares = (max_f / (open_price * (1 + fee_rate)) // 1000) * 1000
+                if shares < 1000:
                     continue
 
-                new_positions.append({
+                new_positions2.append({
                     'stock_id': stock_id,
                     'shares': shares,
                     'start_date': date,
                     'start_price': open_price,
                     'current_price': current_price,
                 })
-                funds -= (shares * 1000) * (open_price * (1 + fee_rate))
+                funds -= shares * (open_price * (1 + fee_rate))
+            new_positions2 = pd.DataFrame(new_positions2)
 
-            positions = new_positions
+            positions = pd.concat([new_positions1, new_positions2])
+            positions = positions.reset_index(drop=True)
 
-            current_equity = funds
-            for position in positions:
-                current_equity += position['current_price'] * (position['shares'] * 1000)
+            current_equity = funds + sum(positions['current_price'] * positions['shares'])
             equity_curve.append(current_equity)
 
         equity_curve = pd.Series(equity_curve, index=date_range_i)
