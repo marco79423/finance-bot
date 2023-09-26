@@ -46,25 +46,25 @@ class Position:
     stock_id: str
     shares: int
     start_date: pd.Timestamp
-    close_date: pd.Timestamp
+    end_date: pd.Timestamp
 
     start_price: float
-    close_price: float
+    end_price: float
 
     max_price: Optional[float] = None
     min_price: Optional[float] = None
 
     @property
     def total_return(self):
-        return (self.close_price - self.start_price) * self.shares
+        return (self.end_price - self.start_price) * self.shares
 
     @property
     def holding_period(self) -> pd.Timedelta:
-        return self.close_date - self.start_date
+        return self.end_date - self.start_date
 
     @property
     def return_rate(self) -> float:
-        return (self.close_price - self.start_price) / self.start_price
+        return (self.end_price - self.start_price) / self.start_price
 
     @property
     def max_return_rate(self) -> float:
@@ -83,29 +83,16 @@ class Result:
     start: pd.Timestamp
     end: pd.Timestamp
     positions: pd.DataFrame
-    close_positions: pd.DataFrame
     equity_curve: pd.Series
 
     @property
     def trades(self):
         return []
 
-    # @property
-    # def equity_curve(self):
-    #     """權益曲線（Equity Curve）"""
-    #     return pd.Series(np.random.randint(-1000, 1000, 100),
-    #                      index=pd.date_range(start='2023-01-01', periods=100)).cumsum() + self.init_funds
-
     def show(self):
         with pd.option_context('display.max_rows', None, 'display.max_columns', None, 'display.width', None):
-            print('已平倉')
-            df = self.close_positions.copy()
-            df['total_return'] = (df['close_price'] - df['start_price']) * df['shares'] * 1000
-            print(df)
-
-            print('仍持倉')
             df = self.positions.copy()
-            df['total_return'] = (df['current_price'] - df['start_price']) * df['shares'] * 1000
+            df['total_return'] = (df['end_price'] - df['start_price']) * df['shares'] * 1000
             print(df)
 
         fig = px.line(
@@ -134,7 +121,6 @@ class Backtester:
 
         close_df = self.data.close.ffill()
         open_df = self.data.open.ffill()
-        current_df = close_df
 
         strategy_class.data = self.data
         strategy = strategy_class()
@@ -146,10 +132,8 @@ class Backtester:
 
         # 初始化資金和股票數量
         funds = init_funds
-        close_positions = pd.DataFrame(
-            columns=['stock_id', 'shares', 'start_date', 'start_price', 'close_date', 'close_price', 'current_price'])
         positions = pd.DataFrame(
-            columns=['stock_id', 'shares', 'start_date', 'start_price', 'close_date', 'close_price', 'current_price'])
+            columns=['status', 'stock_id', 'shares', 'start_date', 'start_price', 'end_date', 'end_price'])
 
         buy_s = strategy.buy_sig.loc[start:end]  # 篩選時間
         buy_s = buy_s.loc[:, buy_s.any()]  # 直接濾掉全部值為 False 的股票
@@ -164,28 +148,32 @@ class Backtester:
 
         equity_curve = []
         for date in date_range_i:
-            max_f = funds // (partition - len(positions)) if partition - len(positions) >= 1 else 0
-            holding_stock_ids = positions['stock_id']
+            open_positions = positions[positions['status'] == 'open']
+            close_positions = positions[positions['status'] == 'close']
+
+            max_f = funds // (partition - len(open_positions)) if partition - len(open_positions) >= 1 else 0
+            holding_stock_ids = open_positions['stock_id']
 
             open_s = open_df.loc[date]
-            current_s = current_df.loc[date]
+            close_s = close_df.loc[date]
 
             sell_stock_ids = []
             if date in sell_df.index:
                 s = sell_df.loc[date]
                 sell_stock_ids = s[s].index.tolist()
 
-            new_close_positions = positions[positions['stock_id'].isin(sell_stock_ids)].copy()
+            new_close_positions = open_positions[open_positions['stock_id'].isin(sell_stock_ids)].copy()
             if not new_close_positions.empty:
-                new_close_positions['close_date'] = date
-                new_close_positions['close_price'] = new_close_positions['stock_id'].map(
+                new_close_positions['status'] = 'close'
+                new_close_positions['end_date'] = date
+                new_close_positions['end_price'] = new_close_positions['stock_id'].map(
                     open_s[new_close_positions['stock_id']])
                 funds += sum(
-                    new_close_positions['shares'] * new_close_positions['close_price'] * (1 - fee_rate - tax_rate))
-                close_positions = pd.concat([close_positions, new_close_positions])
+                    new_close_positions['shares'] * new_close_positions['end_price'] * (1 - fee_rate - tax_rate))
+                new_close_positions = pd.concat([close_positions, new_close_positions])
+                new_close_positions = new_close_positions.reset_index(drop=True)
 
-            new_positions1 = positions[~positions['stock_id'].isin(sell_stock_ids)].copy()
-            new_positions1['current_price'] = new_positions1['stock_id'].map(current_s[new_positions1['stock_id']])
+            new_positions1 = open_positions[~open_positions['stock_id'].isin(sell_stock_ids)].copy()
 
             available_stock_ids = []
             if date in buy_weight_df.index:
@@ -197,30 +185,33 @@ class Backtester:
             new_positions2 = []
             for stock_id in available_stock_ids:
                 open_price = open_s[stock_id]
-                current_price = current_s[stock_id]
 
-                shares = (max_f / (open_price * (1 + fee_rate)) // 1000) * 1000
+                shares = int((max_f / (open_price * (1 + fee_rate)) // 1000) * 1000)
                 if shares < 1000:
                     continue
 
                 new_positions2.append({
+                    'status': 'open',
                     'stock_id': stock_id,
                     'shares': shares,
                     'start_date': date,
                     'start_price': open_price,
-                    'current_price': current_price,
                 })
                 funds -= shares * (open_price * (1 + fee_rate))
             new_positions2 = pd.DataFrame(new_positions2)
 
-            positions = pd.concat([new_positions1, new_positions2])
+            new_positions = pd.concat([new_positions1, new_positions2])
+            new_positions = new_positions.reset_index(drop=True)
+
+            positions = pd.concat([new_close_positions, new_positions])
             positions = positions.reset_index(drop=True)
 
-            current_equity = funds + sum(positions['current_price'] * positions['shares'])
+            positions['end_price'].update(positions.loc[positions['status'] == 'open', 'stock_id'].map(close_s))
+            current_equity = funds + sum(open_positions['end_price'] * open_positions['shares'])
             equity_curve.append(current_equity)
 
+        positions['end_price'].update(positions.loc[positions['status'] == 'open', 'stock_id'].map(close_df.loc[date_range_i[-1]]))
         equity_curve = pd.Series(equity_curve, index=date_range_i)
-
         return Result(
             strategy_name=strategy.name,
             start=start,
@@ -228,7 +219,6 @@ class Backtester:
             init_funds=init_funds,
             final_funds=funds,
             positions=positions,
-            close_positions=close_positions,
             equity_curve=equity_curve
         )
 
