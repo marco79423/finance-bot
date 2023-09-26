@@ -18,7 +18,7 @@ class LendingService(ServiceBase):
 
         infra.scheduler.add_schedule_task(
             self.send_stats,
-            schedule_conf_key='server.service.lending_bot.schedule.sending_stats',
+            schedule_conf_key='server.service.lending.schedule.sending_stats',
             misfire_grace_time=60 * 5
         )
 
