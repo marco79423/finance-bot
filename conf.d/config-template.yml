@@ -19,6 +19,10 @@ core:
     api_secret: <token>
 
   tw_stock_manager:
+    shioaji:
+      api_key: <key>
+      api_secret: <token>
+
     updater:
       finmind:
         api_token: <token>
