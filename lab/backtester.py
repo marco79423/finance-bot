@@ -162,6 +162,9 @@ class Backtester:
             max_f = funds // (partition - len(positions)) if partition - len(positions) >= 1 else 0
             holding_stock_ids = positions['stock_id']
 
+            open_s = open_df.loc[date]
+            current_s = current_df.loc[date]
+
             sell_stock_ids = []
             if date in sell_df.index:
                 s = sell_df.loc[date]
@@ -170,12 +173,12 @@ class Backtester:
             new_close_positions = positions[positions['stock_id'].isin(sell_stock_ids)].copy()
             if not new_close_positions.empty:
                 new_close_positions['close_date'] = date
-                new_close_positions['close_price'] = new_close_positions['stock_id'].map(open_df.loc[date, new_close_positions['stock_id']])
+                new_close_positions['close_price'] = new_close_positions['stock_id'].map(open_s[new_close_positions['stock_id']])
                 funds += sum(new_close_positions['shares'] * new_close_positions['close_price'] * (1 - fee_rate - tax_rate))
                 close_positions = pd.concat([close_positions, new_close_positions])
 
             new_positions1 = positions[~positions['stock_id'].isin(sell_stock_ids)].copy()
-            new_positions1['current_price'] = new_positions1['stock_id'].map(current_df.loc[date, new_positions1['stock_id']])
+            new_positions1['current_price'] = new_positions1['stock_id'].map(current_s[new_positions1['stock_id']])
 
             available_stock_ids = []
             if date in buy_weight_df.index:
@@ -186,8 +189,8 @@ class Backtester:
 
             new_positions2 = []
             for stock_id in available_stock_ids:
-                open_price = open_df[stock_id][date]
-                current_price = current_df[stock_id][date]
+                open_price = open_s[stock_id]
+                current_price = current_s[stock_id]
 
                 shares = (max_f / (open_price * (1 + fee_rate)) // 1000) * 1000
                 if shares < 1000:
