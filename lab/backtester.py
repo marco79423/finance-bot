@@ -39,6 +39,7 @@ class Strategy(StrategyBase):
         self.sell_sig = (self.sma5 < self.sma20) & (self.sma5.shift(1) > self.sma20.shift(1))
         self.sort_f = self.data.close
 
+
 @dataclasses.dataclass
 class Position:
     """投資部位"""
@@ -96,6 +97,17 @@ class Result:
     #                      index=pd.date_range(start='2023-01-01', periods=100)).cumsum() + self.init_funds
 
     def show(self):
+        with pd.option_context('display.max_rows', None, 'display.max_columns', None, 'display.width', None):
+            print('已平倉')
+            df = self.close_positions.copy()
+            df['total_return'] = (df['close_price'] - df['start_price']) * df['shares'] * 1000
+            print(df)
+
+            print('仍持倉')
+            df = self.positions.copy()
+            df['total_return'] = (df['current_price'] - df['start_price']) * df['shares'] * 1000
+            print(df)
+
         fig = px.line(
             data_frame=pd.DataFrame({
                 '權益': self.equity_curve,
@@ -103,15 +115,6 @@ class Result:
             title=self.strategy_name
         )
         fig.show()
-        print('已關倉')
-        df = self.close_positions.copy()
-        df['total_return'] = (df['close_price'] - df['start_price']) * df['shares'] * 1000
-        print(df)
-
-        print('仍持倉')
-        df = self.positions.copy()
-        df['total_return'] = (df['current_price'] - df['start_price']) * df['shares'] * 1000
-        print(df)
 
 
 class Backtester:
@@ -143,19 +146,21 @@ class Backtester:
 
         # 初始化資金和股票數量
         funds = init_funds
-        close_positions = pd.DataFrame(columns=['stock_id', 'shares', 'start_date', 'start_price', 'close_date', 'close_price', 'current_price'])
-        positions = pd.DataFrame(columns=['stock_id', 'shares', 'start_date', 'start_price', 'close_date', 'close_price', 'current_price'])
+        close_positions = pd.DataFrame(
+            columns=['stock_id', 'shares', 'start_date', 'start_price', 'close_date', 'close_price', 'current_price'])
+        positions = pd.DataFrame(
+            columns=['stock_id', 'shares', 'start_date', 'start_price', 'close_date', 'close_price', 'current_price'])
 
         buy_s = strategy.buy_sig.loc[start:end]  # 篩選時間
         buy_s = buy_s.loc[:, buy_s.any()]  # 直接濾掉全部值為 False 的股票
         sort_f = strategy.sort_f.loc[buy_s.index, buy_s.columns]
-        buy_weight_df = (buy_s * sort_f).shift(1).fillna(0) # 隔天
+        buy_weight_df = (buy_s * sort_f).shift(1).fillna(0)  # 隔天
 
         sell_sig = strategy.sell_sig.loc[start:end]  # 篩選時間
         sell_sig = sell_sig.loc[:, sell_sig.any()]  # 直接濾掉全部值為 False 的股票
         sell_df = sell_sig.shift(1).fillna(False)  # 隔天
 
-        date_range_i = close_df.loc[start:end].index # 交易日
+        date_range_i = close_df.loc[start:end].index  # 交易日
 
         equity_curve = []
         for date in date_range_i:
@@ -173,8 +178,10 @@ class Backtester:
             new_close_positions = positions[positions['stock_id'].isin(sell_stock_ids)].copy()
             if not new_close_positions.empty:
                 new_close_positions['close_date'] = date
-                new_close_positions['close_price'] = new_close_positions['stock_id'].map(open_s[new_close_positions['stock_id']])
-                funds += sum(new_close_positions['shares'] * new_close_positions['close_price'] * (1 - fee_rate - tax_rate))
+                new_close_positions['close_price'] = new_close_positions['stock_id'].map(
+                    open_s[new_close_positions['stock_id']])
+                funds += sum(
+                    new_close_positions['shares'] * new_close_positions['close_price'] * (1 - fee_rate - tax_rate))
                 close_positions = pd.concat([close_positions, new_close_positions])
 
             new_positions1 = positions[~positions['stock_id'].isin(sell_stock_ids)].copy()
