@@ -82,16 +82,12 @@ class Result:
     final_funds: int
     start: pd.Timestamp
     end: pd.Timestamp
-    positions: pd.DataFrame
+    trades: pd.DataFrame
     equity_curve: pd.Series
-
-    @property
-    def trades(self):
-        return []
 
     def show(self):
         with pd.option_context('display.max_rows', None, 'display.max_columns', None, 'display.width', None):
-            df = self.positions.copy()
+            df = self.trades.copy()
             df['total_return'] = (df['end_price'] - df['start_price']) * df['shares'] * 1000
             print(df)
 
@@ -115,12 +111,22 @@ class Backtester:
     def __init__(self, data):
         self.data = data
 
+    @property
+    def filled_close(self):
+        """補完空值的收盤價"""
+        return self.data.close.ffill()
+
+    @property
+    def filled_open(self):
+        """補完空值的開盤價"""
+        return self.data.open.ffill()
+
     def run(self, init_funds, partition, stop_loss_rate, strategy_class, start, end):
         start = pd.Timestamp(start)
         end = pd.Timestamp(end)
 
-        close_df = self.data.close.ffill()
-        open_df = self.data.open.ffill()
+        all_close_prices = self.filled_close
+        all_open_prices = self.filled_open
 
         strategy_class.data = self.data
         strategy = strategy_class()
@@ -132,93 +138,87 @@ class Backtester:
 
         # 初始化資金和股票數量
         funds = init_funds
-        positions = pd.DataFrame(
-            columns=['status', 'stock_id', 'shares', 'start_date', 'start_price', 'end_date', 'end_price'])
+        trades = pd.DataFrame(columns=['status', 'stock_id', 'shares', 'start_date', 'start_price', 'end_date', 'end_price'])
 
-        buy_s = strategy.buy_sig.loc[start:end]  # 篩選時間
-        buy_s = buy_s.loc[:, buy_s.any()]  # 直接濾掉全部值為 False 的股票
-        sort_f = strategy.sort_f.loc[buy_s.index, buy_s.columns]
-        buy_weight_df = (buy_s * sort_f).shift(1).fillna(0)  # 隔天
+        buy_sig = strategy.buy_sig.loc[start:end]  # 篩選時間
+        buy_sig = buy_sig.loc[:, buy_sig.any()]  # 直接濾掉全部值為 False 的股票
+        sort_f = strategy.sort_f.loc[buy_sig.index, buy_sig.columns]
+        yesterday_buy_weight_sig = (buy_sig * sort_f).shift(1).fillna(0)  # 隔天
 
         sell_sig = strategy.sell_sig.loc[start:end]  # 篩選時間
         sell_sig = sell_sig.loc[:, sell_sig.any()]  # 直接濾掉全部值為 False 的股票
-        sell_df = sell_sig.shift(1).fillna(False)  # 隔天
+        yesterday_sell_sig = sell_sig.shift(1).fillna(False)  # 隔天
 
-        date_range_i = close_df.loc[start:end].index  # 交易日
+        all_date_range = all_close_prices.loc[start:end].index  # 交易日
 
         equity_curve = []
-        for date in date_range_i:
-            open_positions = positions[positions['status'] == 'open']
-            close_positions = positions[positions['status'] == 'close']
+        for today in all_date_range:
+            today_open_prices = all_open_prices.loc[today]
+            today_close_prices = all_close_prices.loc[today]
 
-            max_f = funds // (partition - len(open_positions)) if partition - len(open_positions) >= 1 else 0
+            trades['end_price'].update(trades.loc[trades['status'] == 'open', 'stock_id'].map(today_close_prices))
+
+            single_entry_limit = 0
+            open_positions = trades[trades['status'] == 'open']
+            if partition - len(open_positions) >= 1:
+                single_entry_limit = funds // (partition - len(open_positions))
+
             holding_stock_ids = open_positions['stock_id']
 
-            open_s = open_df.loc[date]
-            close_s = close_df.loc[date]
-
             sell_stock_ids = []
-            if date in sell_df.index:
-                s = sell_df.loc[date]
+            if today in yesterday_sell_sig.index:
+                s = yesterday_sell_sig.loc[today]
                 sell_stock_ids = s[s].index.tolist()
 
-            new_close_positions = open_positions[open_positions['stock_id'].isin(sell_stock_ids)].copy()
-            if not new_close_positions.empty:
-                new_close_positions['status'] = 'close'
-                new_close_positions['end_date'] = date
-                new_close_positions['end_price'] = new_close_positions['stock_id'].map(
-                    open_s[new_close_positions['stock_id']])
-                funds += sum(
-                    new_close_positions['shares'] * new_close_positions['end_price'] * (1 - fee_rate - tax_rate))
-                new_close_positions = pd.concat([close_positions, new_close_positions])
-                new_close_positions = new_close_positions.reset_index(drop=True)
+            open_cond = trades['status'] == 'open'
+            sell_ids_cond = trades['stock_id'].isin(sell_stock_ids)
+            new_close_positions = trades.loc[open_cond & sell_ids_cond]
+            funds += sum(new_close_positions['shares'] * new_close_positions['end_price'] * (1 - fee_rate - tax_rate))
 
-            new_positions1 = open_positions[~open_positions['stock_id'].isin(sell_stock_ids)].copy()
+            trades.loc[open_cond & sell_ids_cond, 'end_date'] = today
+            trades.loc[open_cond & sell_ids_cond, 'status'] = 'close'
 
             available_stock_ids = []
-            if date in buy_weight_df.index:
-                weight_s = buy_weight_df.loc[date]
+            if today in yesterday_buy_weight_sig.index:
+                weight_s = yesterday_buy_weight_sig.loc[today]
                 s = weight_s.sort_values(ascending=False)
                 i = s.index[~s.index.isin(holding_stock_ids)]
                 available_stock_ids = i[:partition].tolist()
 
-            new_positions2 = []
+            new_positions = []
             for stock_id in available_stock_ids:
-                open_price = open_s[stock_id]
+                open_price = today_open_prices[stock_id]
 
-                shares = int((max_f / (open_price * (1 + fee_rate)) // 1000) * 1000)
+                shares = int((single_entry_limit / (open_price * (1 + fee_rate)) // 1000) * 1000)
                 if shares < 1000:
                     continue
 
-                new_positions2.append({
+                new_positions.append({
                     'status': 'open',
                     'stock_id': stock_id,
                     'shares': shares,
-                    'start_date': date,
+                    'start_date': today,
                     'start_price': open_price,
+                    'end_price': today_close_prices[stock_id],
                 })
                 funds -= shares * (open_price * (1 + fee_rate))
-            new_positions2 = pd.DataFrame(new_positions2)
+            new_positions = pd.DataFrame(new_positions)
 
-            new_positions = pd.concat([new_positions1, new_positions2])
-            new_positions = new_positions.reset_index(drop=True)
+            trades = pd.concat([trades, new_positions])
+            trades = trades.reset_index(drop=True)
 
-            positions = pd.concat([new_close_positions, new_positions])
-            positions = positions.reset_index(drop=True)
-
-            positions['end_price'].update(positions.loc[positions['status'] == 'open', 'stock_id'].map(close_s))
+            open_positions = trades.loc[trades['status'] == 'open']
             current_equity = funds + sum(open_positions['end_price'] * open_positions['shares'])
             equity_curve.append(current_equity)
 
-        positions['end_price'].update(positions.loc[positions['status'] == 'open', 'stock_id'].map(close_df.loc[date_range_i[-1]]))
-        equity_curve = pd.Series(equity_curve, index=date_range_i)
+        equity_curve = pd.Series(equity_curve, index=all_date_range)
         return Result(
             strategy_name=strategy.name,
             start=start,
             end=end,
             init_funds=init_funds,
             final_funds=funds,
-            positions=positions,
+            trades=trades,
             equity_curve=equity_curve
         )
 
