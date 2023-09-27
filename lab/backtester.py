@@ -85,11 +85,19 @@ class Result:
     trades: pd.DataFrame
     equity_curve: pd.Series
 
+    _analysis_trades: Optional[pd.DataFrame] = None
+
+    @property
+    def analysis_trades(self):
+        if self._analysis_trades is None:
+            df = self.trades.copy()
+            df['total_return'] = (df['end_price'] - df['start_price']) * df['shares']
+            self._analysis_trades = df
+        return self._analysis_trades
+
     def show(self):
         with pd.option_context('display.max_rows', None, 'display.max_columns', None, 'display.width', None):
-            df = self.trades.copy()
-            df['total_return'] = (df['end_price'] - df['start_price']) * df['shares'] * 1000
-            print(df)
+            print(self.analysis_trades)
 
         fig = px.line(
             data_frame=pd.DataFrame({
