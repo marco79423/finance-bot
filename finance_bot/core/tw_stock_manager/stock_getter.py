@@ -13,6 +13,11 @@ class StockGetter:
         self._financial_statements_df = None
 
     @property
+    def prices(self):
+        """取得股價"""
+        return self._get_prices_df()
+
+    @property
     def open(self):
         """取得開盤價"""
         df = self._get_prices_df()

@@ -25,6 +25,12 @@ class PathManager(ManagerBase):
 
     @property
     def db_cache_folder(self):
-        db_cache_folder = self.project_folder / 'db_cache'
+        db_cache_folder = self.data_folder / 'cache'
         Path(db_cache_folder).mkdir(exist_ok=True)
         return db_cache_folder
+
+    @property
+    def multicharts_folder(self):
+        multicharts_folder = self.data_folder / 'multicharts'
+        Path(multicharts_folder).mkdir(exist_ok=True)
+        return multicharts_folder

@@ -11,12 +11,18 @@ class DataGetter:
         self.use_cache = True
 
         self._logger = logger
+        self._stock_df = None
         self._prices_df = None
         self._monthly_revenue_df = None
         self._financial_statements_df = None
 
     def __getitem__(self, stock_id):
         return StockGetter(stock_id)
+
+    @property
+    def stocks(self):
+        df = self._get_stocks_df(self.use_cache)
+        return df
 
     @property
     def open(self):
@@ -86,6 +92,7 @@ class DataGetter:
 
     def rebuild_cache(self):
         mappings = [
+            ('tw_stock', self._get_stocks_df),
             ('tw_stock_price', self._get_prices_df),
             ('tw_stock_monthly_revenue', self._get_monthly_revenue_df),
             ('tw_stock_financial_statements', self._get_financial_statements_df),
@@ -95,6 +102,20 @@ class DataGetter:
             self._logger.info(f'重建 {key} 快取 ...')
             df = get_func(use_cache=False)
             infra.db_cache.save(key=key, df=df)
+
+    def _get_stocks_df(self, use_cache=True):
+        if use_cache:
+            if self._stock_df is None:
+                self._stock_df = infra.db_cache.read(key='tw_stock')
+            return self._stock_df
+        else:
+            self._stock_df = pd.read_sql(
+                sql=text("SELECT * FROM tw_stock"),
+                con=infra.db.engine,
+                index_col='stock_id',
+                parse_dates=['listing_date', 'created_at', 'updated_at'],
+            )
+            return self._stock_df
 
     def _get_prices_df(self, use_cache=True):
         if use_cache:

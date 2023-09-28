@@ -163,5 +163,4 @@ cython_debug/
 # project
 conf.d/config.yml
 data/
-db_cache/
 logs/
