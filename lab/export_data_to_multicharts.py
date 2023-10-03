@@ -2,6 +2,7 @@ from finance_bot.core import TWStockManager
 from finance_bot.infrastructure import infra
 
 data = TWStockManager().data
+data.rebuild_cache()
 
 for stock_id in data.stocks[data.stocks['tracked'] == 1].index:
     print(f'更新 {stock_id} ...')
