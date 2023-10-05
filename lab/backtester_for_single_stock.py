@@ -6,37 +6,65 @@ import pandas as pd
 import plotly.express as px
 
 from finance_bot.core import TWStockManager
-from finance_bot.core.tw_stock_manager.data_getter import DataGetter
+
+
+class LimitData:
+    def __init__(self, data):
+        self.data = data
+        self.date = None
+
+    @property
+    def open(self):
+        return self.data.open[:self.date]
+
+    @property
+    def close(self):
+        return self.data.close[:self.date]
 
 
 class StrategyBase(abc.ABC):
     name: str
     params: dict = {}
-    data: DataGetter
-    buy_sig: pd.DataFrame
-    sell_sig: pd.DataFrame
-    sort_f: pd.DataFrame
+    data: LimitData
+
+    _buy_next_day_open = False
+    _sell_next_day_open = False
 
     @abc.abstractmethod
     def handle(self):
         pass
 
+    def buy_next_day_open(self):
+        self._buy_next_day_open = True
+
+    def sell_next_day_open(self):
+        self._sell_next_day_open = True
+
+    def inter_clean(self):
+        self._buy_next_day_open = False
+        self._sell_next_day_open = False
+
+
+class MovingIndicator:
+    def __init__(self, data, period):
+        self.data = data
+        self.period = period
+
 
 class Strategy(StrategyBase):
     name = '基礎策略'
     params = dict(
-        partition=10,
-        stop_loss_rate=10,
     )
-
-    def __init__(self):
-        self.sma5 = self.data.close.rolling(window=5).mean()
-        self.sma20 = self.data.close.rolling(window=20).mean()
 
     # noinspection PyTypeChecker
     def handle(self):
-        self.buy_sig = (self.sma5 > self.sma20) & (self.sma5.shift(1) < self.sma20.shift(1)) & (self.data.close > 15)
-        self.sell_sig = (self.sma5 < self.sma20) & (self.sma5.shift(1) > self.sma20.shift(1))
+        sma5 = self.data.close.rolling(window=5).mean()
+        sma20 = self.data.close.rolling(window=20).mean()
+
+        if sma5.iloc[-1] > sma20.iloc[-1] and sma5.iloc[-2] < sma20.iloc[-2] and self.data.close.iloc[-1] > 15:
+            self.buy_next_day_open()
+        elif sma5.iloc[-1] < sma20.iloc[-1] and sma5.iloc[-2] < sma20.iloc[-2]:
+            self.sell_next_day_open()
 
 
 @dataclasses.dataclass
@@ -127,9 +155,8 @@ class Backtester:
         all_close_prices = stock_data.close.ffill()
         all_open_prices = stock_data.open.ffill()
 
-        strategy_class.data = stock_data
+        strategy_class.data = LimitData(stock_data)
         strategy = strategy_class()
-        strategy.handle()
 
         # 手續費和稅的比例
         fee_rate = 1.425 / 1000 * self.fee_discount  # 0.1425％
@@ -141,12 +168,6 @@ class Backtester:
             columns=['status', 'stock_id', 'shares', 'start_date', 'start_price', 'end_date', 'end_price'])
         current_position = None
 
-        buy_sig = strategy.buy_sig.loc[start:end]  # 篩選時間
-        yesterday_buy_sig = buy_sig.shift(1).fillna(False)  # 隔天
-
-        sell_sig = strategy.sell_sig.loc[start:end]  # 篩選時間
-        yesterday_sell_sig = sell_sig.shift(1).fillna(False)  # 隔天
-
         all_date_range = all_close_prices.loc[start:end].index  # 交易日
 
         equity_curve = []
@@ -157,7 +178,7 @@ class Backtester:
             if current_position:
                 current_position['end_price'] = today_close_price
 
-                if yesterday_sell_sig.at[today]:
+                if strategy._sell_next_day_open:
                     current_position['end_price'] = today_open_price
                     current_position['end_date'] = today
                     current_position['status'] = 'close'
@@ -166,7 +187,7 @@ class Backtester:
                     current_position = None
 
             else:
-                if yesterday_buy_sig.at[today]:
+                if strategy._buy_next_day_open:
                     shares = int((funds / (today_open_price * (1 + fee_rate)) // 1000) * 1000)
                     if shares < 1000:
                         continue
@@ -186,6 +207,10 @@ class Backtester:
             if current_position:
                 current_equity += current_position['end_price'] * current_position['shares']
             equity_curve.append(current_equity)
+
+            strategy.inter_clean()
+            strategy.data.date = today
+            strategy.handle()
 
         if current_position:
             trades = pd.concat([trades, pd.DataFrame([current_position], columns=trades.columns)])
