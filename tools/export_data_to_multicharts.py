@@ -10,6 +10,6 @@ for stock_id in data.stocks[data.stocks['tracked'] == 1].index:
     if df.empty:
         continue
 
-    target_path = infra.path.multicharts_folder / f'{stock_id}.csv'
+    target_path = infra.path.multicharts_folder / 'prices' / f'{stock_id}.csv'
     df.to_csv(target_path)
 print(f'更新股價結束')
