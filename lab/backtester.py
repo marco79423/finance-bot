@@ -41,41 +41,6 @@ class Strategy(StrategyBase):
 
 
 @dataclasses.dataclass
-class Position:
-    """投資部位"""
-    stock_id: str
-    shares: int
-    start_date: pd.Timestamp
-    end_date: pd.Timestamp
-
-    start_price: float
-    end_price: float
-
-    max_price: Optional[float] = None
-    min_price: Optional[float] = None
-
-    @property
-    def total_return(self):
-        return (self.end_price - self.start_price) * self.shares
-
-    @property
-    def holding_period(self) -> pd.Timedelta:
-        return self.end_date - self.start_date
-
-    @property
-    def return_rate(self) -> float:
-        return (self.end_price - self.start_price) / self.start_price
-
-    @property
-    def max_return_rate(self) -> float:
-        return (self.max_price - self.start_price) / self.start_price
-
-    @property
-    def min_return_rate(self) -> float:
-        return (self.min_price - self.start_price) / self.start_price
-
-
-@dataclasses.dataclass
 class Result:
     strategy_name: str
     init_funds: int
@@ -129,7 +94,7 @@ class Backtester:
         """補完空值的開盤價"""
         return self.data.open.ffill()
 
-    def run(self, init_funds, partition, stop_loss_rate, strategy_class, start, end):
+    def run(self, init_funds, partition, strategy_class, start, end):
         start = pd.Timestamp(start)
         end = pd.Timestamp(end)
 
@@ -237,7 +202,6 @@ def main():
     result = backtester.run(
         init_funds=600000,
         partition=5,
-        stop_loss_rate=20,
         strategy_class=Strategy,
         start='2023-08-01',
         end='2023-08-10',

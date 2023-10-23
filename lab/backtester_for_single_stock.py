@@ -1,5 +1,6 @@
 import abc
 import dataclasses
+import math
 from typing import Optional
 
 import pandas as pd
@@ -11,23 +12,24 @@ from finance_bot.core import TWStockManager
 class LimitData:
     def __init__(self, data):
         self.data = data
-        self.date = None
+        self.start_date = None
+        self.end_date = None
 
     @property
     def open(self):
-        return self.data.open[:self.date]
+        return self.data.open[self.start_date:self.end_date]
 
     @property
     def close(self):
-        return self.data.close[:self.date]
+        return self.data.close[self.start_date:self.end_date]
 
     @property
     def high(self):
-        return self.data.high[:self.date]
+        return self.data.high[self.start_date:self.end_date]
 
     @property
     def low(self):
-        return self.data.low[:self.date]
+        return self.data.low[self.start_date:self.end_date]
 
 
 class StrategyBase(abc.ABC):
@@ -76,41 +78,6 @@ class Strategy(StrategyBase):
 
 
 @dataclasses.dataclass
-class Position:
-    """投資部位"""
-    stock_id: str
-    shares: int
-    start_date: pd.Timestamp
-    end_date: pd.Timestamp
-
-    start_price: float
-    end_price: float
-
-    max_price: Optional[float] = None
-    min_price: Optional[float] = None
-
-    @property
-    def total_return(self):
-        return (self.end_price - self.start_price) * self.shares
-
-    @property
-    def holding_period(self) -> pd.Timedelta:
-        return self.end_date - self.start_date
-
-    @property
-    def return_rate(self) -> float:
-        return (self.end_price - self.start_price) / self.start_price
-
-    @property
-    def max_return_rate(self) -> float:
-        return (self.max_price - self.start_price) / self.start_price
-
-    @property
-    def min_return_rate(self) -> float:
-        return (self.min_price - self.start_price) / self.start_price
-
-
-@dataclasses.dataclass
 class Result:
     strategy_name: str
     init_funds: int
@@ -148,32 +115,41 @@ class Result:
             )
         ]
 
-        for _, trade in self.analysis_trades.iterrows():
-            if trade['total_return'] > 0:
-                data.append(
-                    go.Scatter(
-                        x=[trade['start_date'], trade['end_date']],
-                        y=[trade['start_price'], trade['end_price']],
-                        mode='lines+markers',
-                        line_color='red',
-                    )
+        for idx, trade in self.analysis_trades.iterrows():
+            data.append(
+                go.Scatter(
+                    x=[trade['start_date'], trade['end_date']],
+                    y=[trade['start_price'], trade['end_price']],
+                    line_color='red' if trade['total_return'] > 0 else 'green',
+                    name=f'trade {idx}'
                 )
-            else:
-                data.append(
-                    go.Scatter(
-                        x=[trade['start_date'], trade['end_date']],
-                        y=[trade['start_price'], trade['end_price']],
-                        mode='lines+markers',
-                        line_color='green',
-                    )
-                )
+            )
+
+        data.append(
+            go.Scatter(
+                x=self.equity_curve.index,
+                y=self.equity_curve,
+                name='權益',
+                xaxis="x",
+                yaxis="y2"
+            )
+        )
 
         fig = go.Figure(
             data=data,
             layout=go.Layout(
-                xaxis_title='日期',
-                yaxis_title='股價',
-                xaxis_rangeslider_visible=False,
+                xaxis=dict(
+                    title='日期',
+                    rangeslider_visible=False,
+                ),
+                yaxis=dict(
+                    title='股價',
+                    domain=[0.5, 1],
+                ),
+                yaxis2=dict(
+                    title='權益',
+                    domain=[0, 0.5],
+                ),
             )
         )
 
@@ -219,6 +195,7 @@ class Backtester:
         all_open_prices = stock_data.open.ffill()
 
         strategy_class.data = LimitData(stock_data)
+        strategy_class.data.start_date = start
         strategy = strategy_class()
 
         # 手續費和稅的比例
@@ -240,12 +217,14 @@ class Backtester:
 
             if current_position:
                 current_position['end_price'] = today_close_price
+                current_position['end_date'] = today
 
                 if strategy._sell_next_day_open:
                     current_position['end_price'] = today_open_price
                     current_position['end_date'] = today
                     current_position['status'] = 'close'
-                    funds += current_position['shares'] * current_position['end_price'] * (1 - fee_rate - tax_rate)
+                    funds += math.ceil(
+                        current_position['shares'] * current_position['end_price'] * (1 - fee_rate - tax_rate))
                     trades = pd.concat([trades, pd.DataFrame([current_position], columns=trades.columns)])
                     current_position = None
 
@@ -262,9 +241,10 @@ class Backtester:
                         'start_date': today,
                         'start_price': today_open_price,
                         'end_price': today_open_price,
+                        'end_date': today,
                     }
 
-                    funds -= shares * (today_open_price * (1 + fee_rate))
+                    funds -= math.ceil(shares * (today_open_price * (1 + fee_rate)))
 
             current_equity = funds
             if current_position:
@@ -272,7 +252,7 @@ class Backtester:
             equity_curve.append(current_equity)
 
             strategy.inter_clean()
-            strategy.data.date = today
+            strategy.data.end_date = today
             strategy.handle()
 
         if current_position:
@@ -300,6 +280,8 @@ def main():
         init_funds=600000,
         strategy_class=Strategy,
         start='2015-08-01',
+        # start='2015-09-04',
+        # end='2015-09-10',
         end='2023-08-10',
     )
     result.show()
