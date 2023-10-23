@@ -6,7 +6,7 @@ import pandas as pd
 import plotly.express as px
 
 from finance_bot.core import TWStockManager
-from lab.backtester_for_single_stock import Strategy, LimitData
+from tool.backtester.backtester_for_single_stock import Strategy, LimitData
 
 
 @dataclasses.dataclass
@@ -115,7 +115,7 @@ class Backtester:
                     open_cond = trades['status'] == 'open'
                     sell_ids_cond = trades['stock_id'].isin(sell_stock_ids)
                     new_close_positions = trades.loc[open_cond & sell_ids_cond]
-                    # TODO: 小數點
+
                     fee = math.floor(sum(new_close_positions['shares'] * new_close_positions['end_price'] * (fee_rate * tax_rate)))
                     funds += sum(new_close_positions['shares'] * new_close_positions['end_price']) - fee
 
