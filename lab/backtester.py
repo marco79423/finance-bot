@@ -1,43 +1,12 @@
-import abc
 import dataclasses
+import math
 from typing import Optional
 
 import pandas as pd
 import plotly.express as px
 
 from finance_bot.core import TWStockManager
-from finance_bot.core.tw_stock_manager.data_getter import DataGetter
-
-
-class StrategyBase(abc.ABC):
-    name: str
-    params: dict = {}
-    data: DataGetter
-    buy_sig: pd.DataFrame
-    sell_sig: pd.DataFrame
-    sort_f: pd.DataFrame
-
-    @abc.abstractmethod
-    def handle(self):
-        pass
-
-
-class Strategy(StrategyBase):
-    name = '基礎策略'
-    params = dict(
-        partition=10,
-        stop_loss_rate=10,
-    )
-
-    def __init__(self):
-        self.sma5 = self.data.close.rolling(window=5).mean()
-        self.sma20 = self.data.close.rolling(window=20).mean()
-
-    # noinspection PyTypeChecker
-    def handle(self):
-        self.buy_sig = (self.sma5 > self.sma20) & (self.sma5.shift(1) < self.sma20.shift(1)) & (self.data.close > 15)
-        self.sell_sig = (self.sma5 < self.sma20) & (self.sma5.shift(1) > self.sma20.shift(1))
-        self.sort_f = self.data.close
+from lab.backtester_for_single_stock import Strategy, LimitData
 
 
 @dataclasses.dataclass
@@ -94,16 +63,25 @@ class Backtester:
         """補完空值的開盤價"""
         return self.data.open.ffill()
 
-    def run(self, init_funds, partition, strategy_class, start, end):
+    def run(self, init_funds, max_single_position_exposure, strategy_class, start, end):
         start = pd.Timestamp(start)
         end = pd.Timestamp(end)
 
-        all_close_prices = self.filled_close
-        all_open_prices = self.filled_open
+        all_close_prices = self.data.close.ffill()  # 補完空值的收盤價
+        all_open_prices = self.data.open.ffill()  # 補完空值的開盤價
 
         strategy_class.data = self.data
-        strategy = strategy_class()
-        strategy.handle()
+
+        strategy_map = {}
+
+        all_stock_ids = strategy_class.available_stock_ids
+        if not all_stock_ids:
+            all_stock_ids = all_close_prices.columns
+
+        for stock_id in all_stock_ids:
+            strategy = strategy_class()
+            strategy.data = LimitData(self.data[stock_id])
+            strategy_map[stock_id] = strategy
 
         # 手續費和稅的比例
         fee_rate = 1.425 / 1000 * self.fee_discount  # 0.1425％
@@ -111,16 +89,8 @@ class Backtester:
 
         # 初始化資金和股票數量
         funds = init_funds
-        trades = pd.DataFrame(columns=['status', 'stock_id', 'shares', 'start_date', 'start_price', 'end_date', 'end_price'])
-
-        buy_sig = strategy.buy_sig.loc[start:end]  # 篩選時間
-        buy_sig = buy_sig.loc[:, buy_sig.any()]  # 直接濾掉全部值為 False 的股票
-        sort_f = strategy.sort_f.loc[buy_sig.index, buy_sig.columns]
-        yesterday_buy_weight_sig = (buy_sig * sort_f).shift(1).fillna(0)  # 隔天
-
-        sell_sig = strategy.sell_sig.loc[start:end]  # 篩選時間
-        sell_sig = sell_sig.loc[:, sell_sig.any()]  # 直接濾掉全部值為 False 的股票
-        yesterday_sell_sig = sell_sig.shift(1).fillna(False)  # 隔天
+        trades = pd.DataFrame(
+            columns=['status', 'stock_id', 'shares', 'start_date', 'start_price', 'end_date', 'end_price'])
 
         all_date_range = all_close_prices.loc[start:end].index  # 交易日
 
@@ -129,34 +99,34 @@ class Backtester:
             today_open_prices = all_open_prices.loc[today]
             today_close_prices = all_close_prices.loc[today]
 
-            trades['end_price'].update(trades.loc[trades['status'] == 'open', 'stock_id'].map(today_close_prices))
+            single_entry_limit = math.floor((trades.loc[trades['status'] == 'open', 'start_price'].sum() + funds) * max_single_position_exposure)
+            holding_stock_ids = trades.loc[trades['status'] == 'open', 'stock_id']
 
-            single_entry_limit = 0
-            open_positions = trades[trades['status'] == 'open']
-            if partition - len(open_positions) >= 1:
-                single_entry_limit = funds // (partition - len(open_positions))
+            if (trades['status'] == 'open').any():
+                trades['end_price'].update(trades.loc[trades['status'] == 'open', 'stock_id'].map(today_close_prices))
+                trades.loc[trades['status'] == 'open', 'end_date'] = today
 
-            holding_stock_ids = open_positions['stock_id']
+                sell_stock_ids = []
+                for stock_id, strategy in strategy_map.items():
+                    if strategy._sell_next_day_open:
+                        sell_stock_ids.append(stock_id)
 
-            sell_stock_ids = []
-            if today in yesterday_sell_sig.index:
-                s = yesterday_sell_sig.loc[today]
-                sell_stock_ids = s[s].index.tolist()
+                if sell_stock_ids:
+                    open_cond = trades['status'] == 'open'
+                    sell_ids_cond = trades['stock_id'].isin(sell_stock_ids)
+                    new_close_positions = trades.loc[open_cond & sell_ids_cond]
+                    # TODO: 小數點
+                    fee = math.floor(sum(new_close_positions['shares'] * new_close_positions['end_price'] * (fee_rate * tax_rate)))
+                    funds += sum(new_close_positions['shares'] * new_close_positions['end_price']) - fee
 
-            open_cond = trades['status'] == 'open'
-            sell_ids_cond = trades['stock_id'].isin(sell_stock_ids)
-            new_close_positions = trades.loc[open_cond & sell_ids_cond]
-            funds += sum(new_close_positions['shares'] * new_close_positions['end_price'] * (1 - fee_rate - tax_rate))
-
-            trades.loc[open_cond & sell_ids_cond, 'end_date'] = today
-            trades.loc[open_cond & sell_ids_cond, 'status'] = 'close'
+                    trades['end_price'].update(trades.loc[open_cond & sell_ids_cond, 'stock_id'].map(today_open_prices))
+                    trades.loc[open_cond & sell_ids_cond, 'end_date'] = today
+                    trades.loc[open_cond & sell_ids_cond, 'status'] = 'close'
 
             available_stock_ids = []
-            if today in yesterday_buy_weight_sig.index:
-                weight_s = yesterday_buy_weight_sig.loc[today]
-                s = weight_s.sort_values(ascending=False)
-                i = s.index[~s.index.isin(holding_stock_ids)]
-                available_stock_ids = i[:partition].tolist()
+            for stock_id, strategy in strategy_map.items():
+                if strategy._buy_next_day_open and stock_id not in holding_stock_ids:
+                    available_stock_ids.append(stock_id)
 
             new_positions = []
             for stock_id in available_stock_ids:
@@ -173,6 +143,7 @@ class Backtester:
                     'start_date': today,
                     'start_price': open_price,
                     'end_price': today_close_prices[stock_id],
+                    'end_date': today,
                 })
                 funds -= shares * (open_price * (1 + fee_rate))
             new_positions = pd.DataFrame(new_positions)
@@ -184,9 +155,14 @@ class Backtester:
             current_equity = funds + sum(open_positions['end_price'] * open_positions['shares'])
             equity_curve.append(current_equity)
 
+            for _, strategy in strategy_map.items():
+                strategy.inter_clean()
+                strategy.data.end_date = today
+                strategy.handle()
+
         equity_curve = pd.Series(equity_curve, index=all_date_range)
         return Result(
-            strategy_name=strategy.name,
+            strategy_name=strategy_class.name,
             start=start,
             end=end,
             init_funds=init_funds,
@@ -201,9 +177,10 @@ def main():
 
     result = backtester.run(
         init_funds=600000,
-        partition=5,
+        # max_single_position_exposure=0.1,
+        max_single_position_exposure=1,
         strategy_class=Strategy,
-        start='2023-08-01',
+        start='2015-08-01',
         end='2023-08-10',
     )
     result.show()

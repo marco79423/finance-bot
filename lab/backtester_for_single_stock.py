@@ -1,7 +1,7 @@
 import abc
 import dataclasses
 import math
-from typing import Optional
+from typing import Optional, List
 
 import pandas as pd
 import plotly.graph_objects as go
@@ -36,6 +36,7 @@ class StrategyBase(abc.ABC):
     name: str
     params: dict = {}
     data: LimitData
+    available_stock_ids: Optional[List[str]] = None
 
     _buy_next_day_open = False
     _sell_next_day_open = False
@@ -44,7 +45,7 @@ class StrategyBase(abc.ABC):
     def handle(self):
         pass
 
-    def buy_next_day_open(self):
+    def buy_next_day_open(self, confident_score=1):
         self._buy_next_day_open = True
 
     def sell_next_day_open(self):
@@ -65,6 +66,7 @@ class Strategy(StrategyBase):
     name = '基礎策略'
     params = dict(
     )
+    available_stock_ids = ['0050']
 
     # noinspection PyTypeChecker
     def handle(self):
@@ -191,9 +193,10 @@ class Backtester:
 
         stock_data = self.data[stock_id]
 
-        all_close_prices = stock_data.close.ffill()
-        all_open_prices = stock_data.open.ffill()
+        all_close_prices = stock_data.close.ffill()  # 補完空值的收盤價
+        all_open_prices = stock_data.open.ffill()  # 補完空值的開盤價
 
+        strategy_class.stock_id = stock_id
         strategy_class.data = LimitData(stock_data)
         strategy_class.data.start_date = start
         strategy = strategy_class()
@@ -223,8 +226,7 @@ class Backtester:
                     current_position['end_price'] = today_open_price
                     current_position['end_date'] = today
                     current_position['status'] = 'close'
-                    funds += math.ceil(
-                        current_position['shares'] * current_position['end_price'] * (1 - fee_rate - tax_rate))
+                    funds += math.floor(current_position['shares'] * current_position['end_price'] * (1 - fee_rate - tax_rate))
                     trades = pd.concat([trades, pd.DataFrame([current_position], columns=trades.columns)])
                     current_position = None
 
