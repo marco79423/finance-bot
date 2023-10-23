@@ -3,7 +3,7 @@ import dataclasses
 from typing import Optional
 
 import pandas as pd
-import plotly.express as px
+import plotly.graph_objects as go
 
 from finance_bot.core import TWStockManager
 
@@ -20,6 +20,14 @@ class LimitData:
     @property
     def close(self):
         return self.data.close[:self.date]
+
+    @property
+    def high(self):
+        return self.data.high[:self.date]
+
+    @property
+    def low(self):
+        return self.data.low[:self.date]
 
 
 class StrategyBase(abc.ABC):
@@ -111,6 +119,7 @@ class Result:
     end: pd.Timestamp
     trades: pd.DataFrame
     equity_curve: pd.Series
+    data: LimitData
 
     _analysis_trades: Optional[pd.DataFrame] = None
 
@@ -126,12 +135,66 @@ class Result:
         with pd.option_context('display.max_rows', None, 'display.max_columns', None, 'display.width', None):
             print(self.analysis_trades)
 
-        fig = px.line(
-            data_frame=pd.DataFrame({
-                '權益': self.equity_curve,
-            }),
-            title=self.strategy_name
+        data = [
+            go.Candlestick(
+                x=self.data.close.index,
+                open=self.data.open,
+                high=self.data.high,
+                low=self.data.low,
+                close=self.data.close,
+                increasing_line_color='red',
+                decreasing_line_color='green',
+                name='K 線',
+            )
+        ]
+
+        for _, trade in self.analysis_trades.iterrows():
+            if trade['total_return'] > 0:
+                data.append(
+                    go.Scatter(
+                        x=[trade['start_date'], trade['end_date']],
+                        y=[trade['start_price'], trade['end_price']],
+                        mode='lines+markers',
+                        line_color='red',
+                    )
+                )
+            else:
+                data.append(
+                    go.Scatter(
+                        x=[trade['start_date'], trade['end_date']],
+                        y=[trade['start_price'], trade['end_price']],
+                        mode='lines+markers',
+                        line_color='green',
+                    )
+                )
+
+        fig = go.Figure(
+            data=data,
+            layout=go.Layout(
+                xaxis_title='日期',
+                yaxis_title='股價',
+                xaxis_rangeslider_visible=False,
+            )
         )
+
+        for _, trade in self.trades.iterrows():
+            fig.add_annotation(
+                x=trade['start_date'],
+                y=trade['start_price'],
+                text="Buy",
+                arrowhead=2,
+                ax=0,
+                ay=-30
+            )
+            fig.add_annotation(
+                x=trade['end_date'],
+                y=trade['end_price'],
+                text="Sell",
+                arrowhead=2,
+                ax=0,
+                ay=-30
+            )
+
         fig.show()
 
 
@@ -224,6 +287,7 @@ class Backtester:
             init_funds=init_funds,
             final_funds=funds,
             trades=trades,
+            data=strategy_class.data,
             equity_curve=equity_curve
         )
 
