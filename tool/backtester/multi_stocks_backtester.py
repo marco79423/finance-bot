@@ -6,7 +6,8 @@ import pandas as pd
 import plotly.express as px
 
 from finance_bot.core import TWStockManager
-from tool.backtester.backtester_for_single_stock import Strategy, LimitData
+from tool.backtester.model import LimitData
+from tool.backtester.strategy import SimpleStrategy
 
 
 @dataclasses.dataclass
@@ -42,7 +43,7 @@ class Result:
         fig.show()
 
 
-class Backtester:
+class MultiStocksBacktester:
     """
 
     * 隔天買入漲停價
@@ -68,7 +69,8 @@ class Backtester:
         end = pd.Timestamp(end)
 
         all_close_prices = self.data.close.ffill()  # 補完空值的收盤價
-        all_open_prices = self.data.open.ffill()  # 補完空值的開盤價
+        all_high_prices = self.data.high.ffill()  # 補完空值的最高價
+        all_low_prices = self.data.low.ffill()  # 補完空值的最低價
 
         strategy_class.data = self.data
 
@@ -96,10 +98,12 @@ class Backtester:
 
         equity_curve = []
         for today in all_date_range:
-            today_open_prices = all_open_prices.loc[today]
+            today_high_prices = all_high_prices.loc[today]
+            today_low_prices = all_low_prices.loc[today]
             today_close_prices = all_close_prices.loc[today]
 
-            single_entry_limit = math.floor((trades.loc[trades['status'] == 'open', 'start_price'].sum() + funds) * max_single_position_exposure)
+            single_entry_limit = math.floor(
+                (trades.loc[trades['status'] == 'open', 'start_price'].sum() + funds) * max_single_position_exposure)
             holding_stock_ids = trades.loc[trades['status'] == 'open', 'stock_id']
 
             if (trades['status'] == 'open').any():
@@ -108,7 +112,7 @@ class Backtester:
 
                 sell_stock_ids = []
                 for stock_id, strategy in strategy_map.items():
-                    if strategy._sell_next_day_open:
+                    if strategy._sell_next_day_market:
                         sell_stock_ids.append(stock_id)
 
                 if sell_stock_ids:
@@ -116,23 +120,24 @@ class Backtester:
                     sell_ids_cond = trades['stock_id'].isin(sell_stock_ids)
                     new_close_positions = trades.loc[open_cond & sell_ids_cond]
 
-                    fee = math.floor(sum(new_close_positions['shares'] * new_close_positions['end_price'] * (fee_rate * tax_rate)))
+                    fee = math.floor(
+                        sum(new_close_positions['shares'] * new_close_positions['end_price'] * (fee_rate * tax_rate)))
                     funds += sum(new_close_positions['shares'] * new_close_positions['end_price']) - fee
 
-                    trades['end_price'].update(trades.loc[open_cond & sell_ids_cond, 'stock_id'].map(today_open_prices))
+                    trades['end_price'].update(trades.loc[open_cond & sell_ids_cond, 'stock_id'].map(today_low_prices))
                     trades.loc[open_cond & sell_ids_cond, 'end_date'] = today
                     trades.loc[open_cond & sell_ids_cond, 'status'] = 'close'
 
             available_stock_ids = []
             for stock_id, strategy in strategy_map.items():
-                if strategy._buy_next_day_open and stock_id not in holding_stock_ids:
+                if strategy._buy_next_day_market and stock_id not in holding_stock_ids:
                     available_stock_ids.append(stock_id)
 
             new_positions = []
             for stock_id in available_stock_ids:
-                open_price = today_open_prices[stock_id]
+                high_price = today_high_prices[stock_id]
 
-                shares = int((single_entry_limit / (open_price * (1 + fee_rate)) // 1000) * 1000)
+                shares = int((single_entry_limit / (high_price * (1 + fee_rate)) // 1000) * 1000)
                 if shares < 1000:
                     continue
 
@@ -141,11 +146,11 @@ class Backtester:
                     'stock_id': stock_id,
                     'shares': shares,
                     'start_date': today,
-                    'start_price': open_price,
+                    'start_price': high_price,
                     'end_price': today_close_prices[stock_id],
                     'end_date': today,
                 })
-                funds -= shares * (open_price * (1 + fee_rate))
+                funds -= shares * (high_price * (1 + fee_rate))
             new_positions = pd.DataFrame(new_positions)
 
             trades = pd.concat([trades, new_positions])
@@ -173,13 +178,13 @@ class Backtester:
 
 
 def main():
-    backtester = Backtester(TWStockManager().data)
+    backtester = MultiStocksBacktester(TWStockManager().data)
 
     result = backtester.run(
         init_funds=600000,
         # max_single_position_exposure=0.1,
         max_single_position_exposure=1,
-        strategy_class=Strategy,
+        strategy_class=SimpleStrategy,
         start='2015-08-01',
         end='2023-08-10',
     )

@@ -1,82 +1,19 @@
-import abc
 import dataclasses
 import math
-from typing import Optional, List
+from typing import Optional
 
 import pandas as pd
 import plotly.graph_objects as go
 
 from finance_bot.core import TWStockManager
-
-
-class LimitData:
-    def __init__(self, data):
-        self.data = data
-        self.start_date = None
-        self.end_date = None
-
-    @property
-    def open(self):
-        return self.data.open[self.start_date:self.end_date]
-
-    @property
-    def close(self):
-        return self.data.close[self.start_date:self.end_date]
-
-    @property
-    def high(self):
-        return self.data.high[self.start_date:self.end_date]
-
-    @property
-    def low(self):
-        return self.data.low[self.start_date:self.end_date]
-
-
-class StrategyBase(abc.ABC):
-    name: str
-    params: dict = {}
-    data: LimitData
-    available_stock_ids: Optional[List[str]] = None
-
-    _buy_next_day_open = False
-    _sell_next_day_open = False
-
-    @abc.abstractmethod
-    def handle(self):
-        pass
-
-    def buy_next_day_open(self, confident_score=1):
-        self._buy_next_day_open = True
-
-    def sell_next_day_open(self):
-        self._sell_next_day_open = True
-
-    def inter_clean(self):
-        self._buy_next_day_open = False
-        self._sell_next_day_open = False
+from tool.backtester.model import LimitData
+from tool.backtester.strategy import SimpleStrategy
 
 
 class MovingIndicator:
     def __init__(self, data, period):
         self.data = data
         self.period = period
-
-
-class Strategy(StrategyBase):
-    name = '基礎策略'
-    params = dict(
-    )
-    available_stock_ids = ['0050']
-
-    # noinspection PyTypeChecker
-    def handle(self):
-        sma5 = self.data.close.rolling(window=5).mean()
-        sma20 = self.data.close.rolling(window=20).mean()
-
-        if sma5.iloc[-1] > sma20.iloc[-1] and sma5.iloc[-2] < sma20.iloc[-2] and self.data.close.iloc[-1] > 15:
-            self.buy_next_day_open()
-        elif sma5.iloc[-1] < sma20.iloc[-1] and sma5.iloc[-2] < sma20.iloc[-2]:
-            self.sell_next_day_open()
 
 
 @dataclasses.dataclass
@@ -176,11 +113,11 @@ class Result:
         fig.show()
 
 
-class Backtester:
+class SingleStockBacktester:
     """
 
-    * 隔天買入漲停價
-    * 隔天賣出跌停價
+    * 隔天買入最高價
+    * 隔天賣出最低價
     """
     fee_discount = 0.6
 
@@ -194,7 +131,8 @@ class Backtester:
         stock_data = self.data[stock_id]
 
         all_close_prices = stock_data.close.ffill()  # 補完空值的收盤價
-        all_open_prices = stock_data.open.ffill()  # 補完空值的開盤價
+        all_high_prices = stock_data.high.ffill()  # 補完空值的最高價
+        all_low_prices = stock_data.low.ffill()  # 補完空值的最低價
 
         strategy_class.stock_id = stock_id
         strategy_class.data = LimitData(stock_data)
@@ -215,24 +153,26 @@ class Backtester:
 
         equity_curve = []
         for today in all_date_range:
-            today_open_price = all_open_prices.at[today]
+            today_high_price = all_high_prices.at[today]
+            today_low_price = all_low_prices.at[today]
             today_close_price = all_close_prices.at[today]
 
             if current_position:
                 current_position['end_price'] = today_close_price
                 current_position['end_date'] = today
 
-                if strategy._sell_next_day_open:
-                    current_position['end_price'] = today_open_price
+                if strategy._sell_next_day_market:
+                    current_position['end_price'] = today_low_price
                     current_position['end_date'] = today
                     current_position['status'] = 'close'
-                    funds += math.floor(current_position['shares'] * current_position['end_price'] * (1 - fee_rate - tax_rate))
+                    funds += math.floor(
+                        current_position['shares'] * current_position['end_price'] * (1 - fee_rate - tax_rate))
                     trades = pd.concat([trades, pd.DataFrame([current_position], columns=trades.columns)])
                     current_position = None
 
             else:
-                if strategy._buy_next_day_open:
-                    shares = int((funds / (today_open_price * (1 + fee_rate)) // 1000) * 1000)
+                if strategy._buy_next_day_market:
+                    shares = int((funds / (today_high_price * (1 + fee_rate)) // 1000) * 1000)
                     if shares < 1000:
                         continue
 
@@ -241,12 +181,12 @@ class Backtester:
                         'stock_id': stock_id,
                         'shares': shares,
                         'start_date': today,
-                        'start_price': today_open_price,
-                        'end_price': today_open_price,
+                        'start_price': today_high_price,
+                        'end_price': today_close_price,
                         'end_date': today,
                     }
 
-                    funds -= math.ceil(shares * (today_open_price * (1 + fee_rate)))
+                    funds -= math.ceil(shares * (today_high_price * (1 + fee_rate)))
 
             current_equity = funds
             if current_position:
@@ -275,12 +215,12 @@ class Backtester:
 
 
 def main():
-    backtester = Backtester(TWStockManager().data)
+    backtester = SingleStockBacktester(TWStockManager().data)
 
     result = backtester.run(
         stock_id='0050',
         init_funds=600000,
-        strategy_class=Strategy,
+        strategy_class=SimpleStrategy,
         start='2015-08-01',
         # start='2015-09-04',
         # end='2015-09-10',
