@@ -6,22 +6,37 @@ import plotly.graph_objects as go
 from finance_bot.core import TWStockManager
 from tool.backtester.broker import Broker
 from tool.backtester.model import LimitMarketData
-from tool.backtester.strategy import SimpleStrategy
 from tool.backtester.strategy.strategy_s1v0 import StrategyS1V0
 
 
 @dataclasses.dataclass
 class Result:
     strategy_name: str
+    broker: Broker
     init_funds: int
     final_funds: int
-    start: pd.Timestamp
-    end: pd.Timestamp
-    trades: pd.DataFrame
     equity_curve: pd.Series
     data: LimitMarketData
 
+    @property
+    def start(self):
+        return self.broker.start_date
+
+    @property
+    def end(self):
+        return self.broker.current_date
+
+    @property
+    def trades(self):
+        return self.broker.analysis_trades
+
     def show(self):
+        print(f'使用策略 {self.strategy_name} 回測結果')
+        print(f'回測範圍： {self.start} ~ {self.end}')
+        print(f'原始本金： {self.init_funds}')
+        print(f'總獲利(含手續費)： {self.broker.total_return}')
+        print(f'各倉位狀況：')
+
         with pd.option_context('display.max_rows', None, 'display.max_columns', None, 'display.width', None):
             print(self.trades)
 
@@ -134,12 +149,10 @@ class SingleStockBacktester:
             strategy.inter_handle()
 
         return Result(
+            broker=broker,
             strategy_name=strategy.name,
-            start=start,
-            end=end,
             init_funds=init_funds,
             final_funds=broker.funds,
-            trades=broker.all_trades,
             data=strategy.data,
             equity_curve=broker.equity_curve
         )

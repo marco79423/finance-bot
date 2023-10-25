@@ -69,7 +69,6 @@ class Broker:
             'end_date': self._current_date,
             'end_price': close_price,
             'total_fee': fee,
-            'total_return (fee)': (close_price - entry_price) * shares - fee,
             'note': f'buy: {note}',
         }
         self._current_idx += 1
@@ -93,7 +92,6 @@ class Broker:
             'end_date': self._current_date,
             'end_price': price,
             'total_fee': total_fee,
-            'total_return (fee)': (price - trade['start_price']) * trade['shares'] - total_fee,
             'note': trade['note'] + f'| sell: {note}',
         }
         self._close_trades.append(trade)
@@ -102,6 +100,10 @@ class Broker:
 
         del self._open_trades[stock_id]
         return True
+
+    @property
+    def start_date(self):
+        return self._start_date
 
     @property
     def current_date(self):
@@ -133,8 +135,6 @@ class Broker:
 
         today_close_prices = self._all_close_prices.loc[self._current_date]
         df['end_price'].update(df['stock_id'].map(today_close_prices))
-
-        df['total_return (fee)'] = (df['end_price'] - df['start_price']) * df['shares'] - df['total_fee']
         return df
 
     @property
@@ -148,11 +148,27 @@ class Broker:
         return pd.concat([self.close_trades, self.open_trades]).sort_index()
 
     @property
+    def analysis_trades(self):
+        df = self.all_trades
+        df['period'] = (df['end_date'] - df['start_date']).dt.days
+        df['total_return'] = (df['end_price'] - df['start_price']) * df['shares']
+        df['total_return (fee)'] = df['total_return'] - df['total_fee']
+        return df
+
+    @property
     def equity_curve(self):
         return pd.Series(
             [current_equity['equity'] for current_equity in self._equity_curve],
             index=[current_equity['date'] for current_equity in self._equity_curve],
         )
+
+    @property
+    def total_return(self):
+        return self.analysis_trades['total_return'].sum()
+
+    @property
+    def total_return_with_fee(self):
+        return self.analysis_trades['total_return (fee)'].sum()
 
     def _get_stock_high_price(self, stock_id):
         return self._all_high_prices.loc[self._current_date, stock_id]
@@ -179,6 +195,5 @@ class Broker:
                 'end_price',
 
                 'total_fee',
-                'total_return (fee)',
                 'note',
             ])
