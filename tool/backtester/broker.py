@@ -12,6 +12,7 @@ class Broker:
 
     def __init__(self, data, init_funds, max_single_position_exposure):
         self._data = data
+        self._init_funds = init_funds
         self._funds = init_funds
         self._max_single_position_exposure = max_single_position_exposure
 
@@ -113,6 +114,10 @@ class Broker:
     def single_entry_limit(self):
         invested_funds = sum(trade['start_price'] * trade['shares'] for trade in self._open_trades)
         return math.floor((invested_funds + self.funds) * self._max_single_position_exposure)
+
+    @property
+    def init_funds(self):
+        return self._init_funds
 
     @property
     def funds(self):
