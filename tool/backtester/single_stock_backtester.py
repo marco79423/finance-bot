@@ -6,14 +6,9 @@ import pandas as pd
 import plotly.graph_objects as go
 
 from finance_bot.core import TWStockManager
+from tool.backtester.broker import Broker
 from tool.backtester.model import LimitData
 from tool.backtester.strategy import SimpleStrategy
-
-
-class MovingIndicator:
-    def __init__(self, data, period):
-        self.data = data
-        self.period = period
 
 
 @dataclasses.dataclass
@@ -139,15 +134,8 @@ class SingleStockBacktester:
         strategy_class.data.start_date = start
         strategy = strategy_class()
 
-        # 手續費和稅的比例
-        fee_rate = 1.425 / 1000 * self.fee_discount  # 0.1425％
-        tax_rate = 3 / 1000  # 政府固定收 0.3 %
-
         # 初始化資金和股票數量
-        funds = init_funds
-        trades = pd.DataFrame(
-            columns=['status', 'stock_id', 'shares', 'start_date', 'start_price', 'end_date', 'end_price'])
-        current_position = None
+        broker = Broker(init_funds, max_single_position_exposure=1)
 
         all_date_range = all_close_prices.loc[start:end].index  # 交易日
 
@@ -155,51 +143,21 @@ class SingleStockBacktester:
         for today in all_date_range:
             today_high_price = all_high_prices.at[today]
             today_low_price = all_low_prices.at[today]
-            today_close_price = all_close_prices.at[today]
+            holding_stock_ids = broker.holding_stock_ids
 
-            if current_position:
-                current_position['end_price'] = today_close_price
-                current_position['end_date'] = today
-
+            if holding_stock_ids:
                 if strategy._sell_next_day_market:
-                    current_position['end_price'] = today_low_price
-                    current_position['end_date'] = today
-                    current_position['status'] = 'close'
-                    funds += math.floor(
-                        current_position['shares'] * current_position['end_price'] * (1 - fee_rate - tax_rate))
-                    trades = pd.concat([trades, pd.DataFrame([current_position], columns=trades.columns)])
-                    current_position = None
-
+                    broker.sell(today, stock_id, today_low_price)
             else:
                 if strategy._buy_next_day_market:
-                    shares = int((funds / (today_high_price * (1 + fee_rate)) // 1000) * 1000)
-                    if shares < 1000:
-                        continue
+                    broker.buy(today, stock_id, today_high_price)
 
-                    current_position = {
-                        'status': 'open',
-                        'stock_id': stock_id,
-                        'shares': shares,
-                        'start_date': today,
-                        'start_price': today_high_price,
-                        'end_price': today_close_price,
-                        'end_date': today,
-                    }
-
-                    funds -= math.ceil(shares * (today_high_price * (1 + fee_rate)))
-
-            current_equity = funds
-            if current_position:
-                current_equity += current_position['end_price'] * current_position['shares']
+            current_equity = broker.funds + (broker.open_trades['end_price'] * broker.open_trades['shares']).sum()
             equity_curve.append(current_equity)
 
             strategy.inter_clean()
             strategy.data.end_date = today
             strategy.handle()
-
-        if current_position:
-            trades = pd.concat([trades, pd.DataFrame([current_position], columns=trades.columns)])
-        trades = trades.reset_index(drop=True)
 
         equity_curve = pd.Series(equity_curve, index=all_date_range)
         return Result(
@@ -207,8 +165,8 @@ class SingleStockBacktester:
             start=start,
             end=end,
             init_funds=init_funds,
-            final_funds=funds,
-            trades=trades,
+            final_funds=broker.funds,
+            trades=broker.all_trades,
             data=strategy_class.data,
             equity_curve=equity_curve
         )

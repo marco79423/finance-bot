@@ -1,11 +1,12 @@
 import dataclasses
-import math
 from typing import Optional
 
 import pandas as pd
 import plotly.express as px
 
 from finance_bot.core import TWStockManager
+from finance_bot.core.tw_stock_manager.data_getter import DataGetter
+from tool.backtester.broker import Broker
 from tool.backtester.model import LimitData
 from tool.backtester.strategy import SimpleStrategy
 
@@ -19,6 +20,7 @@ class Result:
     end: pd.Timestamp
     trades: pd.DataFrame
     equity_curve: pd.Series
+    data: DataGetter
 
     _analysis_trades: Optional[pd.DataFrame] = None
 
@@ -27,6 +29,11 @@ class Result:
         if self._analysis_trades is None:
             df = self.trades.copy()
             df['total_return'] = (df['end_price'] - df['start_price']) * df['shares']
+
+            all_close_prices = self.data.close.ffill().loc[self.start:self.end]
+            end_close_prices = all_close_prices.iloc[-1]
+            df['end_price'].update(df.loc[df['status'] == 'open', 'stock_id'].map(end_close_prices))
+
             self._analysis_trades = df
         return self._analysis_trades
 
@@ -54,16 +61,6 @@ class MultiStocksBacktester:
     def __init__(self, data):
         self.data = data
 
-    @property
-    def filled_close(self):
-        """補完空值的收盤價"""
-        return self.data.close.ffill()
-
-    @property
-    def filled_open(self):
-        """補完空值的開盤價"""
-        return self.data.open.ffill()
-
     def run(self, init_funds, max_single_position_exposure, strategy_class, start, end):
         start = pd.Timestamp(start)
         end = pd.Timestamp(end)
@@ -85,14 +82,8 @@ class MultiStocksBacktester:
             strategy.data = LimitData(self.data[stock_id])
             strategy_map[stock_id] = strategy
 
-        # 手續費和稅的比例
-        fee_rate = 1.425 / 1000 * self.fee_discount  # 0.1425％
-        tax_rate = 3 / 1000  # 政府固定收 0.3 %
-
         # 初始化資金和股票數量
-        funds = init_funds
-        trades = pd.DataFrame(
-            columns=['status', 'stock_id', 'shares', 'start_date', 'start_price', 'end_date', 'end_price'])
+        broker = Broker(init_funds, max_single_position_exposure)
 
         all_date_range = all_close_prices.loc[start:end].index  # 交易日
 
@@ -100,64 +91,31 @@ class MultiStocksBacktester:
         for today in all_date_range:
             today_high_prices = all_high_prices.loc[today]
             today_low_prices = all_low_prices.loc[today]
-            today_close_prices = all_close_prices.loc[today]
+            holding_stock_ids = broker.holding_stock_ids
 
-            single_entry_limit = math.floor(
-                (trades.loc[trades['status'] == 'open', 'start_price'].sum() + funds) * max_single_position_exposure)
-            holding_stock_ids = trades.loc[trades['status'] == 'open', 'stock_id']
-
-            if (trades['status'] == 'open').any():
-                trades['end_price'].update(trades.loc[trades['status'] == 'open', 'stock_id'].map(today_close_prices))
-                trades.loc[trades['status'] == 'open', 'end_date'] = today
-
+            if holding_stock_ids:
                 sell_stock_ids = []
                 for stock_id, strategy in strategy_map.items():
                     if strategy._sell_next_day_market:
                         sell_stock_ids.append(stock_id)
 
                 if sell_stock_ids:
-                    open_cond = trades['status'] == 'open'
-                    sell_ids_cond = trades['stock_id'].isin(sell_stock_ids)
-                    new_close_positions = trades.loc[open_cond & sell_ids_cond]
-
-                    fee = math.floor(
-                        sum(new_close_positions['shares'] * new_close_positions['end_price'] * (fee_rate * tax_rate)))
-                    funds += sum(new_close_positions['shares'] * new_close_positions['end_price']) - fee
-
-                    trades['end_price'].update(trades.loc[open_cond & sell_ids_cond, 'stock_id'].map(today_low_prices))
-                    trades.loc[open_cond & sell_ids_cond, 'end_date'] = today
-                    trades.loc[open_cond & sell_ids_cond, 'status'] = 'close'
+                    for holding_stock_id in holding_stock_ids:
+                        if holding_stock_id in sell_stock_ids:
+                            broker.sell(today, holding_stock_id, today_low_prices[holding_stock_id])
 
             available_stock_ids = []
             for stock_id, strategy in strategy_map.items():
                 if strategy._buy_next_day_market and stock_id not in holding_stock_ids:
                     available_stock_ids.append(stock_id)
 
-            new_positions = []
             for stock_id in available_stock_ids:
                 high_price = today_high_prices[stock_id]
+                ok = broker.buy(today, stock_id, high_price)
+                if not ok:
+                    break
 
-                shares = int((single_entry_limit / (high_price * (1 + fee_rate)) // 1000) * 1000)
-                if shares < 1000:
-                    continue
-
-                new_positions.append({
-                    'status': 'open',
-                    'stock_id': stock_id,
-                    'shares': shares,
-                    'start_date': today,
-                    'start_price': high_price,
-                    'end_price': today_close_prices[stock_id],
-                    'end_date': today,
-                })
-                funds -= shares * (high_price * (1 + fee_rate))
-            new_positions = pd.DataFrame(new_positions)
-
-            trades = pd.concat([trades, new_positions])
-            trades = trades.reset_index(drop=True)
-
-            open_positions = trades.loc[trades['status'] == 'open']
-            current_equity = funds + sum(open_positions['end_price'] * open_positions['shares'])
+            current_equity = broker.funds + (broker.open_trades['end_price'] * broker.open_trades['shares']).sum()
             equity_curve.append(current_equity)
 
             for _, strategy in strategy_map.items():
@@ -171,8 +129,9 @@ class MultiStocksBacktester:
             start=start,
             end=end,
             init_funds=init_funds,
-            final_funds=funds,
-            trades=trades,
+            final_funds=broker.funds,
+            trades=broker.all_trades,
+            data=strategy_class.data,
             equity_curve=equity_curve
         )
 
