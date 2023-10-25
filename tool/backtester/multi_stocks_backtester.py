@@ -1,14 +1,11 @@
 import dataclasses
-from typing import Optional
 
 import pandas as pd
 import plotly.express as px
 
 from finance_bot.core import TWStockManager
-from finance_bot.core.tw_stock_manager.base import MarketDataBase
 from tool.backtester.broker import Broker
-from tool.backtester.model import LimitMarketData
-from tool.backtester.strategy import SimpleStrategy
+from tool.backtester.strategy.strategy_s1v0 import StrategyS1V0
 
 
 @dataclasses.dataclass
@@ -58,41 +55,31 @@ class MultiStocksBacktester:
         strategy_map = {}
         for stock_id in all_stock_ids:
             strategy = strategy_class()
-            strategy_class.broker = broker
+            strategy.stock_id = stock_id
+            strategy.broker = broker
             strategy_map[stock_id] = strategy
 
         all_date_range = self.data.close.loc[start:end].index  # 交易日
 
         for today in all_date_range:
             broker.begin_date(today)
+
             holding_stock_ids = broker.holding_stock_ids
-
             if holding_stock_ids:
-                sell_stock_ids = []
                 for stock_id, strategy in strategy_map.items():
-                    if strategy._sell_next_day_market:
-                        sell_stock_ids.append(stock_id)
+                    if stock_id in holding_stock_ids and strategy._sell_next_day_market:
+                        broker.sell(stock_id, note=strategy._sell_next_day_market_note)
 
-                if sell_stock_ids:
-                    for holding_stock_id in holding_stock_ids:
-                        if holding_stock_id in sell_stock_ids:
-                            broker.sell(holding_stock_id)
-
-            available_stock_ids = []
             for stock_id, strategy in strategy_map.items():
-                if strategy._buy_next_day_market and stock_id not in holding_stock_ids:
-                    available_stock_ids.append(stock_id)
-
-            for stock_id in available_stock_ids:
-                ok = broker.buy(stock_id)
-                if not ok:
-                    break
+                if stock_id not in holding_stock_ids and strategy._buy_next_day_market:
+                    ok = broker.buy(stock_id, note=strategy._buy_next_day_market_note)
+                    if not ok:
+                        break
 
             broker.end_date()
 
             for _, strategy in strategy_map.items():
-                strategy.inter_clean()
-                strategy.handle()
+                strategy.inter_handle()
 
         return Result(
             strategy_name=strategy_class.name,
@@ -109,10 +96,12 @@ def main():
     backtester = MultiStocksBacktester(TWStockManager().data)
 
     result = backtester.run(
-        init_funds=600000,
-        # max_single_position_exposure=0.1,
-        max_single_position_exposure=1,
-        strategy_class=SimpleStrategy,
+        # init_funds=600000,
+        init_funds=10000000000,
+        max_single_position_exposure=0.1,
+        # max_single_position_exposure=1,
+        # strategy_class=SimpleStrategy,
+        strategy_class=StrategyS1V0,
         start='2015-08-01',
         end='2023-08-10',
     )

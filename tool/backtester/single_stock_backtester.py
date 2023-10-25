@@ -7,6 +7,7 @@ from finance_bot.core import TWStockManager
 from tool.backtester.broker import Broker
 from tool.backtester.model import LimitMarketData
 from tool.backtester.strategy import SimpleStrategy
+from tool.backtester.strategy.strategy_s1v0 import StrategyS1V0
 
 
 @dataclasses.dataclass
@@ -113,27 +114,24 @@ class SingleStockBacktester:
 
         broker = Broker(self.data, init_funds, max_single_position_exposure=1)
 
-        strategy_class.stock_id = stock_id
-        strategy_class.broker = broker
         strategy = strategy_class()
+        strategy.stock_id = stock_id
+        strategy.broker = broker
 
         all_date_range = self.data.close.loc[start:end].index  # 交易日
 
         for today in all_date_range:
             broker.begin_date(today)
-
             holding_stock_ids = broker.holding_stock_ids
             if holding_stock_ids:
                 if strategy._sell_next_day_market:
-                    broker.sell(stock_id)
+                    broker.sell(stock_id, note=strategy._sell_next_day_market_note)
             else:
                 if strategy._buy_next_day_market:
-                    broker.buy(stock_id)
-
-            strategy.inter_clean()
-            strategy.handle()
-
+                    broker.buy(stock_id, note=strategy._buy_next_day_market_note)
             broker.end_date()
+
+            strategy.inter_handle()
 
         return Result(
             strategy_name=strategy.name,
@@ -153,9 +151,10 @@ def main():
     result = backtester.run(
         stock_id='0050',
         init_funds=600000,
-        strategy_class=SimpleStrategy,
-        start='2015-08-01',
-        # start='2015-09-04',
+        # strategy_class=SimpleStrategy,
+        strategy_class=StrategyS1V0,
+        # start='2015-08-01',
+        start='2015-09-04',
         # end='2015-09-10',
         end='2023-08-10',
     )

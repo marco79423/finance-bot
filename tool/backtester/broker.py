@@ -44,40 +44,39 @@ class Broker:
         self._current_date = date
 
     def end_date(self):
-        current_equity = self.funds + (self.open_trades['end_price'] * self.open_trades['shares']).sum()
         self._equity_curve.append({
             'date': self._current_date,
-            'equity': current_equity
+            'equity': self.current_equity
         })
 
-    def buy(self, stock_id):
+    def buy(self, stock_id, note=''):
         # 回測使用當日最高價買入
-        price = self._get_stock_high_price(stock_id)
+        entry_price = self._get_stock_high_price(stock_id)
 
-        shares = int((self.single_entry_limit / (price * (1 + self.fee_rate)) // 1000) * 1000)
+        shares = int((self.single_entry_limit / (entry_price * (1 + self.fee_rate)) // 1000) * 1000)
         if shares < 1000:
             return False
 
+        close_price = self._get_stock_close_price(stock_id)  # 因為是回測，預先就知道收盤價
         self._open_trades[stock_id] = {
             'idx': self._current_idx,
             'status': 'open',
             'stock_id': stock_id,
             'shares': shares,
             'start_date': self._current_date,
-            'start_price': price,
+            'start_price': entry_price,
             'end_date': self._current_date,
-            'end_price': self._get_stock_close_price(stock_id),  # 因為是回測，預先就知道收盤價
+            'end_price': close_price,
+            'total_return': (close_price - entry_price) * shares,
+            'note': f'buy: {note}',
         }
         self._current_idx += 1
 
-        fee = math.floor(shares * price * self.fee_rate)  # 永豐說是無條件捨去，最低收 1 元
-        if fee == 0:
-            fee = 1
-
-        self._funds -= shares * price + fee
+        fee = max(math.floor(shares * entry_price * self.fee_rate), 1)  # 永豐說是無條件捨去，最低收 1 元
+        self._funds -= shares * entry_price + fee
         return True
 
-    def sell(self, stock_id):
+    def sell(self, stock_id, note):
         if stock_id not in self._open_trades:
             return False
 
@@ -91,16 +90,19 @@ class Broker:
             'end_date': self._current_date,
             'end_price': price,
             'total_return': (price - trade['start_price']) * trade['shares'],
+            'note': trade['note'] + f'| sell: {note}',
         }
         self._close_trades.append(trade)
 
-        fee = math.floor(trade['shares'] * trade['end_price'] * (self.fee_rate * self.tax_rate))
-        if fee == 0:
-            fee = 1
+        fee = max(math.floor(trade['shares'] * trade['end_price'] * (self.fee_rate * self.tax_rate)), 1)
         self._funds += trade['shares'] * trade['end_price'] - fee
 
         del self._open_trades[stock_id]
         return True
+
+    @property
+    def current_date(self):
+        return self._current_date
 
     @property
     def single_entry_limit(self):
@@ -112,6 +114,10 @@ class Broker:
         return self._funds
 
     @property
+    def current_equity(self):
+        return self.funds + (self.open_trades['end_price'] * self.open_trades['shares']).sum()
+
+    @property
     def holding_stock_ids(self):
         return list(self._open_trades.keys())
 
@@ -119,7 +125,8 @@ class Broker:
     def open_trades(self):
         if not self._open_trades:
             return pd.DataFrame(
-                columns=['status', 'stock_id', 'shares', 'start_date', 'start_price', 'end_date', 'end_price'])
+                columns=['status', 'stock_id', 'shares', 'start_date', 'start_price', 'end_date', 'end_price', 'note',
+                         'total_return'])
 
         df = pd.DataFrame(self._open_trades.values()).set_index('idx').sort_index()
 
@@ -133,7 +140,8 @@ class Broker:
     def close_trades(self):
         if not self._close_trades:
             return pd.DataFrame(
-                columns=['status', 'stock_id', 'shares', 'start_date', 'start_price', 'end_date', 'end_price'])
+                columns=['status', 'stock_id', 'shares', 'start_date', 'start_price', 'end_date', 'end_price',
+                         'total_return'])
         return pd.DataFrame(self._close_trades).set_index('idx').sort_index()
 
     @property
