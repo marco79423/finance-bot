@@ -57,6 +57,7 @@ class Broker:
         if shares < 1000:
             return False
 
+        fee = max(math.floor(shares * entry_price * self.fee_rate), 1)  # 永豐說是無條件捨去，最低收 1 元
         close_price = self._get_stock_close_price(stock_id)  # 因為是回測，預先就知道收盤價
         self._open_trades[stock_id] = {
             'idx': self._current_idx,
@@ -67,12 +68,12 @@ class Broker:
             'start_price': entry_price,
             'end_date': self._current_date,
             'end_price': close_price,
-            'total_return': (close_price - entry_price) * shares,
+            'total_fee': fee,
+            'total_return (fee)': (close_price - entry_price) * shares - fee,
             'note': f'buy: {note}',
         }
         self._current_idx += 1
 
-        fee = max(math.floor(shares * entry_price * self.fee_rate), 1)  # 永豐說是無條件捨去，最低收 1 元
         self._funds -= shares * entry_price + fee
         return True
 
@@ -84,17 +85,19 @@ class Broker:
         price = self._get_stock_low_price(stock_id)
 
         trade = self._open_trades[stock_id]
+        fee = max(math.floor(trade['shares'] * trade['end_price'] * (self.fee_rate * self.tax_rate)), 1)
+        total_fee = trade['total_fee'] + fee
         trade = {
             **trade,
             'status': 'close',
             'end_date': self._current_date,
             'end_price': price,
-            'total_return': (price - trade['start_price']) * trade['shares'],
+            'total_fee': total_fee,
+            'total_return (fee)': (price - trade['start_price']) * trade['shares'] - total_fee,
             'note': trade['note'] + f'| sell: {note}',
         }
         self._close_trades.append(trade)
 
-        fee = max(math.floor(trade['shares'] * trade['end_price'] * (self.fee_rate * self.tax_rate)), 1)
         self._funds += trade['shares'] * trade['end_price'] - fee
 
         del self._open_trades[stock_id]
@@ -124,24 +127,20 @@ class Broker:
     @property
     def open_trades(self):
         if not self._open_trades:
-            return pd.DataFrame(
-                columns=['status', 'stock_id', 'shares', 'start_date', 'start_price', 'end_date', 'end_price', 'note',
-                         'total_return'])
+            return self._create_empty_trades()
 
         df = pd.DataFrame(self._open_trades.values()).set_index('idx').sort_index()
 
         today_close_prices = self._all_close_prices.loc[self._current_date]
         df['end_price'].update(df['stock_id'].map(today_close_prices))
 
-        df['total_return'] = (df['end_price'] - df['start_price']) * df['shares']
+        df['total_return (fee)'] = (df['end_price'] - df['start_price']) * df['shares'] - df['total_fee']
         return df
 
     @property
     def close_trades(self):
         if not self._close_trades:
-            return pd.DataFrame(
-                columns=['status', 'stock_id', 'shares', 'start_date', 'start_price', 'end_date', 'end_price',
-                         'total_return'])
+            return self._create_empty_trades()
         return pd.DataFrame(self._close_trades).set_index('idx').sort_index()
 
     @property
@@ -163,3 +162,23 @@ class Broker:
 
     def _get_stock_close_price(self, stock_id):
         return self._all_close_prices.loc[self._current_date, stock_id]
+
+    @staticmethod
+    def _create_empty_trades():
+        return pd.DataFrame(
+            columns=[
+                'status',
+
+                'stock_id',
+                'shares',
+
+                'start_date',
+                'start_price',
+
+                'end_date',
+                'end_price',
+
+                'total_fee',
+                'total_return (fee)',
+                'note',
+            ])
