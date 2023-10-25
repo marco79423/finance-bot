@@ -15,4 +15,4 @@ class SimpleStrategy(StrategyBase):
         if sma5.iloc[-1] > sma20.iloc[-1] and sma5.iloc[-2] < sma20.iloc[-2] and self.data.close.iloc[-1] > 15:
             self.buy_next_day_market()
         elif sma5.iloc[-1] < sma20.iloc[-1] and sma5.iloc[-2] < sma20.iloc[-2]:
-            self.sell_next_day_open()
+            self.sell_next_day_market()

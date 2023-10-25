@@ -20,26 +20,10 @@ class Result:
     end: pd.Timestamp
     trades: pd.DataFrame
     equity_curve: pd.Series
-    data: MarketDataBase
-
-    _analysis_trades: Optional[pd.DataFrame] = None
-
-    @property
-    def analysis_trades(self):
-        if self._analysis_trades is None:
-            df = self.trades.copy()
-            df['total_return'] = (df['end_price'] - df['start_price']) * df['shares']
-
-            all_close_prices = self.data.close.ffill().loc[self.start:self.end]
-            end_close_prices = all_close_prices.iloc[-1]
-            df['end_price'].update(df.loc[df['status'] == 'open', 'stock_id'].map(end_close_prices))
-
-            self._analysis_trades = df
-        return self._analysis_trades
 
     def show(self):
         with pd.option_context('display.max_rows', None, 'display.max_columns', None, 'display.width', None):
-            print(self.analysis_trades)
+            print(self.trades)
 
         fig = px.line(
             data_frame=pd.DataFrame({
@@ -65,32 +49,22 @@ class MultiStocksBacktester:
         start = pd.Timestamp(start)
         end = pd.Timestamp(end)
 
-        all_close_prices = self.data.close.ffill()  # 補完空值的收盤價
-        all_high_prices = self.data.high.ffill()  # 補完空值的最高價
-        all_low_prices = self.data.low.ffill()  # 補完空值的最低價
-
-        strategy_class.data = self.data
-
-        strategy_map = {}
+        broker = Broker(self.data, init_funds, max_single_position_exposure)
 
         all_stock_ids = strategy_class.available_stock_ids
         if not all_stock_ids:
-            all_stock_ids = all_close_prices.columns
+            all_stock_ids = self.data.close.columns
 
+        strategy_map = {}
         for stock_id in all_stock_ids:
             strategy = strategy_class()
             strategy.data = LimitMarketData(self.data[stock_id])
             strategy_map[stock_id] = strategy
 
-        # 初始化資金和股票數量
-        broker = Broker(init_funds, max_single_position_exposure)
+        all_date_range = self.data.close.loc[start:end].index  # 交易日
 
-        all_date_range = all_close_prices.loc[start:end].index  # 交易日
-
-        equity_curve = []
         for today in all_date_range:
-            today_high_prices = all_high_prices.loc[today]
-            today_low_prices = all_low_prices.loc[today]
+            broker.start_date(today)
             holding_stock_ids = broker.holding_stock_ids
 
             if holding_stock_ids:
@@ -102,7 +76,7 @@ class MultiStocksBacktester:
                 if sell_stock_ids:
                     for holding_stock_id in holding_stock_ids:
                         if holding_stock_id in sell_stock_ids:
-                            broker.sell(today, holding_stock_id, today_low_prices[holding_stock_id])
+                            broker.sell(holding_stock_id)
 
             available_stock_ids = []
             for stock_id, strategy in strategy_map.items():
@@ -110,20 +84,17 @@ class MultiStocksBacktester:
                     available_stock_ids.append(stock_id)
 
             for stock_id in available_stock_ids:
-                high_price = today_high_prices[stock_id]
-                ok = broker.buy(today, stock_id, high_price)
+                ok = broker.buy(stock_id)
                 if not ok:
                     break
 
-            current_equity = broker.funds + (broker.open_trades['end_price'] * broker.open_trades['shares']).sum()
-            equity_curve.append(current_equity)
+            broker.end_date()
 
             for _, strategy in strategy_map.items():
                 strategy.inter_clean()
                 strategy.data.end_date = today
                 strategy.handle()
 
-        equity_curve = pd.Series(equity_curve, index=all_date_range)
         return Result(
             strategy_name=strategy_class.name,
             start=start,
@@ -131,8 +102,7 @@ class MultiStocksBacktester:
             init_funds=init_funds,
             final_funds=broker.funds,
             trades=broker.all_trades,
-            data=strategy_class.data,
-            equity_curve=equity_curve
+            equity_curve=broker.equity_curve
         )
 
 

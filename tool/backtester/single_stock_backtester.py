@@ -1,6 +1,4 @@
 import dataclasses
-import math
-from typing import Optional
 
 import pandas as pd
 import plotly.graph_objects as go
@@ -22,19 +20,9 @@ class Result:
     equity_curve: pd.Series
     data: LimitMarketData
 
-    _analysis_trades: Optional[pd.DataFrame] = None
-
-    @property
-    def analysis_trades(self):
-        if self._analysis_trades is None:
-            df = self.trades.copy()
-            df['total_return'] = (df['end_price'] - df['start_price']) * df['shares']
-            self._analysis_trades = df
-        return self._analysis_trades
-
     def show(self):
         with pd.option_context('display.max_rows', None, 'display.max_columns', None, 'display.width', None):
-            print(self.analysis_trades)
+            print(self.trades)
 
         data = [
             go.Candlestick(
@@ -49,7 +37,7 @@ class Result:
             )
         ]
 
-        for idx, trade in self.analysis_trades.iterrows():
+        for idx, trade in self.trades.iterrows():
             data.append(
                 go.Scatter(
                     x=[trade['start_date'], trade['end_date']],
@@ -123,43 +111,32 @@ class SingleStockBacktester:
         start = pd.Timestamp(start)
         end = pd.Timestamp(end)
 
-        stock_data = self.data[stock_id]
-
-        all_close_prices = stock_data.close.ffill()  # 補完空值的收盤價
-        all_high_prices = stock_data.high.ffill()  # 補完空值的最高價
-        all_low_prices = stock_data.low.ffill()  # 補完空值的最低價
+        broker = Broker(self.data, init_funds, max_single_position_exposure=1)
 
         strategy_class.stock_id = stock_id
-        strategy_class.data = LimitMarketData(stock_data)
+        strategy_class.data = LimitMarketData(self.data[stock_id])
         strategy_class.data.start_date = start
         strategy = strategy_class()
 
-        # 初始化資金和股票數量
-        broker = Broker(init_funds, max_single_position_exposure=1)
+        all_date_range = self.data.close.loc[start:end].index  # 交易日
 
-        all_date_range = all_close_prices.loc[start:end].index  # 交易日
-
-        equity_curve = []
         for today in all_date_range:
-            today_high_price = all_high_prices.at[today]
-            today_low_price = all_low_prices.at[today]
-            holding_stock_ids = broker.holding_stock_ids
+            broker.start_date(today)
 
+            holding_stock_ids = broker.holding_stock_ids
             if holding_stock_ids:
                 if strategy._sell_next_day_market:
-                    broker.sell(today, stock_id, today_low_price)
+                    broker.sell(stock_id)
             else:
                 if strategy._buy_next_day_market:
-                    broker.buy(today, stock_id, today_high_price)
-
-            current_equity = broker.funds + (broker.open_trades['end_price'] * broker.open_trades['shares']).sum()
-            equity_curve.append(current_equity)
+                    broker.buy(stock_id)
 
             strategy.inter_clean()
             strategy.data.end_date = today
             strategy.handle()
 
-        equity_curve = pd.Series(equity_curve, index=all_date_range)
+            broker.end_date()
+
         return Result(
             strategy_name=strategy.name,
             start=start,
@@ -168,7 +145,7 @@ class SingleStockBacktester:
             final_funds=broker.funds,
             trades=broker.all_trades,
             data=strategy_class.data,
-            equity_curve=equity_curve
+            equity_curve=broker.equity_curve
         )
 
 

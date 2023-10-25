@@ -25,7 +25,7 @@ class StrategyBase(abc.ABC):
         """
         self._buy_next_day_market = True
 
-    def sell_next_day_open(self):
+    def sell_next_day_market(self):
         """
         在隔天市價賣出 (但在回測時會以賣在最低價計算)
         :return:
