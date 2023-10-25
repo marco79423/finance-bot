@@ -1,11 +1,12 @@
 import pandas as pd
 from sqlalchemy import text
 
-from .stock_getter import StockGetter
+from . import base
+from .stock_data import StockData
 from ...infrastructure import infra
 
 
-class DataGetter:
+class MarketData(base.MarketDataBase):
 
     def __init__(self, logger):
         self.use_cache = True
@@ -17,7 +18,7 @@ class DataGetter:
         self._financial_statements_df = None
 
     def __getitem__(self, stock_id):
-        return StockGetter(stock_id)
+        return StockData(stock_id)
 
     @property
     def stocks(self):

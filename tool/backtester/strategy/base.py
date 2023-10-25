@@ -1,13 +1,13 @@
 import abc
 from typing import Optional, List
 
-from tool.backtester.model import LimitData
+from tool.backtester.model import LimitMarketData
 
 
 class StrategyBase(abc.ABC):
     name: str
     params: dict = {}
-    data: LimitData
+    data: LimitMarketData
     available_stock_ids: Optional[List[str]] = None
 
     _buy_next_day_market = False

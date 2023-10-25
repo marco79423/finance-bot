@@ -2,7 +2,7 @@ import math
 
 import pandas as pd
 
-from finance_bot.core.tw_stock_manager.data_getter import DataGetter
+from finance_bot.core.tw_stock_manager.base import MarketDataBase
 
 
 class Broker:
@@ -10,7 +10,7 @@ class Broker:
     fee_rate = 1.425 / 1000 * fee_discount  # 0.1425％
     tax_rate = 3 / 1000  # 政府固定收 0.3 %
 
-    _data: DataGetter
+    _data: MarketDataBase
 
     def __init__(self, init_funds, max_single_position_exposure):
         self._funds = init_funds
@@ -81,13 +81,15 @@ class Broker:
     @property
     def open_trades(self):
         if not self._open_trades:
-            return pd.DataFrame(columns=['status', 'stock_id', 'shares', 'start_date', 'start_price', 'end_date', 'end_price'])
+            return pd.DataFrame(
+                columns=['status', 'stock_id', 'shares', 'start_date', 'start_price', 'end_date', 'end_price'])
         return pd.DataFrame(self._open_trades.values()).set_index('idx').sort_index()
 
     @property
     def close_trades(self):
         if not self._close_trades:
-            return pd.DataFrame(columns=['status', 'stock_id', 'shares', 'start_date', 'start_price', 'end_date', 'end_price'])
+            return pd.DataFrame(
+                columns=['status', 'stock_id', 'shares', 'start_date', 'start_price', 'end_date', 'end_price'])
         return pd.DataFrame(self._close_trades).set_index('idx').sort_index()
 
     @property

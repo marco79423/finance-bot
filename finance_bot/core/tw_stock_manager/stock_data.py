@@ -1,10 +1,11 @@
 import pandas as pd
 from sqlalchemy import text
 
+from finance_bot.core.tw_stock_manager import base
 from finance_bot.infrastructure import infra
 
 
-class StockGetter:
+class StockData(base.StockDataBase):
 
     def __init__(self, stock_id):
         self.stock_id = stock_id

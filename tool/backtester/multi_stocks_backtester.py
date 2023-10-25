@@ -5,9 +5,9 @@ import pandas as pd
 import plotly.express as px
 
 from finance_bot.core import TWStockManager
-from finance_bot.core.tw_stock_manager.data_getter import DataGetter
+from finance_bot.core.tw_stock_manager.base import MarketDataBase
 from tool.backtester.broker import Broker
-from tool.backtester.model import LimitData
+from tool.backtester.model import LimitMarketData
 from tool.backtester.strategy import SimpleStrategy
 
 
@@ -20,7 +20,7 @@ class Result:
     end: pd.Timestamp
     trades: pd.DataFrame
     equity_curve: pd.Series
-    data: DataGetter
+    data: MarketDataBase
 
     _analysis_trades: Optional[pd.DataFrame] = None
 
@@ -79,7 +79,7 @@ class MultiStocksBacktester:
 
         for stock_id in all_stock_ids:
             strategy = strategy_class()
-            strategy.data = LimitData(self.data[stock_id])
+            strategy.data = LimitMarketData(self.data[stock_id])
             strategy_map[stock_id] = strategy
 
         # 初始化資金和股票數量

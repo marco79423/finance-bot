@@ -1,4 +1,7 @@
-class LimitData:
+from finance_bot.core.tw_stock_manager.base import MarketDataBase
+
+
+class LimitMarketData(MarketDataBase):
     def __init__(self, data):
         self.data = data
         self.start_date = None

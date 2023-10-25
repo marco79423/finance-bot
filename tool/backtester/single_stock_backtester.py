@@ -7,7 +7,7 @@ import plotly.graph_objects as go
 
 from finance_bot.core import TWStockManager
 from tool.backtester.broker import Broker
-from tool.backtester.model import LimitData
+from tool.backtester.model import LimitMarketData
 from tool.backtester.strategy import SimpleStrategy
 
 
@@ -20,7 +20,7 @@ class Result:
     end: pd.Timestamp
     trades: pd.DataFrame
     equity_curve: pd.Series
-    data: LimitData
+    data: LimitMarketData
 
     _analysis_trades: Optional[pd.DataFrame] = None
 
@@ -130,7 +130,7 @@ class SingleStockBacktester:
         all_low_prices = stock_data.low.ffill()  # 補完空值的最低價
 
         strategy_class.stock_id = stock_id
-        strategy_class.data = LimitData(stock_data)
+        strategy_class.data = LimitMarketData(stock_data)
         strategy_class.data.start_date = start
         strategy = strategy_class()
 

@@ -8,7 +8,7 @@ from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from finance_bot.core.base import CoreBase
-from finance_bot.core.tw_stock_manager.data_getter import DataGetter
+from finance_bot.core.tw_stock_manager.market_data import MarketData
 from finance_bot.infrastructure import infra
 from finance_bot.model import TWStockPrice, TWStock, TWStockMonthlyRevenue, TWStockFinancialStatements
 
@@ -20,11 +20,11 @@ class TWStockManager(CoreBase):
 
     def __init__(self):
         super().__init__()
-        self._data_getter = DataGetter(logger=self.logger)
+        self._market_data = MarketData(logger=self.logger)
 
     @property
     def data(self):
-        return self._data_getter
+        return self._market_data
 
     async def update_stocks(self):
         self.logger.info(f'開始更新台灣股票資訊 ...')
