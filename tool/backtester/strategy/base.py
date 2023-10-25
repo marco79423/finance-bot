@@ -1,13 +1,15 @@
 import abc
 from typing import Optional, List
 
-from tool.backtester.model import LimitMarketData
+from tool.backtester.broker import Broker
 
 
 class StrategyBase(abc.ABC):
     name: str
     params: dict = {}
-    data: LimitMarketData
+
+    stock_id: str
+    broker: Broker
     available_stock_ids: Optional[List[str]] = None
 
     _buy_next_day_market = False
@@ -35,3 +37,7 @@ class StrategyBase(abc.ABC):
     def inter_clean(self):
         self._buy_next_day_market = False
         self._sell_next_day_market = False
+
+    @property
+    def data(self):
+        return self.broker.stock_data(self.stock_id)

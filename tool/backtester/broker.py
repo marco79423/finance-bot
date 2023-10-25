@@ -2,6 +2,8 @@ import math
 
 import pandas as pd
 
+from tool.backtester.model import LimitMarketData
+
 
 class Broker:
     fee_discount = 0.6
@@ -14,7 +16,8 @@ class Broker:
         self._max_single_position_exposure = max_single_position_exposure
 
         self._current_idx = 0
-        self._date = None
+        self._start_date = None
+        self._current_date = None
         self._open_trades = {}
         self._close_trades = []
         self._equity_curve = []
@@ -23,13 +26,27 @@ class Broker:
         self._all_high_prices = self._data.high.ffill()  # 補完空值的最高價
         self._all_low_prices = self._data.low.ffill()  # 補完空值的最低價
 
-    def start_date(self, date):
-        self._date = date
+        self._stock_data_cache = {}
+
+    def stock_data(self, stock_id):
+        if stock_id not in self._stock_data_cache:
+            self._stock_data_cache[stock_id] = LimitMarketData(
+                self._data[stock_id],
+                start_date=self._start_date,
+                end_date=self._current_date,
+            )
+        self._stock_data_cache[stock_id].end_date = self._current_date
+        return self._stock_data_cache[stock_id]
+
+    def begin_date(self, date):
+        if self._start_date is None:
+            self._start_date = date
+        self._current_date = date
 
     def end_date(self):
         current_equity = self.funds + (self.open_trades['end_price'] * self.open_trades['shares']).sum()
         self._equity_curve.append({
-            'date': self._date,
+            'date': self._current_date,
             'equity': current_equity
         })
 
@@ -46,9 +63,9 @@ class Broker:
             'status': 'open',
             'stock_id': stock_id,
             'shares': shares,
-            'start_date': self._date,
+            'start_date': self._current_date,
             'start_price': price,
-            'end_date': self._date,
+            'end_date': self._current_date,
             'end_price': self._get_stock_close_price(stock_id),  # 因為是回測，預先就知道收盤價
         }
         self._current_idx += 1
@@ -71,7 +88,7 @@ class Broker:
         trade = {
             **trade,
             'status': 'close',
-            'end_date': self._date,
+            'end_date': self._current_date,
             'end_price': price,
             'total_return': (price - trade['start_price']) * trade['shares'],
         }
@@ -106,7 +123,7 @@ class Broker:
 
         df = pd.DataFrame(self._open_trades.values()).set_index('idx').sort_index()
 
-        today_close_prices = self._all_close_prices.loc[self._date]
+        today_close_prices = self._all_close_prices.loc[self._current_date]
         df['end_price'].update(df['stock_id'].map(today_close_prices))
 
         df['total_return'] = (df['end_price'] - df['start_price']) * df['shares']
@@ -131,10 +148,10 @@ class Broker:
         )
 
     def _get_stock_high_price(self, stock_id):
-        return self._all_high_prices.loc[self._date, stock_id]
+        return self._all_high_prices.loc[self._current_date, stock_id]
 
     def _get_stock_low_price(self, stock_id):
-        return self._all_low_prices.loc[self._date, stock_id]
+        return self._all_low_prices.loc[self._current_date, stock_id]
 
     def _get_stock_close_price(self, stock_id):
-        return self._all_close_prices.loc[self._date, stock_id]
+        return self._all_close_prices.loc[self._current_date, stock_id]

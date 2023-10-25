@@ -58,13 +58,13 @@ class MultiStocksBacktester:
         strategy_map = {}
         for stock_id in all_stock_ids:
             strategy = strategy_class()
-            strategy.data = LimitMarketData(self.data[stock_id])
+            strategy_class.broker = broker
             strategy_map[stock_id] = strategy
 
         all_date_range = self.data.close.loc[start:end].index  # 交易日
 
         for today in all_date_range:
-            broker.start_date(today)
+            broker.begin_date(today)
             holding_stock_ids = broker.holding_stock_ids
 
             if holding_stock_ids:
@@ -92,7 +92,6 @@ class MultiStocksBacktester:
 
             for _, strategy in strategy_map.items():
                 strategy.inter_clean()
-                strategy.data.end_date = today
                 strategy.handle()
 
         return Result(
