@@ -156,8 +156,11 @@ class Broker:
     def analysis_trades(self):
         df = self.all_trades
         df['period'] = (df['end_date'] - df['start_date']).dt.days
+
         df['total_return'] = (df['end_price'] - df['start_price']) * df['shares']
         df['total_return (fee)'] = df['total_return'] - df['total_fee']
+        df['total_return_rate (fee)'] = df['total_return (fee)'] / (df['start_price'] * df['shares'])  # TODO: 考慮手續費
+
         return df
 
     @property
@@ -174,6 +177,15 @@ class Broker:
     @property
     def total_return_with_fee(self):
         return self.analysis_trades['total_return (fee)'].sum()
+
+    @property
+    def total_return_rate_with_fee(self):
+        return self.analysis_trades['total_return_rate (fee)'].sum()
+
+    @property
+    def annualized_return_rate_with_fee(self):
+        hold_year = (self.current_date - self.start_date).days / 365.25
+        return (1 + self.total_return_rate_with_fee) ** (1 / hold_year) - 1
 
     def _get_stock_high_price(self, stock_id):
         return self._all_high_prices.loc[self._current_date, stock_id]
