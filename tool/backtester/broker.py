@@ -150,7 +150,20 @@ class Broker:
 
     @property
     def all_trades(self):
-        return pd.concat([self.close_trades, self.open_trades]).sort_index()
+        df = None
+        if not self.close_trades.empty:
+            df = self.close_trades
+
+        if not self.open_trades.empty:
+            if df is None:
+                df = self.open_trades
+            else:
+                df = pd.concat([df, self.open_trades]).sort_index()
+
+        if df is None:
+            df = self._create_empty_trades()
+
+        return df
 
     @property
     def analysis_trades(self):
