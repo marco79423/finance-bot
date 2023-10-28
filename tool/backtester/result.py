@@ -4,6 +4,7 @@ import dataclasses
 import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
+from dash import Dash, html, dash_table, dcc
 
 from tool.backtester.broker import Broker
 from tool.backtester.model import LimitMarketData
@@ -58,13 +59,90 @@ class MultiStocksResult(ResultBase):
         with pd.option_context('display.max_rows', None, 'display.max_columns', None, 'display.width', None):
             print(df)
 
-        fig = px.line(
-            data_frame=pd.DataFrame({
-                '權益': self.broker.equity_curve,
-            }),
-            title=self.strategy_name
-        )
-        fig.show()
+        array = [
+            html.Header(children=self.strategy_name),
+            html.Div(children=f'回測範圍： {self.start} ~ {self.end}'),
+            html.Div(children=f'原始本金： {self.init_funds}'),
+            html.Div(children=f'總獲利(含手續費)： {self.broker.total_return:.0f}'),
+            html.Div(children=f'平均天數： {avg_days:.1f} 天 (最長: {max_days:.1f} 天, 最短: {min_days:.1f}) 天'),
+            html.Div(children=f'年化報酬率(含手續費)： {self.broker.annualized_return_rate_with_fee * 100:.2f}%'),
+            html.Div(children=f'各倉位狀況：'),
+            dash_table.DataTable(data=self.trades.to_dict('records')),
+            dcc.Graph(figure=px.line(
+                data_frame=pd.DataFrame({
+                    '權益': self.broker.equity_curve,
+                }),
+            )),
+        ]
+
+        stock_ids = df['stock_id'].unique()
+        for stock_id in stock_ids:
+            data = self.broker.stock_data(stock_id)
+
+            fig_data = [
+                go.Candlestick(
+                    x=data.close.index,
+                    open=data.open,
+                    high=data.high,
+                    low=data.low,
+                    close=data.close,
+                    increasing_line_color='red',
+                    decreasing_line_color='green',
+                    name='K 線',
+                )
+            ]
+
+            trades = df[df['stock_id'] == stock_id]
+            for idx, trade in trades.iterrows():
+                fig_data.append(
+                    go.Scatter(
+                        x=[trade['start_date'], trade['end_date']],
+                        y=[trade['start_price'], trade['end_price']],
+                        line_color='red' if trade['total_return'] > 0 else 'green',
+                        name=f'trade {idx}'
+                    )
+                )
+
+            fig = go.Figure(
+                data=fig_data,
+                layout=go.Layout(
+                    xaxis=dict(
+                        title='日期',
+                        rangeslider_visible=False,
+                    ),
+                    yaxis=dict(
+                        title='股價',
+                        domain=[0.5, 1],
+                    ),
+                )
+            )
+
+            for _, trade in trades.iterrows():
+                fig.add_annotation(
+                    x=trade['start_date'],
+                    y=trade['start_price'],
+                    text="Buy",
+                    arrowhead=2,
+                    ax=0,
+                    ay=-30
+                )
+                fig.add_annotation(
+                    x=trade['end_date'],
+                    y=trade['end_price'],
+                    text="Sell",
+                    arrowhead=2,
+                    ax=0,
+                    ay=-30
+                )
+
+            array.extend([
+                html.Div(children=stock_id),
+                dcc.Graph(figure=fig),
+            ])
+
+        app = Dash(__name__)
+        app.layout = html.Div(array)
+        app.run(debug=True)
 
 
 @dataclasses.dataclass
