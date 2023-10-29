@@ -84,4 +84,8 @@ class StrategyBase(abc.ABC):
         self._buy_next_day_market = False
         self._sell_next_day_market = False
 
-        self.handle()
+        try:
+            self.handle()
+        except Exception as e:
+            """失敗就當作沒這回事"""
+            pass
