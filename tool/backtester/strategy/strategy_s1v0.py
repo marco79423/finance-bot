@@ -1,13 +1,16 @@
 import pandas as pd
 
+from finance_bot.infrastructure import infra
 from tool.backtester.strategy.base import StrategyBase
+
+df = pd.read_csv(infra.path.multicharts_folder / f'stock_list.csv', header=None, index_col=0, dtype={0: str})
 
 
 class StrategyS1V0(StrategyBase):
     name = '策略 S1V0'
     params = dict(
     )
-    available_stock_ids = ['0050']
+    available_stock_ids = df.index.to_list()
 
     # noinspection PyTypeChecker
     def handle(self):
