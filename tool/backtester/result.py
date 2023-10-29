@@ -52,7 +52,6 @@ class MultiStocksResult(ResultBase):
         min_days = self.trades['period'].min()
         print(f'平均天數： {avg_days:.1f} 天 (最長: {max_days:.1f} 天, 最短: {min_days:.1f}) 天')
         print(f'年化報酬率(含手續費)： {self.broker.annualized_return_rate_with_fee * 100:.2f}%')
-        print(f'各倉位狀況：')
 
         df = self.trades
         df['total_return_rate (fee)'] = df['total_return_rate (fee)'].apply(lambda x: f'{x * 100:.2f}%')
@@ -66,13 +65,12 @@ class MultiStocksResult(ResultBase):
             html.Div(children=f'總獲利(含手續費)： {self.broker.total_return:.0f}'),
             html.Div(children=f'平均天數： {avg_days:.1f} 天 (最長: {max_days:.1f} 天, 最短: {min_days:.1f}) 天'),
             html.Div(children=f'年化報酬率(含手續費)： {self.broker.annualized_return_rate_with_fee * 100:.2f}%'),
-            html.Div(children=f'各倉位狀況：'),
-            dash_table.DataTable(data=self.trades.to_dict('records')),
             dcc.Graph(figure=px.line(
                 data_frame=pd.DataFrame({
                     '權益': self.broker.equity_curve,
                 }),
             )),
+            dash_table.DataTable(data=df.to_dict('records')),
         ]
 
         stock_ids = df['stock_id'].unique()
@@ -138,6 +136,7 @@ class MultiStocksResult(ResultBase):
             array.extend([
                 html.Div(children=stock_id),
                 dcc.Graph(figure=fig),
+                dash_table.DataTable(data=trades.to_dict('records')),
             ])
 
         app = Dash(__name__)
