@@ -18,6 +18,9 @@ def export_stock_list_to_multicharts(data):
     s = (data.close[six_months_ago:last_date].dropna() > 10).all()
     c = c & data.stocks.index.isin(s[s].index)
 
+    s = data.high[six_months_ago:last_date].max() < 100
+    c = c & data.stocks.index.isin(s[s].index)
+
     df = pd.DataFrame({
         'stock_id': data.stocks[c].index,
     })
