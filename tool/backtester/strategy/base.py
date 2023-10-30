@@ -17,6 +17,8 @@ class StrategyBase(abc.ABC):
     _sell_next_day_market = False
     _sell_next_day_market_note = ''
 
+    _current = None
+
     @abc.abstractmethod
     def handle(self):
         pass
@@ -29,6 +31,7 @@ class StrategyBase(abc.ABC):
         """
         self._buy_next_day_market = True
         self._buy_next_day_market_note = note
+        self._current = {}
 
     def sell_next_day_market(self, note=''):
         """
@@ -37,6 +40,7 @@ class StrategyBase(abc.ABC):
         """
         self._sell_next_day_market = True
         self._sell_next_day_market_note = note
+        self._current = None
 
     @property
     def data(self):
@@ -56,25 +60,32 @@ class StrategyBase(abc.ABC):
 
     @property
     def current_shares(self):
-        trades = self.broker.open_trades.set_index('stock_id')
-        return trades['shares'].get(self.stock_id, 0)
+        if 'current_shares' not in self._current:
+            trades = self.broker.open_trades.set_index('stock_id')
+            self._current['current_shares'] = trades['shares'].get(self.stock_id, 0)
+        return self._current['current_shares']
 
     @property
     def entry_date(self):
-        trades = self.broker.open_trades.set_index('stock_id')
-        return trades['start_date'].get(self.stock_id, None)
+        if 'entry_date' not in self._current:
+            trades = self.broker.open_trades.set_index('stock_id')
+            self._current['entry_date'] = trades['start_date'].get(self.stock_id, None)
+        return self._current['entry_date']
 
     @property
     def entry_price(self):
-        trades = self.broker.open_trades.set_index('stock_id')
-        return trades['start_price'].get(self.stock_id, None)
+        if 'entry_price' not in self._current:
+            trades = self.broker.open_trades.set_index('stock_id')
+            self._current['entry_price'] = trades['start_price'].get(self.stock_id, None)
+        return self._current['entry_price']
 
     @property
     def break_even_price(self):
-        fee_ratio = 1.425 / 1000 * self.broker.fee_discount  # 0.1425％
-        tax_ratio = 3 / 1000  # 政府固定收 0.3 %
-        new_stock_price = self.entry_price * (1 + fee_ratio) / (1 - fee_ratio - tax_ratio)
-        return new_stock_price
+        if 'break_even_price' not in self._current:
+            fee_ratio = 1.425 / 1000 * self.broker.fee_discount  # 0.1425％
+            tax_ratio = 3 / 1000  # 政府固定收 0.3 %
+            self._current['break_even_price'] = self.entry_price * (1 + fee_ratio) / (1 - fee_ratio - tax_ratio)
+        return self._current['break_even_price']
 
     @property
     def has_profit(self):
