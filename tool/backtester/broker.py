@@ -29,6 +29,9 @@ class Broker:
 
         self._stock_data_cache = {}
 
+    def raw_stock_data(self, stock_id):
+        return self._data[stock_id]
+
     def stock_data(self, stock_id):
         if stock_id not in self._stock_data_cache:
             self._stock_data_cache[stock_id] = LimitMarketData(
@@ -173,7 +176,6 @@ class Broker:
         df['total_return'] = (df['end_price'] - df['start_price']) * df['shares']
         df['total_return (fee)'] = df['total_return'] - df['total_fee']
         df['total_return_rate (fee)'] = df['total_return (fee)'] / (df['start_price'] * df['shares'])  # TODO: 考慮手續費
-
         return df
 
     @property
@@ -211,19 +213,18 @@ class Broker:
 
     @staticmethod
     def _create_empty_trades():
-        return pd.DataFrame(
-            columns=[
-                'status',
+        return pd.DataFrame({
+            'status': pd.Series(dtype='str'),
 
-                'stock_id',
-                'shares',
+            'stock_id': pd.Series(dtype='str'),
+            'shares': pd.Series(dtype='int'),
 
-                'start_date',
-                'start_price',
+            'start_date': pd.Series(dtype='datetime64[ns]'),
+            'start_price': pd.Series(dtype='float'),
 
-                'end_date',
-                'end_price',
+            'end_date': pd.Series(dtype='datetime64[ns]'),
+            'end_price': pd.Series(dtype='float'),
 
-                'total_fee',
-                'note',
-            ])
+            'total_fee': pd.Series(dtype='float'),
+            'note': pd.Series(dtype='str'),
+        })

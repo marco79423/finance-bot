@@ -1,3 +1,5 @@
+import datetime as dt
+
 import pandas as pd
 
 from finance_bot.core import TWStockManager
@@ -11,6 +13,7 @@ class MultiStocksBacktester:
         self.data = data
 
     def run(self, init_funds, max_single_position_exposure, strategy_class, start, end):
+        start_time = dt.datetime.now()
         start = pd.Timestamp(start)
         end = pd.Timestamp(end)
 
@@ -26,6 +29,7 @@ class MultiStocksBacktester:
             strategy.stock_id = stock_id
             strategy.broker = broker
             strategy_map[stock_id] = strategy
+            strategy_map[stock_id].pre_handle()
 
         all_date_range = self.data.close.loc[start:end].index  # 交易日
 
@@ -48,6 +52,8 @@ class MultiStocksBacktester:
 
             for _, strategy in strategy_map.items():
                 strategy.inter_handle()
+
+        print('回測花費時間：', dt.datetime.now() - start_time)
 
         return MultiStocksResult(
             strategy_name=strategy_class.name,

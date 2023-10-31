@@ -12,12 +12,20 @@ class StrategyS1V0(StrategyBase):
     )
     available_stock_ids = df.index.to_list()
 
+    def init(self, data):
+        return dict(
+            sma5=data.close.rolling(window=5).mean(),
+            sma10=data.close.rolling(window=10).mean(),
+            sma35=data.close.rolling(window=35).mean(),
+            voc10=(data.volume - self.data.volume.shift(10)) / data.volume.shift(10) * 100,
+        )
+
     # noinspection PyTypeChecker
     def handle(self):
-        sma5 = self.data.close.rolling(window=5).mean()
-        sma10 = self.data.close.rolling(window=10).mean()
-        sma35 = self.data.close.rolling(window=35).mean()
-        voc10 = (self.volume - self.data.volume.shift(10)) / self.data.volume.shift(10) * 100
+        sma5 = self.i('sma5')
+        sma10 = self.i('sma10')
+        sma35 = self.i('sma35')
+        voc10 = self.i('voc10')
 
         if self.current_shares == 0:
             buy_c = True

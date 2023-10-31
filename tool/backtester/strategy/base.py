@@ -17,7 +17,11 @@ class StrategyBase(abc.ABC):
     _sell_next_day_market = False
     _sell_next_day_market_note = ''
 
-    _current = None
+    _current = {}
+    _indicators = {}
+
+    def init(self, data):
+        return {}
 
     @abc.abstractmethod
     def handle(self):
@@ -40,7 +44,7 @@ class StrategyBase(abc.ABC):
         """
         self._sell_next_day_market = True
         self._sell_next_day_market_note = note
-        self._current = None
+        self._current = {}
 
     @property
     def data(self):
@@ -90,6 +94,13 @@ class StrategyBase(abc.ABC):
     @property
     def has_profit(self):
         return self.close > self.break_even_price
+
+    def pre_handle(self):
+        data = self.broker.raw_stock_data(self.stock_id)
+        self._indicators = self.init(data)
+
+    def i(self, key):
+        return self._indicators[key].loc[:self.broker.current_date]
 
     def inter_handle(self):
         self._buy_next_day_market = False
