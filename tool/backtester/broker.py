@@ -116,7 +116,7 @@ class Broker:
     @property
     def single_entry_limit(self):
         invested_funds = sum(trade['start_price'] * trade['shares'] for trade in self._open_trades.values())
-        return math.floor((invested_funds + self.funds) * self._max_single_position_exposure)
+        return min(math.floor((invested_funds + self.funds) * self._max_single_position_exposure), self.funds)
 
     @property
     def init_funds(self):
