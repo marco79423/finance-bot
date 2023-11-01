@@ -4,7 +4,7 @@ import dataclasses
 import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
-from dash import Dash, html, dash_table, dcc
+from dash import Dash, html, dash_table, dcc, callback, Output, Input
 
 from tool.backtester.broker import Broker
 from tool.backtester.model import LimitMarketData
@@ -60,11 +60,14 @@ class MultiStocksResult(ResultBase):
 
         df = self.trades
         df['total_return_rate (fee)'] = df['total_return_rate (fee)'].apply(lambda x: f'{x * 100:.2f}%')
-        with pd.option_context('display.max_rows', None, 'display.max_columns', None, 'display.width', None):
-            print(df)
 
-        with pd.option_context('display.max_rows', None, 'display.max_columns', None, 'display.width', None):
-            print(self.trade_logs)
+        # print(f'各倉位狀況：')
+        # with pd.option_context('display.max_rows', None, 'display.max_columns', None, 'display.width', None):
+        #     print(df)
+
+        # print(f'交易紀錄：')
+        # with pd.option_context('display.max_rows', None, 'display.max_columns', None, 'display.width', None):
+        #     print(self.trade_logs)
 
         array = [
             html.Header(children=self.strategy_name),
@@ -78,11 +81,28 @@ class MultiStocksResult(ResultBase):
                     '權益': self.broker.equity_curve,
                 }),
             )),
-            dash_table.DataTable(data=df.to_dict('records'), page_size=20),
+            html.Div(children=f'各倉位狀況：'),
+            dash_table.DataTable(data=df.to_dict('records')),
+            html.Div(children=f'個股狀況：'),
+            dcc.Dropdown(
+                df['stock_id'].unique(),
+                '股票',
+                id='stock_id',
+            ),
+            dcc.Graph(id='equity_per_stock'),
+            html.Div(children=f'各倉位狀況：'),
+            dash_table.DataTable(id='trades_per_stock'),
+            html.Div(children=f'交易紀錄：'),
+            dash_table.DataTable(id='logs_per_stock'),
         ]
 
-        stock_ids = df['stock_id'].unique()
-        for stock_id in stock_ids:
+        @callback(
+            Output('equity_per_stock', 'figure'),
+            Output('trades_per_stock', 'data'),
+            Output('logs_per_stock', 'data'),
+            Input('stock_id', 'value'),
+        )
+        def update_graph(stock_id):
             data = self.broker.stock_data(stock_id)
 
             fig_data = [
@@ -141,11 +161,9 @@ class MultiStocksResult(ResultBase):
                     ay=-30
                 )
 
-            array.extend([
-                html.Div(children=stock_id),
-                dcc.Graph(figure=fig),
-                dash_table.DataTable(data=trades.to_dict('records'), page_size=20),
-            ])
+            logs = df[df['stock_id'] == stock_id]
+
+            return fig, trades.to_dict('records'), logs.to_dict('records')
 
         app = Dash(__name__)
         app.layout = html.Div(array)
