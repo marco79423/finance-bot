@@ -195,7 +195,7 @@ class Broker:
 
     @property
     def total_return_rate_with_fee(self):
-        return self.analysis_trades['total_return_rate (fee)'].sum()
+        return self.total_return_with_fee / self.init_funds
 
     @property
     def annualized_return_rate_with_fee(self):
