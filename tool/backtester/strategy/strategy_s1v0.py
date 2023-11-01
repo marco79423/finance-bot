@@ -3,7 +3,7 @@ import pandas as pd
 from finance_bot.infrastructure import infra
 from tool.backtester.strategy.base import StrategyBase
 
-df = pd.read_csv(infra.path.multicharts_folder / f'stock_list.csv', header=None, index_col=0, dtype={0: str})
+df = pd.read_csv(infra.path.multicharts_folder / f'stock_list_2.csv', header=None, index_col=0, dtype={0: str})
 
 
 class StrategyS1V0(StrategyBase):
@@ -29,6 +29,7 @@ class StrategyS1V0(StrategyBase):
 
         if self.current_shares == 0:
             buy_c = True
+            buy_c = buy_c and self.close > 10
             buy_c = buy_c and sma10.iloc[-1] > sma35.iloc[-1] and sma10.iloc[-2] < sma35.iloc[-2]
             buy_c = buy_c and self.data.close.iloc[-1] > self.data.open.iloc[-1]
             buy_c = buy_c and voc10.iloc[-1] < 100
