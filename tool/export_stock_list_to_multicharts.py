@@ -13,12 +13,22 @@ def export_stock_list_to_multicharts(data):
     df = pd.read_csv(infra.path.multicharts_folder / f'stock_list.csv', header=None, index_col=0, dtype={0:str})
     c = c & data.stocks.index.isin(df.index)
 
+    # 股價六個月都大於 10 的
     last_date = data.close.index.max()
     six_months_ago = last_date - pd.DateOffset(months=6)
     s = (data.close[six_months_ago:last_date].dropna() > 10).all()
     c = c & data.stocks.index.isin(s[s].index)
 
+    # 股價六個月都小於 100 的
     s = data.high[six_months_ago:last_date].max() < 100
+    c = c & data.stocks.index.isin(s[s].index)
+
+    # 股價大於 10 的
+    s = (data.close.dropna() > 10).all()
+    c = c & data.stocks.index.isin(s[s].index)
+
+    # 股價都小於 100 的
+    s = data.high.max() < 100
     c = c & data.stocks.index.isin(s[s].index)
 
     df = pd.DataFrame({
