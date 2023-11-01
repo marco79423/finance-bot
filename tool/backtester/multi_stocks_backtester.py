@@ -65,8 +65,8 @@ def main():
     backtester = MultiStocksBacktester(TWStockManager().data)
 
     result = backtester.run(
-        # init_funds=600000,
-        init_funds=10000000000,
+        init_funds=600000,
+        # init_funds=10000000000,
         max_single_position_exposure=0.1,
         # max_single_position_exposure=1,
         # strategy_class=SimpleStrategy,
