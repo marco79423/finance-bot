@@ -49,8 +49,8 @@ class MultiStocksResult(ResultBase):
     def show(self):
         print(f'使用策略 {self.strategy_name} 回測結果')
         print(f'回測範圍： {self.start} ~ {self.end}')
-        print(f'原始本金： {self.init_funds}')
-        print(f'總獲利(含手續費)： {self.broker.total_return:.0f}')
+        print(f'原始本金： {self.init_funds} 元')
+        print(f'總獲利(含手續費)： {self.broker.total_return} 元')
         avg_days = self.trades['period'].mean()
         max_days = self.trades['period'].max()
         min_days = self.trades['period'].min()

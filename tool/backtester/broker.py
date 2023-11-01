@@ -208,7 +208,7 @@ class Broker:
         df = self.all_trades
         df['period'] = (df['end_date'] - df['start_date']).dt.days
 
-        df['total_return'] = (df['end_price'] - df['start_price']) * df['shares']
+        df['total_return'] = ((df['end_price'] - df['start_price']) * df['shares']).astype(int)
         df['total_return (fee)'] = df['total_return'] - df['total_fee']
         df['total_return_rate (fee)'] = df['total_return (fee)'] / (df['start_price'] * df['shares'])  # TODO: 考慮手續費
         return df
