@@ -22,6 +22,7 @@ class Broker:
         self._open_trades = {}
         self._close_trades = []
         self._equity_curve = []
+        self._trade_logs = []
 
         self._all_close_prices = self._data.close.ffill()  # 補完空值的收盤價
         self._all_high_prices = self._data.high.ffill()  # 補完空值的最高價
@@ -63,6 +64,8 @@ class Broker:
 
         fee = max(math.floor(shares * entry_price * self.fee_rate), 1)  # 永豐說是無條件捨去，最低收 1 元
         close_price = self._get_stock_close_price(stock_id)  # 因為是回測，預先就知道收盤價
+        entry_funds = shares * entry_price + fee
+
         self._open_trades[stock_id] = {
             'idx': self._current_idx,
             'status': 'open',
@@ -77,7 +80,19 @@ class Broker:
         }
         self._current_idx += 1
 
-        self._funds -= shares * entry_price + fee
+        before = self.funds
+        self._funds -= entry_funds
+
+        self._trade_logs.append({
+            'date': self._current_date,
+            'action': 'buy',
+            'stock_id': stock_id,
+            'before': before,
+            'funds': -entry_funds,
+            'after': self.funds,
+            'note': note,
+        })
+
         return True
 
     def sell(self, stock_id, note):
@@ -90,6 +105,8 @@ class Broker:
         trade = self._open_trades[stock_id]
         fee = max(math.floor(trade['shares'] * trade['end_price'] * (self.fee_rate * self.tax_rate)), 1)
         total_fee = trade['total_fee'] + fee
+        exit_funds = trade['shares'] * trade['end_price'] - fee
+
         trade = {
             **trade,
             'status': 'close',
@@ -100,9 +117,21 @@ class Broker:
         }
         self._close_trades.append(trade)
 
-        self._funds += trade['shares'] * trade['end_price'] - fee
+        before = self.funds
+        self._funds += exit_funds
 
         del self._open_trades[stock_id]
+
+        self._trade_logs.append({
+            'date': self._current_date,
+            'action': 'sell',
+            'stock_id': stock_id,
+            'before': before,
+            'funds': exit_funds,
+            'after': self.funds,
+            'note': note,
+        })
+
         return True
 
     @property
@@ -169,6 +198,12 @@ class Broker:
         return df
 
     @property
+    def trade_logs(self):
+        if not self._trade_logs:
+            return self._create_empty_trades_logs()
+        return pd.DataFrame(self._trade_logs)
+
+    @property
     def analysis_trades(self):
         df = self.all_trades
         df['period'] = (df['end_date'] - df['start_date']).dt.days
@@ -226,5 +261,17 @@ class Broker:
             'end_price': pd.Series(dtype='float'),
 
             'total_fee': pd.Series(dtype='float'),
+            'note': pd.Series(dtype='str'),
+        })
+
+    @staticmethod
+    def _create_empty_trades_logs():
+        return pd.DataFrame({
+            'date': pd.Series(dtype='datetime64[ns]'),
+            'action': pd.Series(dtype='str'),
+            'stock_id': pd.Series(dtype='str'),
+            'before': pd.Series(dtype='float'),
+            'funds': pd.Series(dtype='float'),
+            'after': pd.Series(dtype='float'),
             'note': pd.Series(dtype='str'),
         })

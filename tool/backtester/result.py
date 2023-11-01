@@ -35,6 +35,10 @@ class ResultBase:
     def trades(self):
         return self.broker.analysis_trades
 
+    @property
+    def trade_logs(self):
+        return self.broker.trade_logs
+
     @abc.abstractmethod
     def show(self):
         pass
@@ -51,12 +55,16 @@ class MultiStocksResult(ResultBase):
         max_days = self.trades['period'].max()
         min_days = self.trades['period'].min()
         print(f'平均天數： {avg_days:.1f} 天 (最長: {max_days:.1f} 天, 最短: {min_days:.1f}) 天')
+        print(f'報酬率： {self.broker.total_return_rate_with_fee * 100:.2f}%')
         print(f'年化報酬率(含手續費)： {self.broker.annualized_return_rate_with_fee * 100:.2f}%')
 
         df = self.trades
         df['total_return_rate (fee)'] = df['total_return_rate (fee)'].apply(lambda x: f'{x * 100:.2f}%')
         with pd.option_context('display.max_rows', None, 'display.max_columns', None, 'display.width', None):
             print(df)
+
+        with pd.option_context('display.max_rows', None, 'display.max_columns', None, 'display.width', None):
+            print(self.trade_logs)
 
         array = [
             html.Header(children=self.strategy_name),
@@ -70,7 +78,7 @@ class MultiStocksResult(ResultBase):
                     '權益': self.broker.equity_curve,
                 }),
             )),
-            dash_table.DataTable(data=df.to_dict('records')),
+            dash_table.DataTable(data=df.to_dict('records'), page_size=20),
         ]
 
         stock_ids = df['stock_id'].unique()
@@ -136,7 +144,7 @@ class MultiStocksResult(ResultBase):
             array.extend([
                 html.Div(children=stock_id),
                 dcc.Graph(figure=fig),
-                dash_table.DataTable(data=trades.to_dict('records')),
+                dash_table.DataTable(data=trades.to_dict('records'), page_size=20),
             ])
 
         app = Dash(__name__)
