@@ -2,7 +2,7 @@ import pandas as pd
 
 from finance_bot.core import TWStockManager
 from tool.backtester.broker import Broker
-from tool.backtester.result import SingleStockResult
+from tool.backtester.report.multi_stocks_report import SingleStockReport
 from tool.backtester.strategy.strategy_s1v0 import StrategyS1V0
 
 
@@ -35,7 +35,7 @@ class SingleStockBacktester:
 
             strategy.inter_handle()
 
-        return SingleStockResult(
+        return SingleStockReport(
             broker=broker,
             strategy_name=strategy.name,
             data=strategy.data,

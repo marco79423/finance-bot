@@ -4,20 +4,19 @@ import pandas as pd
 
 from finance_bot.core import TWStockManager
 from tool.backtester.broker import Broker
-from tool.backtester.result import MultiStocksResult
-from tool.backtester.strategy.strategy_s1v0 import StrategyS1V0
+from tool.backtester.report.multi_stocks_report import MultiStocksReport
 
 
 class MultiStocksBacktester:
-    def __init__(self, data):
-        self.data = data
+    data = TWStockManager().data
+    broker_class = Broker
 
     def run(self, init_funds, max_single_position_exposure, strategy_class, start, end):
         start_time = dt.datetime.now()
         start = pd.Timestamp(start)
         end = pd.Timestamp(end)
 
-        broker = Broker(self.data, init_funds, max_single_position_exposure)
+        broker = self.broker_class(self.data, init_funds, max_single_position_exposure)
 
         all_stock_ids = strategy_class.available_stock_ids
         if not all_stock_ids:
@@ -55,27 +54,7 @@ class MultiStocksBacktester:
 
         print('回測花費時間：', dt.datetime.now() - start_time)
 
-        return MultiStocksResult(
+        return MultiStocksReport(
             strategy_name=strategy_class.name,
             broker=broker,
         )
-
-
-def main():
-    backtester = MultiStocksBacktester(TWStockManager().data)
-
-    result = backtester.run(
-        init_funds=600000,
-        # init_funds=10000000000,
-        max_single_position_exposure=0.1,
-        # max_single_position_exposure=1,
-        # strategy_class=SimpleStrategy,
-        strategy_class=StrategyS1V0,
-        start='2015-08-01',
-        end='2023-08-10',
-    )
-    result.show()
-
-
-if __name__ == '__main__':
-    main()
