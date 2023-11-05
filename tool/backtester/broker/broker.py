@@ -2,8 +2,6 @@ import math
 
 import pandas as pd
 
-from tool.backtester.model import LimitMarketData
-
 
 class Broker:
     fee_discount = 0.6
@@ -17,53 +15,27 @@ class Broker:
         self._max_single_position_exposure = max_single_position_exposure
 
         self._current_idx = 0
-        self._start_date = None
-        self._current_date = None
         self._open_trades = {}
         self._close_trades = []
         self._equity_curve = []
         self._trade_logs = []
 
-        self._all_close_prices = self._data.close.ffill()  # 補完空值的收盤價
-        self._all_high_prices = self._data.high.ffill()  # 補完空值的最高價
-        self._all_low_prices = self._data.low.ffill()  # 補完空值的最低價
-
-        self._stock_data_cache = {}
-
-    def raw_stock_data(self, stock_id):
-        return self._data[stock_id]
-
-    def stock_data(self, stock_id):
-        if stock_id not in self._stock_data_cache:
-            self._stock_data_cache[stock_id] = LimitMarketData(
-                self._data[stock_id],
-                start_date=self._start_date,
-                end_date=self._current_date,
-            )
-        self._stock_data_cache[stock_id].end_date = self._current_date
-        return self._stock_data_cache[stock_id]
-
-    def begin_date(self, date):
-        if self._start_date is None:
-            self._start_date = date
-        self._current_date = date
-
-    def end_date(self):
+    def settle_date(self):
         self._equity_curve.append({
-            'date': self._current_date,
+            'date': self._data.current_date,
             'equity': self.current_equity
         })
 
     def buy(self, stock_id, note=''):
         # 回測使用當日最高價買入
-        entry_price = self._get_stock_high_price(stock_id)
+        entry_price = self._data.get_stock_high_price(stock_id)
 
         shares = int((self.single_entry_limit / (entry_price * (1 + self.fee_rate)) // 1000) * 1000)
         if shares < 1000:
             return False
 
         fee = max(math.floor(shares * entry_price * self.fee_rate), 1)  # 永豐說是無條件捨去，最低收 1 元
-        close_price = self._get_stock_close_price(stock_id)  # 因為是回測，預先就知道收盤價
+        close_price = self._data.get_stock_close_price(stock_id)  # 因為是回測，預先就知道收盤價
         entry_funds = shares * entry_price + fee
 
         self._open_trades[stock_id] = {
@@ -71,9 +43,9 @@ class Broker:
             'status': 'open',
             'stock_id': stock_id,
             'shares': shares,
-            'start_date': self._current_date,
+            'start_date': self._data.current_date,
             'start_price': entry_price,
-            'end_date': self._current_date,
+            'end_date': self._data.current_date,
             'end_price': close_price,
             'total_fee': fee,
             'note': f'buy: {note}',
@@ -84,7 +56,7 @@ class Broker:
         self._funds -= entry_funds
 
         self._trade_logs.append({
-            'date': self._current_date,
+            'date': self._data.current_date,
             'action': 'buy',
             'stock_id': stock_id,
             'before': before,
@@ -100,7 +72,7 @@ class Broker:
             return False
 
         # 回測使用當日最低價賣出
-        price = self._get_stock_low_price(stock_id)
+        price = self._data.get_stock_low_price(stock_id)
 
         trade = self._open_trades[stock_id]
         fee = max(math.floor(trade['shares'] * trade['end_price'] * (self.fee_rate * self.tax_rate)), 1)
@@ -110,7 +82,7 @@ class Broker:
         trade = {
             **trade,
             'status': 'close',
-            'end_date': self._current_date,
+            'end_date': self._data.current_date,
             'end_price': price,
             'total_fee': total_fee,
             'note': trade['note'] + f'| sell: {note}',
@@ -123,7 +95,7 @@ class Broker:
         del self._open_trades[stock_id]
 
         self._trade_logs.append({
-            'date': self._current_date,
+            'date': self._data.current_date,
             'action': 'sell',
             'stock_id': stock_id,
             'before': before,
@@ -133,14 +105,6 @@ class Broker:
         })
 
         return True
-
-    @property
-    def start_date(self):
-        return self._start_date
-
-    @property
-    def current_date(self):
-        return self._current_date
 
     @property
     def single_entry_limit(self):
@@ -170,7 +134,7 @@ class Broker:
 
         df = pd.DataFrame(self._open_trades.values()).set_index('idx').sort_index()
 
-        today_close_prices = self._all_close_prices.loc[self._current_date]
+        today_close_prices = self._data.all_close_prices.loc[self._data.current_date]
         df['end_price'].update(df['stock_id'].map(today_close_prices))
         return df
 
@@ -234,17 +198,8 @@ class Broker:
 
     @property
     def annualized_return_rate_with_fee(self):
-        hold_year = (self.current_date - self.start_date).days / 365.25
+        hold_year = (self._data.current_date - self._data.start_date).days / 365.25
         return (1 + self.total_return_rate_with_fee) ** (1 / hold_year) - 1
-
-    def _get_stock_high_price(self, stock_id):
-        return self._all_high_prices.loc[self._current_date, stock_id]
-
-    def _get_stock_low_price(self, stock_id):
-        return self._all_low_prices.loc[self._current_date, stock_id]
-
-    def _get_stock_close_price(self, stock_id):
-        return self._all_close_prices.loc[self._current_date, stock_id]
 
     @staticmethod
     def _create_empty_trades():

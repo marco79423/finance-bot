@@ -2,6 +2,7 @@ import abc
 from typing import Optional, List
 
 from tool.backtester.broker import Broker
+from tool.backtester.data_source import StockDataSource
 
 
 class StrategyBase(abc.ABC):
@@ -10,6 +11,7 @@ class StrategyBase(abc.ABC):
 
     stock_id: str
     broker: Broker
+    data_source: StockDataSource
     available_stock_ids: Optional[List[str]] = None
 
     _buy_next_day_market = False
@@ -20,7 +22,7 @@ class StrategyBase(abc.ABC):
     _current = {}
     _indicators = {}
 
-    def init(self, data):
+    def init(self, all_data):
         return {}
 
     @abc.abstractmethod
@@ -30,6 +32,7 @@ class StrategyBase(abc.ABC):
     def buy_next_day_market(self, confident_score=1, note=''):
         """
         在隔天市價買入 (但在回測試會以買在最高價計算)
+        :param note:
         :param confident_score:
         :return:
         """
@@ -48,7 +51,7 @@ class StrategyBase(abc.ABC):
 
     @property
     def data(self):
-        return self.broker.stock_data(self.stock_id)
+        return self.data_source.stock_data(self.stock_id)
 
     @property
     def close(self):
@@ -60,7 +63,7 @@ class StrategyBase(abc.ABC):
 
     @property
     def today(self):
-        return self.broker.current_date
+        return self.data_source.current_date
 
     @property
     def current_shares(self):
@@ -96,11 +99,10 @@ class StrategyBase(abc.ABC):
         return self.close > self.break_even_price
 
     def pre_handle(self):
-        data = self.broker.raw_stock_data(self.stock_id)
-        self._indicators = self.init(data)
+        self._indicators = self.init(self.data.raw)
 
     def i(self, key):
-        return self._indicators[key].loc[:self.broker.current_date]
+        return self._indicators[key].loc[:self.today]
 
     def inter_handle(self):
         self._buy_next_day_market = False

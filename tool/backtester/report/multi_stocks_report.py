@@ -74,7 +74,7 @@ class MultiStocksReport(ReportBase):
             Input('stock_id', 'value'),
         )
         def update_graph(stock_id):
-            data = self.broker.stock_data(stock_id)
+            data = self.data_source.stock_data(stock_id)
 
             fig_data = [
                 go.Candlestick(

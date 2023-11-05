@@ -2,11 +2,13 @@ import abc
 import dataclasses
 
 from tool.backtester.broker import Broker
+from tool.backtester.data_source import StockDataSource
 
 
 @dataclasses.dataclass
 class ReportBase:
     strategy_name: str
+    data_source: StockDataSource
     broker: Broker
 
     @property
@@ -23,11 +25,11 @@ class ReportBase:
 
     @property
     def start(self):
-        return self.broker.start_date
+        return self.data_source.start_date
 
     @property
     def end(self):
-        return self.broker.current_date
+        return self.data_source.current_date
 
     @property
     def trades(self):

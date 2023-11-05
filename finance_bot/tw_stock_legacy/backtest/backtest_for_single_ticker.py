@@ -76,7 +76,7 @@ class BacktestReport:
         print(f'原始本金： {self.init_funds} 總獲利： {self.get_total_return()}')
         print(f'各倉位狀況：')
         for position in self.positions:
-            time = f'{position.start_date.date()} ~ {position.end_date.date()}'
+            time = f'{position.start_date.date()} ~ {position.settle_date.date()}'
             period = position.get_holding_period()
             shares = position.shares
             start_price = position.start_price

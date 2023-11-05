@@ -31,14 +31,14 @@ class SingleStockBacktester:
             else:
                 if strategy._buy_next_day_market:
                     broker.buy(stock_id, note=strategy._buy_next_day_market_note)
-            broker.end_date()
+            broker.settle_date()
 
             strategy.inter_handle()
 
         return SingleStockReport(
             broker=broker,
             strategy_name=strategy.name,
-            data=strategy.data,
+            data=strategy._data,
         )
 
 

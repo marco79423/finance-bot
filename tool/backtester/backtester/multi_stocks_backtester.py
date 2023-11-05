@@ -2,13 +2,13 @@ import datetime as dt
 
 import pandas as pd
 
-from finance_bot.core import TWStockManager
 from tool.backtester.broker import Broker
+from tool.backtester.data_source.stock_data_source import StockDataSource
 from tool.backtester.report.multi_stocks_report import MultiStocksReport
 
 
 class MultiStocksBacktester:
-    data = TWStockManager().data
+    data_class = StockDataSource
     broker_class = Broker
 
     def run(self, init_funds, max_single_position_exposure, strategy_class, start, end):
@@ -16,24 +16,25 @@ class MultiStocksBacktester:
         start = pd.Timestamp(start)
         end = pd.Timestamp(end)
 
-        broker = self.broker_class(self.data, init_funds, max_single_position_exposure)
+        data_source = self.data_class(start, end)
+        broker = self.broker_class(data_source, init_funds, max_single_position_exposure)
 
         all_stock_ids = strategy_class.available_stock_ids
         if not all_stock_ids:
-            all_stock_ids = self.data.close.columns
+            all_stock_ids = data_source.all_stock_ids
 
         strategy_map = {}
         for stock_id in all_stock_ids:
             strategy = strategy_class()
             strategy.stock_id = stock_id
             strategy.broker = broker
+            strategy.data_source = data_source
+            strategy.pre_handle()
+
             strategy_map[stock_id] = strategy
-            strategy_map[stock_id].pre_handle()
 
-        all_date_range = self.data.close.loc[start:end].index  # 交易日
-
-        for today in all_date_range:
-            broker.begin_date(today)
+        for today in data_source.all_date_range:
+            data_source.begin_date(today)
 
             holding_stock_ids = broker.holding_stock_ids
             if holding_stock_ids:
@@ -47,7 +48,7 @@ class MultiStocksBacktester:
                     if not ok:
                         break
 
-            broker.end_date()
+            broker.settle_date()
 
             for _, strategy in strategy_map.items():
                 strategy.inter_handle()
@@ -56,5 +57,6 @@ class MultiStocksBacktester:
 
         return MultiStocksReport(
             strategy_name=strategy_class.name,
+            data_source=data_source,
             broker=broker,
         )
