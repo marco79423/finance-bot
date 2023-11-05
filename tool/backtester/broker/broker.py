@@ -22,7 +22,7 @@ class Broker:
 
     def settle_date(self):
         self._equity_curve.append({
-            'date': self._data.current_date,
+            'date': self._data.current_time,
             'equity': self.current_equity
         })
 
@@ -43,9 +43,9 @@ class Broker:
             'status': 'open',
             'stock_id': stock_id,
             'shares': shares,
-            'start_date': self._data.current_date,
+            'start_date': self._data.current_time,
             'start_price': entry_price,
-            'end_date': self._data.current_date,
+            'end_date': self._data.current_time,
             'end_price': close_price,
             'total_fee': fee,
             'note': f'buy: {note}',
@@ -56,7 +56,7 @@ class Broker:
         self._funds -= entry_funds
 
         self._trade_logs.append({
-            'date': self._data.current_date,
+            'date': self._data.current_time,
             'action': 'buy',
             'stock_id': stock_id,
             'before': before,
@@ -82,7 +82,7 @@ class Broker:
         trade = {
             **trade,
             'status': 'close',
-            'end_date': self._data.current_date,
+            'end_date': self._data.current_time,
             'end_price': price,
             'total_fee': total_fee,
             'note': trade['note'] + f'| sell: {note}',
@@ -95,7 +95,7 @@ class Broker:
         del self._open_trades[stock_id]
 
         self._trade_logs.append({
-            'date': self._data.current_date,
+            'date': self._data.current_time,
             'action': 'sell',
             'stock_id': stock_id,
             'before': before,
@@ -134,7 +134,7 @@ class Broker:
 
         df = pd.DataFrame(self._open_trades.values()).set_index('idx').sort_index()
 
-        today_close_prices = self._data.all_close_prices.loc[self._data.current_date]
+        today_close_prices = self._data.all_close.loc[self._data.current_time]
         df['end_price'].update(df['stock_id'].map(today_close_prices))
         return df
 
@@ -198,7 +198,7 @@ class Broker:
 
     @property
     def annualized_return_rate_with_fee(self):
-        hold_year = (self._data.current_date - self._data.start_date).days / 365.25
+        hold_year = (self._data.current_time - self._data.start_time).days / 365.25
         return (1 + self.total_return_rate_with_fee) ** (1 / hold_year) - 1
 
     @staticmethod

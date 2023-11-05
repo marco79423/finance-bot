@@ -51,7 +51,7 @@ class StrategyBase(abc.ABC):
 
     @property
     def data(self):
-        return self.data_source.stock_data(self.stock_id)
+        return self.data_source[self.stock_id]
 
     @property
     def close(self):
@@ -63,7 +63,7 @@ class StrategyBase(abc.ABC):
 
     @property
     def today(self):
-        return self.data_source.current_date
+        return self.data_source.current_time
 
     @property
     def current_shares(self):
@@ -99,7 +99,7 @@ class StrategyBase(abc.ABC):
         return self.close > self.break_even_price
 
     def pre_handle(self):
-        self._indicators = self.init(self.data.raw)
+        self._indicators = self.init(self.data)
 
     def i(self, key):
         return self._indicators[key].loc[:self.today]

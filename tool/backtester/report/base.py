@@ -25,11 +25,11 @@ class ReportBase:
 
     @property
     def start(self):
-        return self.data_source.start_date
+        return self.data_source.start_time
 
     @property
     def end(self):
-        return self.data_source.current_date
+        return self.data_source.current_time
 
     @property
     def trades(self):

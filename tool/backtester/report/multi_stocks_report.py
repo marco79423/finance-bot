@@ -57,7 +57,6 @@ class MultiStocksReport(ReportBase):
             html.Div(children=f'個股狀況：'),
             dcc.Dropdown(
                 df['stock_id'].unique(),
-                '股票',
                 id='stock_id',
             ),
             dcc.Graph(id='equity_per_stock'),
@@ -74,7 +73,7 @@ class MultiStocksReport(ReportBase):
             Input('stock_id', 'value'),
         )
         def update_graph(stock_id):
-            data = self.data_source.stock_data(stock_id)
+            data = self.data_source[stock_id]
 
             fig_data = [
                 go.Candlestick(

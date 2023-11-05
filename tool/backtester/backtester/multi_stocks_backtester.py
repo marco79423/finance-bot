@@ -16,15 +16,15 @@ class MultiStocksBacktester:
         start = pd.Timestamp(start)
         end = pd.Timestamp(end)
 
-        data_source = self.data_class(start, end)
+        data_source = self.data_class(
+            start=start,
+            end=end,
+            all_stock_ids=strategy_class.available_stock_ids if strategy_class.available_stock_ids else None,
+        )
         broker = self.broker_class(data_source, init_funds, max_single_position_exposure)
 
-        all_stock_ids = strategy_class.available_stock_ids
-        if not all_stock_ids:
-            all_stock_ids = data_source.all_stock_ids
-
         strategy_map = {}
-        for stock_id in all_stock_ids:
+        for stock_id in data_source.all_stock_ids:
             strategy = strategy_class()
             strategy.stock_id = stock_id
             strategy.broker = broker
@@ -33,8 +33,10 @@ class MultiStocksBacktester:
 
             strategy_map[stock_id] = strategy
 
+        data_source.is_limit = True
+
         for today in data_source.all_date_range:
-            data_source.begin_date(today)
+            data_source.set_time(today)
 
             holding_stock_ids = broker.holding_stock_ids
             if holding_stock_ids:
