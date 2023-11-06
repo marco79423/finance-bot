@@ -138,6 +138,9 @@ class Broker:
         df['end_price'].update(df['stock_id'].map(today_close_prices))
         return df
 
+    def get_open_trades_by_stock_id(self, stock_id):
+        return self._open_trades.get(stock_id, None)
+
     @property
     def close_trades(self):
         if not self._close_trades:

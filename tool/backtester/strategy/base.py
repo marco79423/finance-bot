@@ -68,22 +68,22 @@ class StrategyBase(abc.ABC):
     @property
     def current_shares(self):
         if 'current_shares' not in self._current:
-            trades = self.broker.open_trades.set_index('stock_id')
-            self._current['current_shares'] = trades['shares'].get(self.stock_id, 0)
+            trade = self.broker.get_open_trades_by_stock_id(self.stock_id)
+            self._current['current_shares'] = trade['shares'] if trade is not None else 0
         return self._current['current_shares']
 
     @property
     def entry_date(self):
         if 'entry_date' not in self._current:
-            trades = self.broker.open_trades.set_index('stock_id')
-            self._current['entry_date'] = trades['start_date'].get(self.stock_id, None)
+            trade = self.broker.get_open_trades_by_stock_id(self.stock_id)
+            self._current['entry_date'] = trade['start_date'] if trade is not None else None
         return self._current['entry_date']
 
     @property
     def entry_price(self):
         if 'entry_price' not in self._current:
-            trades = self.broker.open_trades.set_index('stock_id')
-            self._current['entry_price'] = trades['start_price'].get(self.stock_id, None)
+            trade = self.broker.get_open_trades_by_stock_id(self.stock_id)
+            self._current['entry_price'] = trade['entry_price'] if trade is not None else 0
         return self._current['entry_price']
 
     @property
