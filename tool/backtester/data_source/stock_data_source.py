@@ -14,7 +14,9 @@ class StockDataSource(DataSourceBase):
         self._all_stock_ids = all_stock_ids
 
         if self.use_cache:
-            self._prices_df = infra.db_cache.read(key='tw_stock_price')
+            df = infra.db_cache.read(key='tw_stock_price')
+            df = df.sort_index()
+            self._prices_df = df.loc[self.start_time:self.end_time]
         else:
             self._prices_df = pd.read_sql(
                 sql=text(
