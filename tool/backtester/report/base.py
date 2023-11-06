@@ -39,6 +39,10 @@ class ReportBase:
     def trade_logs(self):
         return self.broker.trade_logs
 
+    @property
+    def account_balance_logs(self):
+        return self.broker.account_balance_logs
+
     @abc.abstractmethod
     def show(self):
         pass

@@ -53,7 +53,9 @@ class MultiStocksReport(ReportBase):
             html.Div(children=f'各倉位狀況：'),
             dash_table.DataTable(data=df.to_dict('records'), page_size=50),
             html.Div(children=f'交易紀錄：'),
-            dash_table.DataTable(data=self.trade_logs.to_dict('records'), page_size=20),
+            dash_table.DataTable(data=self.trade_logs, page_size=20),
+            html.Div(children=f'帳戶紀錄：'),
+            dash_table.DataTable(data=self.account_balance_logs, page_size=20),
             html.Div(children=f'個股狀況：'),
             dcc.Dropdown(
                 df['stock_id'].unique(),

@@ -19,6 +19,7 @@ class Broker:
         self._close_trades = []
         self._equity_curve = []
         self._trade_logs = []
+        self._account_balance_logs = []
 
     def settle_date(self):
         self._equity_curve.append({
@@ -55,7 +56,8 @@ class Broker:
         before = self.funds
         self._funds -= entry_funds
 
-        self._trade_logs.append({
+        self._account_balance_logs.append({
+            'idx': self._current_idx,
             'date': self._data.current_time,
             'action': 'buy',
             'stock_id': stock_id,
@@ -63,6 +65,16 @@ class Broker:
             'funds': -entry_funds,
             'after': self.funds,
             'note': note,
+        })
+
+        self._trade_logs.append({
+            'idx': self._current_idx,
+            'date': self._data.current_time,
+            'action': 'buy',
+            'stock_id': stock_id,
+            'shares': shares,
+            'fee': fee,
+            'price': entry_price
         })
 
         return True
@@ -94,7 +106,8 @@ class Broker:
 
         del self._open_trades[stock_id]
 
-        self._trade_logs.append({
+        self._account_balance_logs.append({
+            'idx': trade['idx'],
             'date': self._data.current_time,
             'action': 'sell',
             'stock_id': stock_id,
@@ -102,6 +115,16 @@ class Broker:
             'funds': exit_funds,
             'after': self.funds,
             'note': note,
+        })
+
+        self._trade_logs.append({
+            'idx': trade['idx'],
+            'date': self._data.current_time,
+            'action': 'sell',
+            'stock_id': stock_id,
+            'shares': trade['shares'],
+            'fee': fee,
+            'price': trade['end_price'],
         })
 
         return True
@@ -165,10 +188,12 @@ class Broker:
         return df
 
     @property
+    def account_balance_logs(self):
+        return self._account_balance_logs
+
+    @property
     def trade_logs(self):
-        if not self._trade_logs:
-            return self._create_empty_trades_logs()
-        return pd.DataFrame(self._trade_logs)
+        return self._trade_logs
 
     @property
     def analysis_trades(self):
@@ -219,17 +244,5 @@ class Broker:
             'end_price': pd.Series(dtype='float'),
 
             'total_fee': pd.Series(dtype='float'),
-            'note': pd.Series(dtype='str'),
-        })
-
-    @staticmethod
-    def _create_empty_trades_logs():
-        return pd.DataFrame({
-            'date': pd.Series(dtype='datetime64[ns]'),
-            'action': pd.Series(dtype='str'),
-            'stock_id': pd.Series(dtype='str'),
-            'before': pd.Series(dtype='float'),
-            'funds': pd.Series(dtype='float'),
-            'after': pd.Series(dtype='float'),
             'note': pd.Series(dtype='str'),
         })
