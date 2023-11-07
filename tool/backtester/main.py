@@ -1,4 +1,5 @@
 from tool.backtester.backtester import MultiStocksBacktester
+from tool.backtester.reporter.reporter import Reporter
 from tool.backtester.strategy.strategy_s1v0 import StrategyS1V0
 
 
@@ -15,7 +16,9 @@ def main():
         start='2015-08-01',
         end='2023-08-10',
     )
-    result.show()
+
+    reporter = Reporter()
+    reporter.show(result)
 
 
 if __name__ == '__main__':

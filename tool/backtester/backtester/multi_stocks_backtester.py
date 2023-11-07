@@ -2,9 +2,9 @@ import datetime as dt
 
 import pandas as pd
 
+from tool.backtester.backtester.result import Result
 from tool.backtester.broker import Broker
 from tool.backtester.data_source.stock_data_source import StockDataSource
-from tool.backtester.report.multi_stocks_report import MultiStocksReport
 
 
 class MultiStocksBacktester:
@@ -57,8 +57,20 @@ class MultiStocksBacktester:
 
         print('回測花費時間：', dt.datetime.now() - start_time)
 
-        return MultiStocksReport(
+        return Result(
             strategy_name=strategy_class.name,
-            data_source=data_source,
-            broker=broker,
+            init_funds=init_funds,
+            final_funds=broker.funds,
+            start_time=start,
+            end_time=end,
+            trade_logs=broker.trade_logs,
+
+            account_balance_logs=broker.account_balance_logs,
+            trades=broker.analysis_trades,
+            final_equity=broker.current_equity,
+            equity_curve=broker.equity_curve,
+            total_return=broker.total_return,
+            total_return_with_fee=broker.total_return_with_fee,
+            total_return_rate_with_fee=broker.total_return_rate_with_fee,
+            annualized_return_rate_with_fee=broker.annualized_return_rate_with_fee,
         )

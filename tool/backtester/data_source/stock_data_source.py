@@ -1,36 +1,21 @@
-import pandas as pd
-from sqlalchemy import text
-import datetime as dt
-
 from finance_bot.infrastructure import infra
 from tool.backtester.data_source.base import DataSourceBase
 
 
 class StockDataSource(DataSourceBase):
-    use_cache = True
 
-    def __init__(self, all_stock_ids, start, end):
+    def __init__(self, all_stock_ids=None, start=None, end=None):
         super().__init__(start, end)
         self._all_stock_ids = all_stock_ids
 
-        if self.use_cache:
-            df = infra.db_cache.read(key='tw_stock_price')
-            df = df.sort_index()
-            self._prices_df = df.loc[self.start_time:self.end_time]
+        df = infra.db_cache.read(key='tw_stock_price')
+        df = df.sort_index()
+        self._prices_df = df.loc[self.start_time:self.end_time]
+
+        if self._all_stock_ids is None:
+            self._all_stock_ids = self._prices_df['stock_id'].unique().tolist()
         else:
-            self._prices_df = pd.read_sql(
-                sql=text(
-                    "SELECT * FROM tw_stock_price WHERE date >= :start AND date <= :end AND stock_id IN :stock_ids"
-                ),
-                params={
-                    'stock_ids': self._all_stock_ids,
-                    'start': self.start_time,
-                    'end': self.end_time,
-                },
-                con=infra.db.engine,
-                index_col='date',
-                parse_dates=['date'],
-            )
+            self._prices_df = self._prices_df[self._prices_df['stock_id'].isin(self._all_stock_ids)]
 
         self._all_open = self._prices_df.pivot(columns='stock_id', values='open').ffill()  # 補完空值的收盤價
         self._all_close = self._prices_df.pivot(columns='stock_id', values='close').ffill()  # 補完空值的收盤價

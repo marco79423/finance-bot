@@ -3,27 +3,32 @@ import plotly.express as px
 import plotly.graph_objects as go
 from dash import Dash, html, dash_table, dcc, callback, Output, Input
 
-from tool.backtester.report.base import ReportBase
+from tool.backtester.backtester.result import Result
+from tool.backtester.data_source import StockDataSource
 
 
-class MultiStocksReport(ReportBase):
+class Reporter:
+    data_class = StockDataSource
 
-    def show(self):
-        print(f'使用策略 {self.strategy_name} 回測結果')
-        print(f'回測範圍： {self.start} ~ {self.end}')
-        print(f'原始本金： {self.init_funds} 元')
-        print(f'最終本金： {self.final_funds}')
-        print(f'最終權益： {self.final_equity} 元')
-        print(f'總獲利： {self.broker.total_return} 元')
-        print(f'總獲利(含手續費)： {self.broker.total_return_with_fee} 元')
-        avg_days = self.trades['period'].mean()
-        max_days = self.trades['period'].max()
-        min_days = self.trades['period'].min()
+    def __init__(self):
+        self.data_source = self.data_class()
+
+    def show(self, result: Result):
+        print(f'使用策略 {result.strategy_name} 回測結果')
+        print(f'回測範圍： {result.start_time} ~ {result.end_time}')
+        print(f'原始本金： {result.init_funds} 元')
+        print(f'最終本金： {result.final_funds}')
+        print(f'最終權益： {result.final_equity} 元')
+        print(f'總獲利： {result.total_return} 元')
+        print(f'總獲利(含手續費)： {result.total_return_with_fee} 元')
+        avg_days = result.trades['period'].mean()
+        max_days = result.trades['period'].max()
+        min_days = result.trades['period'].min()
         print(f'平均天數： {avg_days:.1f} 天 (最長: {max_days:.1f} 天, 最短: {min_days:.1f}) 天')
-        print(f'報酬率： {self.broker.total_return_rate_with_fee * 100:.2f}%')
-        print(f'年化報酬率(含手續費)： {self.broker.annualized_return_rate_with_fee * 100:.2f}%')
+        print(f'報酬率： {result.total_return_rate_with_fee * 100:.2f}%')
+        print(f'年化報酬率(含手續費)： {result.annualized_return_rate_with_fee * 100:.2f}%')
 
-        df = self.trades
+        df = result.trades
         df['total_return_rate (fee)'] = df['total_return_rate (fee)'].apply(lambda x: f'{x * 100:.2f}%')
 
         # print(f'各倉位狀況：')
@@ -35,27 +40,27 @@ class MultiStocksReport(ReportBase):
         #     print(self.trade_logs)
 
         array = [
-            html.Header(children=self.strategy_name),
-            html.Div(children=f'回測範圍： {self.start} ~ {self.end}'),
-            html.Div(children=f'原始本金： {self.init_funds}'),
-            html.Div(children=f'最終本金： {self.final_funds}'),
-            html.Div(children=f'最終權益： {self.final_equity} 元'),
-            html.Div(children=f'總獲利： {self.broker.total_return:.0f}'),
-            html.Div(children=f'總獲利(含手續費)： {self.broker.total_return_with_fee:.0f}'),
+            html.Header(children=result.strategy_name),
+            html.Div(children=f'回測範圍： {result.start_time} ~ {result.end_time}'),
+            html.Div(children=f'原始本金： {result.init_funds}'),
+            html.Div(children=f'最終本金： {result.final_funds}'),
+            html.Div(children=f'最終權益： {result.final_equity} 元'),
+            html.Div(children=f'總獲利： {result.total_return:.0f}'),
+            html.Div(children=f'總獲利(含手續費)： {result.total_return_with_fee:.0f}'),
             html.Div(children=f'平均天數： {avg_days:.1f} 天 (最長: {max_days:.1f} 天, 最短: {min_days:.1f}) 天'),
-            html.Div(children=f'報酬率： {self.broker.total_return_rate_with_fee * 100:.2f}%'),
-            html.Div(children=f'年化報酬率(含手續費)： {self.broker.annualized_return_rate_with_fee * 100:.2f}%'),
+            html.Div(children=f'報酬率： {result.total_return_rate_with_fee * 100:.2f}%'),
+            html.Div(children=f'年化報酬率(含手續費)： {result.annualized_return_rate_with_fee * 100:.2f}%'),
             dcc.Graph(figure=px.line(
                 data_frame=pd.DataFrame({
-                    '權益': self.broker.equity_curve,
+                    '權益': result.equity_curve,
                 }),
             )),
             html.Div(children=f'各倉位狀況：'),
             dash_table.DataTable(data=df.to_dict('records'), page_size=50),
             html.Div(children=f'交易紀錄：'),
-            dash_table.DataTable(data=self.trade_logs, page_size=20),
+            dash_table.DataTable(data=result.trade_logs, page_size=20),
             html.Div(children=f'帳戶紀錄：'),
-            dash_table.DataTable(data=self.account_balance_logs, page_size=20),
+            dash_table.DataTable(data=result.account_balance_logs, page_size=20),
             html.Div(children=f'個股狀況：'),
             dcc.Dropdown(
                 df['stock_id'].unique(),
