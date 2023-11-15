@@ -50,8 +50,6 @@ class MultiStocksBacktester:
                     if not ok:
                         break
 
-            broker.settle_date()
-
             for _, strategy in strategy_map.items():
                 strategy.inter_handle()
 
@@ -64,13 +62,4 @@ class MultiStocksBacktester:
             start_time=start,
             end_time=end,
             trade_logs=broker.trade_logs,
-
-            account_balance_logs=broker.account_balance_logs,
-            trades=broker.analysis_trades,
-            final_equity=broker.current_equity,
-            equity_curve=broker.equity_curve,
-            total_return=broker.total_return,
-            total_return_with_fee=broker.total_return_with_fee,
-            total_return_rate_with_fee=broker.total_return_rate_with_fee,
-            annualized_return_rate_with_fee=broker.annualized_return_rate_with_fee,
         )

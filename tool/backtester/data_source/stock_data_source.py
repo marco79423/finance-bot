@@ -29,7 +29,7 @@ class StockDataSource(DataSourceBase):
 
     @property
     def all_date_range(self):
-        return self._all_close.loc[self.current_time:self.end_time].index  # 交易日
+        return self._all_close.loc[self.start_time:self.end_time].index  # 交易日
 
     def get_stock_high_price(self, stock_id):
         return self._all_high.loc[self.current_time, stock_id]
