@@ -93,7 +93,7 @@ class Reporter:
 
             fig_data = [
                 go.Candlestick(
-                    x=data.close.index,
+                    x=data.close[result.start_time:result.end_time].index,
                     open=data.open,
                     high=data.high,
                     low=data.low,

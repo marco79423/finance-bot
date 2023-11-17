@@ -1,5 +1,7 @@
 import math
 
+import pandas as pd
+
 
 class Broker:
     fee_discount = 0.6
@@ -13,7 +15,7 @@ class Broker:
         self._max_single_position_exposure = max_single_position_exposure
 
         self._current_idx = 0
-        self._open_trades = {}
+        self._positions = {}
         self._trade_logs = []
 
     def buy(self, stock_id, note=''):
@@ -45,7 +47,10 @@ class Broker:
         })
 
         # 執行交易
-        self._open_trades[stock_id] = {
+        if stock_id not in self._positions:
+            self._positions[stock_id] = {}
+
+        self._positions[stock_id][self._current_idx] = {
             'idx': self._current_idx,
             'stock_id': stock_id,
             'shares': shares,
@@ -58,41 +63,49 @@ class Broker:
         return True
 
     def sell(self, stock_id, note):
-        if stock_id not in self._open_trades:
+        if stock_id not in self._positions:
             return False
 
         # 回測使用當日最低價賣出
         price = self._data.get_stock_low_price(stock_id)
 
-        before = self._funds
-        trade = self._open_trades[stock_id]
-        fee = max(math.floor(trade['shares'] * price * (self.fee_rate + self.tax_rate)), 1)
-        funds = int(trade['shares'] * price) - fee
-        after = before + funds
+        positions = self._positions[stock_id].copy()
+        for position in positions.values():
+            before = self._funds
+            fee = max(math.floor(position['shares'] * price * (self.fee_rate + self.tax_rate)), 1)
+            funds = int(position['shares'] * price) - fee
+            after = before + funds
 
-        # 先寫 log
-        self._trade_logs.append({
-            'idx': trade['idx'],
-            'date': self._data.current_time,
-            'action': 'sell',
-            'stock_id': stock_id,
-            'shares': trade['shares'],
-            'fee': fee,
-            'price': price,
-            'before': before,
-            'funds': funds,
-            'after': after,
-            'note': note,
-        })
+            # 先寫 log
+            self._trade_logs.append({
+                'idx': position['idx'],
+                'date': self._data.current_time,
+                'action': 'sell',
+                'stock_id': stock_id,
+                'shares': position['shares'],
+                'fee': fee,
+                'price': price,
+                'before': before,
+                'funds': funds,
+                'after': after,
+                'note': note,
+            })
 
-        # 執行交易
-        del self._open_trades[stock_id]
-        self._funds = after
+            # 執行交易
+            del self._positions[stock_id][position['idx']]
+            self._funds = after
+
+        if not self._positions[stock_id]:
+            del self._positions[stock_id]
+
         return True
 
     @property
     def single_entry_limit(self):
-        invested_funds = sum(trade['start_price'] * trade['shares'] for trade in self._open_trades.values())
+        invested_funds = 0
+        for positions in self._positions.values():
+            for position in positions.values():
+                invested_funds += int(position['start_price'] * position['shares'])
         return min(math.floor((invested_funds + self.funds) * self._max_single_position_exposure), self.funds)
 
     @property
@@ -105,10 +118,55 @@ class Broker:
 
     @property
     def holding_stock_ids(self):
-        return list(self._open_trades.keys())
+        return list(self._positions.keys())
+
+    @property
+    def current_shares(self):
+        items = []
+        for stock_id, positions in self._positions.items():
+            items.append({
+                'stock_id': stock_id,
+                'shares': sum(position['shares'] for position in positions.values())
+            })
+        return pd.Series(
+            [item['shares'] for item in items],
+            index=[item['stock_id'] for item in items],
+        )
+
+    @property
+    def entry_date(self):
+        items = []
+        for stock_id, positions in self._positions.items():
+            items.append({
+                'stock_id': stock_id,
+                'entry_date': positions[0]['entry_date'],
+            })
+        return pd.Series(
+            [item['entry_date'] for item in items],
+            index=[item['stock_id'] for item in items],
+        )
+
+    @property
+    def entry_price(self):
+        items = []
+        for stock_id, positions in self._positions.items():
+            items.append({
+                'stock_id': stock_id,
+                'entry_price': positions[0]['entry_price'],
+            })
+        return pd.Series(
+            [item['entry_price'] for item in items],
+            index=[item['stock_id'] for item in items],
+        )
+
+    @property
+    def break_even_price(self):
+        fee_ratio = 1.425 / 1000 * self.fee_discount  # 0.1425％
+        tax_ratio = 3 / 1000  # 政府固定收 0.3 %
+        return self.entry_price * (1 + fee_ratio) / (1 - fee_ratio - tax_ratio)
 
     def get_open_trades_by_stock_id(self, stock_id):
-        return self._open_trades.get(stock_id, None)
+        return self._positions.get(stock_id, None)
 
     @property
     def trade_logs(self):

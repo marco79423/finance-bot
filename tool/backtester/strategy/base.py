@@ -14,13 +14,8 @@ class StrategyBase(abc.ABC):
     data_source: StockDataSource
     available_stock_ids: Optional[List[str]] = None
 
-    _buy_next_day_market = False
-    _buy_next_day_market_note = ''
-    _sell_next_day_market = False
-    _sell_next_day_market_note = ''
-
-    _current = {}
     _indicators = {}
+    _actions = []
 
     def init(self, all_data):
         return {}
@@ -29,29 +24,34 @@ class StrategyBase(abc.ABC):
     def handle(self):
         pass
 
-    def buy_next_day_market(self, confident_score=1, note=''):
+    def buy_next_day_market(self, stock_id, note=''):
         """
         在隔天市價買入 (但在回測試會以買在最高價計算)
-        :param note:
-        :param confident_score:
-        :return:
         """
-        self._buy_next_day_market = True
-        self._buy_next_day_market_note = note
-        self._current = {}
+        self._actions.append({
+            'operation': 'buy',
+            'stock_id': stock_id,
+            'note': note,
+        })
 
-    def sell_next_day_market(self, note=''):
+    def sell_next_day_market(self, stock_id, note=''):
         """
         在隔天市價賣出 (但在回測時會以賣在最低價計算)
         :return:
         """
-        self._sell_next_day_market = True
-        self._sell_next_day_market_note = note
-        self._current = {}
+        self._actions.append({
+            'operation': 'sell',
+            'stock_id': stock_id,
+            'note': note,
+        })
+
+    @property
+    def actions(self):
+        return self._actions
 
     @property
     def data(self):
-        return self.data_source[self.stock_id]
+        return self.data_source
 
     @property
     def close(self):
@@ -67,36 +67,23 @@ class StrategyBase(abc.ABC):
 
     @property
     def current_shares(self):
-        if 'current_shares' not in self._current:
-            trade = self.broker.get_open_trades_by_stock_id(self.stock_id)
-            self._current['current_shares'] = trade['shares'] if trade is not None else 0
-        return self._current['current_shares']
+        return self.broker.current_shares
 
     @property
     def entry_date(self):
-        if 'entry_date' not in self._current:
-            trade = self.broker.get_open_trades_by_stock_id(self.stock_id)
-            self._current['entry_date'] = trade['start_date'] if trade is not None else None
-        return self._current['entry_date']
+        return self.broker.entry_date
 
     @property
     def entry_price(self):
-        if 'entry_price' not in self._current:
-            trade = self.broker.get_open_trades_by_stock_id(self.stock_id)
-            self._current['entry_price'] = trade['entry_price'] if trade is not None else 0
-        return self._current['entry_price']
+        return self.broker.entry_price
 
     @property
     def break_even_price(self):
-        if 'break_even_price' not in self._current:
-            fee_ratio = 1.425 / 1000 * self.broker.fee_discount  # 0.1425％
-            tax_ratio = 3 / 1000  # 政府固定收 0.3 %
-            self._current['break_even_price'] = self.entry_price * (1 + fee_ratio) / (1 - fee_ratio - tax_ratio)
-        return self._current['break_even_price']
+        return self.broker.break_even_price
 
     @property
     def has_profit(self):
-        return self.close > self.break_even_price
+        return self.close.loc[self.broker.break_even_price.index] > self.break_even_price
 
     def pre_handle(self):
         self._indicators = self.init(self.data)
@@ -105,8 +92,7 @@ class StrategyBase(abc.ABC):
         return self._indicators[key].loc[:self.today]
 
     def inter_handle(self):
-        self._buy_next_day_market = False
-        self._sell_next_day_market = False
+        self._actions = []
 
         try:
             self.handle()
