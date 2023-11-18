@@ -15,6 +15,7 @@ class Reporter:
         self.data_source = self.data_class()
 
     def show(self, result: Result):
+        trade_logs = self._generate_trade_logs(result)
         trades = self._generate_trades(result)
         equity_curve = self._calculate_equity_curve(result)
         final_equity = equity_curve.iloc[-1]
@@ -90,22 +91,22 @@ class Reporter:
         )
         def update_graph(stock_id):
             data = self.data_source[stock_id]
+            stock_trades = trades[trades['stock_id'] == stock_id]
 
             fig_data = [
                 go.Candlestick(
                     x=data.close[result.start_time:result.end_time].index,
-                    open=data.open,
-                    high=data.high,
-                    low=data.low,
-                    close=data.close,
+                    open=data.open[result.start_time:result.end_time],
+                    high=data.high[result.start_time:result.end_time],
+                    low=data.low[result.start_time:result.end_time],
+                    close=data.close[result.start_time:result.end_time],
                     increasing_line_color='red',
                     decreasing_line_color='green',
                     name='K 線',
                 )
             ]
 
-            df = trades[trades['stock_id'] == stock_id]
-            for idx, trade in df.iterrows():
+            for idx, trade in stock_trades.iterrows():
                 end_date = trade['end_date']
                 if not end_date:
                     end_date = result.end_time
@@ -133,7 +134,7 @@ class Reporter:
                 )
             )
 
-            for _, trade in df.iterrows():
+            for _, trade in stock_trades.iterrows():
                 fig.add_annotation(
                     x=trade['start_date'],
                     y=trade['start_price'],
@@ -152,16 +153,34 @@ class Reporter:
                         ay=-30
                     )
 
-            logs = trades[trades['stock_id'] == stock_id]
-
-            return fig, trades.to_dict('records'), logs.to_dict('records')
+            logs = trade_logs[trade_logs['stock_id'] == stock_id]
+            return fig, stock_trades.to_dict('records'), logs.to_dict('records')
 
         app = Dash(__name__)
         app.layout = html.Div(array)
-        app.run(debug=True)
+        app.run()
+
+    def _generate_trade_logs(self, result):
+        trade_logs = pd.DataFrame(result.trade_logs, columns=[
+            'idx', 'date', 'action', 'stock_id', 'shares', 'fee', 'price', 'before', 'funds', 'after', 'note',
+        ])
+        trade_logs = trade_logs.astype({
+            'idx': 'int',
+            'date': 'datetime64[ns]',
+            'action': 'str',
+            'stock_id': 'str',
+            'shares': 'int',
+            'fee': 'int',
+            'price': 'float',
+            'before': 'int',
+            'funds': 'int',
+            'after': 'int',
+            'note': 'str',
+        })
+        return trade_logs
 
     def _generate_trades(self, result):
-        trade_logs = pd.DataFrame(result.trade_logs)
+        trade_logs = self._generate_trade_logs(result)
 
         df = trade_logs.groupby('idx').agg(
             status=('date', lambda x: 'open' if len(x) == 1 else 'close'),
@@ -176,7 +195,7 @@ class Reporter:
         ).reset_index()
 
         today_close_prices = self.data_source.close.loc[result.end_time]
-        df[df['end_price'] == np.nan].update(df['stock_id'].map(today_close_prices))
+        df['end_price'] = df['end_price'].fillna(df['stock_id'].map(today_close_prices))
 
         df['period'] = (df['end_date'] - df['start_date']).dt.days
         df['total_return'] = ((df['end_price'] - df['start_price']) * df['shares']).astype(int)
@@ -207,7 +226,22 @@ class Reporter:
         equity_curve = []
 
         balance = result.init_funds
-        trade_logs = pd.DataFrame(result.trade_logs)
+        trade_logs = pd.DataFrame(result.trade_logs, columns=[
+            'idx', 'date', 'action', 'stock_id', 'shares', 'fee', 'price', 'before', 'funds', 'after', 'note',
+        ])
+        trade_logs = trade_logs.astype({
+            'idx': 'int',
+            'date': 'datetime64[ns]',
+            'action': 'str',
+            'stock_id': 'str',
+            'shares': 'int',
+            'fee': 'int',
+            'price': 'float',
+            'before': 'int',
+            'funds': 'int',
+            'after': 'int',
+            'note': 'str',
+        })
 
         positions = {}
         for date in self.data_source.close.loc[result.start_time:result.end_time].index:

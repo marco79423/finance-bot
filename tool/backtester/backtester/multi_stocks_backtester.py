@@ -31,6 +31,7 @@ class MultiStocksBacktester:
         data_source.is_limit = True
 
         for today in data_source.all_date_range:
+            print(today)
             data_source.set_time(today)
 
             for action in strategy.actions:

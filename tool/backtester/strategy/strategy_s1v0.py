@@ -27,26 +27,33 @@ class StrategyS1V0(StrategyBase):
         sma35 = self.i('sma35')
         voc10 = self.i('voc10')
 
-        if self.current_shares == 0:
-            buy_c = True
-            buy_c = buy_c and self.close > 10
-            buy_c = buy_c and sma10.iloc[-1] > sma35.iloc[-1] and sma10.iloc[-2] < sma35.iloc[-2]
-            buy_c = buy_c and self.data.close.iloc[-1] > self.data.open.iloc[-1]
-            buy_c = buy_c and voc10.iloc[-1] < 100
-
-            if buy_c:
-                self.buy_next_day_market()
+        # init buy_c
+        if self.available_stock_ids:
+            buy_c = pd.Series([True] * len(self.available_stock_ids), index=self.available_stock_ids)
         else:
-            profit_rate = 5
-            has_profit = self.has_profit
-            has_good_profit = (self.close - self.entry_price) / self.entry_price * 100 >= profit_rate
+            buy_c = pd.Series([True] * len(self.close.index), index=self.close.index)
 
-            cross_under_sma = sma5.iloc[-1] < sma35.iloc[-1] and sma5.iloc[-2] > sma35.iloc[-2]
-            too_long = self.today - self.entry_date > pd.Timedelta(days=40)
+        buy_c = buy_c & ((self.broker.current_shares == 0).reindex(buy_c.index, fill_value=True))
+        buy_c = buy_c & (self.close > 10)
+        buy_c = buy_c & (sma10.iloc[-1] > sma35.iloc[-1]) & (sma10.iloc[-2] < sma35.iloc[-2])
+        buy_c = buy_c & (self.data.close.iloc[-1] > self.data.open.iloc[-1])
+        buy_c = buy_c & (voc10.iloc[-1] < 100)
+
+        for stock_id in buy_c[buy_c].index:
+            self.buy_next_day_market(stock_id)
+
+        for stock_id in self.broker.holding_stock_ids:
+            profit_rate = 5
+            has_profit = self.has_profit[stock_id]
+            has_good_profit = (self.close[stock_id] - self.entry_price[stock_id]) / self.entry_price[
+                stock_id] * 100 >= profit_rate
+
+            cross_under_sma = (sma5[stock_id].iloc[-1] < sma35[stock_id].iloc[-1]) & (sma5[stock_id].iloc[-2] > sma35[stock_id].iloc[-2])
+            too_long = self.today - self.entry_date[stock_id] > pd.Timedelta(days=40)
 
             if has_good_profit:
-                self.sell_next_day_market(note=f'{profit_rate}%')
+                self.sell_next_day_market(stock_id, note=f'{profit_rate}%')
             elif cross_under_sma and has_profit:
-                self.sell_next_day_market(note=f'SMA')
+                self.sell_next_day_market(stock_id, note=f'SMA')
             elif too_long and has_profit:
-                self.sell_next_day_market(note='run')
+                self.sell_next_day_market(stock_id, note='run')

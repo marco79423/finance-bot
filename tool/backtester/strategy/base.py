@@ -12,6 +12,8 @@ class StrategyBase(abc.ABC):
     stock_id: str
     broker: Broker
     data_source: StockDataSource
+    preload_days = 10
+
     available_stock_ids: Optional[List[str]] = None
 
     _indicators = {}
@@ -92,10 +94,9 @@ class StrategyBase(abc.ABC):
         return self._indicators[key].loc[:self.today]
 
     def inter_handle(self):
-        self._actions = []
+        # 一定時間範圍內不做任何事以確保策略能正常運行（如讀取前一天的資料）
+        if (self.data_source.current_time - self.data_source.start_time).days < self.preload_days:
+            return
 
-        try:
-            self.handle()
-        except Exception as e:
-            """失敗就當作沒這回事"""
-            pass
+        self._actions = []
+        self.handle()

@@ -29,7 +29,7 @@ class Broker:
         before = self.funds
         fee = max(math.floor(shares * entry_price * self.fee_rate), 1)  # 永豐說是無條件捨去，最低收 1 元
         funds = int(shares * entry_price) + fee
-        after = before - entry_price
+        after = before - funds
 
         # 先寫 log
         self._trade_logs.append({
@@ -69,9 +69,8 @@ class Broker:
         # 回測使用當日最低價賣出
         price = self._data.get_stock_low_price(stock_id)
 
-        positions = self._positions[stock_id].copy()
-        for position in positions.values():
-            before = self._funds
+        for position in self._positions[stock_id].values():
+            before = self.funds
             fee = max(math.floor(position['shares'] * price * (self.fee_rate + self.tax_rate)), 1)
             funds = int(position['shares'] * price) - fee
             after = before + funds
@@ -92,11 +91,9 @@ class Broker:
             })
 
             # 執行交易
-            del self._positions[stock_id][position['idx']]
             self._funds = after
 
-        if not self._positions[stock_id]:
-            del self._positions[stock_id]
+        del self._positions[stock_id]
 
         return True
 
@@ -133,26 +130,34 @@ class Broker:
             index=[item['stock_id'] for item in items],
         )
 
+    def get_entry_date(self, stock_id):
+        for position in self._positions[stock_id].values():
+            return position['start_date']
+
     @property
     def entry_date(self):
         items = []
-        for stock_id, positions in self._positions.items():
+        for stock_id in self._positions:
             items.append({
                 'stock_id': stock_id,
-                'entry_date': positions[0]['entry_date'],
+                'entry_date': self.get_entry_date(stock_id)
             })
         return pd.Series(
             [item['entry_date'] for item in items],
             index=[item['stock_id'] for item in items],
         )
 
+    def get_entry_price(self, stock_id):
+        for position in self._positions[stock_id].values():
+            return position['start_price']
+
     @property
     def entry_price(self):
         items = []
-        for stock_id, positions in self._positions.items():
+        for stock_id in self._positions:
             items.append({
                 'stock_id': stock_id,
-                'entry_price': positions[0]['entry_price'],
+                'entry_price': self.get_entry_price(stock_id),
             })
         return pd.Series(
             [item['entry_price'] for item in items],
