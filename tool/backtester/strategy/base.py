@@ -1,6 +1,8 @@
 import abc
 from typing import Optional, List
 
+import pandas as pd
+
 from tool.backtester.broker import Broker
 from tool.backtester.data_source import StockDataSource
 
@@ -25,6 +27,12 @@ class StrategyBase(abc.ABC):
     @abc.abstractmethod
     def handle(self):
         pass
+
+    def new_target_list(self, conditions):
+        df = pd.Series([True] * len(self.close.index), index=self.close.index)
+        for condition in conditions:
+            df = df & condition
+        return df.index.tolist()
 
     def buy_next_day_market(self, stock_id, note=''):
         """
@@ -69,7 +77,7 @@ class StrategyBase(abc.ABC):
 
     @property
     def current_shares(self):
-        return self.broker.current_shares
+        return self.broker.current_shares.reindex(self.close.index, fill_value=0)
 
     @property
     def entry_date(self):

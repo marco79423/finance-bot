@@ -27,19 +27,15 @@ class StrategyS1V0(StrategyBase):
         sma35 = self.i('sma35')
         voc10 = self.i('voc10')
 
-        # init buy_c
-        if self.available_stock_ids:
-            buy_c = pd.Series([True] * len(self.available_stock_ids), index=self.available_stock_ids)
-        else:
-            buy_c = pd.Series([True] * len(self.close.index), index=self.close.index)
+        target_list = self.new_target_list([
+            self.broker.current_shares == 0,
+            self.close > 10,
+            (sma10.iloc[-1] > sma35.iloc[-1]) & (sma10.iloc[-2] < sma35.iloc[-2]),
+            self.data.close.iloc[-1] > self.data.open.iloc[-1],
+            voc10.iloc[-1] < 100,
+        ])
 
-        buy_c = buy_c & ((self.broker.current_shares == 0).reindex(buy_c.index, fill_value=True))
-        buy_c = buy_c & (self.close > 10)
-        buy_c = buy_c & (sma10.iloc[-1] > sma35.iloc[-1]) & (sma10.iloc[-2] < sma35.iloc[-2])
-        buy_c = buy_c & (self.data.close.iloc[-1] > self.data.open.iloc[-1])
-        buy_c = buy_c & (voc10.iloc[-1] < 100)
-
-        for stock_id in buy_c[buy_c].index:
+        for stock_id in target_list:
             self.buy_next_day_market(stock_id)
 
         for stock_id in self.broker.holding_stock_ids:
@@ -48,7 +44,8 @@ class StrategyS1V0(StrategyBase):
             has_good_profit = (self.close[stock_id] - self.entry_price[stock_id]) / self.entry_price[
                 stock_id] * 100 >= profit_rate
 
-            cross_under_sma = (sma5[stock_id].iloc[-1] < sma35[stock_id].iloc[-1]) & (sma5[stock_id].iloc[-2] > sma35[stock_id].iloc[-2])
+            cross_under_sma = (sma5[stock_id].iloc[-1] < sma35[stock_id].iloc[-1]) & (
+                        sma5[stock_id].iloc[-2] > sma35[stock_id].iloc[-2])
             too_long = self.today - self.entry_date[stock_id] > pd.Timedelta(days=40)
 
             if has_good_profit:

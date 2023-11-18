@@ -247,11 +247,6 @@ class Reporter:
         for date in self.data_source.close.loc[result.start_time:result.end_time].index:
             day_trade_logs = trade_logs[trade_logs['date'] == date]
 
-            df = day_trade_logs[day_trade_logs['action'] == 'sell']
-            for _, row in df.iterrows():
-                balance += row['funds']
-                del positions[row['idx']]
-
             df = day_trade_logs[day_trade_logs['action'] == 'buy']
             for _, row in df.iterrows():
                 balance += row['funds']
@@ -259,6 +254,11 @@ class Reporter:
                     'stock_id': row['stock_id'],
                     'shares': row['shares'],
                 }
+
+            df = day_trade_logs[day_trade_logs['action'] == 'sell']
+            for _, row in df.iterrows():
+                balance += row['funds']
+                del positions[row['idx']]
 
             equity = balance
 
