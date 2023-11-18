@@ -98,12 +98,16 @@ class Broker:
         return True
 
     @property
-    def single_entry_limit(self):
-        invested_funds = 0
+    def invested_funds(self):
+        funds = 0
         for positions in self._positions.values():
             for position in positions.values():
-                invested_funds += int(position['start_price'] * position['shares'])
-        return min(math.floor((invested_funds + self.funds) * self._max_single_position_exposure), self.funds)
+                funds += int(position['start_price'] * position['shares'])
+        return funds
+
+    @property
+    def single_entry_limit(self):
+        return min(math.floor((self.invested_funds + self.funds) * self._max_single_position_exposure), self.funds)
 
     @property
     def init_funds(self):
