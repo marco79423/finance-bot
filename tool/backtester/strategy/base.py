@@ -20,6 +20,7 @@ class StrategyBase(abc.ABC):
 
     _indicators = {}
     _actions = []
+    _day_cache = set()
 
     def init(self, all_data):
         return {}
@@ -28,32 +29,50 @@ class StrategyBase(abc.ABC):
     def handle(self):
         pass
 
-    def new_target_list(self, conditions):
-        df = pd.Series([True] * len(self.close.index), index=self.close.index)
-        for condition in conditions:
-            df = df & condition
-        return df.index.tolist()
+    def new_target_list(self, conditions, *, available_list=None):
+        if available_list is not None:
+            conditions.append(
+                pd.Series([True] * len(available_list), index=available_list)
+            )
+
+        # 將所有 bool series 結合成 dataframe
+        df = pd.concat(conditions, axis=1)
+        # 用 all 整合成 series
+        s = df.all(axis=1)
+        return s[s].index.tolist()
 
     def buy_next_day_market(self, stock_id, note=''):
         """
         在隔天市價買入 (但在回測試會以買在最高價計算)
         """
+        # 一張股票一天只會操作一次
+        if stock_id in self._day_cache:
+            return
+
         self._actions.append({
             'operation': 'buy',
             'stock_id': stock_id,
             'note': note,
         })
 
+        self._day_cache.add(stock_id)
+
     def sell_next_day_market(self, stock_id, note=''):
         """
         在隔天市價賣出 (但在回測時會以賣在最低價計算)
         :return:
         """
+        # 一張股票一天只會操作一次
+        if stock_id in self._day_cache:
+            return
+
         self._actions.append({
             'operation': 'sell',
             'stock_id': stock_id,
             'note': note,
         })
+
+        self._day_cache.add(stock_id)
 
     @property
     def actions(self):
@@ -106,5 +125,6 @@ class StrategyBase(abc.ABC):
         if (self.data_source.current_time - self.data_source.start_time).days < self.preload_days:
             return
 
+        self._day_cache = set()
         self._actions = []
         self.handle()

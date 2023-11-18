@@ -38,19 +38,26 @@ class StrategyS1V0(StrategyBase):
         for stock_id in target_list:
             self.buy_next_day_market(stock_id)
 
-        for stock_id in self.broker.holding_stock_ids:
-            profit_rate = 5
-            has_profit = self.has_profit[stock_id]
-            has_good_profit = (self.close[stock_id] - self.entry_price[stock_id]) / self.entry_price[
-                stock_id] * 100 >= profit_rate
+        # good profit
+        profit_rate = 5
+        target_list = self.new_target_list([
+            (self.close - self.entry_price) / self.entry_price * 100 >= profit_rate
+        ], available_list=self.broker.holding_stock_ids)
+        for stock_id in target_list:
+            self.sell_next_day_market(stock_id, note=f'{profit_rate}%')
 
-            cross_under_sma = (sma5[stock_id].iloc[-1] < sma35[stock_id].iloc[-1]) & (
-                        sma5[stock_id].iloc[-2] > sma35[stock_id].iloc[-2])
-            too_long = self.today - self.entry_date[stock_id] > pd.Timedelta(days=40)
+        # has profit
+        target_list = self.new_target_list([
+            self.has_profit,
+            (sma5.iloc[-1] < sma35.iloc[-1]) & (sma5.iloc[-2] > sma35.iloc[-2])
+        ], available_list=self.broker.holding_stock_ids)
+        for stock_id in target_list:
+            self.sell_next_day_market(stock_id, note=f'SMA')
 
-            if has_good_profit:
-                self.sell_next_day_market(stock_id, note=f'{profit_rate}%')
-            elif cross_under_sma and has_profit:
-                self.sell_next_day_market(stock_id, note=f'SMA')
-            elif too_long and has_profit:
-                self.sell_next_day_market(stock_id, note='run')
+        # run
+        target_list = self.new_target_list([
+            self.has_profit,
+            self.today - self.entry_date > pd.Timedelta(days=40),
+        ], available_list=self.broker.holding_stock_ids)
+        for stock_id in target_list:
+            self.sell_next_day_market(stock_id, note=f'run')
