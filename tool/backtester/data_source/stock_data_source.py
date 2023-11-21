@@ -1,61 +1,143 @@
-from finance_bot.infrastructure import infra
-from tool.backtester.data_source.base import DataSourceBase
+import pandas as pd
+
+from tool.backtester.data_source.data_adapter import DataAdapter, DataAdapterBase
 
 
-class StockDataSource(DataSourceBase):
+class Stock:
+
+    def __init__(self, data_source: 'StockDataSource', product_id):
+        self._data_source = data_source
+        self._product_id = product_id
+
+    @property
+    def open(self):
+        return self._data_source.open[self._product_id]
+
+    @property
+    def close(self):
+        return self._data_source.close[self._product_id]
+
+    @property
+    def high(self):
+        return self._data_source.high[self._product_id]
+
+    @property
+    def low(self):
+        return self._data_source.low[self._product_id]
+
+    @property
+    def volume(self):
+        return self._data_source.volume[self._product_id]
+
+
+class StockDataSource:
+    is_limit = False
+
+    data_adapter_class: DataAdapterBase = DataAdapter
 
     def __init__(self, all_stock_ids=None, start=None, end=None):
-        super().__init__(start, end)
-        self._all_stock_ids = all_stock_ids
+        self._start_time = pd.Timestamp(start) if start else None
+        self._current_time = self._start_time
+        self._end_time = pd.Timestamp(end) if end else None
 
-        df = infra.db_cache.read(key='tw_stock_price')
-        df = df.sort_index()
-        self._prices_df = df.loc[self.start_time:self.end_time]
+        self._data_adapter = self.data_adapter_class(
+            all_stock_ids=all_stock_ids,
+            start=start,
+            end=end,
+        )
 
-        if self._all_stock_ids is None:
-            self._all_stock_ids = self._prices_df['stock_id'].unique().tolist()
-        else:
-            self._prices_df = self._prices_df[self._prices_df['stock_id'].isin(self._all_stock_ids)]
+    def __getitem__(self, stock_id) -> Stock:
+        return Stock(self, stock_id)
 
-        self._all_open = self._prices_df.pivot(columns='stock_id', values='open').ffill()  # 補完空值的收盤價
-        self._all_close = self._prices_df.pivot(columns='stock_id', values='close').ffill()  # 補完空值的收盤價
-        self._all_high = self._prices_df.pivot(columns='stock_id', values='high').ffill()  # 補完空值的最高價
-        self._all_low = self._prices_df.pivot(columns='stock_id', values='low').ffill()  # 補完空值的最低價
-        self._all_volume = self._prices_df.pivot(columns='stock_id', values='low').ffill()  # 補完空值的最低價
+    def set_time(self, time):
+        if self._start_time is None:
+            self._start_time = time
+        if self._end_time is None:
+            self._end_time = time
+        self._current_time = time
+
+    @property
+    def start_time(self):
+        return self._start_time
+
+    @property
+    def current_time(self):
+        return self._current_time
+
+    @property
+    def end_time(self):
+        return self._end_time
 
     @property
     def all_stock_ids(self):
-        return self._all_stock_ids
+        return self._data_adapter.close.loc[self.current_time].columns.tolist()
 
     @property
     def all_date_range(self):
-        return self._all_close.loc[self.start_time:self.end_time].index  # 交易日
+        return self._data_adapter.close.loc[self.start_time:self.end_time].index  # 交易日
 
     def get_stock_high_price(self, stock_id):
-        return self._all_high.loc[self.current_time, stock_id]
+        return self._data_adapter.high.loc[self.current_time, stock_id]
 
     def get_stock_low_price(self, stock_id):
-        return self._all_low.loc[self.current_time, stock_id]
+        return self._data_adapter.low.loc[self.current_time, stock_id]
 
     def get_stock_close_price(self, stock_id):
-        return self._all_close.loc[self.current_time, stock_id]
+        return self._data_adapter.close.loc[self.current_time, stock_id]
+
+    @property
+    def start_time(self):
+        return self._start_time
+
+    @property
+    def current_time(self):
+        return self._current_time
+
+    @property
+    def end_time(self):
+        return self._end_time
 
     @property
     def all_open(self):
-        return self._all_open
+        return self._data_adapter.open
 
     @property
     def all_close(self):
-        return self._all_close
+        return self._data_adapter.close
 
     @property
     def all_high(self):
-        return self._all_high
+        return self._data_adapter.high
 
     @property
     def all_low(self):
-        return self._all_low
+        return self._data_adapter.low
 
     @property
     def all_volume(self):
-        return self._all_volume
+        return self._data_adapter.volume
+
+    @property
+    def open(self):
+        end = self.current_time if self.is_limit else self.end_time
+        return self.all_open[self.start_time:end]
+
+    @property
+    def close(self):
+        end = self.current_time if self.is_limit else self.end_time
+        return self.all_close[self.start_time:end]
+
+    @property
+    def high(self):
+        end = self.current_time if self.is_limit else self.end_time
+        return self.all_high[self.start_time:end]
+
+    @property
+    def low(self):
+        end = self.current_time if self.is_limit else self.end_time
+        return self.all_low[self.start_time:end]
+
+    @property
+    def volume(self):
+        end = self.current_time if self.is_limit else self.end_time
+        return self.all_volume[self.start_time:end]

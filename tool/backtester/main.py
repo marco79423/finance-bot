@@ -15,8 +15,8 @@ def main():
         # strategy_class=SimpleStrategy,
         strategy_class=StrategyS1V0,
         start='2015-08-01',
-        # end='2023-08-10',
-        end='2015-12-10',
+        end='2023-08-10',
+        # end='2015-12-10',
     )
 
     reporter = Reporter()
