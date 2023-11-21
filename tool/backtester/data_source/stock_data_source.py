@@ -1,6 +1,4 @@
-import pandas as pd
-
-from tool.backtester.data_source.data_adapter import DataAdapter, DataAdapterBase
+from tool.backtester.data_source.data_adapter import StockDataAdapter
 
 
 class Stock:
@@ -33,32 +31,25 @@ class Stock:
 class StockDataSource:
     is_limit = False
 
-    data_adapter_class: DataAdapterBase = DataAdapter
+    data_adapter_class = StockDataAdapter
 
     def __init__(self, all_stock_ids=None, start=None, end=None):
-        self._start_time = pd.Timestamp(start) if start else None
-        self._current_time = self._start_time
-        self._end_time = pd.Timestamp(end) if end else None
-
         self._data_adapter = self.data_adapter_class(
             all_stock_ids=all_stock_ids,
             start=start,
             end=end,
         )
+        self._current_time = self._data_adapter.start_time
 
     def __getitem__(self, stock_id) -> Stock:
         return Stock(self, stock_id)
 
     def set_time(self, time):
-        if self._start_time is None:
-            self._start_time = time
-        if self._end_time is None:
-            self._end_time = time
         self._current_time = time
 
     @property
     def start_time(self):
-        return self._start_time
+        return self._data_adapter.start_time
 
     @property
     def current_time(self):
@@ -66,7 +57,7 @@ class StockDataSource:
 
     @property
     def end_time(self):
-        return self._end_time
+        return self._data_adapter.end_time
 
     @property
     def all_stock_ids(self):
@@ -84,18 +75,6 @@ class StockDataSource:
 
     def get_stock_close_price(self, stock_id):
         return self._data_adapter.close.loc[self.current_time, stock_id]
-
-    @property
-    def start_time(self):
-        return self._start_time
-
-    @property
-    def current_time(self):
-        return self._current_time
-
-    @property
-    def end_time(self):
-        return self._end_time
 
     @property
     def all_open(self):
