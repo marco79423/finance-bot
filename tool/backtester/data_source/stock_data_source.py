@@ -99,24 +99,24 @@ class StockDataSource:
     @property
     def open(self):
         end = self.current_time if self.is_limit else self.end_time
-        return self.all_open[self.start_time:end]
+        return self.all_open[:end]
 
     @property
     def close(self):
         end = self.current_time if self.is_limit else self.end_time
-        return self.all_close[self.start_time:end]
+        return self.all_close[:end]
 
     @property
     def high(self):
         end = self.current_time if self.is_limit else self.end_time
-        return self.all_high[self.start_time:end]
+        return self.all_high[:end]
 
     @property
     def low(self):
         end = self.current_time if self.is_limit else self.end_time
-        return self.all_low[self.start_time:end]
+        return self.all_low[:end]
 
     @property
     def volume(self):
         end = self.current_time if self.is_limit else self.end_time
-        return self.all_volume[self.start_time:end]
+        return self.all_volume[:end]
