@@ -1,3 +1,4 @@
+import abc
 from typing import List
 
 import pandas as pd
@@ -5,19 +6,22 @@ import pandas as pd
 from finance_bot.infrastructure import infra
 
 
-class StockDataAdapter:
+def get_stock_prices_df():
+    return infra.db_cache.read(key='tw_stock_price').sort_index()
+
+
+class DataAdapter(abc.ABC):
 
     def __init__(self, all_stock_ids=None, start=None, end=None):
-        self._start_time = pd.Timestamp(start) if start else None
-        self._end_time = pd.Timestamp(end) if end else None
+        start_time = pd.Timestamp(start) if start else None
+        end_time = pd.Timestamp(end) if end else None
 
-        stock_prices_df = infra.db_cache.read(key='tw_stock_price').sort_index()
-        if self._start_time or self._end_time:
-            stock_prices_df = stock_prices_df.loc[self._start_time:self._end_time]
+        stock_prices_df = get_stock_prices_df()
+        if start_time or end_time:
+            stock_prices_df = stock_prices_df.loc[start_time:end_time]
 
-        self._start_time = self._start_time or stock_prices_df.index.min()
-        self._end_time = self._end_time or stock_prices_df.index.max()
-
+        self._start_time = start_time or stock_prices_df.index.min()
+        self._end_time = end_time or stock_prices_df.index.max()
         self._all_stock_ids = all_stock_ids or stock_prices_df['stock_id'].unique().tolist()
 
         stock_prices_df = stock_prices_df[stock_prices_df['stock_id'].isin(self._all_stock_ids)]

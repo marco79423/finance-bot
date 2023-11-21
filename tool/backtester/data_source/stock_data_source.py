@@ -1,4 +1,4 @@
-from tool.backtester.data_source.data_adapter import StockDataAdapter
+from tool.backtester.data_source.data_adapter import DataAdapter
 
 
 class Stock:
@@ -31,7 +31,7 @@ class Stock:
 class StockDataSource:
     is_limit = False
 
-    data_adapter_class = StockDataAdapter
+    data_adapter_class = DataAdapter
 
     def __init__(self, all_stock_ids=None, start=None, end=None):
         self._data_adapter = self.data_adapter_class(
