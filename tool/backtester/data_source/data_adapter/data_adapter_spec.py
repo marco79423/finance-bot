@@ -1,19 +1,26 @@
 import pandas as pd
 import pytest
+from pandas.testing import assert_frame_equal
 
 from . import data_adapter
 
 
 @pytest.fixture
 def mock_get_stock_prices_df(mocker):
-    return mocker.patch.object(data_adapter, 'get_stock_prices_df', return_value=pd.DataFrame({
-        'stock_id': ['a'] * 10,
-        'open': list(range(1, 11)),
-        'close': list(range(1, 11)),
-        'high': list(range(1, 11)),
-        'low': list(range(1, 11)),
-        'volume': list(range(1, 11)),
-    }, index=pd.date_range('2023-01-01', periods=10, freq='D')))
+    prices = []
+    for stock_id in ['1000', '2000', '3000']:
+        for i in range(10):
+            prices.append({
+                'stock_id': stock_id,
+                'open': 5,
+                'close': 6,
+                'high': 10,
+                'low': 1,
+                'volume': 1000,
+                'date': pd.Timestamp('2023-01-01') + pd.Timedelta(days=i)
+            })
+    stock_prices_df = pd.DataFrame(prices).set_index('date').sort_index()
+    return mocker.patch.object(data_adapter, 'get_stock_prices_df', return_value=stock_prices_df)
 
 
 @pytest.mark.parametrize("start_time, expected_start_time", [
@@ -27,3 +34,14 @@ def mock_get_stock_prices_df(mocker):
 def test_start_time_with_different_start_time(mock_get_stock_prices_df, start_time, expected_start_time):
     adapter = data_adapter.DataAdapter(start=start_time)
     assert adapter.start_time == pd.Timestamp(expected_start_time)
+
+
+def test_close(mock_get_stock_prices_df):
+    expected_df = pd.DataFrame({
+        '1000': [6] * 10,
+        '2000': [6] * 10,
+        '3000': [6] * 10,
+    }, index=pd.date_range('2023-01-01', periods=10, freq='D', name='date'), columns=pd.Series(['1000', '2000', '3000'], name='stock_id'))
+
+    adapter = data_adapter.DataAdapter()
+    assert_frame_equal(adapter.close, expected_df, check_freq=False)
