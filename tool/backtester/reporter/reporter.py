@@ -117,7 +117,7 @@ class Reporter:
         )
         def update_strategy(result_id):
             result = result_map[result_id]
-            stock_ids = result.trades['stock_id'].unique()
+            stock_ids = result.positions['stock_id'].unique()
 
             return (
                 [result_summary_map[result_id]],
@@ -126,7 +126,7 @@ class Reporter:
                         '權益': result.equity_curve,
                     }),
                 ),
-                result.trades.to_dict('records'),
+                result.positions.to_dict('records'),
                 result.trade_logs.to_dict('records'),
                 stock_ids,
                 stock_ids[0],
@@ -135,15 +135,15 @@ class Reporter:
         array.extend([
             dcc.Graph(id='equity_per_stock'),
             html.Div(children=f'各倉位狀況：'),
-            dash_table.DataTable(id='trades_per_stock'),
+            dash_table.DataTable(id='positions_per_stock'),
             html.Div(children=f'交易紀錄：'),
-            dash_table.DataTable(id='logs_per_stock'),
+            dash_table.DataTable(id='trade_logs_per_stock'),
         ])
 
         @callback(
             Output('equity_per_stock', 'figure'),
-            Output('trades_per_stock', 'data'),
-            Output('logs_per_stock', 'data'),
+            Output('positions_per_stock', 'data'),
+            Output('trade_logs_per_stock', 'data'),
             Input('stock_id', 'value'),
             State('result_id', 'value')
         )
@@ -151,7 +151,7 @@ class Reporter:
             result = result_map[result_id]
 
             data = self.data_source[stock_id]
-            trades_per_stock = result.trades[result.trades['stock_id'] == stock_id]
+            positions_per_stock = result.positions[result.positions['stock_id'] == stock_id]
 
             fig_data = [
                 go.Candlestick(
@@ -166,16 +166,16 @@ class Reporter:
                 )
             ]
 
-            for idx, trade in trades_per_stock.iterrows():
-                end_date = trade['end_date']
+            for idx, position in positions_per_stock.iterrows():
+                end_date = position['end_date']
                 if not end_date:
                     end_date = result.end_time
 
                 fig_data.append(
                     go.Scatter(
-                        x=[trade['start_date'], end_date],
-                        y=[trade['start_price'], trade['end_price']],
-                        line_color='red' if trade['total_return'] > 0 else 'green',
+                        x=[position['start_date'], end_date],
+                        y=[position['start_price'], position['end_price']],
+                        line_color='red' if position['total_return'] > 0 else 'green',
                         name=f'trade {idx}'
                     )
                 )
@@ -194,30 +194,30 @@ class Reporter:
                 )
             )
 
-            for _, trade in trades_per_stock.iterrows():
+            for _, position in positions_per_stock.iterrows():
                 fig.add_annotation(
-                    x=trade['start_date'],
-                    y=trade['start_price'],
+                    x=position['start_date'],
+                    y=position['start_price'],
                     text="Buy",
                     arrowhead=2,
                     ax=0,
                     ay=-30
                 )
-                if trade['end_date']:
+                if position['end_date']:
                     fig.add_annotation(
-                        x=trade['end_date'],
-                        y=trade['end_price'],
+                        x=position['end_date'],
+                        y=position['end_price'],
                         text="Sell",
                         arrowhead=2,
                         ax=0,
                         ay=-30
                     )
 
-            logs_per_stock = result.trade_logs[result.trade_logs['stock_id'] == stock_id]
+            trade_logs_per_stock = result.trade_logs[result.trade_logs['stock_id'] == stock_id]
             return (
                 fig,
-                trades_per_stock.to_dict('records'),
-                logs_per_stock.to_dict('records'),
+                positions_per_stock.to_dict('records'),
+                trade_logs_per_stock.to_dict('records'),
             )
 
         app = Dash(__name__)

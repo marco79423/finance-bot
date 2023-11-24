@@ -96,8 +96,8 @@ class Backtester:
         trade_logs = self._generate_trade_logs(broker.trade_logs)
         progress.update(task_id, advance=1, detail='trade_logs')
 
-        trades = self._generate_trades(data_source, trade_logs)
-        progress.update(task_id, advance=1, detail='trades')
+        positions = self._generate_positions(data_source, trade_logs)
+        progress.update(task_id, advance=1, detail='positions')
 
         equity_curve = self._calculate_equity_curve(data_source, init_funds, trade_logs)
         progress.update(task_id, advance=1, detail='equity_curve')
@@ -112,7 +112,7 @@ class Backtester:
             end_time=end,
 
             trade_logs=trade_logs,
-            trades=trades,
+            positions=positions,
             equity_curve=equity_curve,
         )
 
@@ -136,7 +136,7 @@ class Backtester:
         })
         return trade_logs
 
-    def _generate_trades(self, data_source, trade_logs):
+    def _generate_positions(self, data_source, trade_logs):
         df = trade_logs.groupby('idx').agg(
             status=('date', lambda x: 'open' if len(x) == 1 else 'close'),
             stock_id=('stock_id', 'first'),
