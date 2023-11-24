@@ -1,4 +1,5 @@
 import datetime as dt
+from concurrent.futures import ThreadPoolExecutor
 
 import numpy as np
 import pandas as pd
@@ -25,7 +26,6 @@ class Backtester:
         start = pd.Timestamp(start)
         end = pd.Timestamp(end)
 
-        results = []
         with Progress(
                 SpinnerColumn(),
                 TextColumn("[bold blue]{task.description}", justify="right"),
@@ -36,17 +36,25 @@ class Backtester:
                 "•",
                 TimeRemainingColumn(),
         ) as progress:
-            for idx, [strategy_class, params] in enumerate(strategies):
-                result = self.backtest(
-                    result_id=idx,
-                    progress=progress,
-                    init_funds=init_funds,
-                    start=start,
-                    end=end,
-                    strategy_class=strategy_class,
-                    max_single_position_exposure=params['max_single_position_exposure']
-                )
-                results.append(result)
+            with ThreadPoolExecutor() as pool:
+                tasks = []
+                for idx, [strategy_class, params] in enumerate(strategies):
+                    task = pool.submit(
+                        self.backtest,
+                        result_id=idx,
+                        progress=progress,
+                        init_funds=init_funds,
+                        start=start,
+                        end=end,
+                        strategy_class=strategy_class,
+                        max_single_position_exposure=params['max_single_position_exposure']
+                    )
+                    tasks.append(task)
+
+                results = []
+                for task in tasks:
+                    result = task.result()
+                    results.append(result)
 
         console = Console()
         console.print('回測花費時間：', dt.datetime.now() - start_time)
