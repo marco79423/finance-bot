@@ -64,7 +64,7 @@ class Reporter:
         init_funds = self.results[0].init_funds
 
         array = [
-            html.Header(children='績效報告'),
+            html.Header(children='績效報告', style={'fontSize': '2em', 'fontWeight': '800'}),
             html.Div(children=f'回測時間： {start_time} ~ {end_time}'),
             html.Div(children=f'原始本金： {init_funds}'),
         ]
@@ -89,6 +89,7 @@ class Reporter:
 
         result_ids = [result.id for result in self.results]
         array.extend([
+            html.Header(children=f'選擇策略：', style={'fontSize': '1.5em', 'fontWeight': '600'}),
             dcc.Dropdown(id='result_id', options=result_ids, value=result_ids[0]),
             dash_table.DataTable(id='summary'),
             dcc.Graph(id='equity_curve'),
@@ -96,7 +97,7 @@ class Reporter:
             dash_table.DataTable(id='positions', page_size=50),
             html.Div(children=f'交易紀錄：'),
             dash_table.DataTable(id='trade_logs', page_size=50),
-            html.Div(children=f'個股狀況：'),
+            html.Header(children=f'個股狀況：', style={'fontSize': '1.5em', 'fontWeight': '600'}),
             dcc.Dropdown(id='stock_id'),
         ])
 
@@ -147,9 +148,6 @@ class Reporter:
             State('result_id', 'value')
         )
         def update_graph(stock_id, result_id):
-            if not stock_id or not result_id:
-                raise PreventUpdate
-
             result = result_map[result_id]
 
             data = self.data_source[stock_id]
@@ -227,4 +225,4 @@ class Reporter:
 
         server = FastAPI()
         server.mount("/", WSGIMiddleware(app.server))
-        uvicorn.run(server, access_log=False)
+        uvicorn.run(server, port=8050, access_log=False)
