@@ -1,11 +1,13 @@
-import numpy as np
 import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
+import uvicorn
 from dash import Dash, html, dash_table, dcc, callback, Output, Input, State
 from dash.exceptions import PreventUpdate
+from fastapi import FastAPI
 from rich.console import Console
 from rich.table import Table
+from starlette.middleware.wsgi import WSGIMiddleware
 
 from tool.backtester.backtester.result import Result
 from tool.backtester.data_source import StockDataSource
@@ -222,4 +224,7 @@ class Reporter:
 
         app = Dash(__name__)
         app.layout = html.Div(array)
-        app.run()
+
+        server = FastAPI()
+        server.mount("/", WSGIMiddleware(app.server))
+        uvicorn.run(server, access_log=False)
