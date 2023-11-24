@@ -1,2 +1,3 @@
 from .base import StrategyBase
-from .simple_strategy import SimpleStrategy
+from .strategy_s1v0 import StrategyS1V0
+from .strategy_new import StrategyNew
