@@ -41,7 +41,7 @@ class StrategyS1V0(StrategyBase):
         # good profit
         profit_rate = 5
         target_list = self.new_target_list([
-            (self.close - self.entry_price) / self.entry_price * 100 >= profit_rate
+            self.growth_rate * 100 >= profit_rate
         ], available_list=self.broker.holding_stock_ids)
         for stock_id in target_list:
             self.sell_next_day_market(stock_id, note=f'{profit_rate}%')

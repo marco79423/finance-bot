@@ -862,6 +862,16 @@ files = [
 ]
 
 [[package]]
+name = "easydict"
+version = "1.11"
+description = "Access dict values as attributes (works recursively)."
+optional = false
+python-versions = "*"
+files = [
+    {file = "easydict-1.11.tar.gz", hash = "sha256:dcb1d2ed28eb300c8e46cd371340373abc62f7c14d6dea74fdfc6f1069061c78"},
+]
+
+[[package]]
 name = "exceptiongroup"
 version = "1.1.3"
 description = "Backport of PEP 654 (exception groups)"
@@ -3533,4 +3543,4 @@ shioaji = ["shioaji"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "9d21683116fa1c9cdbc7ba512e3287cb73bc57e53febb40f619baf2a5724a4f2"
+content-hash = "83b2832daa65134649391b8ab5472095ef82b479f2181d3222b6eca1b81fd5c3"

@@ -2,6 +2,7 @@ import abc
 from typing import Optional, List
 
 import pandas as pd
+from easydict import EasyDict as edict
 
 from tool.backtester.broker import Broker
 from tool.backtester.data_source import StockDataSource
@@ -30,6 +31,10 @@ class StrategyBase(abc.ABC):
         pass
 
     def new_target_list(self, conditions, *, available_list=None):
+        for idx, condition in enumerate(conditions):
+            if not isinstance(condition, pd.Series):
+                raise ValueError(f'Condition {idx} is invalid')
+
         if available_list is not None:
             conditions.append(
                 pd.Series([True] * len(available_list), index=available_list)
@@ -87,6 +92,10 @@ class StrategyBase(abc.ABC):
         return self.data.close.iloc[-1]
 
     @property
+    def holding_close(self):
+        return self.close[self.broker.holding_stock_ids]
+
+    @property
     def volume(self):
         return self.data.volume.iloc[-1]
 
@@ -111,8 +120,32 @@ class StrategyBase(abc.ABC):
         return self.broker.break_even_price
 
     @property
+    def profit_with_fee(self):
+        return self.holding_close - self.break_even_price
+
+    @property
+    def growth_rate(self):
+        return (self.holding_close - self.entry_price) / self.entry_price
+
+    @property
+    def max_growth_rate(self):
+        close = self.data.close[self.entry_date.index]
+        data = []
+        for stock_id in close.columns:
+            data.append(edict(
+                stock_id=stock_id,
+                max_growth_rate=close.loc[self.entry_date[stock_id]:, stock_id].max()
+            ))
+
+        return pd.DataFrame(data, columns=['stock_id', 'max_growth_rate']).set_index('stock_id')['max_growth_rate']
+
+    @property
     def has_profit(self):
-        return self.close.loc[self.broker.break_even_price.index] > self.break_even_price
+        return self.profit_with_fee > 0
+
+    @property
+    def max_profit_rate(self):
+        return (self.broker.break_even_price - self.entry_price) / self.entry_price
 
     def pre_handle(self):
         self._indicators = self.init(self.data)
