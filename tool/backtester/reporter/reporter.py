@@ -11,130 +11,6 @@ from tool.backtester.backtester.result import Result
 from tool.backtester.data_source import StockDataSource
 
 
-class Report:
-    def __init__(self, result):
-        self.result = result
-        self.trade_logs = self._generate_trade_logs(result)
-        self.trades = self._generate_trades(result)
-        self.equity_curve = self._calculate_equity_curve(result)
-
-    def _generate_trade_logs(self, result):
-        trade_logs = pd.DataFrame(result.trade_logs, columns=[
-            'idx', 'date', 'action', 'stock_id', 'shares', 'fee', 'price', 'before', 'funds', 'after', 'note',
-        ])
-        trade_logs = trade_logs.astype({
-            'idx': 'int',
-            'date': 'datetime64[ns]',
-            'action': 'str',
-            'stock_id': 'str',
-            'shares': 'int',
-            'fee': 'int',
-            'price': 'float',
-            'before': 'int',
-            'funds': 'int',
-            'after': 'int',
-            'note': 'str',
-        })
-        return trade_logs
-
-    def _generate_trades(self, result):
-        trade_logs = self._generate_trade_logs(result)
-
-        df = trade_logs.groupby('idx').agg(
-            status=('date', lambda x: 'open' if len(x) == 1 else 'close'),
-            stock_id=('stock_id', 'first'),
-            shares=('shares', 'first'),
-            start_date=('date', 'first'),
-            end_date=('date', 'last'),
-            start_price=('price', lambda x: x.iloc[0]),
-            end_price=('price', lambda x: np.nan if len(x) == 1 else x.iloc[-1]),
-            total_fee=('fee', 'sum'),
-            note=('note', lambda x: ' | '.join(x)),
-        ).reset_index()
-
-        today_close_prices = self.data_source.close.loc[result.end_time]
-        df['end_price'] = df['end_price'].fillna(df['stock_id'].map(today_close_prices))
-
-        df['period'] = (df['end_date'] - df['start_date']).dt.days
-        df['total_return'] = ((df['end_price'] - df['start_price']) * df['shares']).astype(int)
-        df['total_return (fee)'] = df['total_return'] - df['total_fee']
-
-        df['total_return_rate (fee)'] = df['total_return (fee)'] / (df['start_price'] * df['shares'])  # TODO: 考慮手續費
-        df['total_return_rate (fee)'] = df['total_return_rate (fee)'].apply(lambda x: f'{x * 100:.2f}%')
-
-        df = df[[
-            'status',
-            'stock_id',
-            'shares',
-            'start_date',
-            'end_date',
-            'period',
-            'start_price',
-            'end_price',
-            'total_return',
-            'total_fee',
-            'total_return (fee)',
-            'total_return_rate (fee)',
-            'note',
-        ]]
-
-        return df
-
-    def _calculate_equity_curve(self, result):
-        equity_curve = []
-
-        balance = result.init_funds
-        trade_logs = pd.DataFrame(result.trade_logs, columns=[
-            'idx', 'date', 'action', 'stock_id', 'shares', 'fee', 'price', 'before', 'funds', 'after', 'note',
-        ])
-        trade_logs = trade_logs.astype({
-            'idx': 'int',
-            'date': 'datetime64[ns]',
-            'action': 'str',
-            'stock_id': 'str',
-            'shares': 'int',
-            'fee': 'int',
-            'price': 'float',
-            'before': 'int',
-            'funds': 'int',
-            'after': 'int',
-            'note': 'str',
-        })
-
-        positions = {}
-        for date in self.data_source.close.loc[result.start_time:result.end_time].index:
-            day_trade_logs = trade_logs[trade_logs['date'] == date]
-
-            df = day_trade_logs[day_trade_logs['action'] == 'buy']
-            for _, row in df.iterrows():
-                balance += row['funds']
-                positions[row['idx']] = {
-                    'stock_id': row['stock_id'],
-                    'shares': row['shares'],
-                }
-
-            df = day_trade_logs[day_trade_logs['action'] == 'sell']
-            for _, row in df.iterrows():
-                balance += row['funds']
-                del positions[row['idx']]
-
-            equity = balance
-
-            today_close_prices = self.data_source.close.loc[date]
-            for position in positions.values():
-                equity += today_close_prices[position['stock_id']] * position['shares']
-
-            equity_curve.append({
-                'date': date,
-                'equity': equity,
-            })
-
-        return pd.Series(
-            [current_equity['equity'] for current_equity in equity_curve],
-            index=[current_equity['date'] for current_equity in equity_curve],
-        )
-
-
 class Reporter:
     data_class = StockDataSource
 
@@ -269,7 +145,6 @@ class Reporter:
             State('result_id', 'value')
         )
         def update_graph(stock_id, result_id):
-            print('aaaa', stock_id, result_id)
             if not stock_id or not result_id:
                 raise PreventUpdate
 
