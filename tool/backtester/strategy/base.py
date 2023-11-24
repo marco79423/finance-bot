@@ -132,9 +132,11 @@ class StrategyBase(abc.ABC):
         close = self.data.close[self.entry_date.index]
         data = []
         for stock_id in close.columns:
+            max_close = close.loc[self.entry_date[stock_id]:, stock_id].max()
+            entry_price = self.entry_price[stock_id]
             data.append(edict(
                 stock_id=stock_id,
-                max_growth_rate=close.loc[self.entry_date[stock_id]:, stock_id].max()
+                max_growth_rate=(max_close - entry_price) / entry_price
             ))
 
         return pd.DataFrame(data, columns=['stock_id', 'max_growth_rate']).set_index('stock_id')['max_growth_rate']
