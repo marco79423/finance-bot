@@ -1,5 +1,6 @@
 import datetime as dt
-from concurrent.futures import ThreadPoolExecutor
+from concurrent.futures import ProcessPoolExecutor
+import multiprocessing as mp
 
 import numpy as np
 import pandas as pd
@@ -26,46 +27,67 @@ class Backtester:
         start = pd.Timestamp(start)
         end = pd.Timestamp(end)
 
-        with Progress(
-                SpinnerColumn(),
-                TextColumn("[bold blue]{task.description}", justify="right"),
-                BarColumn(),
-                "{task.completed}/{task.total} [{task.fields[detail]}]",
-                "•",
-                "[progress.percentage]{task.percentage:>3.1f}%",
-                "•",
-                TimeRemainingColumn(),
-        ) as progress:
-            with ThreadPoolExecutor() as pool:
-                tasks = []
-                for idx, [strategy_class, params] in enumerate(strategies):
-                    task = pool.submit(
-                        self.backtest,
-                        result_id=idx,
-                        progress=progress,
-                        init_funds=init_funds,
-                        start=start,
-                        end=end,
-                        strategy_class=strategy_class,
-                        max_single_position_exposure=params['max_single_position_exposure']
-                    )
-                    tasks.append(task)
+        with ProcessPoolExecutor() as pool:
+            parent_message_conn, message_conn = mp.Pipe()
 
-                results = []
-                for task in tasks:
-                    result = task.result()
-                    results.append(result)
+            tasks = []
+            for idx, [strategy_class, params] in enumerate(strategies):
+                task = pool.submit(
+                    self.backtest,
+                    message_conn=message_conn,
+                    result_id=idx,
+                    init_funds=init_funds,
+                    start=start,
+                    end=end,
+                    strategy_class=strategy_class,
+                    max_single_position_exposure=params['max_single_position_exposure']
+                )
+                tasks.append(task)
+
+            with Progress(
+                    SpinnerColumn(),
+                    TextColumn("[bold blue]{task.description}", justify="right"),
+                    BarColumn(),
+                    "{task.completed}/{task.total} [{task.fields[detail]}]",
+                    "•",
+                    "[progress.percentage]{task.percentage:>3.1f}%",
+                    "•",
+                    TimeRemainingColumn(),
+            ) as progress:
+                task_id_map = dict()
+                while True:
+                    message = parent_message_conn.recv()
+                    if message['action'] == 'init':
+                        task_id = progress.add_task(message['description'], detail='', start=False)
+                        task_id_map[message['result_id']] = task_id
+                    elif message['action'] == 'start':
+                        progress.update(task_id_map[message['result_id']], total=message['total'])
+                        progress.start_task(task_id_map[message['result_id']])
+                    elif message['action'] == 'update':
+                        progress.update(task_id_map[message['result_id']], advance=1, detail=message['detail'])
+                    elif message['action'] == 'done':
+                        del task_id_map[task_id_map[message['result_id']]]
+                    if not task_id_map:
+                        break
+
+            results = []
+            for task in tasks:
+                result = task.result()
+                results.append(result)
 
         console = Console()
         console.print('回測花費時間：', dt.datetime.now() - start_time)
         return results
 
-    def backtest(self, result_id, progress, init_funds, start, end, strategy_class, max_single_position_exposure):
+    def backtest(self, message_conn, result_id, init_funds, start, end, strategy_class, max_single_position_exposure):
         strategy_name = strategy_class.name
 
-        task_id = progress.add_task(
-            f'{strategy_name}[max_single_position_exposure={max_single_position_exposure}] 回測中', detail='',
-            start=False)
+        message_conn.send(dict(
+            result_id=result_id,
+            action='init',
+            description=f'{strategy_name}[max_single_position_exposure={max_single_position_exposure}] 回測中',
+        ))
+
         data_source = self.data_class(
             start=start,
             end=end,
@@ -80,10 +102,17 @@ class Backtester:
 
         data_source.is_limit = True
 
-        progress.update(task_id, total=len(data_source.all_date_range) + 3)
-        progress.start_task(task_id)
+        message_conn.send(dict(
+            result_id=result_id,
+            action='start',
+            total=len(data_source.all_date_range) + 3,
+        ))
         for today in data_source.all_date_range:
-            progress.update(task_id, advance=1, detail=today.strftime('%Y-%m-%d'))
+            message_conn.send(dict(
+                result_id=result_id,
+                action='update',
+                detail=today.strftime('%Y-%m-%d'),
+            ))
             data_source.set_time(today)
 
             for action in strategy.actions:
@@ -94,13 +123,29 @@ class Backtester:
             strategy.inter_handle()
 
         trade_logs = self._generate_trade_logs(broker.trade_logs)
-        progress.update(task_id, advance=1, detail='trade_logs')
+        message_conn.send(dict(
+            result_id=result_id,
+            action='update',
+            detail='trade_logs',
+        ))
 
         positions = self._generate_positions(data_source, trade_logs)
-        progress.update(task_id, advance=1, detail='positions')
+        message_conn.send(dict(
+            result_id=result_id,
+            action='update',
+            detail='positions',
+        ))
 
         equity_curve = self._calculate_equity_curve(data_source, init_funds, trade_logs)
-        progress.update(task_id, advance=1, detail='equity_curve')
+        message_conn.send(dict(
+            result_id=result_id,
+            action='update',
+            detail='equity_curve',
+        ))
+        message_conn.send(dict(
+            result_id=result_id,
+            action='done',
+        ))
 
         return Result(
             id=result_id,
