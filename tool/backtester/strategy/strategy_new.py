@@ -59,7 +59,7 @@ class StrategyNew(StrategyBase):
         # run
         target_list = self.new_target_list([
             self.has_profit,
-            self.today - self.entry_date > pd.Timedelta(days=40),
+            self.today - self.entry_date > pd.Timedelta(days=60),
         ], available_list=self.broker.holding_stock_ids)
         for stock_id in target_list:
             self.sell_next_day_market(stock_id, note=f'run')
