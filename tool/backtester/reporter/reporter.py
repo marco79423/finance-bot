@@ -35,10 +35,13 @@ class Reporter:
         table.add_column('策略')
         table.add_column('最終本金')
         table.add_column('最終權益')
+        table.add_column('總獲利')
         table.add_column('總獲利(含手續費)')
         table.add_column('平均天數')
         table.add_column('最短天數')
         table.add_column('最長天數')
+        table.add_column('勝率')
+        table.add_column('MDD')
         table.add_column('總報酬率')
         table.add_column('年化報酬率(含手續費)')
 
@@ -48,10 +51,13 @@ class Reporter:
                 result.strategy_name,
                 f'{result.final_funds} 元',
                 f'{result.final_equity} 元',
+                f'{result.total_return} 元',
                 f'{result.total_return_with_fee} 元',
                 f'{result.avg_days:.1f} 天',
                 f'{result.min_days:.1f} 天',
                 f'{result.max_days:.1f} 天',
+                f'{result.win_rate * 100:.2f}%',
+                f'{result.maximum_drawdown * 100:.2f}%',
                 f'{result.total_return_rate_with_fee * 100:.2f}%',
                 f'{result.annualized_return_rate_with_fee * 100:.2f}%',
             )
@@ -75,10 +81,13 @@ class Reporter:
                 '策略': result.strategy_name,
                 '最終本金': f'{result.final_funds} 元',
                 '最終權益': f'{result.final_equity} 元',
+                '總獲利': f'{result.total_return} 元',
                 '總獲利(含手續費)': f'{result.total_return_with_fee} 元',
                 '平均天數': f'{result.avg_days:.1f} 天',
                 '最短天數': f'{result.min_days:.1f} 天',
                 '最長天數': f'{result.max_days:.1f} 天',
+                '勝率': f'{result.win_rate * 100:.2f}%',
+                'MDD': f'{result.maximum_drawdown * 100:.2f}%',
                 '總報酬率': f'{result.total_return_rate_with_fee * 100:.2f}%',
                 '年化報酬率(含手續費)': f'{result.annualized_return_rate_with_fee * 100:.2f}%',
             } for result in self.results

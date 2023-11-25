@@ -17,6 +17,18 @@ class Result:
     equity_curve: pd.Series
 
     @property
+    def maximum_drawdown(self):
+        """MDD"""
+        running_max = self.equity_curve.cummax()
+        drawdown = (self.equity_curve - running_max) / running_max
+        return drawdown.min()
+
+    @property
+    def win_rate(self):
+        """勝率"""
+        return (self.positions['total_return (fee)'] > 0).sum() / len(self.positions)
+
+    @property
     def final_equity(self):
         return self.equity_curve.loc[self.end_time]
 
