@@ -14,11 +14,11 @@ from rich.progress import (
 
 from tool.backtester.backtester.result import Result
 from tool.backtester.broker import Broker
-from tool.backtester.data_source.stock_data_source import StockDataSource
+from tool.backtester.data_source.data_source import DataSource
 
 
 class Backtester:
-    data_class = StockDataSource
+    data_class = DataSource
     broker_class = Broker
 
     def run(self, init_funds, start, end, strategies):

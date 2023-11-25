@@ -5,7 +5,7 @@ import pandas as pd
 from easydict import EasyDict as edict
 
 from tool.backtester.broker import Broker
-from tool.backtester.data_source import StockDataSource
+from tool.backtester.data_source import DataSource
 
 
 class StrategyBase(abc.ABC):
@@ -14,7 +14,7 @@ class StrategyBase(abc.ABC):
 
     stock_id: str
     broker: Broker
-    data_source: StockDataSource
+    data_source: DataSource
     preload_days = 10
 
     available_stock_ids: Optional[List[str]] = None

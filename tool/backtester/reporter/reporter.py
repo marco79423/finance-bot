@@ -10,11 +10,11 @@ from rich.table import Table
 from starlette.middleware.wsgi import WSGIMiddleware
 
 from tool.backtester.backtester.result import Result
-from tool.backtester.data_source import StockDataSource
+from tool.backtester.data_source import DataSource
 
 
 class Reporter:
-    data_class = StockDataSource
+    data_class = DataSource
 
     def __init__(self, results: [Result]):
         self.data_source = self.data_class()

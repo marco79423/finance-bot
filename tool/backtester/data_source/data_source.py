@@ -3,7 +3,7 @@ from tool.backtester.data_source.data_adapter import DataAdapter
 
 class Stock:
 
-    def __init__(self, data_source: 'StockDataSource', product_id):
+    def __init__(self, data_source: 'DataSource', product_id):
         self._data_source = data_source
         self._product_id = product_id
 
@@ -28,7 +28,7 @@ class Stock:
         return self._data_source.volume[self._product_id]
 
 
-class StockDataSource:
+class DataSource:
     is_limit = False
 
     data_adapter_class = DataAdapter

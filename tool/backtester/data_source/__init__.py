@@ -1,1 +1,1 @@
-from tool.backtester.data_source.stock_data_source import StockDataSource
+from tool.backtester.data_source.data_source import DataSource
