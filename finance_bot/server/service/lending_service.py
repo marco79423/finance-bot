@@ -25,9 +25,6 @@ class LendingService(ServiceBase):
     async def execute_lending_task(self):
         await self.execute_task(self.lending_bot.execute_lending_task, error_message='借錢任務執行失敗')
 
-    async def get_lending_records(self):
-        return await self.lending_bot.get_lending_records()
-
     async def send_stats(self):
         async def get_stats_msg():
             stats = await self.lending_bot.get_stats()

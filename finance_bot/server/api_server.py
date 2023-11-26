@@ -4,7 +4,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 
 from finance_bot.infrastructure import infra
-from finance_bot.server.router import debug, lending, tw_stock
+from finance_bot.server.router import debug, tw_stock
 from finance_bot.server.service.lending_service import LendingService
 from finance_bot.server.service.tw_stock_service import TWStockService
 
@@ -35,7 +35,6 @@ class APIServer:
             if infra.conf.server.service.lending.enabled:
                 service = LendingService(app)
                 service.start()
-                app.include_router(lending.router)
 
             if infra.conf.server.service.tw_stock.enabled:
                 service = TWStockService(app)

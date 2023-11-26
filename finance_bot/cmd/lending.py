@@ -1,5 +1,8 @@
+import asyncio
+
 import click
-import requests
+
+from finance_bot.core import LendingBot
 
 
 def create_lending_cli():
@@ -9,14 +12,10 @@ def create_lending_cli():
         pass
 
     @lending.command('records')
-    @click.option('--url', default='http://localhost:16888', help='理財機器人的 URL')
-    def records(url):
-        try:
-            resp = requests.get(f'{url}/lending/records')
-            records = resp.json()
-            for record in sorted(records, key=lambda r: r['end']):
-                print('金額：{amount:.2f}\t利率：{current_rate:.6f}%\t到期 {end}\t剩下 {last_time}'.format(**record))
-        except requests.exceptions.RequestException:
-            print(f'理財機器人 ({url}) 連線失敗')
+    def get_records():
+        lending_bot = LendingBot()
+        records = asyncio.run(lending_bot.get_lending_records())
+        for record in sorted(records, key=lambda r: r.end):
+            print('金額：{amount:.2f}\t利率：{current_rate:.6f}%\t到期 {end}\t剩下 {last_time}'.format(**record.json()))
 
     return lending
