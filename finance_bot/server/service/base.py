@@ -13,12 +13,15 @@ class ServiceBase(abc.ABC):
         self.app = app
         self.logger = infra.logger.bind(name=self.name)
 
-    def start(self):
+    async def start(self):
         self.logger.info(f'啟動 {self.name} 功能...')
         self.set_schedules()
+        await self.listen()
 
-    @abc.abstractmethod
     def set_schedules(self):
+        pass
+
+    async def listen(self):
         pass
 
     async def execute_task(self,

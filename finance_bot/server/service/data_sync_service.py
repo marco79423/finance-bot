@@ -12,13 +12,10 @@ class DataSyncService(ServiceBase):
         super().__init__(app)
         self.data_sync = DataSync()
 
-    def set_schedules(self):
-        infra.scheduler.add_schedule_task(
-            self.execute_schedule_update_task,
-            schedule_conf_key='server.service.data_sync.schedule.schedule_update_task',
-        )
+    async def listen(self):
+        await infra.mq.subscribe('data_sync.schedule_update', self.execute_schedule_update_task)
 
-    async def execute_schedule_update_task(self):
+    async def execute_schedule_update_task(self, sub, data):
         today = pd.Timestamp.today().normalize()
 
         await self.execute_task(self.data_sync.update_stocks, success_message='台灣股票資訊更新完畢',

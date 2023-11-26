@@ -7,6 +7,7 @@ from finance_bot.infrastructure import infra
 from finance_bot.server.router import debug
 from finance_bot.server.service.crypto_loan_service import CryptoLoanService
 from finance_bot.server.service.data_sync_service import DataSyncService
+from finance_bot.server.service.schedule_service import ScheduleService
 
 
 class APIServer:
@@ -30,15 +31,18 @@ class APIServer:
         app.mount('/data', StaticFiles(directory=infra.path.data_folder), name="data")
 
         @app.on_event("startup")
-        def startup():
+        async def startup():
             # 設定 Service
             if infra.conf.server.service.crypto_loan.enabled:
                 service = CryptoLoanService(app)
-                service.start()
+                await service.start()
 
             if infra.conf.server.service.data_sync.enabled:
                 service = DataSyncService(app)
-                service.start()
+                await service.start()
+
+            service = ScheduleService(app)
+            await service.start()
 
         uvicorn.run(app, host=host, port=port)
 

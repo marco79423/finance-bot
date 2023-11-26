@@ -8,7 +8,7 @@ from loguru import logger
 from omegaconf import OmegaConf
 
 from finance_bot.infrastructure.manager import ScheduleManager, TimeManager, DatabaseManager, DatabaseCacheManager, \
-    NotifierManager, APIManager, PathManager
+    NotifierManager, APIManager, PathManager, MessageQueueManager
 
 # 預設設定檔
 DEFAULT_CONFIG = {
@@ -23,6 +23,7 @@ class Infrastructure:
         self._logger = None
         self._schedule_manager = None
         self._time_manager = None
+        self._message_queue_manager = None
         self._database_manager = None
         self._database_cache_manager = None
         self._notifier_manager = None
@@ -50,6 +51,12 @@ class Infrastructure:
             OmegaConf.set_readonly(config, True)
             self._conf = config
         return self._conf
+
+    @property
+    def mq(self) -> MessageQueueManager:
+        if self._message_queue_manager is None:
+            self._message_queue_manager = MessageQueueManager(self)
+        return self._message_queue_manager
 
     @property
     def scheduler(self) -> ScheduleManager:

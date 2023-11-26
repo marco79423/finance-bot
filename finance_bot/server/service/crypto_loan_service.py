@@ -10,22 +10,14 @@ class CryptoLoanService(ServiceBase):
         super().__init__(app)
         self.crypto_loan = CryptoLoan()
 
-    def set_schedules(self):
-        infra.scheduler.add_schedule_task(
-            self.execute_lending_task,
-            schedule_conf_key='server.service.crypto_loan.schedule.lending_task',
-        )
+    async def listen(self):
+        await infra.mq.subscribe('crypto_loan.lending_task', self.execute_lending_task)
+        await infra.mq.subscribe('crypto_loan.send_stats', self.send_stats)
 
-        infra.scheduler.add_schedule_task(
-            self.send_stats,
-            schedule_conf_key='server.service.crypto_loan.schedule.sending_stats',
-            misfire_grace_time=60 * 5
-        )
-
-    async def execute_lending_task(self):
+    async def execute_lending_task(self, sub, data):
         await self.execute_task(self.crypto_loan.execute_lending_task, error_message='借錢任務執行失敗')
 
-    async def send_stats(self):
+    async def send_stats(self, sub, data):
         async def get_stats_msg():
             stats = await self.crypto_loan.get_stats()
             return {
