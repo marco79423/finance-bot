@@ -54,8 +54,8 @@ class Stats:
     daily_earn: float
 
 
-class LendingBot(CoreBase):
-    name = 'lending_bot'
+class CryptoLoan(CoreBase):
+    name = 'crypto_loan'
 
     BITFINEX_FEES = 0.15
 
@@ -68,8 +68,8 @@ class LendingBot(CoreBase):
         super().__init__()
 
         self._client = bfxapi.Client(
-            API_KEY=infra.conf.core.lending_bot.api_key,
-            API_SECRET=infra.conf.core.lending_bot.api_secret,
+            API_KEY=infra.conf.core.crypto_loan.api_key,
+            API_SECRET=infra.conf.core.crypto_loan.api_secret,
         )
 
     async def execute_lending_task(self):

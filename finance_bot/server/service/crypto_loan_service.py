@@ -1,33 +1,33 @@
-from finance_bot.core import LendingBot
+from finance_bot.core import CryptoLoan
 from finance_bot.infrastructure import infra
 from .base import ServiceBase
 
 
-class LendingService(ServiceBase):
-    name = 'lending'
+class CryptoLoanService(ServiceBase):
+    name = 'crypto_loan'
 
     def __init__(self, app):
         super().__init__(app)
-        self.lending_bot = LendingBot()
+        self.crypto_loan = CryptoLoan()
 
     def set_schedules(self):
         infra.scheduler.add_schedule_task(
             self.execute_lending_task,
-            schedule_conf_key='server.service.lending.schedule.lending_task',
+            schedule_conf_key='server.service.crypto_loan.schedule.lending_task',
         )
 
         infra.scheduler.add_schedule_task(
             self.send_stats,
-            schedule_conf_key='server.service.lending.schedule.sending_stats',
+            schedule_conf_key='server.service.crypto_loan.schedule.sending_stats',
             misfire_grace_time=60 * 5
         )
 
     async def execute_lending_task(self):
-        await self.execute_task(self.lending_bot.execute_lending_task, error_message='借錢任務執行失敗')
+        await self.execute_task(self.crypto_loan.execute_lending_task, error_message='借錢任務執行失敗')
 
     async def send_stats(self):
         async def get_stats_msg():
-            stats = await self.lending_bot.get_stats()
+            stats = await self.crypto_loan.get_stats()
             return {
                 'lending_amount': round(stats.lending_amount, 2),
                 'daily_earn': round(stats.daily_earn, 2),

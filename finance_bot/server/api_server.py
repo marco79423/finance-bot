@@ -5,7 +5,7 @@ from fastapi.staticfiles import StaticFiles
 
 from finance_bot.infrastructure import infra
 from finance_bot.server.router import debug, tw_stock
-from finance_bot.server.service.lending_service import LendingService
+from finance_bot.server.service.crypto_loan_service import CryptoLoanService
 from finance_bot.server.service.tw_stock_service import TWStockService
 
 
@@ -32,8 +32,8 @@ class APIServer:
         @app.on_event("startup")
         def startup():
             # 設定 Service
-            if infra.conf.server.service.lending.enabled:
-                service = LendingService(app)
+            if infra.conf.server.service.crypto_loan.enabled:
+                service = CryptoLoanService(app)
                 service.start()
 
             if infra.conf.server.service.tw_stock.enabled:

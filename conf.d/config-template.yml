@@ -1,6 +1,6 @@
 server:
   service:
-    lending:
+    crypto_loan:
       enabled: true
       schedule:
         lending_task: '*/10 * * * *'
@@ -14,7 +14,7 @@ server:
           - '0 8 * * mon,tue,wed,thu,fri'
           - '0 12 * * sat'
 core:
-  lending_bot:
+  crypto_loan:
     api_key: <key>
     api_secret: <token>
 
