@@ -1,4 +1,4 @@
-from finance_bot.core import TWStockManager
+from finance_bot.core import DataSync
 from finance_bot.infrastructure import infra
 
 
@@ -15,7 +15,7 @@ def export_price_data_to_multicharts(data):
 
 
 def main():
-    data = TWStockManager().data
+    data = DataSync().data
     data.rebuild_cache()
 
     export_price_data_to_multicharts(data)

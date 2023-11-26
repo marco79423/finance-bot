@@ -7,7 +7,7 @@ server:
         sending_stats:
           - '0 8 * * mon,tue,wed,thu,fri'
           - '0 12 * * sat,sun'
-    tw_stock:
+    data_sync:
       enabled: true
       schedule:
         schedule_update_task:
@@ -18,7 +18,7 @@ core:
     api_key: <key>
     api_secret: <token>
 
-  tw_stock_manager:
+  data_sync:
     shioaji:
       api_key: <key>
       api_secret: <token>

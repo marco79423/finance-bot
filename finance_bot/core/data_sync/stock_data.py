@@ -1,7 +1,7 @@
 import pandas as pd
 from sqlalchemy import text
 
-from finance_bot.core.tw_stock_manager import base
+from finance_bot.core.data_sync import base
 from finance_bot.infrastructure import infra
 
 

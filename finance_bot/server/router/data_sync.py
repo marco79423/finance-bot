@@ -5,7 +5,7 @@ from pydantic import BaseModel
 
 from finance_bot.infrastructure import infra
 
-router = fastapi.APIRouter(prefix='/tw-stock')
+router = fastapi.APIRouter(prefix='/data_sync')
 
 
 @router.post('/update-stocks-tasks')

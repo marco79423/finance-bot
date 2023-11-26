@@ -4,9 +4,9 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 
 from finance_bot.infrastructure import infra
-from finance_bot.server.router import debug, tw_stock
+from finance_bot.server.router import debug, data_sync
 from finance_bot.server.service.crypto_loan_service import CryptoLoanService
-from finance_bot.server.service.tw_stock_service import TWStockService
+from finance_bot.server.service.data_sync_service import DataSyncService
 
 
 class APIServer:
@@ -36,10 +36,10 @@ class APIServer:
                 service = CryptoLoanService(app)
                 service.start()
 
-            if infra.conf.server.service.tw_stock.enabled:
-                service = TWStockService(app)
+            if infra.conf.server.service.data_sync.enabled:
+                service = DataSyncService(app)
                 service.start()
-                app.include_router(tw_stock.router)
+                app.include_router(data_sync.router)
 
         uvicorn.run(app, host=host, port=port)
 
