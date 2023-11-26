@@ -1,7 +1,5 @@
 import os
 
-import requests
-from IPython import get_ipython
 from IPython.core.magic import magics_class, Magics, line_magic
 
 
