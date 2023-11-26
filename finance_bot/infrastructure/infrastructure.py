@@ -2,6 +2,7 @@ import logging
 import pathlib
 import sys
 
+import asyncio
 import pytz
 from loguru import logger
 from omegaconf import OmegaConf
@@ -30,6 +31,11 @@ class Infrastructure:
 
     def start(self):
         pass
+
+    def stop(self):
+        if self._database_manager is not None:
+            loop = asyncio.get_running_loop()
+            loop.call_soon(self._database_manager.stop())
 
     @property
     def conf(self):

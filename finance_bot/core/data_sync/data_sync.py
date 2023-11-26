@@ -253,8 +253,9 @@ class DataSync(CoreBase):
 
         return df
 
-    @staticmethod
-    async def update_monthly_revenue(year, month):
+    async def update_monthly_revenue(self, year, month):
+        self.logger.info(f'開始更新月財報資訊 ...')
+
         if year < 2012:
             raise ValueError('最早只到 2012 年 1 月 (民國 101 年)')
         if year == 2012:
@@ -297,6 +298,8 @@ class DataSync(CoreBase):
         target_file = target_folder / f'{year}_{month}.html'
         async with target_file.open('w', encoding='utf-8') as fp:
             await fp.write(body)
+
+        self.logger.info(f'更新月財報資訊完成')
 
     @staticmethod
     async def _get_financial_statements_path(stock_id, year, quarter):

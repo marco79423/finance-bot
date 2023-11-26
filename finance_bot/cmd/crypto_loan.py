@@ -11,10 +11,11 @@ def create_crypto_loan_cli():
         """放貸"""
         pass
 
+    cl = CryptoLoan()
+
     @crypto_loan.command('records')
     def get_records():
-        lending_bot = CryptoLoan()
-        records = asyncio.run(lending_bot.get_lending_records())
+        records = asyncio.run(cl.get_lending_records())
         for record in sorted(records, key=lambda r: r.end):
             print('金額：{amount:.2f}\t利率：{current_rate:.6f}%\t到期 {end}\t剩下 {last_time}'.format(**record.json()))
 

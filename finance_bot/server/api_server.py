@@ -4,7 +4,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 
 from finance_bot.infrastructure import infra
-from finance_bot.server.router import debug, data_sync
+from finance_bot.server.router import debug
 from finance_bot.server.service.crypto_loan_service import CryptoLoanService
 from finance_bot.server.service.data_sync_service import DataSyncService
 
@@ -39,7 +39,6 @@ class APIServer:
             if infra.conf.server.service.data_sync.enabled:
                 service = DataSyncService(app)
                 service.start()
-                app.include_router(data_sync.router)
 
         uvicorn.run(app, host=host, port=port)
 
