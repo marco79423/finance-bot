@@ -9,7 +9,7 @@ services:
     ports:
       - "4222:4222"
       - "8222:8222"
-    command: -js --auth token
+    command: -js
 
   web:
     build: web
