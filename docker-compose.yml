@@ -4,14 +4,12 @@ services:
     ports:
       - "6379:6379"
 
-  rabbitmq:
-    image: rabbitmq:3.12.9-management
+  nats:
+    image: nats:2.10.5
     ports:
-      - "5672:5672"
-      - "15672:15672"
-    environment:
-      - RABBITMQ_DEFAULT_USER=root
-      - RABBITMQ_DEFAULT_PASS=pass
+      - "4222:4222"
+      - "8222:8222"
+    command: -js --auth token
 
   web:
     build: web
