@@ -2,9 +2,9 @@ import pandas as pd
 from sqlalchemy import text, select
 from sqlalchemy.orm import Session
 
-from finance_bot.tw_stock_legacy.ticker_db import model
-from finance_bot.tw_stock_legacy.ticker_db.database import get_engine
-from finance_bot.tw_stock_legacy.ticker_db.updater import FinlabUpdater, FinmindUpdater
+from finance_bot.core.tw_stock_legacy.ticker_db import model
+from finance_bot.core.tw_stock_legacy.ticker_db.database import get_engine
+from finance_bot.core.tw_stock_legacy.ticker_db.updater import FinlabUpdater, FinmindUpdater
 
 
 class Ticker:

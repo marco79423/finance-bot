@@ -1,7 +1,7 @@
 from sqlalchemy import create_engine
 
 from finance_bot.infrastructure import infra
-from finance_bot.tw_stock_legacy.ticker_db.model.base import Base
+from finance_bot.core.tw_stock_legacy.ticker_db.model.base import Base
 
 
 def get_engine():

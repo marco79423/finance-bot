@@ -2,9 +2,9 @@ import finlab
 from sqlalchemy.orm import Session
 
 from finance_bot.infrastructure import infra
-from finance_bot.tw_stock_legacy.ticker_db.model import FinlabPriceClose, FinlabShareCapital, FinlabFreeCashFlow, FinlabEarningPerShare, \
+from finance_bot.core.tw_stock_legacy.ticker_db.model import FinlabPriceClose, FinlabShareCapital, FinlabFreeCashFlow, FinlabEarningPerShare, \
     FinlabReturnOnEquity, FinlabOperatingIncome
-from finance_bot.tw_stock_legacy.ticker_db.updater.base import UpdaterBase
+from finance_bot.core.tw_stock_legacy.ticker_db.updater.base import UpdaterBase
 
 
 def get_finlab_data_loader():
@@ -109,7 +109,7 @@ class FinlabUpdater(UpdaterBase):
 
 
 if __name__ == '__main__':
-    from finance_bot.tw_stock_legacy.ticker_db.database import get_engine
+    from finance_bot.core.tw_stock_legacy.ticker_db.database import get_engine
 
     engine = get_engine()
     with Session(engine) as session:

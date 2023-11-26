@@ -3,9 +3,9 @@ import click
 import requests
 
 from finance_bot.cmd.data_sync import create_data_sync_cli
-from finance_bot.server.api_server import APIServer
-from finance_bot.shell.config import get_config
 from finance_bot.cmd.crypto_loan import create_crypto_loan_cli
+from finance_bot.core.api_server import APIServer
+from finance_bot.core.shell.config import get_config
 
 
 def create_cli():

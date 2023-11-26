@@ -4,10 +4,10 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 
 from finance_bot.infrastructure import infra
-from finance_bot.server.router import debug
-from finance_bot.server.service.crypto_loan_service import CryptoLoanService
-from finance_bot.server.service.data_sync_service import DataSyncService
-from finance_bot.server.service.schedule_service import ScheduleService
+from finance_bot.core.api_server.router import debug
+from finance_bot.core.api_server.service.crypto_loan_service import CryptoLoanService
+from finance_bot.core.api_server.service.data_sync_service import DataSyncService
+from finance_bot.core.api_server.service.schedule_service import ScheduleService
 
 
 class APIServer:

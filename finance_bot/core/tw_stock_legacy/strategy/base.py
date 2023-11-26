@@ -1,7 +1,7 @@
 import abc
 import datetime as dt
 
-from finance_bot.tw_stock_legacy.ticker_db.ticker_db import TickerDB, Ticker
+from finance_bot.core.tw_stock_legacy.ticker_db.ticker_db import TickerDB, Ticker
 
 
 class StrategyBase(abc.ABC):
