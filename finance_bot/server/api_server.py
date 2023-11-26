@@ -33,13 +33,11 @@ class APIServer:
         @app.on_event("startup")
         async def startup():
             # 設定 Service
-            if infra.conf.server.service.crypto_loan.enabled:
-                service = CryptoLoanService(app)
-                await service.start()
+            service = CryptoLoanService(app)
+            await service.start()
 
-            if infra.conf.server.service.data_sync.enabled:
-                service = DataSyncService(app)
-                await service.start()
+            service = DataSyncService(app)
+            await service.start()
 
             service = ScheduleService(app)
             await service.start()

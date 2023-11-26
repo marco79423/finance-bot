@@ -1,19 +1,15 @@
-server:
-  service:
-    crypto_loan:
-      enabled: true
-      schedule:
-        lending_task: '*/10 * * * *'
-        sending_stats:
-          - '0 8 * * mon,tue,wed,thu,fri'
-          - '0 12 * * sat,sun'
-    data_sync:
-      enabled: true
-      schedule:
-        schedule_update_task:
-          - '0 8 * * mon,tue,wed,thu,fri'
-          - '0 12 * * sat'
 core:
+  schedule:
+    crypto_loan:
+      lending_task: '*/10 * * * *'
+      sending_stats:
+        - '0 8 * * mon,tue,wed,thu,fri'
+        - '0 12 * * sat,sun'
+    data_sync:
+      schedule_update:
+        - '0 8 * * mon,tue,wed,thu,fri'
+        - '0 12 * * sat'
+
   crypto_loan:
     api_key: <key>
     api_secret: <token>
