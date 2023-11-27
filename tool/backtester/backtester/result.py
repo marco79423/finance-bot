@@ -51,12 +51,12 @@ class Result:
 
     @property
     def avg_days(self):
-        return self.positions['period'].mean()
+        return self.positions.loc[self.positions['status'] == 'close', 'period'].mean()
 
     @property
     def max_days(self):
-        return self.positions['period'].max()
+        return self.positions.loc[self.positions['status'] == 'close', 'period'].max()
 
     @property
     def min_days(self):
-        return self.positions['period'].min()
+        return self.positions.loc[self.positions['status'] == 'close', 'period'].min()
