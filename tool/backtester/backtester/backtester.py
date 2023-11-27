@@ -187,7 +187,7 @@ class Backtester:
             stock_id=('stock_id', 'first'),
             shares=('shares', 'first'),
             start_date=('date', 'first'),
-            end_date=('date', 'last'),
+            end_date=('date', lambda x: None if len(x) == 1 else x.iloc[-1]),
             start_price=('price', lambda x: x.iloc[0]),
             end_price=('price', lambda x: np.nan if len(x) == 1 else x.iloc[-1]),
             total_fee=('fee', 'sum'),
@@ -196,6 +196,7 @@ class Backtester:
 
         today_close_prices = data_source.close.loc[data_source.end_time]
         df['end_price'] = df['end_price'].fillna(df['stock_id'].map(today_close_prices))
+        df['end_date'] = df['end_date'].fillna(data_source.end_time)
 
         df['period'] = (df['end_date'] - df['start_date']).dt.days
         df['total_return'] = ((df['end_price'] - df['start_price']) * df['shares']).astype(int)

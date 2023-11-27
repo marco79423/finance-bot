@@ -3,7 +3,6 @@ import plotly.express as px
 import plotly.graph_objects as go
 import uvicorn
 from dash import Dash, html, dash_table, dcc, callback, Output, Input, State
-from dash.exceptions import PreventUpdate
 from fastapi import FastAPI
 from rich.console import Console
 from rich.table import Table
@@ -126,7 +125,7 @@ class Reporter:
         )
         def update_strategy(result_id):
             result = result_map[result_id]
-            stock_ids = result.positions['stock_id'].unique()
+            stock_ids = sorted(result.positions['stock_id'].unique())
 
             return (
                 [result_summary_map[result_id]],
