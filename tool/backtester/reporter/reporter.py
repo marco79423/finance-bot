@@ -1,5 +1,6 @@
 import pandas as pd
 import plotly.express as px
+import plotly.subplots as sp
 import plotly.graph_objects as go
 import uvicorn
 from dash import Dash, html, dash_table, dcc, callback, Output, Input, State
@@ -34,8 +35,8 @@ class Reporter:
         table.add_column('策略')
         table.add_column('最終本金')
         table.add_column('最終權益')
-        table.add_column('總獲利')
         table.add_column('總獲利(含手續費)')
+        table.add_column('手續費')
         table.add_column('平均天數')
         table.add_column('最短天數')
         table.add_column('最長天數')
@@ -51,7 +52,7 @@ class Reporter:
                 f'{result.final_funds} 元',
                 f'{result.final_equity} 元',
                 f'{result.total_return} 元',
-                f'{result.total_return_with_fee} 元',
+                f'{result.total_return - result.total_return_with_fee} 元',
                 f'{result.avg_days:.1f} 天',
                 f'{result.min_days:.1f} 天',
                 f'{result.max_days:.1f} 天',
@@ -80,8 +81,8 @@ class Reporter:
                 '策略': result.strategy_name,
                 '最終本金': f'{result.final_funds} 元',
                 '最終權益': f'{result.final_equity} 元',
-                '總獲利': f'{result.total_return} 元',
                 '總獲利(含手續費)': f'{result.total_return_with_fee} 元',
+                '手續費': f'{result.total_return - result.total_return_with_fee} 元',
                 '平均天數': f'{result.avg_days:.1f} 天',
                 '最短天數': f'{result.min_days:.1f} 天',
                 '最長天數': f'{result.max_days:.1f} 天',
@@ -99,12 +100,12 @@ class Reporter:
         array.extend([
             html.Header(children=f'選擇策略：', style={'fontSize': '1.5em', 'fontWeight': '600'}),
             dcc.Dropdown(id='result_id', options=result_ids, value=result_ids[0]),
-            dash_table.DataTable(id='summary'),
+            dash_table.DataTable(id='summary', sort_action='native', sort_mode='multi'),
             dcc.Graph(id='equity_curve'),
             html.Div(children=f'倉位狀態：'),
-            dash_table.DataTable(id='positions', page_size=50),
+            dash_table.DataTable(id='positions', sort_action='native', sort_mode='multi', page_size=50),
             html.Div(children=f'交易紀錄：'),
-            dash_table.DataTable(id='trade_logs', page_size=50),
+            dash_table.DataTable(id='trade_logs', sort_action='native', sort_mode='multi', page_size=50),
             html.Header(children=f'個股狀況：', style={'fontSize': '1.5em', 'fontWeight': '600'}),
             dcc.Dropdown(id='stock_id'),
         ])
@@ -143,9 +144,9 @@ class Reporter:
         array.extend([
             dcc.Graph(id='equity_per_stock'),
             html.Div(children=f'各倉位狀況：'),
-            dash_table.DataTable(id='positions_per_stock'),
+            dash_table.DataTable(id='positions_per_stock', sort_action='native', sort_mode='multi'),
             html.Div(children=f'交易紀錄：'),
-            dash_table.DataTable(id='trade_logs_per_stock'),
+            dash_table.DataTable(id='trade_logs_per_stock', sort_action='native', sort_mode='multi'),
         ])
 
         @callback(
@@ -161,49 +162,48 @@ class Reporter:
             data = self.data_source[stock_id]
             positions_per_stock = result.positions[result.positions['stock_id'] == stock_id]
 
-            fig_data = [
-                go.Candlestick(
-                    x=data.close[result.start_time:result.end_time].index,
-                    open=data.open[result.start_time:result.end_time],
-                    high=data.high[result.start_time:result.end_time],
-                    low=data.low[result.start_time:result.end_time],
-                    close=data.close[result.start_time:result.end_time],
-                    increasing_line_color='red',
-                    decreasing_line_color='green',
-                    name='K 線',
-                )
-            ]
+            fig = sp.make_subplots(
+                rows=2,
+                cols=1,
+                vertical_spacing=0.1,
+                subplot_titles=('K 線', '成交量'),
+                row_heights=[0.8, 0.2],
+                shared_xaxes=True,
+            )
+
+            trace1 = go.Candlestick(
+                x=data.close[result.start_time:result.end_time].index,
+                open=data.open[result.start_time:result.end_time],
+                high=data.high[result.start_time:result.end_time],
+                low=data.low[result.start_time:result.end_time],
+                close=data.close[result.start_time:result.end_time],
+                increasing_line_color='red',
+                decreasing_line_color='green',
+                name='K 線',
+            )
+            fig.add_trace(trace1, row=1, col=1)
+
+            trace2 = go.Bar(
+                x=data.close[result.start_time:result.end_time].index,
+                y=data.volume[result.start_time:result.end_time],
+                name='成交量',
+            )
+            fig.add_trace(trace2, row=2, col=1)
 
             for idx, position in positions_per_stock.iterrows():
                 end_date = position['end_date']
-                if not end_date:
-                    end_date = result.end_time
-
-                fig_data.append(
-                    go.Scatter(
-                        x=[position['start_date'], end_date],
-                        y=[position['start_price'], position['end_price']],
-                        line_color='red' if position['total_return'] > 0 else 'green',
-                        name=f'trade {idx}'
-                    )
+                trace = go.Scatter(
+                    x=[position['start_date'], end_date],
+                    y=[position['start_price'], position['end_price']],
+                    line_color='red' if position['total_return'] > 0 else 'green',
+                    name=f'trade {idx}'
                 )
-
-            fig = go.Figure(
-                data=fig_data,
-                layout=go.Layout(
-                    xaxis=dict(
-                        title='日期',
-                        rangeslider_visible=False,
-                    ),
-                    yaxis=dict(
-                        title='股價',
-                        domain=[0.5, 1],
-                    ),
-                )
-            )
+                fig.add_trace(trace, row=1, col=1)
 
             for _, position in positions_per_stock.iterrows():
                 fig.add_annotation(
+                    xref='x',
+                    yref='y',
                     x=position['start_date'],
                     y=position['start_price'],
                     text="Buy",
@@ -213,6 +213,8 @@ class Reporter:
                 )
                 if position['end_date']:
                     fig.add_annotation(
+                        xref='x',
+                        yref='y',
                         x=position['end_date'],
                         y=position['end_price'],
                         text="Sell",
@@ -220,6 +222,12 @@ class Reporter:
                         ax=0,
                         ay=-30
                     )
+
+            fig.update_layout(
+                height=600,
+                xaxis1_rangeslider_visible=False,
+                xaxis1_visible=False,  # fig.update_xaxes(visible=False, row=1, col=1)
+            )
 
             trade_logs_per_stock = result.trade_logs[result.trade_logs['stock_id'] == stock_id]
             return (
