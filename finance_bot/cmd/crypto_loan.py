@@ -13,6 +13,11 @@ def create_crypto_loan_cli():
 
     cl = CryptoLoan()
 
+    @crypto_loan.command("start")
+    def start():
+        """啟動服務"""
+        cl.start()
+
     @crypto_loan.command('records')
     def get_records():
         records = asyncio.run(cl.get_lending_records())

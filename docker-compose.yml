@@ -14,12 +14,33 @@ services:
   web:
     build: web
     ports:
-      - "16889:16889"
+      - "16888:16888"
 
-  api-server:
+  crypto_loan:
     build: .
     ports:
-      - "16888:16888"
+      - "16910:16910"
+    command: crypto_loan start
+    volumes:
+      - "./conf.d:/app/conf.d"
+      - "./data:/app/data"
+      - "./logs:/app/logs"
+
+  data_sync:
+    build: .
+    ports:
+      - "16920:16920"
+    command: data_sync start
+    volumes:
+      - "./conf.d:/app/conf.d"
+      - "./data:/app/data"
+      - "./logs:/app/logs"
+
+  schedule:
+    build: .
+    ports:
+      - "16930:16930"
+    command: schedule start
     volumes:
       - "./conf.d:/app/conf.d"
       - "./data:/app/data"

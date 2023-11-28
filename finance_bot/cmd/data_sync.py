@@ -13,6 +13,11 @@ def create_data_sync_cli():
 
     ds = DataSync()
 
+    @data_sync.command('start')
+    def start():
+        """啟動服務"""
+        ds.start()
+
     @data_sync.group('update')
     def update():
         """資料更新"""

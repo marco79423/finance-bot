@@ -8,5 +8,4 @@ RUN pip install poetry
 RUN poetry install
 
 ENTRYPOINT ["poetry", "run", "finb"]
-CMD ["serve"]
 EXPOSE 16888

@@ -2,6 +2,7 @@ import dataclasses
 import datetime as dt
 
 import bfxapi
+import uvicorn
 
 from finance_bot.core.base import CoreBase
 from finance_bot.infrastructure import infra
@@ -71,6 +72,37 @@ class CryptoLoan(CoreBase):
             API_KEY=infra.conf.core.crypto_loan.api_key,
             API_SECRET=infra.conf.core.crypto_loan.api_secret,
         )
+
+    def start(self):
+        self.logger.info(f'啟動 {self.name} ...')
+
+        app = self.get_app()
+
+        @app.on_event("startup")
+        async def startup():
+            await self.listen()
+
+        uvicorn.run(app, host='0.0.0.0', port=16910)
+
+    async def listen(self):
+        await infra.mq.subscribe('crypto_loan.lending_task', self.execute_lending_task)
+        await infra.mq.subscribe('crypto_loan.send_stats', self.send_stats)
+
+    async def execute_lending_task(self, sub, data):
+        await self.execute_task(self.execute_lending_task, error_message='借錢任務執行失敗')
+
+    async def send_stats(self, sub, data):
+        async def get_stats_msg():
+            stats = await self.get_stats()
+            return {
+                'lending_amount': round(stats.lending_amount, 2),
+                'daily_earn': round(stats.daily_earn, 2),
+                'average_rate': round(stats.average_rate * 100, 6),
+            }
+
+        await self.execute_task(get_stats_msg,
+                                success_message='總借出: {lending_amount:.2f}\n預估日收益: {daily_earn:.2f} (平均利率: {average_rate:.6f}%)',
+                                error_message='計算統計執行失敗 [{retry_count}]', retries=5)
 
     async def execute_lending_task(self):
         strategy = await self.make_strategy()
