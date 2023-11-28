@@ -38,10 +38,23 @@ def test_start_time_with_different_start_time(mock_get_stock_prices_df, start_ti
 
 def test_close(mock_get_stock_prices_df):
     expected_df = pd.DataFrame({
+        '1000': [1000] * 10,
+        '2000': [1000] * 10,
+        '3000': [1000] * 10,
+    }, index=pd.date_range('2023-01-01', periods=10, freq='D', name='date'),
+        columns=pd.Series(['1000', '2000', '3000'], name='stock_id'))
+
+    adapter = data_adapter.DataAdapter()
+    assert_frame_equal(adapter.volume, expected_df, check_freq=False)
+
+
+def test_volume(mock_get_stock_prices_df):
+    expected_df = pd.DataFrame({
         '1000': [6] * 10,
         '2000': [6] * 10,
         '3000': [6] * 10,
-    }, index=pd.date_range('2023-01-01', periods=10, freq='D', name='date'), columns=pd.Series(['1000', '2000', '3000'], name='stock_id'))
+    }, index=pd.date_range('2023-01-01', periods=10, freq='D', name='date'),
+        columns=pd.Series(['1000', '2000', '3000'], name='stock_id'))
 
     adapter = data_adapter.DataAdapter()
     assert_frame_equal(adapter.close, expected_df, check_freq=False)

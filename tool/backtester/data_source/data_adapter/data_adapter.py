@@ -29,7 +29,7 @@ class DataAdapter(abc.ABC):
         self._close = stock_prices_df.pivot(columns='stock_id', values='close').ffill()  # 補完空值的收盤價
         self._high = stock_prices_df.pivot(columns='stock_id', values='high').ffill()  # 補完空值的最高價
         self._low = stock_prices_df.pivot(columns='stock_id', values='low').ffill()  # 補完空值的最低價
-        self._volume = stock_prices_df.pivot(columns='stock_id', values='low').ffill()  # 補完空值的最低價
+        self._volume = stock_prices_df.pivot(columns='stock_id', values='volume').ffill()  # 補完空值的最低價
 
     @property
     def all_stock_ids(self) -> List[str]:
