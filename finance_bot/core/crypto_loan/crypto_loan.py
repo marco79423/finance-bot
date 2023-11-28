@@ -89,7 +89,7 @@ class CryptoLoan(CoreBase):
         await infra.mq.subscribe('crypto_loan.send_stats', self.send_stats)
 
     async def execute_lending_task(self, sub, data):
-        await self.execute_task(self.execute_lending_task, error_message='借錢任務執行失敗')
+        await self.execute_task(self._execute_lending_task, error_message='借錢任務執行失敗')
 
     async def send_stats(self, sub, data):
         async def get_stats_msg():
@@ -104,7 +104,7 @@ class CryptoLoan(CoreBase):
                                 success_message='總借出: {lending_amount:.2f}\n預估日收益: {daily_earn:.2f} (平均利率: {average_rate:.6f}%)',
                                 error_message='計算統計執行失敗 [{retry_count}]', retries=5)
 
-    async def execute_lending_task(self):
+    async def _execute_lending_task(self):
         strategy = await self.make_strategy()
 
         # 取消所有不同策略的訂單
