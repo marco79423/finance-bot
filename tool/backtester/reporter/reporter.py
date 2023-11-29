@@ -101,7 +101,10 @@ class Reporter:
             html.Header(children=f'選擇策略：', style={'fontSize': '1.5em', 'fontWeight': '600'}),
             dcc.Dropdown(id='result_id', options=result_ids, value=result_ids[0]),
             dash_table.DataTable(id='summary', sort_action='native', sort_mode='multi'),
+            html.Div(children=f'權益曲線：'),
             dcc.Graph(id='equity_curve'),
+            html.Div(children=f'持倉股票：'),
+            dcc.Graph(id='stock_count'),
             html.Div(children=f'倉位狀態：'),
             dash_table.DataTable(id='positions', sort_action='native', sort_mode='multi', page_size=50),
             html.Div(children=f'交易紀錄：'),
@@ -118,6 +121,7 @@ class Reporter:
         @callback(
             Output('summary', 'data'),
             Output('equity_curve', 'figure'),
+            Output('stock_count', 'figure'),
             Output('positions', 'data'),
             Output('trade_logs', 'data'),
             Output('stock_id', 'options'),
@@ -133,6 +137,11 @@ class Reporter:
                 px.line(
                     data_frame=pd.DataFrame({
                         '權益': result.equity_curve,
+                    }),
+                ),
+                px.line(
+                    data_frame=pd.DataFrame({
+                        '持倉股票': result.stock_count,
                     }),
                 ),
                 result.positions.to_dict('records'),

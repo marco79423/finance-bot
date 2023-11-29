@@ -60,3 +60,20 @@ class Result:
     @property
     def min_days(self):
         return self.positions.loc[self.positions['status'] == 'close', 'period'].min()
+
+    @property
+    def stock_count(self):
+        df = self.trade_logs.sort_values(by='date')
+        # 標記買入為正值，賣出為負值
+        df['signed_shares'] = df.apply(lambda row: row['shares'] if row['action'] == 'buy' else -row['shares'], axis=1)
+
+        # 按日期和股票 ID 分組，計算每個股票的累積持股數量
+        cumulative_shares = df.groupby(['date', 'stock_id']).sum()['signed_shares'].groupby(level=1).cumsum()
+
+        # 重設索引並篩選出持有的股票
+        cumulative_shares = cumulative_shares.reset_index()
+        cumulative_shares = cumulative_shares[cumulative_shares['signed_shares'] > 0]
+
+        # 計算每天持有的股票種類數量
+        stock_count = cumulative_shares.groupby('date')['stock_id'].nunique()
+        return stock_count
