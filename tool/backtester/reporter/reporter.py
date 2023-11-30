@@ -103,8 +103,6 @@ class Reporter:
             dash_table.DataTable(id='summary', sort_action='native', sort_mode='multi'),
             html.Div(children=f'權益曲線：'),
             dcc.Graph(id='equity_curve'),
-            html.Div(children=f'持倉股票：'),
-            dcc.Graph(id='stock_count'),
             html.Div(children=f'倉位狀態：'),
             dash_table.DataTable(id='positions', sort_action='native', sort_mode='multi', page_size=50),
             html.Div(children=f'交易紀錄：'),
@@ -121,7 +119,6 @@ class Reporter:
         @callback(
             Output('summary', 'data'),
             Output('equity_curve', 'figure'),
-            Output('stock_count', 'figure'),
             Output('positions', 'data'),
             Output('trade_logs', 'data'),
             Output('stock_id', 'options'),
@@ -132,18 +129,38 @@ class Reporter:
             result = result_map[result_id]
             stock_ids = sorted(result.positions['stock_id'].unique())
 
+            fig = sp.make_subplots(
+                rows=2,
+                cols=1,
+                vertical_spacing=0.1,
+                subplot_titles=('權益', '持倉股票'),
+                row_heights=[0.5, 0.5],
+                shared_xaxes=True,
+            )
+
+            trace = go.Scatter(
+                x=result.equity_curve.index,
+                y=result.equity_curve,
+                name=f'權益'
+            )
+            fig.add_trace(trace, row=1, col=1)
+
+            trace = go.Scatter(
+                x=result.stock_count.index,
+                y=result.stock_count,
+                name=f'權益'
+            )
+            fig.add_trace(trace, row=2, col=1)
+
+            fig.update_layout(
+                height=600,
+                xaxis1_rangeslider_visible=False,
+                xaxis1_visible=False,  # fig.update_xaxes(visible=False, row=1, col=1)
+            )
+
             return (
                 [result_summary_map[result_id]],
-                px.line(
-                    data_frame=pd.DataFrame({
-                        '權益': result.equity_curve,
-                    }),
-                ),
-                px.line(
-                    data_frame=pd.DataFrame({
-                        '持倉股票': result.stock_count,
-                    }),
-                ),
+                fig,
                 result.positions.to_dict('records'),
                 result.trade_logs.to_dict('records'),
                 stock_ids,

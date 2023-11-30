@@ -63,17 +63,23 @@ class Result:
 
     @property
     def stock_count(self):
-        df = self.trade_logs.sort_values(by='date')
+        df = self.trade_logs
+
         # 標記買入為正值，賣出為負值
         df['signed_shares'] = df.apply(lambda row: row['shares'] if row['action'] == 'buy' else -row['shares'], axis=1)
 
-        # 按日期和股票 ID 分組，計算每個股票的累積持股數量
-        cumulative_shares = df.groupby(['date', 'stock_id']).sum()['signed_shares'].groupby(level=1).cumsum()
+        # 按股票 ID 和日期分組，計算每個股票的累積持股數量
+        cumulative_shares = df.groupby(['stock_id', 'date']).sum()['signed_shares'].groupby(level=0).cumsum().reset_index()
 
-        # 重設索引並篩選出持有的股票
-        cumulative_shares = cumulative_shares.reset_index()
-        cumulative_shares = cumulative_shares[cumulative_shares['signed_shares'] > 0]
+        # 為了得到每天的數據，創建一個所有日期的範圍
+        all_dates = pd.date_range(start=df['date'].min(), end=df['date'].max())
+
+        # 對每個股票，擴展到每日數據
+        all_stocks_daily = cumulative_shares.pivot(index='date', columns='stock_id', values='signed_shares')
+        all_stocks_daily = all_stocks_daily.reindex(all_dates).ffill().fillna(0)
+
+        # 篩選出持有的股票
+        all_stocks_daily = all_stocks_daily[all_stocks_daily > 0]
 
         # 計算每天持有的股票種類數量
-        stock_count = cumulative_shares.groupby('date')['stock_id'].nunique()
-        return stock_count
+        return all_stocks_daily.gt(0).sum(axis=1)
