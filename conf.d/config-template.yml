@@ -15,15 +15,17 @@ core:
     api_secret: <token>
 
   data_sync:
-    shioaji:
-      api_key: <key>
-      api_secret: <token>
-
     updater:
       finmind:
         api_token: <token>
       finlab:
         api_token: <token>
+
+  tw_stock_trade:
+    shioaji:
+      api_key: <key>
+      api_secret: <token>
+
 infrastructure:
   timezone: Asia/Taipei
 
