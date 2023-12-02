@@ -14,13 +14,13 @@ from rich.progress import (
 )
 
 from tool.backtester.backtester.result import Result
-from tool.backtester.broker import Broker
+from tool.backtester.broker import SimBroker
 from tool.backtester.data_source.data_source import DataSource
 
 
 class Backtester:
     data_class = DataSource
-    broker_class = Broker
+    broker_class = SimBroker
 
     def run(self, init_balance, start, end, strategies):
         start_time = dt.datetime.now()
@@ -152,7 +152,7 @@ class Backtester:
             strategy_name=strategy_class.name,
             max_single_position_exposure=max_single_position_exposure,
             init_balance=init_balance,
-            final_balance=broker.balance,
+            final_balance=broker.current_balance,
             start_time=start,
             end_time=end,
 

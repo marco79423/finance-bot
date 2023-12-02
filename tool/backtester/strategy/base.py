@@ -4,7 +4,7 @@ from typing import Optional, List
 import pandas as pd
 from easydict import EasyDict as edict
 
-from tool.backtester.broker import Broker
+from tool.backtester.broker import SimBroker
 from tool.backtester.data_source import DataSource
 
 
@@ -13,7 +13,7 @@ class StrategyBase(abc.ABC):
     params: dict = {}
 
     stock_id: str
-    broker: Broker
+    broker: SimBroker
     data_source: DataSource
     preload_days = 10
 

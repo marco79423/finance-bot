@@ -2,8 +2,10 @@ import math
 
 import pandas as pd
 
+from tool.backtester.broker.base import BrokerBase
 
-class Broker:
+
+class SimBroker(BrokerBase):
     fee_discount = 0.6
     fee_rate = 1.425 / 1000 * fee_discount  # 0.1425％
     tax_rate = 3 / 1000  # 政府固定收 0.3 %
@@ -26,7 +28,7 @@ class Broker:
         if shares < 1000:
             return False
 
-        before = self.balance
+        before = self.current_balance
         fee = max(math.floor(shares * entry_price * self.fee_rate), 1)  # 永豐說是無條件捨去，最低收 1 元
         funds = int(shares * entry_price) + fee
         after = before - funds
@@ -70,7 +72,7 @@ class Broker:
         price = self._data.get_stock_low_price(stock_id)
 
         for position in self._positions[stock_id].values():
-            before = self.balance
+            before = self.current_balance
             fee = max(math.floor(position['shares'] * price * (self.fee_rate + self.tax_rate)), 1)
             funds = int(position['shares'] * price) - fee
             after = before + funds
@@ -107,14 +109,15 @@ class Broker:
 
     @property
     def single_entry_limit(self):
-        return min(math.floor((self.invested_funds + self.balance) * self._max_single_position_exposure), self.balance)
+        return min(math.floor((self.invested_funds + self.current_balance) * self._max_single_position_exposure),
+                   self.current_balance)
 
     @property
     def init_balance(self):
         return self._init_balance
 
     @property
-    def balance(self):
+    def current_balance(self):
         return self._balance
 
     @property
