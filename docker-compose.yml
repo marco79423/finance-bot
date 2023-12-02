@@ -45,3 +45,13 @@ services:
       - "./conf.d:/app/conf.d"
       - "./data:/app/data"
       - "./logs:/app/logs"
+
+  tw_stock_trade:
+    build: .
+    ports:
+      - "16940:16940"
+    command: tw_stock_trade start
+    volumes:
+      - "./conf.d:/app/conf.d"
+      - "./data:/app/data"
+      - "./logs:/app/logs"
