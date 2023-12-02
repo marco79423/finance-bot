@@ -20,7 +20,7 @@ class SimBroker(BrokerBase):
         self._positions = {}
         self._trade_logs = []
 
-    def buy(self, stock_id, note=''):
+    def buy_market(self, stock_id, note=''):
         # 回測使用當日最高價買入
         entry_price = self._data.get_stock_high_price(stock_id)
 
@@ -64,7 +64,7 @@ class SimBroker(BrokerBase):
 
         return True
 
-    def sell(self, stock_id, note):
+    def sell_market(self, stock_id, note=''):
         if stock_id not in self._positions:
             return False
 

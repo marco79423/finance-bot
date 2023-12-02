@@ -117,9 +117,9 @@ class Backtester:
 
             for action in strategy.actions:
                 if action['operation'] == 'buy':
-                    broker.buy(stock_id=action['stock_id'], note=action['note'])
+                    broker.buy_market(stock_id=action['stock_id'], note=action['note'])
                 elif action['operation'] == 'sell':
-                    broker.sell(stock_id=action['stock_id'], note=action['note'])
+                    broker.sell_market(stock_id=action['stock_id'], note=action['note'])
             strategy.inter_handle()
 
         trade_logs = self._generate_trade_logs(broker.trade_logs)
