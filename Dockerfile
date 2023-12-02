@@ -8,4 +8,3 @@ RUN pip install poetry
 RUN poetry install
 
 ENTRYPOINT ["poetry", "run", "finb"]
-EXPOSE 16888
