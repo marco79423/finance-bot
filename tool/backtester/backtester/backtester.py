@@ -22,7 +22,7 @@ class Backtester:
     data_class = DataSource
     broker_class = Broker
 
-    def run(self, init_funds, start, end, strategies):
+    def run(self, init_balance, start, end, strategies):
         start_time = dt.datetime.now()
         start = pd.Timestamp(start)
         end = pd.Timestamp(end)
@@ -36,7 +36,7 @@ class Backtester:
                     self.backtest,
                     message_conn=message_conn,
                     result_id=idx,
-                    init_funds=init_funds,
+                    init_balance=init_balance,
                     start=start,
                     end=end,
                     strategy_class=strategy_class,
@@ -79,7 +79,7 @@ class Backtester:
         console.print('回測花費時間：', dt.datetime.now() - start_time)
         return results
 
-    def backtest(self, message_conn, result_id, init_funds, start, end, strategy_class, max_single_position_exposure):
+    def backtest(self, message_conn, result_id, init_balance, start, end, strategy_class, max_single_position_exposure):
         strategy_name = strategy_class.name
 
         message_conn.send(dict(
@@ -93,7 +93,7 @@ class Backtester:
             end=end,
             all_stock_ids=strategy_class.available_stock_ids if strategy_class.available_stock_ids else None,
         )
-        broker = self.broker_class(data_source, init_funds, max_single_position_exposure)
+        broker = self.broker_class(data_source, init_balance, max_single_position_exposure)
 
         strategy = strategy_class()
         strategy.broker = broker
@@ -136,7 +136,7 @@ class Backtester:
             detail='positions',
         ))
 
-        equity_curve = self._calculate_equity_curve(data_source, init_funds, trade_logs)
+        equity_curve = self._calculate_equity_curve(data_source, init_balance, trade_logs)
         message_conn.send(dict(
             result_id=result_id,
             action='update',
@@ -151,8 +151,8 @@ class Backtester:
             id=result_id,
             strategy_name=strategy_class.name,
             max_single_position_exposure=max_single_position_exposure,
-            init_funds=init_funds,
-            final_funds=broker.funds,
+            init_balance=init_balance,
+            final_balance=broker.balance,
             start_time=start,
             end_time=end,
 
@@ -224,10 +224,10 @@ class Backtester:
         return df
 
     @staticmethod
-    def _calculate_equity_curve(data_source, init_funds, trade_logs):
+    def _calculate_equity_curve(data_source, init_balance, trade_logs):
         equity_curve = []
 
-        balance = init_funds
+        balance = init_balance
         trade_logs = trade_logs.astype({
             'idx': 'int',
             'date': 'datetime64[ns]',

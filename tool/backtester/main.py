@@ -7,7 +7,7 @@ def main():
     backtester = Backtester()
 
     results = backtester.run(
-        init_funds=600000,
+        init_balance=600000,
         start='2015-08-01',
         end='2023-08-10',
         # end='2015-12-10',

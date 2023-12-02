@@ -8,8 +8,8 @@ class Result:
     id: int
     strategy_name: str
     max_single_position_exposure: float
-    init_funds: int
-    final_funds: int
+    init_balance: int
+    final_balance: int
     start_time: pd.Timestamp
     end_time: pd.Timestamp
     trade_logs: pd.DataFrame
@@ -42,7 +42,7 @@ class Result:
 
     @property
     def total_return_rate_with_fee(self):
-        return self.total_return_with_fee / self.init_funds
+        return self.total_return_with_fee / self.init_balance
 
     @property
     def annualized_return_rate_with_fee(self):

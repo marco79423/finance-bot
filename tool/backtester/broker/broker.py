@@ -8,10 +8,10 @@ class Broker:
     fee_rate = 1.425 / 1000 * fee_discount  # 0.1425％
     tax_rate = 3 / 1000  # 政府固定收 0.3 %
 
-    def __init__(self, data, init_funds, max_single_position_exposure):
+    def __init__(self, data, init_balance, max_single_position_exposure):
         self._data = data
-        self._init_funds = init_funds
-        self._funds = init_funds
+        self._init_balance = init_balance
+        self._balance = init_balance
         self._max_single_position_exposure = max_single_position_exposure
 
         self._current_idx = 0
@@ -26,7 +26,7 @@ class Broker:
         if shares < 1000:
             return False
 
-        before = self.funds
+        before = self.balance
         fee = max(math.floor(shares * entry_price * self.fee_rate), 1)  # 永豐說是無條件捨去，最低收 1 元
         funds = int(shares * entry_price) + fee
         after = before - funds
@@ -57,7 +57,7 @@ class Broker:
             'start_date': self._data.current_time,
             'start_price': entry_price,
         }
-        self._funds = after
+        self._balance = after
         self._current_idx += 1
 
         return True
@@ -70,7 +70,7 @@ class Broker:
         price = self._data.get_stock_low_price(stock_id)
 
         for position in self._positions[stock_id].values():
-            before = self.funds
+            before = self.balance
             fee = max(math.floor(position['shares'] * price * (self.fee_rate + self.tax_rate)), 1)
             funds = int(position['shares'] * price) - fee
             after = before + funds
@@ -91,7 +91,7 @@ class Broker:
             })
 
             # 執行交易
-            self._funds = after
+            self._balance = after
 
         del self._positions[stock_id]
 
@@ -107,15 +107,15 @@ class Broker:
 
     @property
     def single_entry_limit(self):
-        return min(math.floor((self.invested_funds + self.funds) * self._max_single_position_exposure), self.funds)
+        return min(math.floor((self.invested_funds + self.balance) * self._max_single_position_exposure), self.balance)
 
     @property
-    def init_funds(self):
-        return self._init_funds
+    def init_balance(self):
+        return self._init_balance
 
     @property
-    def funds(self):
-        return self._funds
+    def balance(self):
+        return self._balance
 
     @property
     def holding_stock_ids(self):

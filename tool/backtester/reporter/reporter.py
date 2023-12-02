@@ -27,8 +27,8 @@ class Reporter:
         end_time = self.results[0].end_time.strftime('%Y-%m-%d')
         console.print('回測時間：', start_time, '~', end_time)
 
-        init_funds = self.results[0].init_funds
-        console.print('原始本金：', init_funds)
+        init_balance = self.results[0].init_balance
+        console.print('原始本金：', init_balance)
 
         table = Table()
         table.add_column('ID')
@@ -49,7 +49,7 @@ class Reporter:
             table.add_row(
                 str(result.id),
                 result.strategy_name,
-                f'{result.final_funds} 元',
+                f'{result.final_balance} 元',
                 f'{result.final_equity} 元',
                 f'{result.total_return} 元',
                 f'{result.total_return - result.total_return_with_fee} 元',
@@ -67,7 +67,7 @@ class Reporter:
     def serve(self):
         start_time = self.results[0].start_time.strftime('%Y-%m-%d')
         end_time = self.results[0].end_time.strftime('%Y-%m-%d')
-        init_funds = self.results[0].init_funds
+        init_funds = self.results[0].init_balance
 
         array = [
             html.Header(children='績效報告', style={'fontSize': '2em', 'fontWeight': '800'}),
@@ -79,7 +79,7 @@ class Reporter:
             {
                 'ID': result.id,
                 '策略': result.strategy_name,
-                '最終本金': f'{result.final_funds} 元',
+                '最終本金': f'{result.final_balance} 元',
                 '最終權益': f'{result.final_equity} 元',
                 '總獲利(含手續費)': f'{result.total_return_with_fee} 元',
                 '手續費': f'{result.total_return - result.total_return_with_fee} 元',
