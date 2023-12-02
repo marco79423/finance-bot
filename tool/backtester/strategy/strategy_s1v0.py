@@ -44,7 +44,7 @@ class StrategyS1V0(StrategyBase):
         target_list = self.new_target_list([
             self.growth_rate * 100 >= ideal_growth_rate,
             self.growth_rate * 100 < (self.max_growth_rate * 100 - accept_loss_rate),
-            ], available_list=self.broker.holding_stock_ids)
+        ], available_list=self.broker.holding_stock_ids)
         for stock_id in target_list:
             self.sell_next_day_market(stock_id, note=f'{self.growth_rate[stock_id] * 100:.2f}%')
 
@@ -59,7 +59,7 @@ class StrategyS1V0(StrategyBase):
         # run
         target_list = self.new_target_list([
             self.has_profit,
-            self.today - self.entry_date > pd.Timedelta(days=60),
+            self.today - self.entry_date > pd.Timedelta(days=30 * 2),
         ], available_list=self.broker.holding_stock_ids)
         for stock_id in target_list:
             self.sell_next_day_market(stock_id, note=f'run')

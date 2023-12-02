@@ -18,6 +18,7 @@ class StrategyNew(StrategyBase):
             sma10=data.close.rolling(window=10).mean(),
             sma35=data.close.rolling(window=35).mean(),
             voc10=(data.volume - self.data.volume.shift(10)) / data.volume.shift(10) * 100,
+            max30=data.close.rolling(window=30).max(),
         )
 
     # noinspection PyTypeChecker
@@ -26,6 +27,7 @@ class StrategyNew(StrategyBase):
         sma10 = self.i('sma10')
         sma35 = self.i('sma35')
         voc10 = self.i('voc10')
+        max30 = self.i('max30')
 
         target_list = self.new_target_list([
             self.broker.current_shares == 0,
@@ -33,6 +35,7 @@ class StrategyNew(StrategyBase):
             (sma10.iloc[-1] > sma35.iloc[-1]) & (sma10.iloc[-2] < sma35.iloc[-2]),
             self.data.close.iloc[-1] > self.data.open.iloc[-1],
             voc10.iloc[-1] < 100,
+            # self.close >= max30.iloc[-1],
         ])
 
         for stock_id in target_list:
