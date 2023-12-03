@@ -18,6 +18,11 @@ def create_data_sync_cli():
         """啟動服務"""
         ds.start()
 
+    @data_sync.command('rebuild-cache')
+    def rebuild_cache():
+        """更新快取"""
+        ds.data.rebuild_cache()
+
     @data_sync.group('update')
     def update():
         """資料更新"""
