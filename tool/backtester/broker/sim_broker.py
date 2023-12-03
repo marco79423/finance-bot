@@ -59,7 +59,7 @@ class SimBroker(BrokerBase):
 
         return True
 
-    def sell_market(self, stock_id, note=''):
+    def sell_all_market(self, stock_id, note=''):
         if stock_id not in self._positions:
             return False
 
