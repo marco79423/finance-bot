@@ -40,7 +40,7 @@ class Backtester:
                     start=start,
                     end=end,
                     strategy_class=strategy_class,
-                    max_single_position_exposure=params['max_single_position_exposure']
+                    params=params
                 )
                 tasks.append(task)
 
@@ -79,13 +79,19 @@ class Backtester:
         console.print('回測花費時間：', dt.datetime.now() - start_time)
         return results
 
-    def backtest(self, message_conn, result_id, init_balance, start, end, strategy_class, max_single_position_exposure):
-        strategy_name = strategy_class.name
+    def backtest(self, message_conn, result_id, init_balance, start, end, strategy_class, params):
+        strategy = strategy_class()
+        strategy.params = {
+            **strategy_class.params,
+            **params,
+        }
 
+        strategy_name = strategy.name
+        params_output = ', '.join(f'{k}={v}' for k, v in strategy.params.items())
         message_conn.send(dict(
             result_id=result_id,
             action='init',
-            description=f'{strategy_name}[max_single_position_exposure={max_single_position_exposure}] 回測中',
+            description=f'{strategy_name} <{params_output}> 回測中',
         ))
 
         data_source = self.data_class(
@@ -93,20 +99,19 @@ class Backtester:
             end=end,
             all_stock_ids=strategy_class.available_stock_ids if strategy_class.available_stock_ids else None,
         )
-        broker = self.broker_class(data_source, init_balance, max_single_position_exposure)
+        broker = self.broker_class(data_source, init_balance)
 
-        strategy = strategy_class()
-        strategy.broker = broker
         strategy.data_source = data_source
+        strategy.broker = broker
         strategy.pre_handle()
-
-        data_source.is_limit = True
 
         message_conn.send(dict(
             result_id=result_id,
             action='start',
             total=len(data_source.all_date_range) + 3,
         ))
+
+        data_source.is_limit = True
         for today in data_source.all_date_range:
             message_conn.send(dict(
                 result_id=result_id,
@@ -117,7 +122,7 @@ class Backtester:
 
             for action in strategy.actions:
                 if action['operation'] == 'buy':
-                    broker.buy_market(stock_id=action['stock_id'], note=action['note'])
+                    broker.buy_market(stock_id=action['stock_id'], shares=action['shares'], note=action['note'])
                 elif action['operation'] == 'sell':
                     broker.sell_market(stock_id=action['stock_id'], note=action['note'])
             strategy.inter_handle()
@@ -150,7 +155,6 @@ class Backtester:
         return Result(
             id=result_id,
             strategy_name=strategy_class.name,
-            max_single_position_exposure=max_single_position_exposure,
             init_balance=init_balance,
             final_balance=broker.current_balance,
             start_time=start,

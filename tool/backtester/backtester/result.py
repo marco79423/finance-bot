@@ -7,7 +7,6 @@ import pandas as pd
 class Result:
     id: int
     strategy_name: str
-    max_single_position_exposure: float
     init_balance: int
     final_balance: int
     start_time: pd.Timestamp

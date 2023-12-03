@@ -10,23 +10,18 @@ class SimBroker(BrokerBase):
     fee_rate = 1.425 / 1000 * fee_discount  # 0.1425％
     tax_rate = 3 / 1000  # 政府固定收 0.3 %
 
-    def __init__(self, data, init_balance, max_single_position_exposure):
+    def __init__(self, data, init_balance):
         self._data = data
         self._init_balance = init_balance
         self._balance = init_balance
-        self._max_single_position_exposure = max_single_position_exposure
 
         self._current_idx = 0
         self._positions = {}
         self._trade_logs = []
 
-    def buy_market(self, stock_id, note=''):
+    def buy_market(self, stock_id, shares, note=''):
         # 回測使用當日最高價買入
         entry_price = self._data.get_stock_high_price(stock_id)
-
-        shares = int((self.single_entry_limit / (entry_price * (1 + self.fee_rate)) // 1000) * 1000)
-        if shares < 1000:
-            return False
 
         before = self.current_balance
         fee = max(math.floor(shares * entry_price * self.fee_rate), 1)  # 永豐說是無條件捨去，最低收 1 元
@@ -106,11 +101,6 @@ class SimBroker(BrokerBase):
             for position in positions.values():
                 funds += int(position['start_price'] * position['shares'])
         return funds
-
-    @property
-    def single_entry_limit(self):
-        return min(math.floor((self.invested_funds + self.current_balance) * self._max_single_position_exposure),
-                   self.current_balance)
 
     @property
     def init_balance(self):

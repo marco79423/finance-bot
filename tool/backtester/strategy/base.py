@@ -1,4 +1,5 @@
 import abc
+import math
 from typing import Optional, List
 
 import pandas as pd
@@ -54,9 +55,20 @@ class StrategyBase(abc.ABC):
         if stock_id in self._day_cache:
             return
 
+        invested_funds = self.broker.invested_funds
+        current_balance = self.broker.current_balance
+        max_single_position_exposure = self.params.get('max_single_position_exposure', 0.1)
+        single_entry_limit = min(math.floor((invested_funds + current_balance) * max_single_position_exposure), current_balance)
+        entry_price = self.data.get_stock_close_price(stock_id)
+        shares = int((single_entry_limit / (entry_price * (1 + self.broker.fee_rate)) // 1000) * 1000)
+
+        if shares < 1000:
+            return
+
         self._actions.append({
             'operation': 'buy',
             'stock_id': stock_id,
+            'shares': shares,
             'note': note,
         })
 
