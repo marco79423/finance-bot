@@ -12,7 +12,7 @@ def create_schedule_cli():
     s = Schedule()
 
     @schedule.command("start")
-    def start():
+    def start_server():
         """啟動服務"""
         s.start()
 

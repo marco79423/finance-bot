@@ -12,7 +12,7 @@ def create_super_bot_cli():
     sb = SuperBot()
 
     @super_bot.command("start")
-    def start():
+    def start_server():
         """啟動服務"""
         sb.start()
 

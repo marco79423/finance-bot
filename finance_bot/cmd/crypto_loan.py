@@ -14,7 +14,7 @@ def create_crypto_loan_cli():
     cl = CryptoLoan()
 
     @crypto_loan.command("start")
-    def start():
+    def start_server():
         """啟動服務"""
         cl.start()
 

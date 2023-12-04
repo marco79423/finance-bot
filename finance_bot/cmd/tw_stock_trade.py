@@ -12,7 +12,7 @@ def create_tw_stock_trade_cli():
     t = TWStockTrade()
 
     @tw_stock_trade.command("start")
-    def start():
+    def start_server():
         """啟動服務"""
         t.start()
 

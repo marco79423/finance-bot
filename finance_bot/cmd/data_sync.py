@@ -14,7 +14,7 @@ def create_data_sync_cli():
     ds = DataSync()
 
     @data_sync.command('start')
-    def start():
+    def start_server():
         """啟動服務"""
         ds.start()
 
