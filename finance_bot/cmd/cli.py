@@ -1,6 +1,7 @@
 import IPython
 import click
 import requests
+from trogon import tui
 
 from finance_bot.cmd.data_sync import create_data_sync_cli
 from finance_bot.cmd.crypto_loan import create_crypto_loan_cli
@@ -11,6 +12,8 @@ from finance_bot.core.shell.config import get_config
 
 
 def create_cli():
+
+    @tui(command="ui")
     @click.group()
     def cli():
         """兩大類專用理財小工具"""
