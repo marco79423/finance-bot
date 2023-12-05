@@ -40,7 +40,7 @@ nats-py = "^2.6.0"
 trogon = "^0.5.0"
 
 [tool.poetry.extras]
-shioaji = ["shioaji"]
+shioaji = ["shioaji[speed]"]
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^7.3.2"

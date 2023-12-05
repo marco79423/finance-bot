@@ -25,6 +25,8 @@ core:
     shioaji:
       api_key: <key>
       api_secret: <token>
+      person_id: <person_id>
+      ca_password: <password>
 
 infrastructure:
   timezone: Asia/Taipei

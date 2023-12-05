@@ -42,9 +42,7 @@ class Infrastructure:
     def conf(self):
         if self._conf is None:
             config = OmegaConf.create(DEFAULT_CONFIG)
-
-            project_folder = self.path.project_folder
-            config_file = project_folder / 'conf.d' / 'config.yml'
+            config_file = self.path.config_folder / 'config.yml'
             if not pathlib.Path(config_file).exists():
                 raise ValueError('找不到設定檔 conf.d/config.yml')
             config.merge_with(OmegaConf.load(config_file))

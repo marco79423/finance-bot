@@ -12,6 +12,10 @@ class PathManager(ManagerBase):
         return AsyncPath(Path(__file__).resolve().parent.parent.parent.parent)
 
     @property
+    def config_folder(self):
+        return self.project_folder / 'conf.d'
+
+    @property
     def data_folder(self):
         data_folder = self.project_folder / 'data'
         Path(data_folder).mkdir(exist_ok=True)
