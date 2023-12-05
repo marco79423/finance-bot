@@ -28,6 +28,10 @@ class SimBroker(BrokerBase):
         funds = int(shares * entry_price) + fee
         after = before - funds
 
+        # 發現為負值就放棄購買
+        if after < 0:
+            return
+
         # 先寫 log
         self._trade_logs.append({
             'idx': self._current_idx,

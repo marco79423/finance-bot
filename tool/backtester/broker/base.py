@@ -10,6 +10,7 @@ class BrokerBase(abc.ABC):
 
     @abc.abstractmethod
     def buy_market(self, stock_id, shares, note=''):
+        """發現沒錢就自動放棄購買"""
         pass
 
     @abc.abstractmethod
