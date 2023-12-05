@@ -1,10 +1,11 @@
 import datetime as dt
+import traceback
 from concurrent.futures import ProcessPoolExecutor
 import multiprocessing as mp
 
 import numpy as np
 import pandas as pd
-from rich.console import Console
+import rich
 from rich.progress import (
     BarColumn,
     Progress,
@@ -67,6 +68,9 @@ class Backtester:
                         progress.update(task_id_map[message['result_id']], advance=1, detail=message['detail'])
                     elif message['action'] == 'done':
                         del task_id_map[task_id_map[message['result_id']]]
+                    elif message['action'] == 'error':
+                        rich.print(message['detail'])
+
                     if not task_id_map:
                         break
 
@@ -75,95 +79,101 @@ class Backtester:
                 result = task.result()
                 results.append(result)
 
-        console = Console()
-        console.print('回測花費時間：', dt.datetime.now() - start_time)
+        rich.print('回測花費時間：', dt.datetime.now() - start_time)
         return results
 
     def backtest(self, message_conn, result_id, init_balance, start, end, strategy_class, params):
-        strategy = strategy_class()
-        strategy.params = {
-            **strategy_class.params,
-            **params,
-        }
+        try:
+            strategy = strategy_class()
+            strategy.params = {
+                **strategy_class.params,
+                **params,
+            }
 
-        strategy_name = strategy.name
-        params_output = ', '.join(f'{k}={v}' for k, v in strategy.params.items())
-        message_conn.send(dict(
-            result_id=result_id,
-            action='init',
-            description=f'{strategy_name} <{params_output}> 回測中',
-        ))
+            strategy_name = strategy.name
+            params_output = ', '.join(f'{k}={v}' for k, v in strategy.params.items())
+            message_conn.send(dict(
+                result_id=result_id,
+                action='init',
+                description=f'{strategy_name} <{params_output}> 回測中',
+            ))
 
-        data_source = self.data_class(
-            start=start,
-            end=end,
-            all_stock_ids=strategy_class.available_stock_ids if strategy_class.available_stock_ids else None,
-        )
-        broker = self.broker_class(data_source, init_balance)
+            data_source = self.data_class(
+                start=start,
+                end=end,
+                all_stock_ids=strategy_class.available_stock_ids if strategy_class.available_stock_ids else None,
+            )
+            broker = self.broker_class(data_source, init_balance)
 
-        strategy.data_source = data_source
-        strategy.broker = broker
-        strategy.pre_handle()
+            strategy.data_source = data_source
+            strategy.broker = broker
+            strategy.pre_handle()
 
-        message_conn.send(dict(
-            result_id=result_id,
-            action='start',
-            total=len(data_source.all_date_range) + 3,
-        ))
+            message_conn.send(dict(
+                result_id=result_id,
+                action='start',
+                total=len(data_source.all_date_range) + 3,
+            ))
 
-        data_source.is_limit = True
-        for today in data_source.all_date_range:
+            data_source.is_limit = True
+            for today in data_source.all_date_range:
+                message_conn.send(dict(
+                    result_id=result_id,
+                    action='update',
+                    detail=today.strftime('%Y-%m-%d'),
+                ))
+                data_source.set_time(today)
+
+                for action in strategy.actions:
+                    if action['operation'] == 'buy':
+                        broker.buy_market(stock_id=action['stock_id'], shares=action['shares'], note=action['note'])
+                    elif action['operation'] == 'sell':
+                        broker.sell_all_market(stock_id=action['stock_id'], note=action['note'])
+                strategy.inter_handle()
+
+            trade_logs = self._generate_trade_logs(broker.trade_logs)
             message_conn.send(dict(
                 result_id=result_id,
                 action='update',
-                detail=today.strftime('%Y-%m-%d'),
+                detail='trade_logs',
             ))
-            data_source.set_time(today)
 
-            for action in strategy.actions:
-                if action['operation'] == 'buy':
-                    broker.buy_market(stock_id=action['stock_id'], shares=action['shares'], note=action['note'])
-                elif action['operation'] == 'sell':
-                    broker.sell_all_market(stock_id=action['stock_id'], note=action['note'])
-            strategy.inter_handle()
+            positions = self._generate_positions(data_source, trade_logs)
+            message_conn.send(dict(
+                result_id=result_id,
+                action='update',
+                detail='positions',
+            ))
 
-        trade_logs = self._generate_trade_logs(broker.trade_logs)
-        message_conn.send(dict(
-            result_id=result_id,
-            action='update',
-            detail='trade_logs',
-        ))
+            equity_curve = self._calculate_equity_curve(data_source, init_balance, trade_logs)
+            message_conn.send(dict(
+                result_id=result_id,
+                action='update',
+                detail='equity_curve',
+            ))
+            message_conn.send(dict(
+                result_id=result_id,
+                action='done',
+            ))
 
-        positions = self._generate_positions(data_source, trade_logs)
-        message_conn.send(dict(
-            result_id=result_id,
-            action='update',
-            detail='positions',
-        ))
+            return Result(
+                id=result_id,
+                strategy_name=strategy_class.name,
+                init_balance=init_balance,
+                final_balance=broker.current_balance,
+                start_time=start,
+                end_time=end,
 
-        equity_curve = self._calculate_equity_curve(data_source, init_balance, trade_logs)
-        message_conn.send(dict(
-            result_id=result_id,
-            action='update',
-            detail='equity_curve',
-        ))
-        message_conn.send(dict(
-            result_id=result_id,
-            action='done',
-        ))
-
-        return Result(
-            id=result_id,
-            strategy_name=strategy_class.name,
-            init_balance=init_balance,
-            final_balance=broker.current_balance,
-            start_time=start,
-            end_time=end,
-
-            trade_logs=trade_logs,
-            positions=positions,
-            equity_curve=equity_curve,
-        )
+                trade_logs=trade_logs,
+                positions=positions,
+                equity_curve=equity_curve,
+            )
+        except:
+            message_conn.send(dict(
+                result_id=result_id,
+                action='error',
+                detail=traceback.format_exc(),
+            ))
 
     @staticmethod
     def _generate_trade_logs(trade_logs):
