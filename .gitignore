@@ -164,3 +164,4 @@ cython_debug/
 conf.d/config.yml
 data/
 logs/
+*.pfx
