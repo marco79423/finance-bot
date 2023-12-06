@@ -28,6 +28,11 @@ core:
       person_id: <person_id>
       ca_password: <password>
 
+  super_bot:
+    telegram:
+      chat_id: <chat_id>
+      token: <token>
+
 infrastructure:
   timezone: Asia/Taipei
 
