@@ -2,15 +2,18 @@ import math
 
 import pandas as pd
 
-from finance_bot.core.tw_stock_trade.backtester.broker.base import BrokerBase
+from finance_bot.core.tw_stock_trade.broker.base import BrokerBase
 
 
 class SimBroker(BrokerBase):
+    name = 'sim_broker'
+
     fee_discount = 0.6
     fee_rate = 1.425 / 1000 * fee_discount  # 0.1425％
     tax_rate = 3 / 1000  # 政府固定收 0.3 %
 
     def __init__(self, data, init_balance):
+        super().__init__()
         self._data = data
         self._init_balance = init_balance
         self._balance = init_balance
@@ -18,6 +21,23 @@ class SimBroker(BrokerBase):
         self._current_idx = 0
         self._positions = {}
         self._trade_logs = []
+
+    @property
+    def current_balance(self):
+        return self._balance
+
+    @property
+    def current_holding(self):
+        holding = []
+        for stock_id, positions in self._positions.items():
+            shares = sum(position['shares'] for position in positions.values())
+            price = sum(position['start_price'] * position['shares'] for position in positions.values()) / shares
+            holding.append(dict(
+                stock_id=stock_id,
+                shares=shares,
+                price=price,
+            ))
+        return holding
 
     def buy_market(self, stock_id, shares, note=''):
         # 回測使用當日最高價買入
@@ -109,10 +129,6 @@ class SimBroker(BrokerBase):
     @property
     def init_balance(self):
         return self._init_balance
-
-    @property
-    def current_balance(self):
-        return self._balance
 
     @property
     def holding_stock_ids(self):

@@ -15,7 +15,7 @@ from rich.progress import (
 )
 
 from finance_bot.core.tw_stock_trade.backtester.result import Result
-from finance_bot.core.tw_stock_trade.backtester.broker import SimBroker
+from finance_bot.core.tw_stock_trade.backtester.sim_broker import SimBroker
 from finance_bot.core.tw_stock_trade.backtester.data_source.data_source import DataSource
 
 

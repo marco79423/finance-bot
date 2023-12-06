@@ -1,11 +1,21 @@
 import abc
 
+from finance_bot.infrastructure import infra
+
 
 class BrokerBase(abc.ABC):
+
+    def __init__(self):
+        self.logger = infra.logger.bind(name=self.name)
 
     @property
     @abc.abstractmethod
     def current_balance(self):
+        pass
+
+    @property
+    @abc.abstractmethod
+    def current_holding(self):
         pass
 
     @abc.abstractmethod

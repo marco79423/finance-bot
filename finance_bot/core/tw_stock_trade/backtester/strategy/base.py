@@ -5,7 +5,7 @@ from typing import Optional, List
 import pandas as pd
 from easydict import EasyDict as edict
 
-from finance_bot.core.tw_stock_trade.backtester.broker import SimBroker
+from finance_bot.core.tw_stock_trade.backtester.sim_broker import SimBroker
 from finance_bot.core.tw_stock_trade.backtester.data_source import DataSource
 
 
@@ -58,7 +58,8 @@ class StrategyBase(abc.ABC):
         invested_funds = self.broker.invested_funds
         current_balance = self.broker.current_balance
         max_single_position_exposure = self.params.get('max_single_position_exposure', 0.1)
-        single_entry_limit = min(math.floor((invested_funds + current_balance) * max_single_position_exposure), current_balance)
+        single_entry_limit = min(math.floor((invested_funds + current_balance) * max_single_position_exposure),
+                                 current_balance)
         entry_price = self.data.get_stock_close_price(stock_id)
         shares = int((single_entry_limit / (entry_price * (1 + self.broker.fee_rate)) // 1000) * 1000)
 
