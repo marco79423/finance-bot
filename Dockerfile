@@ -4,7 +4,6 @@ WORKDIR /app
 
 COPY . .
 
-RUN pip install poetry
-RUN poetry install
+RUN pip install -e .
 
-ENTRYPOINT ["poetry", "run", "finb"]
+ENTRYPOINT ["finb"]

@@ -1,51 +1,48 @@
-[tool.poetry]
+[project]
 name = "finance-bot"
 version = "0.1.0"
 description = "兩大類專用理財小工具"
-authors = ["兩大類 <marco79423@gmail.com>"]
+authors = [{ name = "兩大類", email = "marco79423@gmail.com" }]
 readme = "README.md"
-packages = [{ include = "finance_bot" }]
+requires-python = ">=3.10"
+dependencies = [
+    "finlab==0.4.4",
+    "omegaconf==2.3.0",
+    "SQLAlchemy==2.0.16",
+    "APScheduler==3.10.1",
+    "pandas[html,performance]==2.0.3",
+    "requests==2.31.0",
+    "numpy==1.25.0",
+    "fastapi==0.97.0",
+    "uvicorn==0.22.0",
+    "python-telegram-bot==20.3",
+    "pydantic==1.10.9",
+    "click==8.1.3",
+    "finmind==1.6.0",
+    "pymysql==1.1.0",
+    "bitfinex-api-py==2.0.6",
+    "ipython==8.14.0",
+    "plotly==5.18.0",
+    "fake-useragent==1.1.3",
+    "loguru==0.6.0",
+    "aiopath==0.6.11",
+    "aiomysql==0.2.0",
+    "shioaji[speed]==1.1.12",
+    "dash==2.14.1",
+    "rich==13.7.0",
+    "easydict==1.11",
+    "nats-py==2.6.0",
+    "trogon==0.5.0",
+]
 
-[tool.poetry.scripts]
+[project.optional-dependencies]
+test = ["pytest", "pytest-mock"]
+
+[project.scripts]
 finb = "finance_bot.cmd:cli"
 
-[tool.poetry.dependencies]
-python = "^3.10"
-finlab = "^0.4.4"
-omegaconf = "^2.3.0"
-SQLAlchemy = "^2.0.16"
-APScheduler = "^3.10.1"
-pandas = {extras = ["html", "performance"], version = "^2.0.3"}
-requests = "^2.31.0"
-numpy = "^1.25.0"
-fastapi = "^0.97.0"
-uvicorn = "^0.22.0"
-python-telegram-bot = "^20.3"
-pydantic = "^1.10.9"
-click = "^8.1.3"
-finmind = "^1.6.0"
-pymysql = "^1.1.0"
-bitfinex-api-py = "^2.0.6"
-ipython = "^8.14.0"
-plotly = "^5.18.0"
-fake-useragent = "^1.1.3"
-loguru = "0.6.0"
-aiopath = "^0.6.11"
-aiomysql = "^0.2.0"
-shioaji = {version = "^1.1.12", optional = true}
-dash = "^2.14.1"
-rich = "^13.7.0"
-easydict = "^1.11"
-nats-py = "^2.6.0"
-trogon = "^0.5.0"
-
-[tool.poetry.extras]
-shioaji = ["shioaji[speed]"]
-
-[tool.poetry.group.dev.dependencies]
-pytest = "^7.3.2"
-pytest-mock = "^3.12.0"
+[tool.setuptools.packages.find]
+include = ["finance_bot"]
 
 [build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
+requires = ["setuptools", "wheel"]
