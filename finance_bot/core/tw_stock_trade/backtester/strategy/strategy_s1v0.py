@@ -1,7 +1,7 @@
 import pandas as pd
 
 from finance_bot.infrastructure import infra
-from tool.backtester.strategy.base import StrategyBase
+from finance_bot.core.tw_stock_trade.backtester.strategy.base import StrategyBase
 
 df = pd.read_csv(infra.path.multicharts_folder / f'stock_list_2.csv', header=None, index_col=0, dtype={0: str})
 

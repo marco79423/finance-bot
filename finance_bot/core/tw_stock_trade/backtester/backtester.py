@@ -14,9 +14,9 @@ from rich.progress import (
     SpinnerColumn,
 )
 
-from tool.backtester.backtester.result import Result
-from tool.backtester.broker import SimBroker
-from tool.backtester.data_source.data_source import DataSource
+from finance_bot.core.tw_stock_trade.backtester.result import Result
+from finance_bot.core.tw_stock_trade.backtester.broker import SimBroker
+from finance_bot.core.tw_stock_trade.backtester.data_source.data_source import DataSource
 
 
 class Backtester:

@@ -1,5 +1,3 @@
-import pandas as pd
-import plotly.express as px
 import plotly.subplots as sp
 import plotly.graph_objects as go
 import uvicorn
@@ -9,8 +7,8 @@ from rich.console import Console
 from rich.table import Table
 from starlette.middleware.wsgi import WSGIMiddleware
 
-from tool.backtester.backtester.result import Result
-from tool.backtester.data_source import DataSource
+from finance_bot.core.tw_stock_trade.backtester.result import Result
+from finance_bot.core.tw_stock_trade.backtester.data_source import DataSource
 
 
 class Reporter:

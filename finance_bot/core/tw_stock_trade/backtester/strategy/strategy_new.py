@@ -1,7 +1,8 @@
 import pandas as pd
 
 from finance_bot.infrastructure import infra
-from tool.backtester.strategy.base import StrategyBase
+from finance_bot.core.tw_stock_trade.backtester.data_source import DataSource
+from finance_bot.core.tw_stock_trade.backtester.strategy.base import StrategyBase
 
 df = pd.read_csv(infra.path.multicharts_folder / f'stock_list_2.csv', header=None, index_col=0, dtype={0: str})
 
@@ -12,13 +13,16 @@ class StrategyNew(StrategyBase):
     )
     available_stock_ids = df.index.to_list()
 
-    def init(self, data):
+    def init(self, data: DataSource):
+        i1 = data.close >= data.close.rolling(window=30).max()
+        i1 = i1.rolling(window=5).sum() > 3
+
         return dict(
             sma5=data.close.rolling(window=5).mean(),
             sma10=data.close.rolling(window=10).mean(),
             sma35=data.close.rolling(window=35).mean(),
             voc10=(data.volume - self.data.volume.shift(10)) / data.volume.shift(10) * 100,
-            max30=data.close.rolling(window=30).max(),
+            i1=i1,
         )
 
     # noinspection PyTypeChecker
@@ -27,7 +31,7 @@ class StrategyNew(StrategyBase):
         sma10 = self.i('sma10')
         sma35 = self.i('sma35')
         voc10 = self.i('voc10')
-        max30 = self.i('max30')
+        i1 = self.i('i1')
 
         target_list = self.new_target_list([
             self.broker.current_shares == 0,
@@ -35,7 +39,7 @@ class StrategyNew(StrategyBase):
             (sma10.iloc[-1] > sma35.iloc[-1]) & (sma10.iloc[-2] < sma35.iloc[-2]),
             self.data.close.iloc[-1] > self.data.open.iloc[-1],
             voc10.iloc[-1] < 100,
-            # self.close >= max30.iloc[-1],
+            i1.iloc[-1],
         ])
 
         for stock_id in target_list:
@@ -68,8 +72,9 @@ class StrategyNew(StrategyBase):
             self.sell_next_day_market(stock_id, note=f'run')
 
         # run very fast
-        target_list = self.new_target_list([
-            self.today - self.entry_date > pd.Timedelta(days=30 * 12),
-        ], available_list=self.broker.holding_stock_ids)
-        for stock_id in target_list:
-            self.sell_next_day_market(stock_id, note=f'run very fast')
+        if len([action['operation'] == 'sell' for action in self.actions]) > 0:
+            target_list = self.new_target_list([
+                self.today - self.entry_date > pd.Timedelta(days=30 * 12),
+            ], available_list=self.broker.holding_stock_ids)
+            for stock_id in target_list:
+                self.sell_next_day_market(stock_id, note=f'run very fast')

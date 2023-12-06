@@ -5,8 +5,8 @@ from typing import Optional, List
 import pandas as pd
 from easydict import EasyDict as edict
 
-from tool.backtester.broker import SimBroker
-from tool.backtester.data_source import DataSource
+from finance_bot.core.tw_stock_trade.backtester.broker import SimBroker
+from finance_bot.core.tw_stock_trade.backtester.data_source import DataSource
 
 
 class StrategyBase(abc.ABC):

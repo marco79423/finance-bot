@@ -1,4 +1,4 @@
-from tool.backtester.data_source.data_adapter import DataAdapter
+from .data_adapter import DataAdapter
 
 
 class Stock:
