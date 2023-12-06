@@ -1,6 +1,6 @@
 from finance_bot.core.tw_stock_trade.backtester.backtester import Backtester
 from finance_bot.core.tw_stock_trade.backtester.reporter.reporter import Reporter
-from finance_bot.core.tw_stock_trade.backtester.strategy import StrategyNew, StrategyS1V0
+from finance_bot.core.tw_stock_trade.strategy import StrategyNew, StrategyS1V0
 
 
 def main():
