@@ -40,8 +40,7 @@ class SimBroker(BrokerBase):
         return holding
 
     def buy_market(self, stock_id, shares, note=''):
-        # 回測使用當日最高價買入
-        entry_price = self._data.get_stock_high_price(stock_id)
+        entry_price = self._data.get_stock_open_price(stock_id)
 
         before = self.current_balance
         fee = max(math.floor(shares * entry_price * self.fee_rate), 1)  # 永豐說是無條件捨去，最低收 1 元
@@ -87,8 +86,7 @@ class SimBroker(BrokerBase):
         if stock_id not in self._positions:
             return False
 
-        # 回測使用當日最低價賣出
-        price = self._data.get_stock_low_price(stock_id)
+        price = self._data.get_stock_open_price(stock_id)
 
         for position in self._positions[stock_id].values():
             before = self.current_balance
