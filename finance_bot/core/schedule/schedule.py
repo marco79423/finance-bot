@@ -1,5 +1,3 @@
-import asyncio
-
 import uvicorn
 
 from finance_bot.core.base import CoreBase
@@ -16,23 +14,24 @@ class Schedule(CoreBase):
 
         @app.on_event("startup")
         async def startup():
-            infra.scheduler.add_schedule_task(
-                self.create_task('data_sync.schedule_update'),
-                schedule_conf_key='core.schedule.data_sync.schedule_update',
-            )
-            infra.scheduler.add_schedule_task(
-                self.create_task('crypto_loan.lending_task'),
-                schedule_conf_key='core.schedule.crypto_loan.lending_task',
-            )
-            infra.scheduler.add_schedule_task(
-                self.create_task('crypto_loan.send_stats'),
-                schedule_conf_key='core.schedule.crypto_loan.sending_stats',
-                misfire_grace_time=60 * 5
-            )
+            await self.start_jobs()
 
         uvicorn.run(app, host='0.0.0.0', port=16930)
 
-        asyncio.get_running_loop().run_forever()
+    async def start_jobs(self):
+        infra.scheduler.add_schedule_task(
+            self.create_task('data_sync.schedule_update'),
+            schedule_conf_key='core.schedule.data_sync.schedule_update',
+        )
+        infra.scheduler.add_schedule_task(
+            self.create_task('crypto_loan.lending_task'),
+            schedule_conf_key='core.schedule.crypto_loan.lending_task',
+        )
+        infra.scheduler.add_schedule_task(
+            self.create_task('crypto_loan.send_stats'),
+            schedule_conf_key='core.schedule.crypto_loan.sending_stats',
+            misfire_grace_time=60 * 5
+        )
 
     @staticmethod
     def create_task(topic):
