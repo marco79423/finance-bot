@@ -73,6 +73,9 @@ class DataSource:
     def get_stock_low_price(self, stock_id):
         return self._data_adapter.low.loc[self.current_time, stock_id]
 
+    def get_stock_open_price(self, stock_id):
+        return self._data_adapter.open.loc[self.current_time, stock_id]
+
     def get_stock_close_price(self, stock_id):
         return self._data_adapter.close.loc[self.current_time, stock_id]
 
