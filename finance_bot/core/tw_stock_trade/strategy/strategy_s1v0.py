@@ -1,7 +1,7 @@
 import pandas as pd
 
-from finance_bot.infrastructure import infra
 from finance_bot.core.tw_stock_trade.strategy.base import StrategyBase
+from finance_bot.infrastructure import infra
 
 df = pd.read_csv(infra.path.multicharts_folder / f'stock_list_2.csv', header=None, index_col=0, dtype={0: str})
 
@@ -9,6 +9,7 @@ df = pd.read_csv(infra.path.multicharts_folder / f'stock_list_2.csv', header=Non
 class StrategyS1V0(StrategyBase):
     name = '策略 S1V0'
     params = dict(
+        max_single_position_exposure=0.1,
     )
     available_stock_ids = df.index.to_list()
 
