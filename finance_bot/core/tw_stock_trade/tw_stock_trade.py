@@ -2,7 +2,7 @@ import pandas as pd
 import uvicorn
 
 from finance_bot.core.base import CoreBase
-from finance_bot.core.tw_stock_trade.backtester.data_source import DataSource
+from finance_bot.core.tw_stock_trade.backtester.market_data import MarketData
 from finance_bot.core.tw_stock_trade.broker import SinoBroker
 from finance_bot.core.tw_stock_trade.strategy import StrategyS1V0
 from finance_bot.infrastructure import infra
@@ -42,8 +42,8 @@ class TWStockTrade(CoreBase):
 
     async def execute_strategy(self):
         self.logger.info('開始執行策略 ...')
-        data_source = DataSource()  # 時間會有問題
-        self.strategy.data_source = data_source
+        market_data = MarketData()  # 時間會有問題
+        self.strategy.market_data = market_data
         self.strategy.broker = self._broker
         self.strategy.pre_handle()
         self.strategy.inter_handle()

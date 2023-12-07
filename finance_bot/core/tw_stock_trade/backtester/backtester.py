@@ -16,11 +16,11 @@ from rich.progress import (
 
 from finance_bot.core.tw_stock_trade.backtester.result import Result
 from finance_bot.core.tw_stock_trade.backtester.sim_broker import SimBroker
-from finance_bot.core.tw_stock_trade.backtester.data_source.data_source import DataSource
+from finance_bot.core.tw_stock_trade.backtester.market_data import MarketData
 
 
 class Backtester:
-    data_class = DataSource
+    data_class = MarketData
     broker_class = SimBroker
 
     def run(self, init_balance, start, end, strategies):
@@ -98,31 +98,31 @@ class Backtester:
                 description=f'{strategy_name} <{params_output}> 回測中',
             ))
 
-            data_source = self.data_class(
+            market_data = self.data_class(
                 start=start,
                 end=end,
                 all_stock_ids=strategy_class.available_stock_ids if strategy_class.available_stock_ids else None,
             )
-            broker = self.broker_class(data_source, init_balance)
+            broker = self.broker_class(market_data, init_balance)
 
-            strategy.data_source = data_source
+            strategy.market_data = market_data
             strategy.broker = broker
             strategy.pre_handle()
 
             message_conn.send(dict(
                 result_id=result_id,
                 action='start',
-                total=len(data_source.all_date_range) + 3,
+                total=len(market_data.all_date_range) + 3,
             ))
 
-            data_source.is_limit = True
-            for today in data_source.all_date_range:
+            market_data.is_limit = True
+            for today in market_data.all_date_range:
                 message_conn.send(dict(
                     result_id=result_id,
                     action='update',
                     detail=today.strftime('%Y-%m-%d'),
                 ))
-                data_source.set_time(today)
+                market_data.set_time(today)
 
                 for action in strategy.actions:
                     if action['operation'] == 'buy':
@@ -138,14 +138,14 @@ class Backtester:
                 detail='trade_logs',
             ))
 
-            positions = self._generate_positions(data_source, trade_logs)
+            positions = self._generate_positions(market_data, trade_logs)
             message_conn.send(dict(
                 result_id=result_id,
                 action='update',
                 detail='positions',
             ))
 
-            equity_curve = self._calculate_equity_curve(data_source, init_balance, trade_logs)
+            equity_curve = self._calculate_equity_curve(market_data, init_balance, trade_logs)
             message_conn.send(dict(
                 result_id=result_id,
                 action='update',

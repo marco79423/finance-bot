@@ -6,7 +6,7 @@ import pandas as pd
 from easydict import EasyDict as edict
 
 from finance_bot.core.tw_stock_trade.backtester.sim_broker import SimBroker
-from finance_bot.core.tw_stock_trade.backtester.data_source import DataSource
+from finance_bot.core.tw_stock_trade.backtester.market_data import MarketData
 
 
 class StrategyBase(abc.ABC):
@@ -15,7 +15,7 @@ class StrategyBase(abc.ABC):
 
     stock_id: str
     broker: SimBroker
-    data_source: DataSource
+    market_data: MarketData
     preload_days = 10
 
     available_stock_ids: Optional[List[str]] = None
@@ -98,7 +98,7 @@ class StrategyBase(abc.ABC):
 
     @property
     def data(self):
-        return self.data_source
+        return self.market_data
 
     @property
     def close(self):
@@ -114,7 +114,7 @@ class StrategyBase(abc.ABC):
 
     @property
     def today(self):
-        return self.data_source.current_time
+        return self.market_data.current_time
 
     @property
     def current_shares(self):
@@ -170,7 +170,7 @@ class StrategyBase(abc.ABC):
 
     def inter_handle(self):
         # 一定時間範圍內不做任何事以確保策略能正常運行（如讀取前一天的資料）
-        if (self.data_source.current_time - self.data_source.start_time).days < self.preload_days:
+        if (self.market_data.current_time - self.market_data.start_time).days < self.preload_days:
             return
 
         self._day_cache = set()

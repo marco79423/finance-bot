@@ -1,34 +1,34 @@
 from .data_adapter import DataAdapter
 
 
-class Stock:
+class StockData:
 
-    def __init__(self, data_source: 'DataSource', product_id):
-        self._data_source = data_source
+    def __init__(self, market_data: 'MarketData', product_id):
+        self._market_data = market_data
         self._product_id = product_id
 
     @property
     def open(self):
-        return self._data_source.open[self._product_id]
+        return self._market_data.open[self._product_id]
 
     @property
     def close(self):
-        return self._data_source.close[self._product_id]
+        return self._market_data.close[self._product_id]
 
     @property
     def high(self):
-        return self._data_source.high[self._product_id]
+        return self._market_data.high[self._product_id]
 
     @property
     def low(self):
-        return self._data_source.low[self._product_id]
+        return self._market_data.low[self._product_id]
 
     @property
     def volume(self):
-        return self._data_source.volume[self._product_id]
+        return self._market_data.volume[self._product_id]
 
 
-class DataSource:
+class MarketData:
     is_limit = False
 
     data_adapter_class = DataAdapter
@@ -41,8 +41,8 @@ class DataSource:
         )
         self._current_time = self._data_adapter.start_time
 
-    def __getitem__(self, stock_id) -> Stock:
-        return Stock(self, stock_id)
+    def __getitem__(self, stock_id) -> StockData:
+        return StockData(self, stock_id)
 
     def set_time(self, time):
         self._current_time = time

@@ -1,5 +1,5 @@
-import plotly.subplots as sp
 import plotly.graph_objects as go
+import plotly.subplots as sp
 import uvicorn
 from dash import Dash, html, dash_table, dcc, callback, Output, Input, State
 from fastapi import FastAPI
@@ -7,15 +7,15 @@ from rich.console import Console
 from rich.table import Table
 from starlette.middleware.wsgi import WSGIMiddleware
 
+from finance_bot.core.tw_stock_trade.backtester.market_data import MarketData
 from finance_bot.core.tw_stock_trade.backtester.result import Result
-from finance_bot.core.tw_stock_trade.backtester.data_source import DataSource
 
 
 class Reporter:
-    data_class = DataSource
+    data_class = MarketData
 
     def __init__(self, results: [Result]):
-        self.data_source = self.data_class()
+        self.market_data = self.data_class()
         self.results = results
 
     def summary(self):
@@ -183,7 +183,7 @@ class Reporter:
         def update_graph(stock_id, result_id):
             result = result_map[result_id]
 
-            data = self.data_source[stock_id]
+            data = self.market_data[stock_id]
             positions_per_stock = result.positions[result.positions['stock_id'] == stock_id]
 
             fig = sp.make_subplots(

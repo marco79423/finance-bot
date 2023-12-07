@@ -1,7 +1,7 @@
 import pandas as pd
 
 from finance_bot.infrastructure import infra
-from finance_bot.core.tw_stock_trade.backtester.data_source import DataSource
+from finance_bot.core.tw_stock_trade.backtester.market_data import MarketData
 from finance_bot.core.tw_stock_trade.strategy.base import StrategyBase
 
 df = pd.read_csv(infra.path.multicharts_folder / f'stock_list_2.csv', header=None, index_col=0, dtype={0: str})
@@ -13,7 +13,7 @@ class StrategyNew(StrategyBase):
     )
     available_stock_ids = df.index.to_list()
 
-    def init(self, data: DataSource):
+    def init(self, data: MarketData):
         i1 = data.close >= data.close.rolling(window=30).max()
         i1 = i1.rolling(window=5).sum() > 3
 
