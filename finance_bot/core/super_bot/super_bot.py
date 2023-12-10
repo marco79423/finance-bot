@@ -1,4 +1,8 @@
+import json
+
+import pandas as pd
 import uvicorn
+from sqlalchemy import text
 from telegram import Update
 from telegram.ext import Application, ContextTypes, CommandHandler
 
@@ -22,9 +26,8 @@ class SuperBot(CoreBase):
 
         @app.on_event("startup")
         async def startup():
-            await self._telegram_app.initialize()
-            await self._telegram_app.start()
-            await self._telegram_app.updater.start_polling()
+            await self._listen()
+            await self._start_telegram_app()
 
         @app.on_event('shutdown')
         async def shutdown():
@@ -34,12 +37,69 @@ class SuperBot(CoreBase):
 
         uvicorn.run(app, host='0.0.0.0', port=16950)
 
+    async def _listen(self):
+        await infra.mq.subscribe('super_bot.daily_status', self._send_daily_status)
+
+    async def _start_telegram_app(self):
+        await self._telegram_app.initialize()
+        await self._telegram_app.start()
+        await self._telegram_app.updater.start_polling()
+
     def _setup_telegram_app(self):
         token = infra.conf.core.super_bot.telegram.token
         app = Application.builder().token(token).build()
         app.add_handler(CommandHandler("balance", self.command_balance))
         app.add_handler(CommandHandler("trades", self.command_trades))
         return app
+
+    async def _send_daily_status(self, sub, data):
+        task_status_df = pd.read_sql(
+            sql=text("SELECT * FROM task_status"),
+            con=infra.db.engine,
+            index_col='key',
+            parse_dates=['created_at', 'updated_at'],
+            dtype={
+                'is_error': bool,
+            }
+        )
+
+        message = "狀態：\n{status}\n\n項目：\n{items}\n\n預計執行：\n{actions}"
+
+        error_keys = []
+
+        items_msg = ''
+        actions_msg = ''
+        for _, row in task_status_df.iterrows():
+            if row['is_error']:
+                error_keys.append(row['key'])
+                continue
+
+            if row['key'] == 'crypto_loan.status':
+                items_msg += 'crypto_loan: 總借出: {lending_amount:.2f}\n預估日收益: {daily_earn:.2f} (平均利率: {average_rate:.6f}%)\n'.format(
+                    **row['detail']
+                )
+            elif row['key'] == 'tw_stock_trade.latest_strategy_actions':
+                actions = json.loads(row['detail'])
+                for action in actions:
+                    if action['operation'] == 'buy':
+                        actions_msg += '買 {stock_id} {shares} 股 (理由：{note})\n'.format(**action)
+                    if action['operation'] == 'sell':
+                        actions_msg += '賣 {stock_id} (理由：{note})\n'.format(**action)
+
+        if error_keys:
+            status_msg = '出現異常\n'
+            for error_key in error_keys:
+                status_msg += error_key + '\n'
+        else:
+            status_msg = '一切看起來都 ok'
+
+        message = message.format(
+            status=status_msg,
+            items=items_msg,
+            action=actions_msg,
+        )
+
+        await infra.notifier.send(message)
 
     async def command_balance(self, update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         chat_id = infra.conf.core.super_bot.telegram.chat_id

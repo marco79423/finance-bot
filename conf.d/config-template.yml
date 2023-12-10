@@ -2,11 +2,13 @@ core:
   schedule:
     crypto_loan:
       lending_task: '*/10 * * * *'
-      sending_stats:
-        - '0 8 * * mon,tue,wed,thu,fri'
-        - '0 12 * * sat,sun'
+      update_status: '7 * * * *'
     data_sync:
       schedule_update:
+        - '0 7 * * mon,tue,wed,thu,fri'
+        - '0 11 * * sat'
+    super_bot:
+      daily_status:
         - '0 8 * * mon,tue,wed,thu,fri'
         - '0 12 * * sat'
 
