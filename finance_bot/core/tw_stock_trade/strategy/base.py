@@ -40,6 +40,8 @@ class StrategyBase(abc.ABC):
 
         # 將所有 bool series 結合成 dataframe
         df = pd.concat(conditions, axis=1)
+        # 補上 na
+        df = df.fillna(False)
         # 用 all 整合成 series
         s = df.all(axis=1)
         return s[s].index.tolist()
