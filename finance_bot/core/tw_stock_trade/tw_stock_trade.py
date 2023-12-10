@@ -1,4 +1,5 @@
 import json
+import traceback
 
 import uvicorn
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -44,22 +45,33 @@ class TWStockTrade(CoreBase):
         await infra.mq.subscribe('tw_stock_trade.execute_strategy', self.execute_strategy)
 
     async def execute_strategy(self):
-        self.logger.info('開始執行策略 ...')
-        market_data = MarketData()
+        try:
+            self.logger.info('開始執行策略 ...')
 
-        self.strategy.market_data = market_data
-        self.strategy.broker = self._broker
-        self.strategy.pre_handle()
-        self.strategy.inter_handle()
+            market_data = MarketData()
 
-        async with AsyncSession(infra.db.async_engine) as session:
-            await infra.db.insert_or_update(session, TaskStatus, dict(
-                key='tw_stock_trade.latest_strategy_actions',
-                data=json.dumps(self.strategy.actions),
-            ))
+            self.strategy.market_data = market_data
+            self.strategy.broker = self._broker
+            self.strategy.pre_handle()
+            self.strategy.inter_handle()
 
-        self.logger.info('執行策略成功')
-        return self.strategy.actions
+            async with AsyncSession(infra.db.async_engine) as session:
+                await infra.db.insert_or_update(session, TaskStatus, dict(
+                    key='tw_stock_trade.latest_strategy_actions',
+                    is_error=False,
+                    detail=json.dumps(self.strategy.actions),
+                ))
+
+            self.logger.info('執行策略成功')
+            return self.strategy.actions
+        except:
+            async with AsyncSession(infra.db.async_engine) as session:
+                await infra.db.insert_or_update(session, TaskStatus, dict(
+                    key='tw_stock_trade.latest_strategy_actions',
+                    is_error=True,
+                    detail=traceback.format_exc(),
+                ))
+            raise
 
     @property
     def get_latest_actions(self):
