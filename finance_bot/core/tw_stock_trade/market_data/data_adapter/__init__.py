@@ -1,0 +1,1 @@
+from finance_bot.core.tw_stock_trade.market_data.data_adapter.data_adapter import DataAdapter

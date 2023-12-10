@@ -1,7 +1,7 @@
 import pandas as pd
 
 from finance_bot.infrastructure import infra
-from finance_bot.core.tw_stock_trade.backtester.market_data import MarketData
+from finance_bot.core.tw_stock_trade.market_data import MarketData
 from finance_bot.core.tw_stock_trade.strategy.base import StrategyBase
 
 df = pd.read_csv(infra.path.multicharts_folder / f'stock_list_2.csv', header=None, index_col=0, dtype={0: str})
@@ -40,7 +40,7 @@ class StrategyNew(StrategyBase):
             self.data.close.iloc[-1] > self.data.open.iloc[-1],
             voc10.iloc[-1] < 100,
             i1.iloc[-1],
-        ])
+        ], available_list=self.available_stock_ids)
 
         for stock_id in target_list:
             self.buy_next_day_market(stock_id)

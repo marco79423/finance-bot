@@ -7,7 +7,7 @@ from rich.console import Console
 from rich.table import Table
 from starlette.middleware.wsgi import WSGIMiddleware
 
-from finance_bot.core.tw_stock_trade.backtester.market_data import MarketData
+from finance_bot.core.tw_stock_trade.market_data import MarketData
 from finance_bot.core.tw_stock_trade.backtester.result import Result
 
 

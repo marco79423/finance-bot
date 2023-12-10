@@ -1,12 +1,11 @@
 import abc
 import math
-from typing import Optional, List
 
 import pandas as pd
 from easydict import EasyDict as edict
 
 from finance_bot.core.tw_stock_trade.backtester.sim_broker import SimBroker
-from finance_bot.core.tw_stock_trade.backtester.market_data import MarketData
+from finance_bot.core.tw_stock_trade.market_data import MarketData
 
 
 class StrategyBase(abc.ABC):
@@ -17,8 +16,6 @@ class StrategyBase(abc.ABC):
     broker: SimBroker
     market_data: MarketData
     preload_days = 10
-
-    available_stock_ids: Optional[List[str]] = None
 
     _indicators = {}
     _actions = []

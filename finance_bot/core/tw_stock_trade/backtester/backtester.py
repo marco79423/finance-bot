@@ -1,7 +1,7 @@
 import datetime as dt
+import multiprocessing as mp
 import traceback
 from concurrent.futures import ProcessPoolExecutor
-import multiprocessing as mp
 
 import numpy as np
 import pandas as pd
@@ -16,11 +16,11 @@ from rich.progress import (
 
 from finance_bot.core.tw_stock_trade.backtester.result import Result
 from finance_bot.core.tw_stock_trade.backtester.sim_broker import SimBroker
-from finance_bot.core.tw_stock_trade.backtester.market_data import MarketData
+from finance_bot.core.tw_stock_trade.backtester.sim_market_data import SimMarketData
 
 
 class Backtester:
-    data_class = MarketData
+    data_class = SimMarketData
     broker_class = SimBroker
 
     def run(self, init_balance, start, end, strategies):
@@ -101,7 +101,6 @@ class Backtester:
             market_data = self.data_class(
                 start=start,
                 end=end,
-                all_stock_ids=strategy_class.available_stock_ids if strategy_class.available_stock_ids else None,
             )
             broker = self.broker_class(market_data, init_balance)
 
@@ -195,7 +194,7 @@ class Backtester:
         })
         return trade_logs
 
-    def _generate_positions(self, data_source, trade_logs):
+    def _generate_positions(self, market_data, trade_logs):
         df = trade_logs.groupby('idx').agg(
             status=('date', lambda x: 'open' if len(x) == 1 else 'close'),
             stock_id=('stock_id', 'first'),
@@ -208,9 +207,9 @@ class Backtester:
             note=('note', lambda x: ' | '.join(x)),
         ).reset_index()
 
-        today_close_prices = data_source.close.loc[data_source.end_time]
+        today_close_prices = market_data.close.loc[market_data.end_time]
         df['end_price'] = df['end_price'].fillna(df['stock_id'].map(today_close_prices))
-        df['end_date'] = df['end_date'].fillna(data_source.end_time)
+        df['end_date'] = df['end_date'].fillna(market_data.end_time)
 
         df['period'] = (df['end_date'] - df['start_date']).dt.days
         df['total_return'] = ((df['end_price'] - df['start_price']) * df['shares']).astype(int)
@@ -238,7 +237,7 @@ class Backtester:
         return df
 
     @staticmethod
-    def _calculate_equity_curve(data_source, init_balance, trade_logs):
+    def _calculate_equity_curve(market_data, init_balance, trade_logs):
         equity_curve = []
 
         balance = init_balance
@@ -257,7 +256,7 @@ class Backtester:
         })
 
         positions = {}
-        for date in data_source.close.loc[data_source.start_time:data_source.end_time].index:
+        for date in market_data.all_date_range:
             day_trade_logs = trade_logs[trade_logs['date'] == date]
 
             df = day_trade_logs[day_trade_logs['action'] == 'buy']
@@ -275,7 +274,7 @@ class Backtester:
 
             equity = balance
 
-            today_close_prices = data_source.close.loc[date]
+            today_close_prices = market_data.close.loc[date]
             for position in positions.values():
                 equity += today_close_prices[position['stock_id']] * position['shares']
 

@@ -1,4 +1,3 @@
-import abc
 from typing import List
 
 import pandas as pd
@@ -10,21 +9,25 @@ def get_stock_prices_df():
     return infra.db_cache.read(key='tw_stock_price').sort_index()
 
 
-class DataAdapter(abc.ABC):
+class DataAdapter:
 
-    def __init__(self, all_stock_ids=None, start=None, end=None):
-        start_time = pd.Timestamp(start) if start else None
-        end_time = pd.Timestamp(end) if end else None
+    def __init__(self):
+        self._all_stock_ids = []
+        self._start_time = None
+        self._end_time = None
+        self._open = None
+        self._close = None
+        self._high = None
+        self._low = None
+        self._volume = None
+        self.sync()
 
+    def sync(self):
         stock_prices_df = get_stock_prices_df()
-        if start_time or end_time:
-            stock_prices_df = stock_prices_df.loc[start_time:end_time]
 
-        self._start_time = start_time or stock_prices_df.index.min()
-        self._end_time = end_time or stock_prices_df.index.max()
-        self._all_stock_ids = all_stock_ids or stock_prices_df['stock_id'].unique().tolist()
-
-        stock_prices_df = stock_prices_df[stock_prices_df['stock_id'].isin(self._all_stock_ids)]
+        self._all_stock_ids = stock_prices_df['stock_id'].unique().tolist()
+        self._start_time = stock_prices_df.index.min()
+        self._end_time = stock_prices_df.index.min()
         self._open = stock_prices_df.pivot(columns='stock_id', values='open').ffill()  # 補完空值的收盤價
         self._close = stock_prices_df.pivot(columns='stock_id', values='close').ffill()  # 補完空值的收盤價
         self._high = stock_prices_df.pivot(columns='stock_id', values='high').ffill()  # 補完空值的最高價
