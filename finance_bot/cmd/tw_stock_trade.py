@@ -1,3 +1,4 @@
+import asyncio
 import click
 import rich
 from rich.table import Table
@@ -17,6 +18,11 @@ def create_tw_stock_trade_cli():
     def start_server():
         """啟動服務"""
         t.start()
+
+    @tw_stock_trade.command('strategy')
+    def strategy():
+        actions = asyncio.run(t.execute_strategy())
+        rich.print(actions)
 
     @tw_stock_trade.group("broker")
     def broker():

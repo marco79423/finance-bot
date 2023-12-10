@@ -1,11 +1,14 @@
-import pandas as pd
+import json
+
 import uvicorn
+from sqlalchemy.ext.asyncio import AsyncSession
 
 from finance_bot.core.base import CoreBase
-from finance_bot.core.tw_stock_trade.market_data import MarketData
 from finance_bot.core.tw_stock_trade.broker import SinoBroker
+from finance_bot.core.tw_stock_trade.market_data import MarketData
 from finance_bot.core.tw_stock_trade.strategy import StrategyS1V0
 from finance_bot.infrastructure import infra
+from finance_bot.model.task_status import TaskStatus
 
 
 class TWStockTrade(CoreBase):
@@ -42,18 +45,21 @@ class TWStockTrade(CoreBase):
 
     async def execute_strategy(self):
         self.logger.info('開始執行策略 ...')
-        market_data = MarketData()  # 時間會有問題
+        market_data = MarketData()
 
         self.strategy.market_data = market_data
         self.strategy.broker = self._broker
         self.strategy.pre_handle()
         self.strategy.inter_handle()
 
-        self._latest_actions = {
-            'execute_time': pd.Timestamp(),
-            'actions': self.strategy.actions,
-        }
+        async with AsyncSession(infra.db.async_engine) as session:
+            await infra.db.insert_or_update(session, TaskStatus, dict(
+                key='tw_stock_trade.latest_strategy_actions',
+                data=json.dumps(self.strategy.actions),
+            ))
+
         self.logger.info('執行策略成功')
+        return self.strategy.actions
 
     @property
     def get_latest_actions(self):
