@@ -42,7 +42,10 @@ class TWStockTrade(CoreBase):
         uvicorn.run(app, host='0.0.0.0', port=16940)
 
     async def listen(self):
-        await infra.mq.subscribe('tw_stock_trade.execute_strategy', self.execute_strategy)
+        await infra.mq.subscribe('tw_stock_trade.execute_strategy', self._execute_strategy_handler)
+
+    async def _execute_strategy_handler(self, sub, data):
+        await self.execute_strategy()
 
     async def execute_strategy(self):
         try:

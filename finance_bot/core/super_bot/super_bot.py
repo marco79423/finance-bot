@@ -38,7 +38,7 @@ class SuperBot(CoreBase):
         uvicorn.run(app, host='0.0.0.0', port=16950)
 
     async def _listen(self):
-        await infra.mq.subscribe('super_bot.daily_status', self._send_daily_status)
+        await infra.mq.subscribe('super_bot.daily_status', self._daily_status_handler)
 
     async def _start_telegram_app(self):
         await self._telegram_app.initialize()
@@ -52,11 +52,13 @@ class SuperBot(CoreBase):
         app.add_handler(CommandHandler("trades", self.command_trades))
         return app
 
-    async def _send_daily_status(self, sub, data):
+    async def _daily_status_handler(self, sub, data):
+        await self.send_daily_status()
+
+    async def send_daily_status(self):
         task_status_df = pd.read_sql(
             sql=text("SELECT * FROM task_status"),
             con=infra.db.engine,
-            index_col='key',
             parse_dates=['created_at', 'updated_at'],
             dtype={
                 'is_error': bool,
@@ -96,7 +98,7 @@ class SuperBot(CoreBase):
         message = message.format(
             status=status_msg,
             items=items_msg,
-            action=actions_msg,
+            actions=actions_msg,
         )
 
         await infra.notifier.send(message)
