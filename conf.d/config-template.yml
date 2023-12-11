@@ -7,8 +7,6 @@ core:
       schedule_update:
         - '0 7 * * mon,tue,wed,thu,fri'
         - '0 11 * * sat'
-    tw_stock_trade:
-      execute_strategy: '7 * * * *'
     super_bot:
       daily_status:
         - '0 8 * * mon,tue,wed,thu,fri'

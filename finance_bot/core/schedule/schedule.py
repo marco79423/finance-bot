@@ -28,11 +28,6 @@ class Schedule(CoreBase):
             schedule_conf_key='core.schedule.crypto_loan.lending_task',
         )
         infra.scheduler.add_schedule_task(
-            self.create_task('crypto_loan.send_stats'),
-            schedule_conf_key='core.schedule.crypto_loan.update_status',
-            misfire_grace_time=60 * 5
-        )
-        infra.scheduler.add_schedule_task(
             self.create_task('super_bot.daily_status'),
             schedule_conf_key='core.schedule.super_bot.daily_status',
             misfire_grace_time=60 * 5

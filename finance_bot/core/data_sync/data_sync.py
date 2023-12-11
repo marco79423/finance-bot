@@ -73,11 +73,13 @@ class DataSync(CoreBase):
             error_message='{year}Q{quarter} 財報更新失敗'
         )
 
-        # await self.execute_task(
-        #     self.tw_stock_bot.data.rebuild_cache,
-        #     success_message='台股資料快取完畢',
-        #     error_message='台股資料快取失敗'
-        # )
+        await self.execute_task(
+            self.data.rebuild_cache,
+            success_message='台股資料快取完畢',
+            error_message='台股資料快取失敗'
+        )
+
+        await infra.mq.publish('data_sync.update_finished', {})
 
     @property
     def data(self):
