@@ -1,12 +1,9 @@
 core:
   schedule:
     crypto_loan:
-      lending_task: '*/10 * * * *'
-      update_status: '7 * * * *'
+      update_status: '0 7 * * *'
     data_sync:
-      schedule_update:
-        - '0 7 * * mon,tue,wed,thu,fri'
-        - '0 11 * * sat'
+      schedule_update: '5 0 * * *'
     super_bot:
       daily_status:
         - '0 8 * * mon,tue,wed,thu,fri'

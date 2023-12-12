@@ -1,6 +1,7 @@
 import dataclasses
 import datetime as dt
 import json
+import traceback
 
 import bfxapi
 import uvicorn
@@ -84,15 +85,19 @@ class CryptoLoan(CoreBase):
         @app.on_event("startup")
         async def startup():
             await self.listen()
+            await self.start_jobs()
 
         uvicorn.run(app, host='0.0.0.0', port=16910)
 
     async def listen(self):
-        await infra.mq.subscribe('crypto_loan.lending_task', self.execute_lending_task)
         await infra.mq.subscribe('crypto_loan.update_status', self.update_status)
 
-    async def execute_lending_task(self, sub, data):
-        await self.execute_task(self._execute_lending_task, error_message='借錢任務執行失敗')
+    async def start_jobs(self):
+        await infra.scheduler.add_task(
+            self._execute_lending_task,
+            'interval',
+            minutes=1,
+        )
 
     async def update_status(self, sub, data):
         stats = await self.get_stats()
@@ -108,64 +113,77 @@ class CryptoLoan(CoreBase):
             ))
 
     async def _execute_lending_task(self):
-        strategy = await self.make_strategy()
+        try:
+            strategy = await self.make_strategy()
 
-        # 取消所有不同策略的訂單
-        offers = await self._client.rest.get_funding_offers(symbol='fUSD')
-        for offer in offers:
-            if offer.f_type == bfxapi.FundingOffer.Type.FRR_DELTA:
-                continue
-
-            if not strategy.is_used_by(offer):
-                await self._client.rest.submit_cancel_funding_offer(offer.id)
-                self.logger.info(f'[{dt.datetime.now()}] 取消訂單 {offer}')
-
-        # 如果錢包有錢但是小於 150，取消金額最小的訂單
-        balance_available = await self.get_funding_balance()
-        if 1 < balance_available < 150:
+            # 取消所有不同策略的訂單
             offers = await self._client.rest.get_funding_offers(symbol='fUSD')
-
-            min_amount_offer = None
             for offer in offers:
                 if offer.f_type == bfxapi.FundingOffer.Type.FRR_DELTA:
                     continue
 
-                if min_amount_offer is None or offer.amount < min_amount_offer.amount:
-                    min_amount_offer = offer
+                if not strategy.is_used_by(offer):
+                    await self._client.rest.submit_cancel_funding_offer(offer.id)
+                    self.logger.info(f'[{dt.datetime.now()}] 取消訂單 {offer}')
 
-            if min_amount_offer:
-                await self._client.rest.submit_cancel_funding_offer(min_amount_offer.id)
-                self.logger.info(f'[{dt.datetime.now()}] 取消訂單 {min_amount_offer}')
+            # 如果錢包有錢但是小於 150，取消金額最小的訂單
+            balance_available = await self.get_funding_balance()
+            if 1 < balance_available < 150:
+                offers = await self._client.rest.get_funding_offers(symbol='fUSD')
 
-        # 如果沒有 FRR 訂單，就下一個
-        balance_available = await self.get_funding_balance()
-        if balance_available >= 150 and not await self.has_frr_offer():
-            amount = balance_available
-            resp = await self._client.rest.submit_funding_offer(
-                symbol='fUSD',
-                amount=amount,
-                rate=0,
-                period=30,
-                funding_type=bfxapi.FundingOffer.Type.FRR_DELTA
-            )
-            self.logger.info(f'[{dt.datetime.now()}] 新增 FRR 訂單 {resp.notify_info})')
+                min_amount_offer = None
+                for offer in offers:
+                    if offer.f_type == bfxapi.FundingOffer.Type.FRR_DELTA:
+                        continue
 
-        # 根據當前餘額和策略下訂單
-        balance_available = await self.get_funding_balance()
-        while balance_available >= 150:
-            amount = self.MAX_OFFER_AMOUNT
-            if balance_available - self.MAX_OFFER_AMOUNT < 150:
+                    if min_amount_offer is None or offer.amount < min_amount_offer.amount:
+                        min_amount_offer = offer
+
+                if min_amount_offer:
+                    await self._client.rest.submit_cancel_funding_offer(min_amount_offer.id)
+                    self.logger.info(f'[{dt.datetime.now()}] 取消訂單 {min_amount_offer}')
+
+            # 如果沒有 FRR 訂單，就下一個
+            balance_available = await self.get_funding_balance()
+            if balance_available >= 150 and not await self.has_frr_offer():
                 amount = balance_available
+                resp = await self._client.rest.submit_funding_offer(
+                    symbol='fUSD',
+                    amount=amount,
+                    rate=0,
+                    period=30,
+                    funding_type=bfxapi.FundingOffer.Type.FRR_DELTA
+                )
+                self.logger.info(f'[{dt.datetime.now()}] 新增 FRR 訂單 {resp.notify_info})')
 
-            resp = await self._client.rest.submit_funding_offer(
-                symbol='fUSD',
-                amount=amount,
-                rate=strategy.rate,
-                period=strategy.period,
-                funding_type=strategy.f_type
-            )
-            self.logger.info(f'[{dt.datetime.now()}] 新增訂單 {resp.notify_info} (金額：{amount})')
-            balance_available -= amount
+            # 根據當前餘額和策略下訂單
+            balance_available = await self.get_funding_balance()
+            while balance_available >= 150:
+                amount = self.MAX_OFFER_AMOUNT
+                if balance_available - self.MAX_OFFER_AMOUNT < 150:
+                    amount = balance_available
+
+                resp = await self._client.rest.submit_funding_offer(
+                    symbol='fUSD',
+                    amount=amount,
+                    rate=strategy.rate,
+                    period=strategy.period,
+                    funding_type=strategy.f_type
+                )
+                self.logger.info(f'[{dt.datetime.now()}] 新增訂單 {resp.notify_info} (金額：{amount})')
+                balance_available -= amount
+
+            async with AsyncSession(infra.db.async_engine) as session:
+                await infra.db.insert_or_update(session, TaskStatus, dict(
+                    key='crypto_loan.latest_lending_task',
+                    is_error=False,
+                ))
+        except:
+            await infra.db.insert_or_update(session, TaskStatus, dict(
+                key='crypto_loan.latest_lending_task',
+                is_error=True,
+                detail=traceback.format_exc(),
+            ))
 
     async def get_lending_records(self):
         """取得當下的借貸資訊"""
