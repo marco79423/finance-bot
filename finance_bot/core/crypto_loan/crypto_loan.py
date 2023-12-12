@@ -90,16 +90,16 @@ class CryptoLoan(CoreBase):
         uvicorn.run(app, host='0.0.0.0', port=16910)
 
     async def listen(self):
-        await infra.mq.subscribe('crypto_loan.update_status', self.update_status)
+        await infra.mq.subscribe('crypto_loan.update_status', self._update_status_handler)
 
     async def start_jobs(self):
         await infra.scheduler.add_task(
             self._execute_lending_task,
             'interval',
-            minutes=1,
+            minutes=10,
         )
 
-    async def update_status(self, sub, data):
+    async def _update_status_handler(self, sub, data):
         stats = await self.get_stats()
         async with AsyncSession(infra.db.async_engine) as session:
             await infra.db.insert_or_update(session, TaskStatus, dict(

@@ -1,8 +1,10 @@
-import asyncio
 import datetime as dt
 import io
+import json
 import random
+import traceback
 
+import asyncio
 import pandas as pd
 import uvicorn
 from sqlalchemy import select
@@ -12,6 +14,7 @@ from finance_bot.core.base import CoreBase
 from finance_bot.core.data_sync.market_data import MarketData
 from finance_bot.infrastructure import infra
 from finance_bot.model import TWStockPrice, TWStock, TWStockMonthlyRevenue, TWStockFinancialStatements
+from finance_bot.model.task_status import TaskStatus
 
 
 class DataSync(CoreBase):
@@ -34,7 +37,135 @@ class DataSync(CoreBase):
         uvicorn.run(app, host='0.0.0.0', port=16920)
 
     async def listen(self):
-        await infra.mq.subscribe('data_sync.schedule_update', self.execute_schedule_update_task)
+        await infra.mq.subscribe('data_sync.update_tw_stock', self._update_tw_stock_handler)
+        await infra.mq.subscribe('data_sync.update_tw_stock_prices', self._update_tw_stock_prices_handler)
+        await infra.mq.subscribe('data_sync.update_monthly_revenue', self._update_monthly_revenue_handler)
+        await infra.mq.subscribe('data_sync.update_financial_statements', self._update_financial_statements_handler)
+        await infra.mq.subscribe('data_sync.update_db_cache', self._update_db_cache_handler)
+
+    async def _update_tw_stock_handler(self, sub, data):
+        try:
+            total_count = await self.update_stocks()
+            async with AsyncSession(infra.db.async_engine) as session:
+                await infra.db.insert_or_update(session, TaskStatus, dict(
+                    key='data_sync.tw_stock',
+                    is_error=False,
+                    detail=json.dumps({
+                        'total_count': total_count,
+                    }),
+                ))
+        except:
+            async with AsyncSession(infra.db.async_engine) as session:
+                await infra.db.insert_or_update(session, TaskStatus, dict(
+                    key='data_sync.tw_stock',
+                    is_error=True,
+                    detail=traceback.format_exc(),
+                ))
+
+    async def _update_tw_stock_prices_handler(self, sub, data):
+        try:
+            today = pd.Timestamp.today().normalize()
+            yesterday = today - pd.Timedelta(days=1)
+            await self.update_prices_for_date(date=yesterday)
+
+            async with AsyncSession(infra.db.async_engine) as session:
+                await infra.db.insert_or_update(session, TaskStatus, dict(
+                    key='data_sync.tw_stock_prices',
+                    is_error=False,
+                    detail=json.dumps({
+                        'date': yesterday,
+                    }),
+                ))
+        except:
+            async with AsyncSession(infra.db.async_engine) as session:
+                await infra.db.insert_or_update(session, TaskStatus, dict(
+                    key='data_sync.tw_stock_prices',
+                    is_error=True,
+                    detail=traceback.format_exc(),
+                ))
+
+    async def _update_monthly_revenue_handler(self, sub, data):
+        try:
+            # 根據規定上市櫃公司營收必須在次月的10號前公告，但遇假期可以延期，如 10 號是週六，可以等下週一才公布
+            # 但我想每天都抓應該也不會怎樣
+            today = pd.Timestamp.today().normalize()
+
+            # 上個月的同一天
+            target_date = today - pd.DateOffset(months=1)
+
+            await self.update_monthly_revenue(year=target_date.year, month=target_date.month)
+
+            async with AsyncSession(infra.db.async_engine) as session:
+                await infra.db.insert_or_update(session, TaskStatus, dict(
+                    key='data_sync.monthly_revenue',
+                    is_error=False,
+                    detail=json.dumps({
+                        'year': target_date.year,
+                        'month': target_date.month,
+                    }),
+                ))
+        except:
+            async with AsyncSession(infra.db.async_engine) as session:
+                await infra.db.insert_or_update(session, TaskStatus, dict(
+                    key='data_sync.monthly_revenue',
+                    is_error=True,
+                    detail=traceback.format_exc(),
+                ))
+
+    async def _update_financial_statements_handler(self, sub, data):
+        try:
+            # 財報公布： 一般公司
+            # * 第一季（Q1）法說會：5/15 前
+            # * 第二季（Q2）財報：8/14 前
+            # * 第三季（Q3）財報：11/14 前
+            # * 第四季（Q4）財報及年報：隔年 3/31 前
+            #
+            # 財報公布： 金融業
+            # * 第一季（Q1）財報：5/15 前
+            # * 第二季（Q2）財報：8/31 前
+            # * 第三季（Q3）財報：11/14 前
+
+            last_period = pd.Period(pd.Timestamp.now(), freq='Q') - 1
+            await self.update_all_financial_statements_by_quarter(
+                year=last_period.year,
+                quarter=last_period.quarter,
+            )
+
+            async with AsyncSession(infra.db.async_engine) as session:
+                await infra.db.insert_or_update(session, TaskStatus, dict(
+                    key='data_sync.financial_statements',
+                    is_error=False,
+                    detail=json.dumps({
+                        'year': last_period.year,
+                        'quarter': last_period.quarter,
+                    }),
+                ))
+        except:
+            async with AsyncSession(infra.db.async_engine) as session:
+                await infra.db.insert_or_update(session, TaskStatus, dict(
+                    key='data_sync.financial_statements',
+                    is_error=True,
+                    detail=traceback.format_exc(),
+                ))
+
+    async def _update_db_cache_handler(self, sub, data):
+        try:
+            self.data.rebuild_cache()
+
+            async with AsyncSession(infra.db.async_engine) as session:
+                await infra.db.insert_or_update(session, TaskStatus, dict(
+                    key='data_sync.db_cache',
+                    is_error=False,
+                    detail=json.dumps({
+                    }),
+                ))
+        except:
+            async with AsyncSession(infra.db.async_engine) as session:
+                await infra.db.insert_or_update(session, TaskStatus, dict(
+                    key='data_sync.db_cache',
+                    is_error=True,
+                    detail=traceback.format_exc(),
+                ))
 
     async def execute_schedule_update_task(self, sub, data):
         today = pd.Timestamp.today().normalize()
@@ -79,8 +210,6 @@ class DataSync(CoreBase):
             error_message='台股資料快取失敗'
         )
 
-        await infra.mq.publish('data_sync.update_finished', {})
-
     @property
     def data(self):
         return self._market_data
@@ -89,10 +218,12 @@ class DataSync(CoreBase):
         self.logger.info(f'開始更新台灣股票資訊 ...')
         df = await self.crawl_stocks()
 
-        self.logger.info(f'取得 {len(df)} 筆資訊')
+        total_count = len(df)
+        self.logger.info(f'取得 {total_count} 筆資訊')
         async with AsyncSession(infra.db.async_engine) as session:
             await infra.db.batch_insert_or_update(session, TWStock, df)
         self.logger.info('台灣股票資訊更新完成')
+        return total_count
 
     async def update_prices_for_date_range(self, start=None, end=None, random_delay=True):
         start = pd.Timestamp(start if start is not None else '2004-01-01')  # 證交所最早只到 2004-01-01

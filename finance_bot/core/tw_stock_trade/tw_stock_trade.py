@@ -42,39 +42,37 @@ class TWStockTrade(CoreBase):
         uvicorn.run(app, host='0.0.0.0', port=16940)
 
     async def listen(self):
-        await infra.mq.subscribe('data_sync.update_finished', self._execute_strategy_handler)
+        await infra.mq.subscribe('tw_stock_trade.update_strategy_actions', self._update_strategy_actions_handler)
 
-    async def _execute_strategy_handler(self, sub, data):
-        await self.execute_strategy()
-
-    async def execute_strategy(self):
+    async def _update_strategy_actions_handler(self, sub, data):
         try:
-            self.logger.info('開始執行策略 ...')
-
-            market_data = MarketData()
-
-            self.strategy.market_data = market_data
-            self.strategy.broker = self._broker
-            self.strategy.pre_handle()
-            self.strategy.inter_handle()
+            await self.execute_strategy()
 
             async with AsyncSession(infra.db.async_engine) as session:
                 await infra.db.insert_or_update(session, TaskStatus, dict(
-                    key='tw_stock_trade.latest_strategy_actions',
+                    key='tw_stock_trade.strategy_actions',
                     is_error=False,
                     detail=json.dumps(self.strategy.actions),
                 ))
-
-            self.logger.info('執行策略成功')
-            return self.strategy.actions
         except:
             async with AsyncSession(infra.db.async_engine) as session:
                 await infra.db.insert_or_update(session, TaskStatus, dict(
-                    key='tw_stock_trade.latest_strategy_actions',
+                    key='tw_stock_trade.strategy_actions',
                     is_error=True,
                     detail=traceback.format_exc(),
                 ))
-            raise
+
+    async def execute_strategy(self):
+        self.logger.info('開始執行策略 ...')
+
+        market_data = MarketData()
+        self.strategy.market_data = market_data
+        self.strategy.broker = self._broker
+        self.strategy.pre_handle()
+        self.strategy.inter_handle()
+
+        self.logger.info('執行策略成功')
+        return self.strategy.actions
 
     @property
     def get_latest_actions(self):

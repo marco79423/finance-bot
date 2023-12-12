@@ -38,7 +38,7 @@ class SuperBot(CoreBase):
         uvicorn.run(app, host='0.0.0.0', port=16950)
 
     async def _listen(self):
-        await infra.mq.subscribe('super_bot.daily_status', self._daily_status_handler)
+        await infra.mq.subscribe('super_bot.send_daily_status', self._send_daily_status_handler)
 
     async def _start_telegram_app(self):
         await self._telegram_app.initialize()
@@ -52,13 +52,14 @@ class SuperBot(CoreBase):
         app.add_handler(CommandHandler("trades", self.command_trades))
         return app
 
-    async def _daily_status_handler(self, sub, data):
+    async def _send_daily_status_handler(self, sub, data):
         await self.send_daily_status()
 
     async def send_daily_status(self):
         task_status_df = pd.read_sql(
             sql=text("SELECT * FROM task_status"),
             con=infra.db.engine,
+            index_col='key',
             parse_dates=['created_at', 'updated_at'],
             dtype={
                 'is_error': bool,
@@ -67,19 +68,47 @@ class SuperBot(CoreBase):
 
         message = "狀態：\n{status}\n\n項目：\n{items}\n\n預計執行：\n{actions}"
 
-        error_keys = []
-
         items_msg = ''
         actions_msg = ''
-        for _, row in task_status_df.iterrows():
-            if row['is_error']:
-                error_keys.append(row['key'])
-                continue
 
+        for _, row in task_status_df.iterrows():
             if row['key'] == 'crypto_loan.status':
-                items_msg += 'crypto_loan: 總借出: {lending_amount:.2f}\n預估日收益: {daily_earn:.2f} (平均利率: {average_rate:.6f}%)\n'.format(
-                    **row['detail']
-                )
+                if row['is_error']:
+                    items_msg += '加密放貸: 異常\n'
+                else:
+                    items_msg += '加密放貸: 總借出: {lending_amount:.2f}\n預估日收益: {daily_earn:.2f} (平均利率: {average_rate:.6f}%)\n'.format(
+                        **row['detail']
+                    )
+            elif row['key'] == 'data_sync.tw_stock':
+                if row['is_error']:
+                    items_msg += '資料同步: 台灣股票資訊更新失敗\n'.format(**row['detail'])
+                else:
+                    items_msg += '資料同步: 台灣股票資訊更新完畢 ({total_count}筆)\n'.format(**row['detail'])
+
+            elif row['key'] == 'data_sync.tw_stock_prices':
+                if row['is_error']:
+                    items_msg += '資料同步: 股價更新失敗\n'
+                else:
+                    items_msg += '資料同步: {date:%Y-%m-%d} 股價更新完畢\n'.format(**row['detail'])
+
+            elif row['key'] == 'data_sync.monthly_revenue':
+                if row['is_error']:
+                    items_msg += '資料同步: 月營收財報更新失敗\n'
+                else:
+                    items_msg += '資料同步: {year}-{month} 月營收財報更新完畢\n'.format(**row['detail'])
+
+            elif row['key'] == 'data_sync.financial_statements':
+                if row['is_error']:
+                    items_msg += '資料同步: 財報更新失敗\n'
+                else:
+                    items_msg += '資料同步: {year}Q{quarter} 財報更新完畢\n'.format(**row['detail'])
+
+            elif row['key'] == 'data_sync.db_cache':
+                if row['is_error']:
+                    items_msg += '資料同步: 台股資料快取失敗\n'
+                else:
+                    items_msg += '資料同步: 台股資料快取完畢\n'
+
             elif row['key'] == 'tw_stock_trade.latest_strategy_actions':
                 actions = json.loads(row['detail'])
                 for action in actions:
@@ -88,12 +117,10 @@ class SuperBot(CoreBase):
                     if action['operation'] == 'sell':
                         actions_msg += '賣 {stock_id} (理由：{note})\n'.format(**action)
 
-        if error_keys:
+        if task_status_df['is_error'].any():
             status_msg = '出現異常\n'
-            for error_key in error_keys:
-                status_msg += error_key + '\n'
         else:
-            status_msg = '一切看起來都 ok'
+            status_msg = '一切看起來都 ok\n'
 
         message = message.format(
             status=status_msg,
