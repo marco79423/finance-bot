@@ -15,11 +15,16 @@ class ScheduleManager(ManagerBase):
     def start(self):
         self._scheduler.start()
 
-    def add_task(self, task, **kargs):
+    @property
+    def jobs(self):
+        return self._scheduler.get_jobs()
+
+    def add_task(self, task, *args, **kargs):
         self._scheduler.add_job(
             task,
+            *args,
             max_instances=1,
-            **kargs
+            **kargs,
         )
 
     def add_schedule_task(self, task, schedule_conf_key, **kargs):

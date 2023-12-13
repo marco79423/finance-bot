@@ -66,50 +66,74 @@ class SuperBot(CoreBase):
             }
         )
 
-        message = "狀態：\n{status}\n\n項目：\n{items}\n\n預計執行：\n{actions}"
+        # 狀態
+        if task_status_df['is_error'].any():
+            status_msg = '出現異常\n'
+        else:
+            status_msg = '一切看起來都 ok\n'
 
+        # 項目
         items_msg = ''
+
+        key = 'crypto_loan.status'
+        if key in task_status_df:
+            row = task_status_df[key]
+            if row['is_error']:
+                items_msg += '加密放貸: 異常\n'
+            else:
+                items_msg += '加密放貸: 總借出: {lending_amount:.2f}\n預估日收益: {daily_earn:.2f} (平均利率: {average_rate:.6f}%)\n'.format(
+                    **row['detail']
+                )
+
+        key = 'data_sync.tw_stock'
+        if key in task_status_df:
+            row = task_status_df[key]
+            if row['is_error']:
+                items_msg += '資料同步: 台灣股票資訊更新失敗\n'.format(**row['detail'])
+            else:
+                items_msg += '資料同步: 台灣股票資訊更新完畢 ({total_count}筆)\n'.format(**row['detail'])
+
+        key = 'data_sync.tw_stock_prices'
+        if key in task_status_df:
+            row = task_status_df[key]
+            if row['is_error']:
+                items_msg += '資料同步: 台灣股價更新失敗\n'
+            else:
+                items_msg += '資料同步: {date:%Y-%m-%d} 台灣股價更新完畢\n'.format(**row['detail'])
+
+        key = 'data_sync.monthly_revenue'
+        if key in task_status_df:
+            row = task_status_df[key]
+            if row['is_error']:
+                items_msg += '資料同步: 月營收財報更新失敗\n'
+            else:
+                items_msg += '資料同步: {year}-{month} 月營收財報更新完畢\n'.format(**row['detail'])
+
+        key = 'data_sync.financial_statements'
+        if key in task_status_df:
+            row = task_status_df[key]
+            if row['is_error']:
+                items_msg += '資料同步: 財報更新失敗\n'
+            else:
+                items_msg += '資料同步: {year}Q{quarter} 財報更新完畢\n'.format(**row['detail'])
+
+        key = 'data_sync.db_cache'
+        if key in task_status_df:
+            row = task_status_df[key]
+            if row['is_error']:
+                items_msg += '資料同步: 台股資料快取失敗\n'
+            else:
+                items_msg += '資料同步: 台股資料快取完畢\n'
+
+        # 預計執行
         actions_msg = ''
 
-        for _, row in task_status_df.iterrows():
-            if row['key'] == 'crypto_loan.status':
-                if row['is_error']:
-                    items_msg += '加密放貸: 異常\n'
-                else:
-                    items_msg += '加密放貸: 總借出: {lending_amount:.2f}\n預估日收益: {daily_earn:.2f} (平均利率: {average_rate:.6f}%)\n'.format(
-                        **row['detail']
-                    )
-            elif row['key'] == 'data_sync.tw_stock':
-                if row['is_error']:
-                    items_msg += '資料同步: 台灣股票資訊更新失敗\n'.format(**row['detail'])
-                else:
-                    items_msg += '資料同步: 台灣股票資訊更新完畢 ({total_count}筆)\n'.format(**row['detail'])
-
-            elif row['key'] == 'data_sync.tw_stock_prices':
-                if row['is_error']:
-                    items_msg += '資料同步: 股價更新失敗\n'
-                else:
-                    items_msg += '資料同步: {date:%Y-%m-%d} 股價更新完畢\n'.format(**row['detail'])
-
-            elif row['key'] == 'data_sync.monthly_revenue':
-                if row['is_error']:
-                    items_msg += '資料同步: 月營收財報更新失敗\n'
-                else:
-                    items_msg += '資料同步: {year}-{month} 月營收財報更新完畢\n'.format(**row['detail'])
-
-            elif row['key'] == 'data_sync.financial_statements':
-                if row['is_error']:
-                    items_msg += '資料同步: 財報更新失敗\n'
-                else:
-                    items_msg += '資料同步: {year}Q{quarter} 財報更新完畢\n'.format(**row['detail'])
-
-            elif row['key'] == 'data_sync.db_cache':
-                if row['is_error']:
-                    items_msg += '資料同步: 台股資料快取失敗\n'
-                else:
-                    items_msg += '資料同步: 台股資料快取完畢\n'
-
-            elif row['key'] == 'tw_stock_trade.latest_strategy_actions':
+        key = 'tw_stock_trade.latest_strategy_actions'
+        if key in task_status_df:
+            row = task_status_df[key]
+            if row['is_error']:
+                actions_msg = '異常\n'
+            else:
                 actions = json.loads(row['detail'])
                 for action in actions:
                     if action['operation'] == 'buy':
@@ -117,11 +141,7 @@ class SuperBot(CoreBase):
                     if action['operation'] == 'sell':
                         actions_msg += '賣 {stock_id} (理由：{note})\n'.format(**action)
 
-        if task_status_df['is_error'].any():
-            status_msg = '出現異常\n'
-        else:
-            status_msg = '一切看起來都 ok\n'
-
+        message = "狀態：\n{status}\n\n項目：\n{items}\n\n預計執行：\n{actions}"
         message = message.format(
             status=status_msg,
             items=items_msg,

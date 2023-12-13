@@ -16,20 +16,51 @@ class Schedule(CoreBase):
         async def startup():
             await self.start_jobs()
 
+        @app.get('/jobs')
+        async def get_jobs():
+            return [str(job) for job in infra.scheduler.jobs]
+
         uvicorn.run(app, host='0.0.0.0', port=16930)
 
     async def start_jobs(self):
+        # crypto loan
         infra.scheduler.add_schedule_task(
-            self.create_task('crypto_loan.schedule_update'),
-            schedule_conf_key='core.schedule.crypto_loan.schedule_update',
+            self.create_task('crypto_loan.update_status'),
+            schedule_conf_key='core.schedule.crypto_loan.update_status',
+        )
+
+        # data_sync
+        infra.scheduler.add_schedule_task(
+            self.create_task('data_sync.update_tw_stock'),
+            schedule_conf_key='core.schedule.data_sync.update_tw_stock',
         )
         infra.scheduler.add_schedule_task(
-            self.create_task('data_sync.schedule_update'),
-            schedule_conf_key='core.schedule.data_sync.schedule_update',
+            self.create_task('data_sync.update_tw_stock_prices'),
+            schedule_conf_key='core.schedule.data_sync.update_tw_stock_prices',
         )
         infra.scheduler.add_schedule_task(
-            self.create_task('super_bot.daily_status'),
-            schedule_conf_key='core.schedule.super_bot.daily_status',
+            self.create_task('data_sync.update_monthly_revenue'),
+            schedule_conf_key='core.schedule.data_sync.update_monthly_revenue',
+        )
+        infra.scheduler.add_schedule_task(
+            self.create_task('data_sync.update_financial_statements'),
+            schedule_conf_key='core.schedule.data_sync.update_financial_statements',
+        )
+        infra.scheduler.add_schedule_task(
+            self.create_task('data_sync.update_db_cache'),
+            schedule_conf_key='core.schedule.data_sync.update_db_cache',
+        )
+
+        # tw_stock_trade
+        infra.scheduler.add_schedule_task(
+            self.create_task('tw_stock_trade.update_strategy_actions'),
+            schedule_conf_key='core.schedule.tw_stock_trade.update_strategy_actions',
+        )
+
+        # super_bot
+        infra.scheduler.add_schedule_task(
+            self.create_task('super_bot.send_daily_status'),
+            schedule_conf_key='core.schedule.super_bot.send_daily_status',
         )
 
     @staticmethod

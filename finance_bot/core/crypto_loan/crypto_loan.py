@@ -93,7 +93,7 @@ class CryptoLoan(CoreBase):
         await infra.mq.subscribe('crypto_loan.update_status', self._update_status_handler)
 
     async def start_jobs(self):
-        await infra.scheduler.add_task(
+        infra.scheduler.add_task(
             self._execute_lending_task,
             'interval',
             minutes=10,
