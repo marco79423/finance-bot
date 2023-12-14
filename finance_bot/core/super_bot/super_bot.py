@@ -76,7 +76,7 @@ class SuperBot(CoreBase):
         items_msg = ''
 
         key = 'crypto_loan.status'
-        if key in task_status_df:
+        if key in task_status_df.index:
             row = task_status_df[key]
             if row['is_error']:
                 items_msg += '加密放貸: 異常\n'
@@ -86,7 +86,7 @@ class SuperBot(CoreBase):
                 )
 
         key = 'data_sync.tw_stock'
-        if key in task_status_df:
+        if key in task_status_df.index:
             row = task_status_df[key]
             if row['is_error']:
                 items_msg += '資料同步: 台灣股票資訊更新失敗\n'.format(**row['detail'])
@@ -94,7 +94,7 @@ class SuperBot(CoreBase):
                 items_msg += '資料同步: 台灣股票資訊更新完畢 ({total_count}筆)\n'.format(**row['detail'])
 
         key = 'data_sync.tw_stock_prices'
-        if key in task_status_df:
+        if key in task_status_df.index:
             row = task_status_df[key]
             if row['is_error']:
                 items_msg += '資料同步: 台灣股價更新失敗\n'
@@ -102,7 +102,7 @@ class SuperBot(CoreBase):
                 items_msg += '資料同步: {year}-{month}-{day} 台灣股價更新完畢\n'.format(**row['detail'])
 
         key = 'data_sync.monthly_revenue'
-        if key in task_status_df:
+        if key in task_status_df.index:
             row = task_status_df[key]
             if row['is_error']:
                 items_msg += '資料同步: 月營收財報更新失敗\n'
@@ -110,7 +110,7 @@ class SuperBot(CoreBase):
                 items_msg += '資料同步: {year}-{month} 月營收財報更新完畢\n'.format(**row['detail'])
 
         key = 'data_sync.financial_statements'
-        if key in task_status_df:
+        if key in task_status_df.index:
             row = task_status_df[key]
             if row['is_error']:
                 items_msg += '資料同步: 財報更新失敗\n'
@@ -118,7 +118,7 @@ class SuperBot(CoreBase):
                 items_msg += '資料同步: {year}Q{quarter} 財報更新完畢\n'.format(**row['detail'])
 
         key = 'data_sync.db_cache'
-        if key in task_status_df:
+        if key in task_status_df.index:
             row = task_status_df[key]
             if row['is_error']:
                 items_msg += '資料同步: 台股資料快取失敗\n'
@@ -129,7 +129,7 @@ class SuperBot(CoreBase):
         actions_msg = ''
 
         key = 'tw_stock_trade.latest_strategy_actions'
-        if key in task_status_df:
+        if key in task_status_df.index:
             row = task_status_df[key]
             if row['is_error']:
                 actions_msg = '異常\n'
@@ -141,7 +141,7 @@ class SuperBot(CoreBase):
                     if action['operation'] == 'sell':
                         actions_msg += '賣 {stock_id} (理由：{note})\n'.format(**action)
 
-        message = "狀態：\n{status}\n\n項目：\n{items}\n\n預計執行：\n{actions}"
+        message = "狀態：\n{status}\n項目：\n{items}\n預計執行：\n{actions}"
         message = message.format(
             status=status_msg,
             items=items_msg,
