@@ -22,50 +22,39 @@ class Schedule(CoreBase):
 
         uvicorn.run(app, host='0.0.0.0', port=16930)
 
-    async def start_jobs(self):
+    tasks = [
         # crypto loan
-        infra.scheduler.add_schedule_task(
-            self.create_task('crypto_loan.update_status'),
-            schedule_conf_key='core.schedule.crypto_loan.update_status',
-        )
-
+        ('crypto_loan.update_status', 'core.schedule.crypto_loan.update_status'),
         # data_sync
-        infra.scheduler.add_schedule_task(
-            self.create_task('data_sync.update_tw_stock'),
-            schedule_conf_key='core.schedule.data_sync.update_tw_stock',
-        )
-        infra.scheduler.add_schedule_task(
-            self.create_task('data_sync.update_tw_stock_prices'),
-            schedule_conf_key='core.schedule.data_sync.update_tw_stock_prices',
-        )
-        infra.scheduler.add_schedule_task(
-            self.create_task('data_sync.update_monthly_revenue'),
-            schedule_conf_key='core.schedule.data_sync.update_monthly_revenue',
-        )
-        infra.scheduler.add_schedule_task(
-            self.create_task('data_sync.update_financial_statements'),
-            schedule_conf_key='core.schedule.data_sync.update_financial_statements',
-        )
-        infra.scheduler.add_schedule_task(
-            self.create_task('data_sync.update_db_cache'),
-            schedule_conf_key='core.schedule.data_sync.update_db_cache',
-        )
-
+        ('data_sync.update_tw_stock', 'core.schedule.data_sync.update_tw_stock'),
+        ('data_sync.update_tw_stock_prices', 'core.schedule.data_sync.update_tw_stock_prices'),
+        ('data_sync.update_monthly_revenue', 'core.schedule.data_sync.update_monthly_revenue'),
+        ('data_sync.update_financial_statements', 'core.schedule.data_sync.update_financial_statements'),
+        ('data_sync.update_db_cache', 'core.schedule.data_sync.update_db_cache'),
         # tw_stock_trade
-        infra.scheduler.add_schedule_task(
-            self.create_task('tw_stock_trade.update_strategy_actions'),
-            schedule_conf_key='core.schedule.tw_stock_trade.update_strategy_actions',
-        )
-
+        ('tw_stock_trade.update_strategy_actions', 'core.schedule.tw_stock_trade.update_strategy_actions'),
         # super_bot
-        infra.scheduler.add_schedule_task(
-            self.create_task('super_bot.send_daily_status'),
-            schedule_conf_key='core.schedule.super_bot.send_daily_status',
-        )
+        ('super_bot.send_daily_status', 'core.schedule.super_bot.send_daily_status'),
+    ]
+
+    async def start_jobs(self):
+        for task_key, conf_key in self.tasks:
+            infra.scheduler.add_schedule_task(
+                self.create_task(task_key),
+                schedule_conf_key=conf_key,
+            )
+
+    async def send_task(self, task_key):
+        self.logger.info(f'開始發送任務 {task_key} ...')
+        if task_key in (key for key, _ in self.tasks):
+            self.logger.info(f'發送 {task_key} 至 MQ')
+            await infra.mq.publish(task_key, {})
 
     @staticmethod
     def create_task(topic):
         async def send_task():
             await infra.mq.publish(topic, {})
+
+        send_task.__name__ = f'send_task<{topic}>'
 
         return send_task

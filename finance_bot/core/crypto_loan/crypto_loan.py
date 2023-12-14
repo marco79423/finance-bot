@@ -100,17 +100,29 @@ class CryptoLoan(CoreBase):
         )
 
     async def _update_status_handler(self, sub, data):
-        stats = await self.get_stats()
-        async with AsyncSession(infra.db.async_engine) as session:
-            await infra.db.insert_or_update(session, TaskStatus, dict(
-                key='crypto_loan.status',
-                is_error=False,
-                detail=json.dumps({
-                    'lending_amount': round(stats.lending_amount, 2),
-                    'daily_earn': round(stats.daily_earn, 2),
-                    'average_rate': round(stats.average_rate * 100, 6),
-                }),
-            ))
+        self.logger.info('更新狀態 ...')
+        try:
+            stats = await self.get_stats()
+            async with AsyncSession(infra.db.async_engine) as session:
+                await infra.db.insert_or_update(session, TaskStatus, dict(
+                    key='crypto_loan.status',
+                    is_error=False,
+                    detail=json.dumps({
+                        'lending_amount': round(stats.lending_amount, 2),
+                        'daily_earn': round(stats.daily_earn, 2),
+                        'average_rate': round(stats.average_rate * 100, 6),
+                    }),
+                ))
+                self.logger.info('更新狀態成功')
+        except:
+            async with AsyncSession(infra.db.async_engine) as session:
+                await infra.db.insert_or_update(session, TaskStatus, dict(
+                    key='crypto_loan.status',
+                    is_error=True,
+                    detail=json.dumps({
+                    }),
+                ))
+                self.logger.info('更新狀態失敗')
 
     async def _execute_lending_task(self):
         try:

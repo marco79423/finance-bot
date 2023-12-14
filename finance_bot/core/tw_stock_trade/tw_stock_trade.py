@@ -46,6 +46,7 @@ class TWStockTrade(CoreBase):
 
     async def _update_strategy_actions_handler(self, sub, data):
         try:
+            self.logger.info('開始更新最新策略行動 ...')
             await self.execute_strategy()
 
             async with AsyncSession(infra.db.async_engine) as session:
@@ -54,6 +55,7 @@ class TWStockTrade(CoreBase):
                     is_error=False,
                     detail=json.dumps(self.strategy.actions),
                 ))
+            self.logger.info('更新最新策略行動成功')
         except:
             async with AsyncSession(infra.db.async_engine) as session:
                 await infra.db.insert_or_update(session, TaskStatus, dict(
@@ -61,6 +63,7 @@ class TWStockTrade(CoreBase):
                     is_error=True,
                     detail=traceback.format_exc(),
                 ))
+            self.logger.info('更新最新策略行動失敗')
 
     async def execute_strategy(self):
         self.logger.info('開始執行策略 ...')
