@@ -73,7 +73,9 @@ class DataSync(CoreBase):
                     key='data_sync.tw_stock_prices',
                     is_error=False,
                     detail=json.dumps({
-                        'date': yesterday,
+                        'year': yesterday.year,
+                        'month': yesterday.month,
+                        'day': yesterday.day,
                     }),
                 ))
         except:

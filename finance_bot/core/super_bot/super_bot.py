@@ -99,7 +99,7 @@ class SuperBot(CoreBase):
             if row['is_error']:
                 items_msg += '資料同步: 台灣股價更新失敗\n'
             else:
-                items_msg += '資料同步: {date:%Y-%m-%d} 台灣股價更新完畢\n'.format(**row['detail'])
+                items_msg += '資料同步: {year}-{month}-{day} 台灣股價更新完畢\n'.format(**row['detail'])
 
         key = 'data_sync.monthly_revenue'
         if key in task_status_df:
