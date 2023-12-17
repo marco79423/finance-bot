@@ -1,15 +1,10 @@
-import json
-import traceback
-
 import uvicorn
-from sqlalchemy.ext.asyncio import AsyncSession
 
 from finance_bot.core.base import CoreBase
 from finance_bot.core.tw_stock_trade.broker import SinoBroker
 from finance_bot.core.tw_stock_trade.market_data import MarketData
 from finance_bot.core.tw_stock_trade.strategy import StrategyS1V0
 from finance_bot.infrastructure import infra
-from finance_bot.model.task_status import TaskStatus
 
 
 class TWStockTrade(CoreBase):
@@ -45,25 +40,12 @@ class TWStockTrade(CoreBase):
         await infra.mq.subscribe('tw_stock_trade.update_strategy_actions', self._update_strategy_actions_handler)
 
     async def _update_strategy_actions_handler(self, sub, data):
-        try:
-            self.logger.info('開始更新最新策略行動 ...')
-            await self.execute_strategy()
-
-            async with AsyncSession(infra.db.async_engine) as session:
-                await infra.db.insert_or_update(session, TaskStatus, dict(
-                    key='tw_stock_trade.strategy_actions',
-                    is_error=False,
-                    detail=json.dumps(self.strategy.actions),
-                ))
-            self.logger.info('更新最新策略行動成功')
-        except:
-            async with AsyncSession(infra.db.async_engine) as session:
-                await infra.db.insert_or_update(session, TaskStatus, dict(
-                    key='tw_stock_trade.strategy_actions',
-                    is_error=True,
-                    detail=traceback.format_exc(),
-                ))
-            self.logger.info('更新最新策略行動失敗')
+        await self.execute_task(
+            f'最新策略行動更新',
+            'tw_stock_trade.update_strategy_actions',
+            self.execute_strategy,
+            retries=5,
+        )
 
     async def execute_strategy(self):
         self.logger.info('開始執行策略 ...')

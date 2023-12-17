@@ -75,7 +75,7 @@ class SuperBot(CoreBase):
         # 項目
         items_msg = ''
 
-        key = 'crypto_loan.status'
+        key = 'crypto_loan.update_status'
         if key in task_status_df.index:
             row = task_status_df.loc[key]
             if row['is_error']:
@@ -85,7 +85,7 @@ class SuperBot(CoreBase):
                     **json.loads(row['detail'])
                 )
 
-        key = 'data_sync.tw_stock'
+        key = 'data_sync.update_tw_stock'
         if key in task_status_df.index:
             row = task_status_df.loc[key]
             if row['is_error']:
@@ -93,15 +93,17 @@ class SuperBot(CoreBase):
             else:
                 items_msg += '資料同步: 台灣股票資訊更新完畢 ({total_count}筆)\n'.format(**json.loads(row['detail']))
 
-        key = 'data_sync.tw_stock_prices'
+        key = 'data_sync.update_tw_stock_prices'
         if key in task_status_df.index:
             row = task_status_df.loc[key]
             if row['is_error']:
                 items_msg += '資料同步: 台灣股價更新失敗\n'
             else:
-                items_msg += '資料同步: {year}-{month}-{day} 台灣股價更新完畢\n'.format(**json.loads(row['detail']))
+                result = json.loads(row['detail'])
+                date = pd.Timestamp(result['date'])
+                items_msg += f'資料同步: {date:%Y-%m-%d} 台灣股價更新完畢\n'
 
-        key = 'data_sync.monthly_revenue'
+        key = 'data_sync.update_monthly_revenue'
         if key in task_status_df.index:
             row = task_status_df.loc[key]
             if row['is_error']:
@@ -109,7 +111,7 @@ class SuperBot(CoreBase):
             else:
                 items_msg += '資料同步: {year}-{month} 月營收財報更新完畢\n'.format(**json.loads(row['detail']))
 
-        key = 'data_sync.financial_statements'
+        key = 'data_sync.update_financial_statements'
         if key in task_status_df.index:
             row = task_status_df.loc[key]
             if row['is_error']:
@@ -117,18 +119,18 @@ class SuperBot(CoreBase):
             else:
                 items_msg += '資料同步: {year}Q{quarter} 財報更新完畢\n'.format(**json.loads(row['detail']))
 
-        key = 'data_sync.db_cache'
+        key = 'data_sync.update_db_cache'
         if key in task_status_df.index:
             row = task_status_df.loc[key]
             if row['is_error']:
-                items_msg += '資料同步: 台股資料快取失敗\n'
+                items_msg += '資料同步: 台股資料快取更新失敗\n'
             else:
-                items_msg += '資料同步: 台股資料快取完畢\n'
+                items_msg += '資料同步: 台股資料快取更新完畢\n'
 
         # 預計執行
         actions_msg = ''
 
-        key = 'tw_stock_trade.strategy_actions'
+        key = 'tw_stock_trade.update_strategy_actions'
         if key in task_status_df.index:
             row = task_status_df.loc[key]
             if row['is_error']:

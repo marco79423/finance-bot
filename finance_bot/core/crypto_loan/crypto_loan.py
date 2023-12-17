@@ -1,15 +1,11 @@
 import dataclasses
 import datetime as dt
-import json
-import traceback
 
 import bfxapi
 import uvicorn
-from sqlalchemy.ext.asyncio import AsyncSession
 
 from finance_bot.core.base import CoreBase
 from finance_bot.infrastructure import infra
-from finance_bot.model.task_status import TaskStatus
 
 
 @dataclasses.dataclass
@@ -49,14 +45,6 @@ class LendingRecord:
             'end': self.end.isoformat(),
             'last_time': str(self.end - infra.time.get_now())
         }
-
-
-@dataclasses.dataclass
-class Stats:
-    time: dt.datetime
-    lending_amount: float
-    average_rate: float
-    daily_earn: float
 
 
 class CryptoLoan(CoreBase):
@@ -100,102 +88,72 @@ class CryptoLoan(CoreBase):
         )
 
     async def _update_status_handler(self, sub, data):
-        self.logger.info('更新狀態 ...')
-        try:
-            stats = await self.get_stats()
-            async with AsyncSession(infra.db.async_engine) as session:
-                await infra.db.insert_or_update(session, TaskStatus, dict(
-                    key='crypto_loan.status',
-                    is_error=False,
-                    detail=json.dumps({
-                        'lending_amount': round(stats.lending_amount, 2),
-                        'daily_earn': round(stats.daily_earn, 2),
-                        'average_rate': round(stats.average_rate * 100, 6),
-                    }),
-                ))
-                self.logger.info('更新狀態成功')
-        except:
-            async with AsyncSession(infra.db.async_engine) as session:
-                await infra.db.insert_or_update(session, TaskStatus, dict(
-                    key='crypto_loan.status',
-                    is_error=True,
-                    detail=json.dumps({
-                    }),
-                ))
-                self.logger.info('更新狀態失敗')
+        await self.execute_task(
+            f'放貨狀態更新',
+            'crypto_loan.update_status',
+            self.get_stats,
+            retries=5,
+        )
 
     async def _execute_lending_task(self):
-        try:
-            strategy = await self.make_strategy()
+        strategy = await self.make_strategy()
 
-            # 取消所有不同策略的訂單
+        # 取消所有不同策略的訂單
+        offers = await self._client.rest.get_funding_offers(symbol='fUSD')
+        for offer in offers:
+            if offer.f_type == bfxapi.FundingOffer.Type.FRR_DELTA:
+                continue
+
+            if not strategy.is_used_by(offer):
+                await self._client.rest.submit_cancel_funding_offer(offer.id)
+                self.logger.info(f'[{dt.datetime.now()}] 取消訂單 {offer}')
+
+        # 如果錢包有錢但是小於 150，取消金額最小的訂單
+        balance_available = await self.get_funding_balance()
+        if 1 < balance_available < 150:
             offers = await self._client.rest.get_funding_offers(symbol='fUSD')
+
+            min_amount_offer = None
             for offer in offers:
                 if offer.f_type == bfxapi.FundingOffer.Type.FRR_DELTA:
                     continue
 
-                if not strategy.is_used_by(offer):
-                    await self._client.rest.submit_cancel_funding_offer(offer.id)
-                    self.logger.info(f'[{dt.datetime.now()}] 取消訂單 {offer}')
+                if min_amount_offer is None or offer.amount < min_amount_offer.amount:
+                    min_amount_offer = offer
 
-            # 如果錢包有錢但是小於 150，取消金額最小的訂單
-            balance_available = await self.get_funding_balance()
-            if 1 < balance_available < 150:
-                offers = await self._client.rest.get_funding_offers(symbol='fUSD')
+            if min_amount_offer:
+                await self._client.rest.submit_cancel_funding_offer(min_amount_offer.id)
+                self.logger.info(f'[{dt.datetime.now()}] 取消訂單 {min_amount_offer}')
 
-                min_amount_offer = None
-                for offer in offers:
-                    if offer.f_type == bfxapi.FundingOffer.Type.FRR_DELTA:
-                        continue
+        # 如果沒有 FRR 訂單，就下一個
+        balance_available = await self.get_funding_balance()
+        if balance_available >= 150 and not await self.has_frr_offer():
+            amount = balance_available
+            resp = await self._client.rest.submit_funding_offer(
+                symbol='fUSD',
+                amount=amount,
+                rate=0,
+                period=30,
+                funding_type=bfxapi.FundingOffer.Type.FRR_DELTA
+            )
+            self.logger.info(f'[{dt.datetime.now()}] 新增 FRR 訂單 {resp.notify_info})')
 
-                    if min_amount_offer is None or offer.amount < min_amount_offer.amount:
-                        min_amount_offer = offer
-
-                if min_amount_offer:
-                    await self._client.rest.submit_cancel_funding_offer(min_amount_offer.id)
-                    self.logger.info(f'[{dt.datetime.now()}] 取消訂單 {min_amount_offer}')
-
-            # 如果沒有 FRR 訂單，就下一個
-            balance_available = await self.get_funding_balance()
-            if balance_available >= 150 and not await self.has_frr_offer():
+        # 根據當前餘額和策略下訂單
+        balance_available = await self.get_funding_balance()
+        while balance_available >= 150:
+            amount = self.MAX_OFFER_AMOUNT
+            if balance_available - self.MAX_OFFER_AMOUNT < 150:
                 amount = balance_available
-                resp = await self._client.rest.submit_funding_offer(
-                    symbol='fUSD',
-                    amount=amount,
-                    rate=0,
-                    period=30,
-                    funding_type=bfxapi.FundingOffer.Type.FRR_DELTA
-                )
-                self.logger.info(f'[{dt.datetime.now()}] 新增 FRR 訂單 {resp.notify_info})')
 
-            # 根據當前餘額和策略下訂單
-            balance_available = await self.get_funding_balance()
-            while balance_available >= 150:
-                amount = self.MAX_OFFER_AMOUNT
-                if balance_available - self.MAX_OFFER_AMOUNT < 150:
-                    amount = balance_available
-
-                resp = await self._client.rest.submit_funding_offer(
-                    symbol='fUSD',
-                    amount=amount,
-                    rate=strategy.rate,
-                    period=strategy.period,
-                    funding_type=strategy.f_type
-                )
-                self.logger.info(f'[{dt.datetime.now()}] 新增訂單 {resp.notify_info} (金額：{amount})')
-                balance_available -= amount
-
-            async with AsyncSession(infra.db.async_engine) as session:
-                await infra.db.insert_or_update(session, TaskStatus, dict(
-                    key='crypto_loan.latest_lending_task',
-                    is_error=False,
-                ))
-        except:
-            await infra.db.insert_or_update(session, TaskStatus, dict(
-                key='crypto_loan.latest_lending_task',
-                is_error=True,
-                detail=traceback.format_exc(),
-            ))
+            resp = await self._client.rest.submit_funding_offer(
+                symbol='fUSD',
+                amount=amount,
+                rate=strategy.rate,
+                period=strategy.period,
+                funding_type=strategy.f_type
+            )
+            self.logger.info(f'[{dt.datetime.now()}] 新增訂單 {resp.notify_info} (金額：{amount})')
+            balance_available -= amount
 
     async def get_lending_records(self):
         """取得當下的借貸資訊"""
@@ -228,12 +186,12 @@ class CryptoLoan(CoreBase):
             daily_earn += credit_record.daily_earn
 
         average_rate = daily_earn / lending_amount
-        return Stats(
-            time=infra.time.get_now(),
-            lending_amount=lending_amount,
-            average_rate=average_rate,
-            daily_earn=daily_earn * (1 - self.BITFINEX_FEES)
-        )
+
+        return {
+            'lending_amount': round(lending_amount, 2),
+            'daily_earn': round(average_rate, 2),
+            'average_rate': round(daily_earn * (1 - self.BITFINEX_FEES) * 100, 6),
+        }
 
     async def make_strategy(self):
         start = int((dt.datetime.now() - dt.timedelta(hours=1)).timestamp() * 1000)

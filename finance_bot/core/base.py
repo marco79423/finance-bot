@@ -1,12 +1,15 @@
 import abc
+import json
+import traceback
 
 import asyncio
-
 import fastapi
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
+from sqlalchemy.ext.asyncio import AsyncSession
 
 from finance_bot.infrastructure import infra
+from finance_bot.model.task_status import TaskStatus
 
 
 class CoreBase(abc.ABC):
@@ -34,46 +37,45 @@ class CoreBase(abc.ABC):
         return app
 
     async def execute_task(self,
+                           name,
+                           key,
                            func,
                            *,
                            args=None,
                            kargs=None,
-                           success_message=None,
-                           error_message=None,
                            retries=0):
         if args is None:
             args = []
         if kargs is None:
             kargs = {}
 
+        self.logger.info(f'開始任務 {name} ...')
         for i in range(retries + 1):
             try:
                 if asyncio.iscoroutinefunction(func):
                     result = await func(*args, **kargs)
                 else:
                     result = func(*args, **kargs)
-
-                if success_message:
-                    message = success_message.format(
-                        *args,
-                        **kargs,
-                        **(result if isinstance(result, dict) else {})
-                    )
-
-                    await infra.notifier.send(message)
+                async with AsyncSession(infra.db.async_engine) as session:
+                    await infra.db.insert_or_update(session, TaskStatus, dict(
+                        key=key,
+                        is_error=False,
+                        detail=json.dumps(result),
+                    ))
+                self.logger.info(f'任務 {name} 成功')
                 return
-            except Exception as e:
-                message = ''
-                if error_message is not None:
-                    message = error_message.format(
-                        *args,
-                        **kargs,
-                        retry_count=i + 1 if retries > 0 else 0
-                    )
-                self.logger.exception(message)
+            except:
+                async with AsyncSession(infra.db.async_engine) as session:
+                    await infra.db.insert_or_update(session, TaskStatus, dict(
+                        key=key,
+                        is_error=True,
+                        detail=traceback.format_exc(),
+                    ))
 
-                if message:
-                    message += '\n' + str(e)
-                    await infra.notifier.send(message)
-
-                await asyncio.sleep(60)
+                if retries == 0:
+                    self.logger.exception(f'任務 {name} 失敗')
+                    return
+                else:
+                    self.logger.exception(f'任務 {name} 失敗 [重試次數: {i}]')
+                    self.logger.info('等待 60 秒 ...')
+                    await asyncio.sleep(60)
