@@ -34,7 +34,7 @@ class StrategyNew(StrategyBase):
         i1 = self.i('i1')
 
         target_list = self.new_target_list([
-            (self.broker.current_shares == 0).reindex(self.available_stock_ids, fill_value=True),
+            (self.current_shares == 0).reindex(self.available_stock_ids, fill_value=True),
             self.close > 10,
             (sma10.iloc[-1] > sma35.iloc[-1]) & (sma10.iloc[-2] < sma35.iloc[-2]),
             self.data.close.iloc[-1] > self.data.open.iloc[-1],

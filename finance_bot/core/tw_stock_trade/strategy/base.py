@@ -117,7 +117,7 @@ class StrategyBase(abc.ABC):
 
     @property
     def current_shares(self):
-        return self.broker.current_shares.reindex(self.close.index, fill_value=0)
+        return self.broker.holding_stock_shares_s.reindex(self.close.index, fill_value=0)
 
     @property
     def entry_date(self):

@@ -91,6 +91,19 @@ class BrokerBase(abc.ABC):
         return self._cache['holding_stock_ids']
 
     @property
+    def holding_stock_shares_s(self) -> pd.Series:
+        """當前持有的股票股數"""
+        if 'holding_stock_shares_s' not in self._cache:
+            stock_share_map = {}
+            for position in self.positions:
+                stock_share_map[position.stock_id] = stock_share_map.get(position.stock_id, 0) + position.shares
+            self._cache['holding_stock_shares_s'] = pd.Series(
+                [stock_share_map[stock_id] for stock_id in self.holding_stock_ids],
+                index=self.holding_stock_ids,
+            )
+        return self._cache['holding_stock_shares_s']
+
+    @property
     def invested_funds(self) -> int:
         """當前的總投入資金"""
         if 'invested_funds' not in self._cache:

@@ -116,19 +116,6 @@ class SimBroker(BrokerBase):
     def init_balance(self):
         return self._init_balance
 
-    @property
-    def current_shares(self):
-        items = []
-        for stock_id, positions in self._positions_cache.items():
-            items.append({
-                'stock_id': stock_id,
-                'shares': sum(position['shares'] for position in positions.values())
-            })
-        return pd.Series(
-            [item['shares'] for item in items],
-            index=[item['stock_id'] for item in items],
-        )
-
     def get_entry_date(self, stock_id):
         for position in self._positions_cache[stock_id].values():
             return position['start_date']
