@@ -121,7 +121,7 @@ class StrategyBase(abc.ABC):
 
     @property
     def entry_date(self):
-        return self.broker.entry_date
+        return self.broker.holding_stock_entry_date_s
 
     @property
     def entry_price(self):

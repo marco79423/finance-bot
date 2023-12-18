@@ -91,6 +91,21 @@ class BrokerBase(abc.ABC):
         return self._cache['holding_stock_ids']
 
     @property
+    def holding_stock_entry_date_s(self) -> pd.Series:
+        """當前持有的股票入場時間"""
+        if 'holding_stock_entry_date_s' not in self._cache:
+            stock_entry_date_map = {}
+            for position in self.positions:
+                if position.stock_id not in stock_entry_date_map:
+                    stock_entry_date_map[position.stock_id] = position.date
+
+            self._cache['holding_stock_entry_date_s'] = pd.Series(
+                [stock_entry_date_map[stock_id] for stock_id in self.holding_stock_ids],
+                index=self.holding_stock_ids,
+            )
+        return self._cache['holding_stock_entry_date_s']
+
+    @property
     def holding_stock_shares_s(self) -> pd.Series:
         """當前持有的股票股數"""
         if 'holding_stock_shares_s' not in self._cache:
