@@ -2,12 +2,13 @@ import pandas as pd
 import shioaji as sj
 
 from finance_bot.core.tw_stock_trade.broker import BrokerBase
-from finance_bot.core.tw_stock_trade.broker.base import Position
+from finance_bot.core.tw_stock_trade.broker.base import Position, CommissionInfo
 from finance_bot.infrastructure import infra
 
 
 class SinoBroker(BrokerBase):
     name = 'sino_broker'
+    commission_info = CommissionInfo(fee_discount=1)
 
     ca_path = infra.path.config_folder / 'Sinopac.pfx'
 

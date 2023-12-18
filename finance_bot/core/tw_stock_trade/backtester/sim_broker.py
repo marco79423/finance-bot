@@ -1,16 +1,11 @@
-import math
-
 import pandas as pd
 
-from finance_bot.core.tw_stock_trade.broker.base import BrokerBase, Position
+from finance_bot.core.tw_stock_trade.broker.base import BrokerBase, Position, CommissionInfo
 
 
 class SimBroker(BrokerBase):
     name = 'sim_broker'
-
-    fee_discount = 0.6
-    fee_rate = 1.425 / 1000 * fee_discount  # 0.1425％
-    tax_rate = 3 / 1000  # 政府固定收 0.3 %
+    commission_info = CommissionInfo(fee_discount=0.6)
 
     def __init__(self, data, init_balance):
         super().__init__()
@@ -48,7 +43,7 @@ class SimBroker(BrokerBase):
         entry_price = self._data.get_stock_open_price(stock_id)
 
         before = self.current_balance
-        fee = max(math.floor(shares * entry_price * self.fee_rate), 1)  # 永豐說是無條件捨去，最低收 1 元
+        fee = self.commission_info.get_buy_commission(entry_price, shares)
         funds = int(shares * entry_price) + fee
         after = before - funds
 
@@ -103,7 +98,7 @@ class SimBroker(BrokerBase):
 
         for position in self._positions_cache[stock_id].values():
             before = self.current_balance
-            fee = max(math.floor(position['shares'] * price * (self.fee_rate + self.tax_rate)), 1)
+            fee = self.commission_info.get_sell_commission(price, position['shares'])
             funds = int(position['shares'] * price) - fee
             after = before + funds
 
@@ -129,14 +124,6 @@ class SimBroker(BrokerBase):
         del self._positions_cache[stock_id]
 
         return True
-
-    @property
-    def invested_funds(self):
-        funds = 0
-        for positions in self._positions_cache.values():
-            for position in positions.values():
-                funds += int(position['start_price'] * position['shares'])
-        return funds
 
     @property
     def init_balance(self):
@@ -195,8 +182,8 @@ class SimBroker(BrokerBase):
 
     @property
     def break_even_price(self):
-        fee_ratio = 1.425 / 1000 * self.fee_discount  # 0.1425％
-        tax_ratio = 3 / 1000  # 政府固定收 0.3 %
+        fee_ratio = self.commission_info.fee_rate
+        tax_ratio = self.commission_info.tax_rate
         return self.entry_price * (1 + fee_ratio) / (1 - fee_ratio - tax_ratio)
 
     def get_open_trades_by_stock_id(self, stock_id):

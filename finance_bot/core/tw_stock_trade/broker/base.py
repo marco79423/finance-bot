@@ -1,5 +1,6 @@
 import abc
 import dataclasses
+import math
 
 import pandas as pd
 
@@ -15,11 +16,38 @@ class Position:
     shares: int
 
 
+@dataclasses.dataclass
+class CommissionInfo:
+    fee_discount: float = 1  # 永豐是月退，當沒打折
+
+    @property
+    def fee_rate(self):
+        return 1.425 / 1000 * self.fee_discount  # 0.1425％
+
+    @property
+    def tax_rate(self):
+        return 3 / 1000  # 政府固定收 0.3 %
+
+    def get_buy_commission(self, price, shares) -> int:
+        commission = math.floor(shares * price * self.fee_rate)  # 無條件捨去小數點
+        return max(commission, 1)  # 永豐說是最低 1 元
+
+    def get_sell_commission(self, price, shares) -> int:
+        commission = math.floor(shares * price * (self.fee_rate + self.tax_rate))  # 無條件捨去小數點
+        return max(commission, 1)  # 永豐說是最低 1 元
+
+
 class BrokerBase(abc.ABC):
     name = 'broker_base'
 
+    commission_info = CommissionInfo(fee_discount=1)
+
     def __init__(self):
         self.logger = infra.logger.bind(name=self.name)
+
+    ################
+    #      狀態
+    ################
 
     @property
     @abc.abstractmethod
@@ -31,6 +59,10 @@ class BrokerBase(abc.ABC):
     def positions(self) -> [Position]:
         pass
 
+    ################
+    #      操作
+    ################
+
     @abc.abstractmethod
     def buy_market(self, stock_id, shares, note=''):
         """發現沒錢就自動放棄購買"""
@@ -39,3 +71,14 @@ class BrokerBase(abc.ABC):
     @abc.abstractmethod
     def sell_all_market(self, stock_id, note=''):
         pass
+
+    ################
+    #      統計
+    ################
+
+    @property
+    def invested_funds(self):
+        funds = 0
+        for position in self.positions:
+            funds += int(position.price * position.shares)
+        return funds
