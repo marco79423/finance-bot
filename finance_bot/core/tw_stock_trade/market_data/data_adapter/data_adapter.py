@@ -27,7 +27,7 @@ class DataAdapter:
 
         self._all_stock_ids = stock_prices_df['stock_id'].unique().tolist()
         self._start_time = stock_prices_df.index.min()
-        self._end_time = stock_prices_df.index.min()
+        self._end_time = stock_prices_df.index.max()
         self._open = stock_prices_df.pivot(columns='stock_id', values='open').ffill()  # 補完空值的收盤價
         self._close = stock_prices_df.pivot(columns='stock_id', values='close').ffill()  # 補完空值的收盤價
         self._high = stock_prices_df.pivot(columns='stock_id', values='high').ffill()  # 補完空值的最高價
