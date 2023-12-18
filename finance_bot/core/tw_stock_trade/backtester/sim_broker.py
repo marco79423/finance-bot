@@ -114,9 +114,6 @@ class SimBroker(BrokerBase):
     def init_balance(self):
         return self._init_balance
 
-    def get_open_trades_by_stock_id(self, stock_id):
-        return self._positions_cache.get(stock_id, None)
-
     @property
     def trade_logs(self):
         return self._trade_logs
