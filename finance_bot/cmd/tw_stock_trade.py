@@ -32,20 +32,24 @@ def create_tw_stock_trade_cli():
     def balance():
         rich.print('當前帳戶餘額', t.account_balance)
 
-    @broker.command('holding')
-    def holding():
+    @broker.command('positions')
+    def positions():
         rich.print('當前持倉：')
 
         table = Table()
-        table.add_column('股票 ID')
+        table.add_column('ID')
+        table.add_column('時間')
+        table.add_column('股票代碼')
+        table.add_column('價格')
         table.add_column('股數')
-        table.add_column('平均價')
 
-        for position in t.current_holding:
+        for position in t.positions:
             table.add_row(
-                position['stock_id'],
-                str(position['shares']),
-                str(position['price']) + '元',
+                str(position.id),
+                f'{position.date:%Y-%m-%d}',
+                position.stock_id,
+                str(position.price) + '元',
+                str(position.shares),
             )
         rich.print(table)
 

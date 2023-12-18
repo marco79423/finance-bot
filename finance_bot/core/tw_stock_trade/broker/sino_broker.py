@@ -1,6 +1,8 @@
+import pandas as pd
 import shioaji as sj
 
 from finance_bot.core.tw_stock_trade.broker import BrokerBase
+from finance_bot.core.tw_stock_trade.broker.base import Position
 from finance_bot.infrastructure import infra
 
 
@@ -35,17 +37,23 @@ class SinoBroker(BrokerBase):
         self.logger.info('登入永豐證券成功')
 
     @property
-    def current_holding(self):
+    def positions(self):
         if not self.is_login:
             self.login()
-        return [
-            dict(
+
+        result = []
+        for position in self._shioaji_api.list_positions(self._shioaji_api.stock_account):
+            position_details = self._shioaji_api.list_position_detail(self._shioaji_api.stock_account, position.id)
+            if len(position_details) < 1 or len(position_details) > 2:
+                raise ValueError('發生不合理的事情')
+            result.append(Position(
+                id=position.id,
                 stock_id=position.code,
                 shares=position.quantity * 1000,
                 price=position.price,
-            )
-            for position in self._shioaji_api.list_positions(self._shioaji_api.stock_account)
-        ]
+                date=pd.Timestamp(position_details[0].date),
+            ))
+        return result
 
     @property
     def current_balance(self):

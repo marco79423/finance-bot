@@ -2,7 +2,7 @@ import math
 
 import pandas as pd
 
-from finance_bot.core.tw_stock_trade.broker.base import BrokerBase
+from finance_bot.core.tw_stock_trade.broker.base import BrokerBase, Position
 
 
 class SimBroker(BrokerBase):
@@ -19,7 +19,8 @@ class SimBroker(BrokerBase):
         self._balance = init_balance
 
         self._current_idx = 0
-        self._positions = {}
+        self._positions = []
+        self._positions_cache = {}
         self._trade_logs = []
 
     @property
@@ -27,9 +28,13 @@ class SimBroker(BrokerBase):
         return self._balance
 
     @property
+    def positions(self):
+        return self._positions
+
+    @property
     def current_holding(self):
         holding = []
-        for stock_id, positions in self._positions.items():
+        for stock_id, positions in self._positions_cache.items():
             shares = sum(position['shares'] for position in positions.values())
             price = sum(position['start_price'] * position['shares'] for position in positions.values()) / shares
             holding.append(dict(
@@ -67,10 +72,18 @@ class SimBroker(BrokerBase):
         })
 
         # 執行交易
-        if stock_id not in self._positions:
-            self._positions[stock_id] = {}
+        if stock_id not in self._positions_cache:
+            self._positions_cache[stock_id] = {}
 
-        self._positions[stock_id][self._current_idx] = {
+        self._positions.append(Position(
+            id=self._current_idx,
+            stock_id=stock_id,
+            shares=shares,
+            date=self._data.current_time,
+            price=entry_price
+        ))
+
+        self._positions_cache[stock_id][self._current_idx] = {
             'idx': self._current_idx,
             'stock_id': stock_id,
             'shares': shares,
@@ -83,12 +96,12 @@ class SimBroker(BrokerBase):
         return True
 
     def sell_all_market(self, stock_id, note=''):
-        if stock_id not in self._positions:
+        if stock_id not in self._positions_cache:
             return False
 
         price = self._data.get_stock_open_price(stock_id)
 
-        for position in self._positions[stock_id].values():
+        for position in self._positions_cache[stock_id].values():
             before = self.current_balance
             fee = max(math.floor(position['shares'] * price * (self.fee_rate + self.tax_rate)), 1)
             funds = int(position['shares'] * price) - fee
@@ -112,14 +125,15 @@ class SimBroker(BrokerBase):
             # 執行交易
             self._balance = after
 
-        del self._positions[stock_id]
+        self._positions = [position for position in self._positions if position.stock_id != stock_id]
+        del self._positions_cache[stock_id]
 
         return True
 
     @property
     def invested_funds(self):
         funds = 0
-        for positions in self._positions.values():
+        for positions in self._positions_cache.values():
             for position in positions.values():
                 funds += int(position['start_price'] * position['shares'])
         return funds
@@ -130,12 +144,12 @@ class SimBroker(BrokerBase):
 
     @property
     def holding_stock_ids(self):
-        return list(self._positions.keys())
+        return list(self._positions_cache.keys())
 
     @property
     def current_shares(self):
         items = []
-        for stock_id, positions in self._positions.items():
+        for stock_id, positions in self._positions_cache.items():
             items.append({
                 'stock_id': stock_id,
                 'shares': sum(position['shares'] for position in positions.values())
@@ -146,13 +160,13 @@ class SimBroker(BrokerBase):
         )
 
     def get_entry_date(self, stock_id):
-        for position in self._positions[stock_id].values():
+        for position in self._positions_cache[stock_id].values():
             return position['start_date']
 
     @property
     def entry_date(self):
         items = []
-        for stock_id in self._positions:
+        for stock_id in self._positions_cache:
             items.append({
                 'stock_id': stock_id,
                 'entry_date': self.get_entry_date(stock_id)
@@ -163,13 +177,13 @@ class SimBroker(BrokerBase):
         )
 
     def get_entry_price(self, stock_id):
-        for position in self._positions[stock_id].values():
+        for position in self._positions_cache[stock_id].values():
             return position['start_price']
 
     @property
     def entry_price(self):
         items = []
-        for stock_id in self._positions:
+        for stock_id in self._positions_cache:
             items.append({
                 'stock_id': stock_id,
                 'entry_price': self.get_entry_price(stock_id),
@@ -186,7 +200,7 @@ class SimBroker(BrokerBase):
         return self.entry_price * (1 + fee_ratio) / (1 - fee_ratio - tax_ratio)
 
     def get_open_trades_by_stock_id(self, stock_id):
-        return self._positions.get(stock_id, None)
+        return self._positions_cache.get(stock_id, None)
 
     @property
     def trade_logs(self):

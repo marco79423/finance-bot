@@ -23,8 +23,8 @@ class TWStockTrade(CoreBase):
         return self._broker.current_balance
 
     @property
-    def current_holding(self):
-        return self._broker.current_holding
+    def positions(self):
+        return self._broker.positions
 
     def start(self):
         self.logger.info(f'啟動 {self.name} ...')
