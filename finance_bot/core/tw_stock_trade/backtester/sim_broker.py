@@ -116,28 +116,11 @@ class SimBroker(BrokerBase):
     def init_balance(self):
         return self._init_balance
 
-    def get_entry_price(self, stock_id):
-        for position in self._positions_cache[stock_id].values():
-            return position['start_price']
-
-    @property
-    def entry_price(self):
-        items = []
-        for stock_id in self._positions_cache:
-            items.append({
-                'stock_id': stock_id,
-                'entry_price': self.get_entry_price(stock_id),
-            })
-        return pd.Series(
-            [item['entry_price'] for item in items],
-            index=[item['stock_id'] for item in items],
-        )
-
     @property
     def break_even_price(self):
         fee_ratio = self.commission_info.fee_rate
         tax_ratio = self.commission_info.tax_rate
-        return self.entry_price * (1 + fee_ratio) / (1 - fee_ratio - tax_ratio)
+        return self.holding_stock_entry_price_s * (1 + fee_ratio) / (1 - fee_ratio - tax_ratio)
 
     def get_open_trades_by_stock_id(self, stock_id):
         return self._positions_cache.get(stock_id, None)

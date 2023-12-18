@@ -106,6 +106,21 @@ class BrokerBase(abc.ABC):
         return self._cache['holding_stock_entry_date_s']
 
     @property
+    def holding_stock_entry_price_s(self) -> pd.Series:
+        """當前持有的股票入場價 (不考慮手續費)"""
+        if 'holding_stock_entry_price_s' not in self._cache:
+            stock_entry_price_map = {}
+            for position in self.positions:
+                if position.stock_id not in stock_entry_price_map:
+                    stock_entry_price_map[position.stock_id] = position.price
+
+            self._cache['holding_stock_entry_price_s'] = pd.Series(
+                [stock_entry_price_map[stock_id] for stock_id in self.holding_stock_ids],
+                index=self.holding_stock_ids,
+            )
+        return self._cache['holding_stock_entry_price_s']
+
+    @property
     def holding_stock_shares_s(self) -> pd.Series:
         """當前持有的股票股數"""
         if 'holding_stock_shares_s' not in self._cache:
