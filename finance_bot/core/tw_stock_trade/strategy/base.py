@@ -2,9 +2,8 @@ import abc
 import math
 
 import pandas as pd
-from easydict import EasyDict as edict
 
-from finance_bot.core.tw_stock_trade.backtester.sim_broker import SimBroker
+from finance_bot.core.tw_stock_trade.broker import BrokerBase
 from finance_bot.core.tw_stock_trade.market_data import MarketData
 
 
@@ -13,7 +12,7 @@ class StrategyBase(abc.ABC):
     params: dict = {}
 
     stock_id: str
-    broker: SimBroker
+    broker: BrokerBase
     market_data: MarketData
     preload_days = 10
 
@@ -146,7 +145,7 @@ class StrategyBase(abc.ABC):
         for stock_id in close.columns:
             max_close = close.loc[self.entry_date[stock_id]:, stock_id].max()
             entry_price = self.entry_price[stock_id]
-            data.append(edict(
+            data.append(dict(
                 stock_id=stock_id,
                 max_growth_rate=(max_close - entry_price) / entry_price
             ))
@@ -159,7 +158,7 @@ class StrategyBase(abc.ABC):
 
     @property
     def max_profit_rate(self):
-        return (self.broker.break_even_price - self.entry_price) / self.entry_price
+        return (self.break_even_price - self.entry_price) / self.entry_price
 
     def pre_handle(self):
         self._indicators = self.init(self.data)
