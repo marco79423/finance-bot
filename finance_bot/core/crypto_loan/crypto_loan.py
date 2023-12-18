@@ -188,9 +188,9 @@ class CryptoLoan(CoreBase):
         average_rate = daily_earn / lending_amount
 
         return {
-            'lending_amount': round(lending_amount, 2),
-            'daily_earn': round(average_rate, 2),
-            'average_rate': round(daily_earn * (1 - self.BITFINEX_FEES) * 100, 6),
+            'lending_amount': lending_amount,
+            'daily_earn': daily_earn * (1 - self.BITFINEX_FEES),
+            'average_rate': average_rate,
         }
 
     async def make_strategy(self):

@@ -81,8 +81,13 @@ class SuperBot(CoreBase):
             if row['is_error']:
                 items_msg += '加密放貸: 異常\n'
             else:
+                result = json.loads(row['detail'])
+                result = {
+                    **result,
+                    'average_rate': result['average_rate'] * 100
+                }
                 items_msg += '加密放貸: 總借出: {lending_amount:.2f}\n預估日收益: {daily_earn:.2f} (平均利率: {average_rate:.6f}%)\n'.format(
-                    **json.loads(row['detail'])
+                    **result
                 )
 
         key = 'data_sync.update_tw_stock'
