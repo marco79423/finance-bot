@@ -121,6 +121,15 @@ class BrokerBase(abc.ABC):
         return self._cache['holding_stock_entry_price_s']
 
     @property
+    def holding_stock_break_even_price_s(self) -> pd.Series:
+        """當前持有的股票入場價 (考慮手續費)"""
+        if 'holding_stock_break_even_price_s' not in self._cache:
+            fee_ratio = self.commission_info.fee_rate
+            tax_ratio = self.commission_info.tax_rate
+            self._cache['holding_stock_break_even_price_s'] = self.holding_stock_entry_price_s * (1 + fee_ratio) / (1 - fee_ratio - tax_ratio)
+        return self._cache['holding_stock_break_even_price_s']
+
+    @property
     def holding_stock_shares_s(self) -> pd.Series:
         """當前持有的股票股數"""
         if 'holding_stock_shares_s' not in self._cache:

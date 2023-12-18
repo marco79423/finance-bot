@@ -1,5 +1,3 @@
-import pandas as pd
-
 from finance_bot.core.tw_stock_trade.broker.base import BrokerBase, Position, CommissionInfo
 
 
@@ -115,12 +113,6 @@ class SimBroker(BrokerBase):
     @property
     def init_balance(self):
         return self._init_balance
-
-    @property
-    def break_even_price(self):
-        fee_ratio = self.commission_info.fee_rate
-        tax_ratio = self.commission_info.tax_rate
-        return self.holding_stock_entry_price_s * (1 + fee_ratio) / (1 - fee_ratio - tax_ratio)
 
     def get_open_trades_by_stock_id(self, stock_id):
         return self._positions_cache.get(stock_id, None)

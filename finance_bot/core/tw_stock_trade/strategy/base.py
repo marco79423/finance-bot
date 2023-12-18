@@ -129,7 +129,7 @@ class StrategyBase(abc.ABC):
 
     @property
     def break_even_price(self):
-        return self.broker.break_even_price
+        return self.broker.holding_stock_break_even_price_s
 
     @property
     def profit_with_fee(self):
