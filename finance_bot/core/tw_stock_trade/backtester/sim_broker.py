@@ -26,19 +26,6 @@ class SimBroker(BrokerBase):
     def positions(self):
         return self._positions
 
-    @property
-    def current_holding(self):
-        holding = []
-        for stock_id, positions in self._positions_cache.items():
-            shares = sum(position['shares'] for position in positions.values())
-            price = sum(position['start_price'] * position['shares'] for position in positions.values()) / shares
-            holding.append(dict(
-                stock_id=stock_id,
-                shares=shares,
-                price=price,
-            ))
-        return holding
-
     def buy_market(self, stock_id, shares, note=''):
         entry_price = self._data.get_stock_open_price(stock_id)
 
