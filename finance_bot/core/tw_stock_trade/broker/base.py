@@ -44,6 +44,23 @@ class BrokerBase(abc.ABC):
 
     def __init__(self):
         self.logger = infra.logger.bind(name=self.name)
+        self._cache = {}
+
+    ################
+    #      操作
+    ################
+
+    def refresh(self):
+        self._cache = {}
+
+    @abc.abstractmethod
+    def buy_market(self, stock_id, shares, note=''):
+        """發現沒錢就自動放棄購買"""
+        pass
+
+    @abc.abstractmethod
+    def sell_all_market(self, stock_id, note=''):
+        pass
 
     ################
     #      狀態
@@ -60,25 +77,25 @@ class BrokerBase(abc.ABC):
         pass
 
     ################
-    #      操作
-    ################
-
-    @abc.abstractmethod
-    def buy_market(self, stock_id, shares, note=''):
-        """發現沒錢就自動放棄購買"""
-        pass
-
-    @abc.abstractmethod
-    def sell_all_market(self, stock_id, note=''):
-        pass
-
-    ################
     #      統計
     ################
 
     @property
-    def invested_funds(self):
-        funds = 0
-        for position in self.positions:
-            funds += int(position.price * position.shares)
-        return funds
+    def holding_stock_ids(self) -> [str]:
+        """當前持有的股票代碼列表"""
+        if 'holding_stock_ids' not in self._cache:
+            stock_ids = []
+            for position in self.positions:
+                stock_ids.append(position.stock_id)
+            self._cache['holding_stock_ids'] = stock_ids
+        return self._cache['holding_stock_ids']
+
+    @property
+    def invested_funds(self) -> int:
+        """當前的總投入資金"""
+        if 'invested_funds' not in self._cache:
+            funds = 0
+            for position in self.positions:
+                funds += int(position.price * position.shares)
+            self._cache['invested_funds'] = funds
+        return self._cache['invested_funds']

@@ -50,6 +50,8 @@ class TWStockTrade(CoreBase):
     async def execute_strategy(self):
         self.logger.info('開始執行策略 ...')
 
+        self._broker.refresh()
+
         market_data = MarketData()
         self.strategy.market_data = market_data
         self.strategy.broker = self._broker

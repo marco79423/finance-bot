@@ -18,14 +18,6 @@ class SimBroker(BrokerBase):
         self._positions_cache = {}
         self._trade_logs = []
 
-    @property
-    def current_balance(self):
-        return self._balance
-
-    @property
-    def positions(self):
-        return self._positions
-
     def buy_market(self, stock_id, shares, note=''):
         entry_price = self._data.get_stock_open_price(stock_id)
 
@@ -113,12 +105,16 @@ class SimBroker(BrokerBase):
         return True
 
     @property
-    def init_balance(self):
-        return self._init_balance
+    def current_balance(self):
+        return self._balance
 
     @property
-    def holding_stock_ids(self):
-        return list(self._positions_cache.keys())
+    def positions(self):
+        return self._positions
+
+    @property
+    def init_balance(self):
+        return self._init_balance
 
     @property
     def current_shares(self):
