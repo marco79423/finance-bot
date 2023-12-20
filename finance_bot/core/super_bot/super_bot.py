@@ -75,62 +75,83 @@ class SuperBot(CoreBase):
         # 項目
         items_msg = ''
 
-        key = 'crypto_loan.update_status'
-        if key in task_status_df.index:
-            row = task_status_df.loc[key]
-            if row['is_error']:
-                items_msg += '加密放貸: 異常\n'
-            else:
-                result = json.loads(row['detail'])
-                result = {
-                    **result,
-                    'average_rate': result['average_rate'] * 100
-                }
-                items_msg += '加密放貸: 總借出: {lending_amount:.2f}\n預估日收益: {daily_earn:.2f} (平均利率: {average_rate:.6f}%)\n'.format(
-                    **result
-                )
+        # 加密放貸
+        keys = [
+            'crypto_loan.update_status'
+        ]
+        if task_status_df.index.isin(keys).any():
+            items_msg += '加密放貸:\n'
 
-        key = 'data_sync.update_tw_stock'
-        if key in task_status_df.index:
-            row = task_status_df.loc[key]
-            if row['is_error']:
-                items_msg += '資料同步: 台灣股票資訊更新失敗\n'.format(**json.loads(row['detail']))
-            else:
-                items_msg += '資料同步: 台灣股票資訊更新完畢 ({total_count}筆)\n'.format(**json.loads(row['detail']))
+            key = 'crypto_loan.update_status'
+            if key in task_status_df.index:
+                row = task_status_df.loc[key]
+                if row['is_error']:
+                    items_msg += '異常\n'
+                else:
+                    result = json.loads(row['detail'])
+                    result = {
+                        **result,
+                        'average_rate': result['average_rate'] * 100
+                    }
+                    items_msg += '總借出: {lending_amount:.2f}\n預估日收益: {daily_earn:.2f} (平均利率: {average_rate:.6f}%)\n'.format(
+                        **result
+                    )
 
-        key = 'data_sync.update_tw_stock_prices'
-        if key in task_status_df.index:
-            row = task_status_df.loc[key]
-            if row['is_error']:
-                items_msg += '資料同步: 台灣股價更新失敗\n'
-            else:
-                result = json.loads(row['detail'])
-                date = pd.Timestamp(result['date'])
-                items_msg += f'資料同步: {date:%Y-%m-%d} 台灣股價更新完畢\n'
+            items_msg += '\n'
 
-        key = 'data_sync.update_monthly_revenue'
-        if key in task_status_df.index:
-            row = task_status_df.loc[key]
-            if row['is_error']:
-                items_msg += '資料同步: 月營收財報更新失敗\n'
-            else:
-                items_msg += '資料同步: {year}-{month} 月營收財報更新完畢\n'.format(**json.loads(row['detail']))
+        # 資料同步
+        keys = [
+            'data_sync.update_tw_stock',
+            'data_sync.update_tw_stock_prices',
+            'data_sync.update_monthly_revenue',
+            'data_sync.update_financial_statements',
+            'data_sync.update_db_cache',
+        ]
+        if task_status_df.index.isin(keys).any():
+            items_msg += '資料同步:\n'
 
-        key = 'data_sync.update_financial_statements'
-        if key in task_status_df.index:
-            row = task_status_df.loc[key]
-            if row['is_error']:
-                items_msg += '資料同步: 財報更新失敗\n'
-            else:
-                items_msg += '資料同步: {year}Q{quarter} 財報更新完畢\n'.format(**json.loads(row['detail']))
+            key = 'data_sync.update_tw_stock'
+            if key in task_status_df.index:
+                row = task_status_df.loc[key]
+                if row['is_error']:
+                    items_msg += '台灣股票資訊更新失敗\n'.format(**json.loads(row['detail']))
+                else:
+                    items_msg += '台灣股票資訊更新完畢 ({total_count}筆)\n'.format(**json.loads(row['detail']))
 
-        key = 'data_sync.update_db_cache'
-        if key in task_status_df.index:
-            row = task_status_df.loc[key]
-            if row['is_error']:
-                items_msg += '資料同步: 台股資料快取更新失敗\n'
-            else:
-                items_msg += '資料同步: 台股資料快取更新完畢\n'
+            key = 'data_sync.update_tw_stock_prices'
+            if key in task_status_df.index:
+                row = task_status_df.loc[key]
+                if row['is_error']:
+                    items_msg += '台灣股價更新失敗\n'
+                else:
+                    result = json.loads(row['detail'])
+                    date = pd.Timestamp(result['date'])
+                    items_msg += f'{date:%Y-%m-%d} 台灣股價更新完畢\n'
+
+            key = 'data_sync.update_monthly_revenue'
+            if key in task_status_df.index:
+                row = task_status_df.loc[key]
+                if row['is_error']:
+                    items_msg += '月營收財報更新失敗\n'
+                else:
+                    items_msg += '{year}-{month} 月營收財報更新完畢\n'.format(**json.loads(row['detail']))
+
+            key = 'data_sync.update_financial_statements'
+            if key in task_status_df.index:
+                row = task_status_df.loc[key]
+                if row['is_error']:
+                    items_msg += '財報更新失敗\n'
+                else:
+                    items_msg += '{year}Q{quarter} 財報更新完畢\n'.format(**json.loads(row['detail']))
+
+            key = 'data_sync.update_db_cache'
+            if key in task_status_df.index:
+                row = task_status_df.loc[key]
+                if row['is_error']:
+                    items_msg += '台股資料快取更新失敗\n'
+                else:
+                    items_msg += '台股資料快取更新完畢\n'
+            items_msg += '\n'
 
         # 預計執行
         actions_msg = ''
@@ -145,11 +166,11 @@ class SuperBot(CoreBase):
                 if actions:
                     for action in actions:
                         if action['operation'] == 'buy':
-                            actions_msg += '買 {stock_id} {shares} 股 (理由：{note})\n'.format(**action)
+                            actions_msg += '買 {stock_id} {shares} 股 參考價: {price} (理由：{note})\n'.format(**action)
                         if action['operation'] == 'sell':
-                            actions_msg += '賣 {stock_id} (理由：{note})\n'.format(**action)
+                            actions_msg += '賣 {stock_id} {shares} 股 參考價: {price} (理由：{note})\n'.format(**action)
                 else:
-                    actions_msg = '沒事\n'
+                    actions_msg = '沒有\n'
 
         message = "狀態：\n{status}\n項目：\n{items}\n預計執行：\n{actions}"
         message = message.format(

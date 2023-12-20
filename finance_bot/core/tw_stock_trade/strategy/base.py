@@ -58,8 +58,8 @@ class StrategyBase(abc.ABC):
         max_single_position_exposure = self.params.get('max_single_position_exposure', 0.1)
         single_entry_limit = min(math.floor((invested_funds + current_balance) * max_single_position_exposure),
                                  current_balance)
-        entry_price = self.data.get_stock_close_price(stock_id)
-        shares = int((single_entry_limit / (entry_price * (1 + self.broker.commission_info.fee_rate)) // 1000) * 1000)
+        price = self.data.get_stock_close_price(stock_id)
+        shares = int((single_entry_limit / (price * (1 + self.broker.commission_info.fee_rate)) // 1000) * 1000)
 
         if shares < 1000:
             return
@@ -68,6 +68,7 @@ class StrategyBase(abc.ABC):
             'operation': 'buy',
             'stock_id': stock_id,
             'shares': shares,
+            'price': price,
             'note': note,
         })
 
@@ -82,9 +83,14 @@ class StrategyBase(abc.ABC):
         if stock_id in self._day_cache:
             return
 
+        shares = self.broker.holding_stock_shares_s.loc[stock_id]
+        price = self.data.get_stock_close_price(stock_id)
+
         self._actions.append({
             'operation': 'sell',
             'stock_id': stock_id,
+            'shares': shares,
+            'price': price,
             'note': note,
         })
 
