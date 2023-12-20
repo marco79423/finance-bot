@@ -18,6 +18,10 @@ class SinoBroker(BrokerBase):
         self._shioaji_api = sj.Shioaji()
         self.is_login = False
 
+    def refresh(self):
+        super().refresh()
+        self.login()
+
     def login(self):
         self.logger.info('開始登入永豐證券 ...')
         self._shioaji_api.login(
