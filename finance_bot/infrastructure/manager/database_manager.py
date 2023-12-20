@@ -1,3 +1,5 @@
+import datetime as dt
+
 import pandas as pd
 from sqlalchemy import create_engine
 from sqlalchemy.dialects.mysql import insert
@@ -57,6 +59,9 @@ class DatabaseManager(ManagerBase):
             key: value if pd.notnull(value) else None
             for key, value in data.items()
         }
+
+        # 針對 updated_at 特別處理
+        modified['updated_at'] = dt.datetime.utcnow()
 
         insert_stmt = insert(model).values(**modified).on_duplicate_key_update(**modified)
         await session.execute(insert_stmt)
