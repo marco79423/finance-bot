@@ -29,12 +29,13 @@ class CommissionInfo:
         return 3 / 1000  # 政府固定收 0.3 %
 
     def get_buy_commission(self, price, shares) -> int:
-        commission = math.floor(shares * price * self.fee_rate)  # 無條件捨去小數點
-        return max(commission, 1)  # 永豐說是最低 1 元
+        commission = max(math.floor(shares * price * self.fee_rate), 1)  # 無條件捨去小數點，但最低是 1 元
+        return commission
 
     def get_sell_commission(self, price, shares) -> int:
-        commission = math.floor(shares * price * (self.fee_rate + self.tax_rate))  # 無條件捨去小數點
-        return max(commission, 1)  # 永豐說是最低 1 元
+        commission = max(math.floor(shares * price * self.fee_rate), 1)  # 無條件捨去小數點，但最低是 1 元
+        commission += math.floor(shares * price * self.tax_rate)  # 無條件捨去小數點
+        return commission
 
 
 class BrokerBase(abc.ABC):
@@ -126,7 +127,8 @@ class BrokerBase(abc.ABC):
         if 'holding_stock_break_even_price_s' not in self._cache:
             fee_ratio = self.commission_info.fee_rate
             tax_ratio = self.commission_info.tax_rate
-            self._cache['holding_stock_break_even_price_s'] = self.holding_stock_entry_price_s * (1 + fee_ratio) / (1 - fee_ratio - tax_ratio)
+            self._cache['holding_stock_break_even_price_s'] = self.holding_stock_entry_price_s * (1 + fee_ratio) / (
+                    1 - fee_ratio - tax_ratio)
         return self._cache['holding_stock_break_even_price_s']
 
     @property
