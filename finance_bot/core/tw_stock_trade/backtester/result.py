@@ -7,6 +7,7 @@ import pandas as pd
 class Result:
     id: int
     strategy_name: str
+    params_key: str
     init_balance: int
     final_balance: int
     start_time: pd.Timestamp

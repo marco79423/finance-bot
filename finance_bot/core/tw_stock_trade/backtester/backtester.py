@@ -91,11 +91,11 @@ class Backtester:
             }
 
             strategy_name = strategy.name
-            params_output = ', '.join(f'{k}={v}' for k, v in strategy.params.items())
+            params_key = ', '.join(f'{k}={strategy.params[k]}' for k in sorted(strategy.params))
             message_conn.send(dict(
                 result_id=result_id,
                 action='init',
-                description=f'{strategy_name} <{params_output}> 回測中',
+                description=f'{strategy_name} <{params_key}> 回測中',
             ))
 
             market_data = self.data_class(
@@ -160,6 +160,7 @@ class Backtester:
             return Result(
                 id=result_id,
                 strategy_name=strategy_class.name,
+                params_key=params_key,
                 init_balance=init_balance,
                 final_balance=broker.current_balance,
                 start_time=start,

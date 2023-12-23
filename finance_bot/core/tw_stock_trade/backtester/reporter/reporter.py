@@ -7,8 +7,8 @@ from rich.console import Console
 from rich.table import Table
 from starlette.middleware.wsgi import WSGIMiddleware
 
-from finance_bot.core.tw_stock_trade.market_data import MarketData
 from finance_bot.core.tw_stock_trade.backtester.result import Result
+from finance_bot.core.tw_stock_trade.market_data import MarketData
 
 
 class Reporter:
@@ -29,14 +29,12 @@ class Reporter:
         console.print('原始本金：', init_balance)
 
         table = Table()
-        table.add_column('ID')
         table.add_column('策略')
-        table.add_column('最終本金')
+        table.add_column('參數')
         table.add_column('最終權益')
         table.add_column('總獲利(含手續費)')
         table.add_column('手續費')
         table.add_column('平均天數')
-        table.add_column('最短天數')
         table.add_column('最長天數')
         table.add_column('勝率')
         table.add_column('MDD')
@@ -45,14 +43,12 @@ class Reporter:
 
         for result in self.results:
             table.add_row(
-                str(result.id),
                 result.strategy_name,
-                f'{result.final_balance} 元',
+                result.params_key,
                 f'{result.final_equity} 元',
                 f'{result.total_return} 元',
                 f'{result.total_return - result.total_return_with_fee} 元',
                 f'{result.avg_days:.1f} 天',
-                f'{result.min_days:.1f} 天',
                 f'{result.max_days:.1f} 天',
                 f'{result.win_rate * 100:.2f}%',
                 f'{result.maximum_drawdown * 100:.2f}%',
@@ -77,6 +73,7 @@ class Reporter:
             {
                 'ID': result.id,
                 '策略': result.strategy_name,
+                '參數': result.params_key,
                 '最終本金': f'{result.final_balance} 元',
                 '最終權益': f'{result.final_equity} 元',
                 '總獲利(含手續費)': f'{result.total_return_with_fee} 元',
