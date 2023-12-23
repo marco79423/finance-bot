@@ -1,11 +1,11 @@
 import plotly.graph_objects as go
 import plotly.subplots as sp
 import uvicorn
+from a2wsgi import WSGIMiddleware
 from dash import Dash, html, dash_table, dcc, callback, Output, Input, State
 from fastapi import FastAPI
 from rich.console import Console
 from rich.table import Table
-from starlette.middleware.wsgi import WSGIMiddleware
 
 from finance_bot.core.tw_stock_trade.backtester.result import Result
 from finance_bot.core.tw_stock_trade.market_data import MarketData
