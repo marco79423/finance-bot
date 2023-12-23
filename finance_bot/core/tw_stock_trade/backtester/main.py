@@ -40,7 +40,7 @@ def generate_strategies(*strategy_map_list) -> list:
                 for value in generate_sequence(factor['min'], factor['max'], factor['step']):
                     new_params_list.append({**params, name: value})
                 if factor.get('dispensable', False):
-                    new_params_list.append({**params})
+                    new_params_list.append({**params, name: None})
             params_list = new_params_list
 
         for params in params_list:
