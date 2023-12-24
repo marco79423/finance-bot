@@ -4,6 +4,7 @@ import numpy as np
 import pandas as pd
 
 from finance_bot.core.tw_stock_trade.market_data import MarketDataBase
+from finance_bot.utility import Cache
 
 
 @dataclasses.dataclass
@@ -18,8 +19,69 @@ class Result:
     trade_logs: list
     market_data: MarketDataBase
 
+    def __post_init__(self):
+        self._cache = Cache()
+
     @property
     def trade_logs_df(self):
+        return self._cache.get('trade_logs_df', self._calculate_trade_logs_df)
+
+    @property
+    def positions_df(self):
+        return self._cache.get('positions_df', self._calculate_positions_df)
+
+    @property
+    def equity_curve_s(self) -> pd.Series:
+        return self._cache.get('equity_curve_s', self._calculate_equity_curve_s)
+
+    @property
+    def maximum_drawdown(self) -> float:
+        """MDD"""
+        return self._cache.get('maximum_drawdown', self._calculate_maximum_drawdown)
+
+    @property
+    def win_rate(self) -> float:
+        """勝率"""
+        return self._cache.get('win_rate', self._calculate_win_rate)
+
+    @property
+    def final_equity(self) -> int:
+        return self.equity_curve_s.loc[self.end_time]
+
+    @property
+    def total_return(self) -> int:
+        return self._cache.get('total_return', self._calculate_total_return)
+
+    @property
+    def total_return_with_fee(self) -> int:
+        return self._cache.get('total_return_with_fee', self._calculate_total_return_with_fee)
+
+    @property
+    def total_return_rate_with_fee(self) -> float:
+        return self.total_return_with_fee / self.init_balance
+
+    @property
+    def annualized_return_rate_with_fee(self) -> float:
+        hold_year = (self.end_time - self.start_time).days / 365.25
+        return (1 + self.total_return_rate_with_fee) ** (1 / hold_year) - 1
+
+    @property
+    def avg_days(self) -> float:
+        return self.positions_df.loc[self.positions_df['status'] == 'close', 'period'].mean()
+
+    @property
+    def max_days(self) -> int:
+        return self.positions_df.loc[self.positions_df['status'] == 'close', 'period'].max()
+
+    @property
+    def min_days(self) -> int:
+        return self.positions_df.loc[self.positions_df['status'] == 'close', 'period'].min()
+
+    @property
+    def stock_count_s(self) -> pd.Series:
+        return self._cache.get('stock_count_s', self._calculate_stock_count_s)
+
+    def _calculate_trade_logs_df(self):
         trade_logs = pd.DataFrame(self.trade_logs, columns=[
             'idx', 'date', 'action', 'stock_id', 'shares', 'fee', 'price', 'before', 'funds', 'after', 'note',
         ])
@@ -38,8 +100,7 @@ class Result:
         })
         return trade_logs
 
-    @property
-    def positions_df(self):
+    def _calculate_positions_df(self):
         df = self.trade_logs_df.groupby('idx').agg(
             status=('date', lambda x: 'open' if len(x) == 1 else 'close'),
             stock_id=('stock_id', 'first'),
@@ -81,8 +142,7 @@ class Result:
 
         return df
 
-    @property
-    def equity_curve_s(self) -> pd.Series:
+    def _calculate_equity_curve_s(self) -> pd.Series:
         equity_curve = []
         balance = self.init_balance
         trade_logs_df = self.trade_logs_df
@@ -120,53 +180,23 @@ class Result:
             index=[current_equity['date'] for current_equity in equity_curve],
         )
 
-    @property
-    def maximum_drawdown(self) -> float:
+    def _calculate_maximum_drawdown(self) -> float:
         """MDD"""
         running_max = self.equity_curve_s.cummax()
         drawdown = (self.equity_curve_s - running_max) / running_max
         return drawdown.min()
 
-    @property
-    def win_rate(self) -> float:
+    def _calculate_win_rate(self) -> float:
         """勝率"""
         return (self.positions_df['total_return (fee)'] > 0).sum() / len(self.positions_df)
 
-    @property
-    def final_equity(self) -> int:
-        return self.equity_curve_s.loc[self.end_time]
-
-    @property
-    def total_return(self) -> int:
+    def _calculate_total_return(self) -> int:
         return self.positions_df['total_return'].sum()
 
-    @property
-    def total_return_with_fee(self) -> int:
+    def _calculate_total_return_with_fee(self) -> int:
         return self.positions_df['total_return (fee)'].sum()
 
-    @property
-    def total_return_rate_with_fee(self) -> float:
-        return self.total_return_with_fee / self.init_balance
-
-    @property
-    def annualized_return_rate_with_fee(self) -> float:
-        hold_year = (self.end_time - self.start_time).days / 365.25
-        return (1 + self.total_return_rate_with_fee) ** (1 / hold_year) - 1
-
-    @property
-    def avg_days(self) -> float:
-        return self.positions_df.loc[self.positions_df['status'] == 'close', 'period'].mean()
-
-    @property
-    def max_days(self) -> int:
-        return self.positions_df.loc[self.positions_df['status'] == 'close', 'period'].max()
-
-    @property
-    def min_days(self) -> int:
-        return self.positions_df.loc[self.positions_df['status'] == 'close', 'period'].min()
-
-    @property
-    def stock_count_s(self) -> pd.Series:
+    def _calculate_stock_count_s(self) -> pd.Series:
         df = self.trade_logs_df
 
         # 標記買入為正值，賣出為負值
