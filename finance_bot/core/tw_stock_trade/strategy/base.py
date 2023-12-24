@@ -4,7 +4,7 @@ import math
 import pandas as pd
 
 from finance_bot.core.tw_stock_trade.broker import BrokerBase
-from finance_bot.core.tw_stock_trade.market_data import MarketData
+from finance_bot.core.tw_stock_trade.market_data import MarketDataBase
 from finance_bot.utility import Cache
 
 
@@ -14,7 +14,7 @@ class StrategyBase(abc.ABC):
 
     stock_id: str
     broker: BrokerBase
-    market_data: MarketData
+    market_data: MarketDataBase
     preload_days = 10
 
     _indicators = {}
@@ -169,7 +169,8 @@ class StrategyBase(abc.ABC):
 
     @property
     def max_profit_rate(self):
-        return self._data_cache.get('max_profit_rate', lambda: (self.break_even_price - self.entry_price) / self.entry_price)
+        return self._data_cache.get('max_profit_rate',
+                                    lambda: (self.break_even_price - self.entry_price) / self.entry_price)
 
     def pre_handle(self):
         self._indicators = self.init(self.data)

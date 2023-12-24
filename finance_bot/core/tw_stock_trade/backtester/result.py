@@ -3,7 +3,7 @@ import dataclasses
 import numpy as np
 import pandas as pd
 
-from finance_bot.core.tw_stock_trade.market_data import MarketData
+from finance_bot.core.tw_stock_trade.market_data import MarketDataBase
 
 
 @dataclasses.dataclass
@@ -16,7 +16,7 @@ class Result:
     start_time: pd.Timestamp
     end_time: pd.Timestamp
     trade_logs: list
-    market_data: MarketData
+    market_data: MarketDataBase
 
     @property
     def trade_logs_df(self):

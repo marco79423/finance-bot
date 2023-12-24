@@ -13,13 +13,14 @@ from rich.progress import (
     SpinnerColumn,
 )
 
+from finance_bot.core.tw_stock_trade.backtester.limited_market_data import LimitedMarketData
 from finance_bot.core.tw_stock_trade.backtester.result import Result
 from finance_bot.core.tw_stock_trade.backtester.sim_broker import SimBroker
-from finance_bot.core.tw_stock_trade.backtester.limited_market_data import LimitedMarketData
+from finance_bot.core.tw_stock_trade.market_data import MarketData
 
 
 class Backtester:
-    data_class = LimitedMarketData
+    data_class = MarketData
     broker_class = SimBroker
 
     def run(self, init_balance, start, end, strategies):
@@ -97,30 +98,32 @@ class Backtester:
                 description=f'{strategy_name} <{params_key}> 回測中',
             ))
 
-            market_data = self.data_class(
+            market_data = self.data_class()
+            limited_market_data = LimitedMarketData(
+                market_data=market_data,
                 start=start,
                 end=end,
             )
-            broker = self.broker_class(market_data, init_balance)
+            broker = self.broker_class(limited_market_data, init_balance)
 
-            strategy.market_data = market_data
+            strategy.market_data = limited_market_data
             strategy.broker = broker
             strategy.pre_handle()
 
             message_conn.send(dict(
                 result_id=result_id,
                 action='start',
-                total=len(market_data.all_date_range),
+                total=len(limited_market_data.all_date_range),
             ))
 
-            market_data.is_limit = True
-            for today in market_data.all_date_range:
+            limited_market_data.is_limit = True
+            for today in limited_market_data.all_date_range:
                 message_conn.send(dict(
                     result_id=result_id,
                     action='update',
                     detail=today.strftime('%Y-%m-%d'),
                 ))
-                market_data.set_current_time(today)
+                limited_market_data.set_current_time(today)
 
                 for action in strategy.actions:
                     if action['operation'] == 'buy':

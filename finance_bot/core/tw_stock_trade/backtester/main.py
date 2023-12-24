@@ -68,11 +68,11 @@ def main():
         start='2015-08-01',
         end='2023-08-10',
         # end='2015-12-10',
-        # strategies=[
-        #     [StrategyS1V0, dict(max_single_position_exposure=0.1)],
-        #     [StrategyNew, dict(max_single_position_exposure=0.1)],
-        # ],
-        strategies=strategies
+        strategies=[
+            [StrategyS1V0, dict(max_single_position_exposure=0.1)],
+            # [StrategyNew, dict(max_single_position_exposure=0.1)],
+        ],
+        # strategies=strategies
     )
 
     reporter = Reporter(results)

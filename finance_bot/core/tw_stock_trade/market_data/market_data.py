@@ -1,34 +1,9 @@
+from . import MarketDataBase
+from .base import StockData
 from .data_adapter import DataAdapter
 
 
-class StockData:
-
-    def __init__(self, market_data: 'MarketData', product_id):
-        self._market_data = market_data
-        self._product_id = product_id
-
-    @property
-    def open(self):
-        return self._market_data.open[self._product_id]
-
-    @property
-    def close(self):
-        return self._market_data.close[self._product_id]
-
-    @property
-    def high(self):
-        return self._market_data.high[self._product_id]
-
-    @property
-    def low(self):
-        return self._market_data.low[self._product_id]
-
-    @property
-    def volume(self):
-        return self._market_data.volume[self._product_id]
-
-
-class MarketData:
+class MarketData(MarketDataBase):
     data_adapter_class = DataAdapter
 
     def __init__(self):
