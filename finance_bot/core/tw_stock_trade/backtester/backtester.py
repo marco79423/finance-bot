@@ -27,6 +27,7 @@ class Backtester:
         start_time = dt.datetime.now()
         start = pd.Timestamp(start)
         end = pd.Timestamp(end)
+        market_data = self.data_class()
 
         with ProcessPoolExecutor() as pool:
             parent_message_conn, message_conn = mp.Pipe()
@@ -36,6 +37,7 @@ class Backtester:
                 task = pool.submit(
                     self.backtest,
                     message_conn=message_conn,
+                    market_data=market_data,
                     result_id=idx,
                     init_balance=init_balance,
                     start=start,
@@ -82,7 +84,7 @@ class Backtester:
         rich.print('回測花費時間：', dt.datetime.now() - start_time)
         return results
 
-    def backtest(self, message_conn, result_id, init_balance, start, end, strategy_class, params):
+    def backtest(self, message_conn, market_data, result_id, init_balance, start, end, strategy_class, params):
         try:
             strategy = strategy_class()
             strategy.params = {
@@ -98,7 +100,6 @@ class Backtester:
                 description=f'{strategy_name} <{params_key}> 回測中',
             ))
 
-            market_data = self.data_class()
             limited_market_data = LimitedMarketData(
                 market_data=market_data,
                 start=start,
