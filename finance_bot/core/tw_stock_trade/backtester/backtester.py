@@ -3,7 +3,6 @@ import multiprocessing as mp
 import traceback
 from concurrent.futures import ProcessPoolExecutor
 
-import numpy as np
 import pandas as pd
 import rich
 from rich.progress import (
@@ -111,7 +110,7 @@ class Backtester:
             message_conn.send(dict(
                 result_id=result_id,
                 action='start',
-                total=len(market_data.all_date_range) + 3,
+                total=len(market_data.all_date_range),
             ))
 
             market_data.is_limit = True
@@ -132,26 +131,6 @@ class Backtester:
                 broker.refresh()
                 strategy.inter_handle()
 
-            trade_logs = self._generate_trade_logs(broker.trade_logs)
-            message_conn.send(dict(
-                result_id=result_id,
-                action='update',
-                detail='trade_logs',
-            ))
-
-            positions = self._generate_positions(market_data, trade_logs)
-            message_conn.send(dict(
-                result_id=result_id,
-                action='update',
-                detail='positions',
-            ))
-
-            equity_curve = self._calculate_equity_curve(market_data, init_balance, trade_logs)
-            message_conn.send(dict(
-                result_id=result_id,
-                action='update',
-                detail='equity_curve',
-            ))
             message_conn.send(dict(
                 result_id=result_id,
                 action='done',
@@ -165,10 +144,8 @@ class Backtester:
                 final_balance=broker.current_balance,
                 start_time=start,
                 end_time=end,
-
-                trade_logs_df=trade_logs,
-                positions_df=positions,
-                equity_curve_s=equity_curve,
+                trade_logs=broker.trade_logs,
+                market_data=market_data,
             )
         except:
             message_conn.send(dict(
@@ -176,117 +153,3 @@ class Backtester:
                 action='error',
                 detail=traceback.format_exc(),
             ))
-
-    @staticmethod
-    def _generate_trade_logs(trade_logs):
-        trade_logs = pd.DataFrame(trade_logs, columns=[
-            'idx', 'date', 'action', 'stock_id', 'shares', 'fee', 'price', 'before', 'funds', 'after', 'note',
-        ])
-        trade_logs = trade_logs.astype({
-            'idx': 'int',
-            'date': 'datetime64[ns]',
-            'action': 'str',
-            'stock_id': 'str',
-            'shares': 'int',
-            'fee': 'int',
-            'price': 'float',
-            'before': 'int',
-            'funds': 'int',
-            'after': 'int',
-            'note': 'str',
-        })
-        return trade_logs
-
-    def _generate_positions(self, market_data, trade_logs):
-        df = trade_logs.groupby('idx').agg(
-            status=('date', lambda x: 'open' if len(x) == 1 else 'close'),
-            stock_id=('stock_id', 'first'),
-            shares=('shares', 'first'),
-            start_date=('date', 'first'),
-            end_date=('date', lambda x: None if len(x) == 1 else x.iloc[-1]),
-            start_price=('price', lambda x: x.iloc[0]),
-            end_price=('price', lambda x: np.nan if len(x) == 1 else x.iloc[-1]),
-            total_fee=('fee', 'sum'),
-            note=('note', lambda x: ' | '.join(x)),
-        ).reset_index()
-
-        today_close_prices = market_data.close.loc[market_data.end_time]
-        df['end_price'] = df['end_price'].fillna(df['stock_id'].map(today_close_prices))
-        df['end_date'] = df['end_date'].fillna(market_data.end_time)
-
-        df['period'] = (df['end_date'] - df['start_date']).dt.days
-        df['total_return'] = ((df['end_price'] - df['start_price']) * df['shares']).astype(int)
-        df['total_return (fee)'] = df['total_return'] - df['total_fee']
-
-        df['total_return_rate (fee)'] = df['total_return (fee)'] / (df['start_price'] * df['shares'])  # TODO: 考慮手續費
-        df['total_return_rate (fee)'] = df['total_return_rate (fee)'].apply(lambda x: f'{x * 100:.2f}%')
-
-        df = df[[
-            'status',
-            'stock_id',
-            'shares',
-            'start_date',
-            'end_date',
-            'period',
-            'start_price',
-            'end_price',
-            'total_return',
-            'total_fee',
-            'total_return (fee)',
-            'total_return_rate (fee)',
-            'note',
-        ]]
-
-        return df
-
-    @staticmethod
-    def _calculate_equity_curve(market_data, init_balance, trade_logs):
-        equity_curve = []
-
-        balance = init_balance
-        trade_logs = trade_logs.astype({
-            'idx': 'int',
-            'date': 'datetime64[ns]',
-            'action': 'str',
-            'stock_id': 'str',
-            'shares': 'int',
-            'fee': 'int',
-            'price': 'float',
-            'before': 'int',
-            'funds': 'int',
-            'after': 'int',
-            'note': 'str',
-        })
-
-        positions = {}
-        for date in market_data.all_date_range:
-            day_trade_logs = trade_logs[trade_logs['date'] == date]
-
-            df = day_trade_logs[day_trade_logs['action'] == 'buy']
-            for _, row in df.iterrows():
-                balance += row['funds']
-                positions[row['idx']] = {
-                    'stock_id': row['stock_id'],
-                    'shares': row['shares'],
-                }
-
-            df = day_trade_logs[day_trade_logs['action'] == 'sell']
-            for _, row in df.iterrows():
-                balance += row['funds']
-                del positions[row['idx']]
-
-            equity = balance
-
-            today_close_prices = market_data.close.loc[date]
-            for position in positions.values():
-                equity += today_close_prices[position['stock_id']] * position['shares']
-
-            equity_curve.append({
-                'date': date,
-                'equity': equity,
-            })
-
-        return pd.Series(
-            [current_equity['equity'] for current_equity in equity_curve],
-            index=[current_equity['date'] for current_equity in equity_curve],
-        )
