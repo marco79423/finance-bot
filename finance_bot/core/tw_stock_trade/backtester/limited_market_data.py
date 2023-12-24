@@ -1,7 +1,7 @@
 from finance_bot.core.tw_stock_trade.market_data import MarketData
 
 
-class SimMarketData(MarketData):
+class LimitedMarketData(MarketData):
     is_limit = False
 
     def __init__(self, start, end):
@@ -10,10 +10,7 @@ class SimMarketData(MarketData):
         self._end_time = end
         self._current_time = self._start_time
 
-    def sync(self):
-        pass
-
-    def set_time(self, time):
+    def set_current_time(self, time):
         self._current_time = time
 
     @property

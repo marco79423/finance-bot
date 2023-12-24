@@ -15,11 +15,11 @@ from rich.progress import (
 
 from finance_bot.core.tw_stock_trade.backtester.result import Result
 from finance_bot.core.tw_stock_trade.backtester.sim_broker import SimBroker
-from finance_bot.core.tw_stock_trade.backtester.sim_market_data import SimMarketData
+from finance_bot.core.tw_stock_trade.backtester.limited_market_data import LimitedMarketData
 
 
 class Backtester:
-    data_class = SimMarketData
+    data_class = LimitedMarketData
     broker_class = SimBroker
 
     def run(self, init_balance, start, end, strategies):
@@ -120,7 +120,7 @@ class Backtester:
                     action='update',
                     detail=today.strftime('%Y-%m-%d'),
                 ))
-                market_data.set_time(today)
+                market_data.set_current_time(today)
 
                 for action in strategy.actions:
                     if action['operation'] == 'buy':
