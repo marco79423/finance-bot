@@ -52,19 +52,19 @@ class SimMarketData(MarketData):
     @property
     def close(self):
         end = self.current_time if self.is_limit else self.end_time
-        return self._data_adapter.close[:end]
+        return self._data_adapter.close[self.start_time:end]
 
     @property
     def high(self):
         end = self.current_time if self.is_limit else self.end_time
-        return self._data_adapter.high[:end]
+        return self._data_adapter.high[self.start_time:end]
 
     @property
     def low(self):
         end = self.current_time if self.is_limit else self.end_time
-        return self._data_adapter.low[:end]
+        return self._data_adapter.low[self.start_time:end]
 
     @property
     def volume(self):
         end = self.current_time if self.is_limit else self.end_time
-        return self._data_adapter.volume[:end]
+        return self._data_adapter.volume[self.start_time:end]
