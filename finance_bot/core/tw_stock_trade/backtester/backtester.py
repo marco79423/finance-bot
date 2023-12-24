@@ -166,9 +166,9 @@ class Backtester:
                 start_time=start,
                 end_time=end,
 
-                trade_logs=trade_logs,
-                positions=positions,
-                equity_curve=equity_curve,
+                trade_logs_df=trade_logs,
+                positions_df=positions,
+                equity_curve_s=equity_curve,
             )
         except:
             message_conn.send(dict(

@@ -103,17 +103,17 @@ class SimBroker(BrokerBase):
         return True
 
     @property
-    def current_balance(self):
+    def current_balance(self) -> int:
         return self._balance
 
     @property
-    def positions(self):
+    def positions(self) -> [Position]:
         return self._positions
 
     @property
-    def init_balance(self):
+    def init_balance(self) -> int:
         return self._init_balance
 
     @property
-    def trade_logs(self):
+    def trade_logs(self) -> list:
         return self._trade_logs

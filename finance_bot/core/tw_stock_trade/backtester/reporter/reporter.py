@@ -122,7 +122,7 @@ class Reporter:
         )
         def update_strategy(result_id):
             result = result_map[result_id]
-            stock_ids = sorted(result.positions['stock_id'].unique())
+            stock_ids = sorted(result.positions_df['stock_id'].unique())
 
             fig = sp.make_subplots(
                 rows=2,
@@ -134,15 +134,15 @@ class Reporter:
             )
 
             trace = go.Scatter(
-                x=result.equity_curve.index,
-                y=result.equity_curve,
+                x=result.equity_curve_s.index,
+                y=result.equity_curve_s,
                 name=f'權益'
             )
             fig.add_trace(trace, row=1, col=1)
 
             trace = go.Scatter(
-                x=result.stock_count.index,
-                y=result.stock_count,
+                x=result.stock_count_s.index,
+                y=result.stock_count_s,
                 name=f'權益'
             )
             fig.add_trace(trace, row=2, col=1)
@@ -156,8 +156,8 @@ class Reporter:
             return (
                 [result_summary_map[result_id]],
                 fig,
-                result.positions.to_dict('records'),
-                result.trade_logs.to_dict('records'),
+                result.positions_df.to_dict('records'),
+                result.trade_logs_df.to_dict('records'),
                 stock_ids,
                 stock_ids[0],
             )
@@ -181,7 +181,7 @@ class Reporter:
             result = result_map[result_id]
 
             data = self.market_data[stock_id]
-            positions_per_stock = result.positions[result.positions['stock_id'] == stock_id]
+            positions_per_stock = result.positions_df[result.positions_df['stock_id'] == stock_id]
 
             fig = sp.make_subplots(
                 rows=2,
@@ -250,7 +250,7 @@ class Reporter:
                 xaxis1_visible=False,  # fig.update_xaxes(visible=False, row=1, col=1)
             )
 
-            trade_logs_per_stock = result.trade_logs[result.trade_logs['stock_id'] == stock_id]
+            trade_logs_per_stock = result.trade_logs_df[result.trade_logs_df['stock_id'] == stock_id]
             return (
                 fig,
                 positions_per_stock.to_dict('records'),

@@ -12,64 +12,65 @@ class Result:
     final_balance: int
     start_time: pd.Timestamp
     end_time: pd.Timestamp
-    trade_logs: pd.DataFrame
-    positions: pd.DataFrame
-    equity_curve: pd.Series
+    trade_logs_df: pd.DataFrame
+    positions_df: pd.DataFrame
+    equity_curve_s: pd.Series
 
     @property
-    def maximum_drawdown(self):
+    def maximum_drawdown(self) -> float:
         """MDD"""
-        running_max = self.equity_curve.cummax()
-        drawdown = (self.equity_curve - running_max) / running_max
+        running_max = self.equity_curve_s.cummax()
+        drawdown = (self.equity_curve_s - running_max) / running_max
         return drawdown.min()
 
     @property
-    def win_rate(self):
+    def win_rate(self) -> float:
         """勝率"""
-        return (self.positions['total_return (fee)'] > 0).sum() / len(self.positions)
+        return (self.positions_df['total_return (fee)'] > 0).sum() / len(self.positions_df)
 
     @property
-    def final_equity(self):
-        return self.equity_curve.loc[self.end_time]
+    def final_equity(self) -> int:
+        return self.equity_curve_s.loc[self.end_time]
 
     @property
-    def total_return(self):
-        return self.positions['total_return'].sum()
+    def total_return(self) -> int:
+        return self.positions_df['total_return'].sum()
 
     @property
-    def total_return_with_fee(self):
-        return self.positions['total_return (fee)'].sum()
+    def total_return_with_fee(self) -> int:
+        return self.positions_df['total_return (fee)'].sum()
 
     @property
-    def total_return_rate_with_fee(self):
+    def total_return_rate_with_fee(self) -> float:
         return self.total_return_with_fee / self.init_balance
 
     @property
-    def annualized_return_rate_with_fee(self):
+    def annualized_return_rate_with_fee(self) -> float:
         hold_year = (self.end_time - self.start_time).days / 365.25
         return (1 + self.total_return_rate_with_fee) ** (1 / hold_year) - 1
 
     @property
-    def avg_days(self):
-        return self.positions.loc[self.positions['status'] == 'close', 'period'].mean()
+    def avg_days(self) -> float:
+        return self.positions_df.loc[self.positions_df['status'] == 'close', 'period'].mean()
 
     @property
-    def max_days(self):
-        return self.positions.loc[self.positions['status'] == 'close', 'period'].max()
+    def max_days(self) -> int:
+        return self.positions_df.loc[self.positions_df['status'] == 'close', 'period'].max()
 
     @property
-    def min_days(self):
-        return self.positions.loc[self.positions['status'] == 'close', 'period'].min()
+    def min_days(self) -> int:
+        return self.positions_df.loc[self.positions_df['status'] == 'close', 'period'].min()
 
     @property
-    def stock_count(self):
-        df = self.trade_logs
+    def stock_count_s(self) -> pd.Series:
+        df = self.trade_logs_df
 
         # 標記買入為正值，賣出為負值
         df['signed_shares'] = df.apply(lambda row: row['shares'] if row['action'] == 'buy' else -row['shares'], axis=1)
 
         # 按股票 ID 和日期分組，計算每個股票的累積持股數量
-        cumulative_shares = df.groupby(['stock_id', 'date']).sum()['signed_shares'].groupby(level=0).cumsum().reset_index()
+        cumulative_shares = df.groupby(['stock_id', 'date']).sum()['signed_shares'].groupby(
+            level=0).cumsum().reset_index()
 
         # 為了得到每天的數據，創建一個所有日期的範圍
         all_dates = pd.date_range(start=df['date'].min(), end=df['date'].max())
