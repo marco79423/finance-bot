@@ -5,6 +5,7 @@ import pandas as pd
 
 from finance_bot.core.tw_stock_trade.broker import BrokerBase
 from finance_bot.core.tw_stock_trade.market_data import MarketData
+from finance_bot.utility import Cache
 
 
 class StrategyBase(abc.ABC):
@@ -18,7 +19,8 @@ class StrategyBase(abc.ABC):
 
     _indicators = {}
     _actions = []
-    _day_cache = set()
+    _day_action_cache = set()
+    _data_cache = Cache()
 
     def init(self, all_data):
         return {}
@@ -50,7 +52,7 @@ class StrategyBase(abc.ABC):
         在隔天市價買入 (但在回測試會以買在最高價計算)
         """
         # 一張股票一天只會操作一次
-        if stock_id in self._day_cache:
+        if stock_id in self._day_action_cache:
             return
 
         invested_funds = self.broker.invested_funds
@@ -72,7 +74,7 @@ class StrategyBase(abc.ABC):
             'note': note,
         })
 
-        self._day_cache.add(stock_id)
+        self._day_action_cache.add(stock_id)
 
     def sell_next_day_market(self, stock_id, note=''):
         """
@@ -80,7 +82,7 @@ class StrategyBase(abc.ABC):
         :return:
         """
         # 一張股票一天只會操作一次
-        if stock_id in self._day_cache:
+        if stock_id in self._day_action_cache:
             return
 
         shares = self.broker.holding_stock_shares_s.loc[stock_id]
@@ -94,7 +96,7 @@ class StrategyBase(abc.ABC):
             'note': note,
         })
 
-        self._day_cache.add(stock_id)
+        self._day_action_cache.add(stock_id)
 
     @property
     def actions(self):
@@ -106,15 +108,15 @@ class StrategyBase(abc.ABC):
 
     @property
     def close(self):
-        return self.data.close.iloc[-1]
+        return self._data_cache.get('close', lambda: self.data.close.iloc[-1])
 
     @property
     def holding_close(self):
-        return self.close[self.broker.holding_stock_ids]
+        return self._data_cache.get('holding_close', lambda: self.close[self.broker.holding_stock_ids])
 
     @property
     def volume(self):
-        return self.data.volume.iloc[-1]
+        return self._data_cache.get('volume', lambda: self.data.volume.iloc[-1])
 
     @property
     def today(self):
@@ -122,7 +124,8 @@ class StrategyBase(abc.ABC):
 
     @property
     def current_shares(self):
-        return self.broker.holding_stock_shares_s.reindex(self.close.index, fill_value=0)
+        return self._data_cache.get('current_shares',
+                                    lambda: self.broker.holding_stock_shares_s.reindex(self.close.index, fill_value=0))
 
     @property
     def entry_date(self):
@@ -138,33 +141,35 @@ class StrategyBase(abc.ABC):
 
     @property
     def profit_with_fee(self):
-        return self.holding_close - self.break_even_price
+        return self._data_cache.get('profit_with_fee', lambda: self.holding_close - self.break_even_price)
 
     @property
     def growth_rate(self):
-        return (self.holding_close - self.entry_price) / self.entry_price
+        return self._data_cache.get('growth_rate', lambda: (self.holding_close - self.entry_price) / self.entry_price)
 
     @property
     def max_growth_rate(self):
-        close = self.data.close[self.entry_date.index]
-        data = []
-        for stock_id in close.columns:
-            max_close = close.loc[self.entry_date[stock_id]:, stock_id].max()
-            entry_price = self.entry_price[stock_id]
-            data.append(dict(
-                stock_id=stock_id,
-                max_growth_rate=(max_close - entry_price) / entry_price
-            ))
+        def calc_max_growth_rate():
+            close = self.data.close[self.entry_date.index]
+            data = []
+            for stock_id in close.columns:
+                max_close = close.loc[self.entry_date[stock_id]:, stock_id].max()
+                entry_price = self.entry_price[stock_id]
+                data.append(dict(
+                    stock_id=stock_id,
+                    max_growth_rate=(max_close - entry_price) / entry_price
+                ))
+            return pd.DataFrame(data, columns=['stock_id', 'max_growth_rate']).set_index('stock_id')['max_growth_rate']
 
-        return pd.DataFrame(data, columns=['stock_id', 'max_growth_rate']).set_index('stock_id')['max_growth_rate']
+        return self._data_cache.get('max_growth_rate', calc_max_growth_rate)
 
     @property
     def has_profit(self):
-        return self.profit_with_fee > 0
+        return self._data_cache.get('has_profit', lambda: self.profit_with_fee > 0)
 
     @property
     def max_profit_rate(self):
-        return (self.break_even_price - self.entry_price) / self.entry_price
+        return self._data_cache.get('max_profit_rate', lambda: (self.break_even_price - self.entry_price) / self.entry_price)
 
     def pre_handle(self):
         self._indicators = self.init(self.data)
@@ -177,6 +182,7 @@ class StrategyBase(abc.ABC):
         if (self.market_data.current_time - self.market_data.start_time).days < self.preload_days:
             return
 
-        self._day_cache = set()
+        self._day_action_cache = set()
+        self._data_cache.clear()
         self._actions = []
         self.handle()
