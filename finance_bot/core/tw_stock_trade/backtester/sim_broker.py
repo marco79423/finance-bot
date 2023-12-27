@@ -31,7 +31,7 @@ class SimBroker(BrokerBase):
         # 先寫 log
         self._trade_logs.append({
             'idx': self._current_idx,
-            'date': self._data.current_time,
+            'date': self._data.current_time.isoformat(),
             'action': 'buy',
             'stock_id': stock_id,
             'shares': shares,
@@ -82,7 +82,7 @@ class SimBroker(BrokerBase):
             # 先寫 log
             self._trade_logs.append({
                 'idx': position['idx'],
-                'date': self._data.current_time,
+                'date': self._data.current_time.isoformat(),
                 'action': 'sell',
                 'stock_id': stock_id,
                 'shares': position['shares'],
