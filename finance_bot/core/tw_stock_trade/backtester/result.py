@@ -11,7 +11,7 @@ from finance_bot.utility import Cache
 class Result:
     id: int
     strategy_name: str
-    params_key: str
+    params: dict
     init_balance: int
     final_balance: int
     start_time: pd.Timestamp
@@ -21,6 +21,10 @@ class Result:
 
     def __post_init__(self):
         self._cache = Cache()
+
+    @property
+    def params_key(self):
+        return ', '.join(f'{k}={self.params[k]}' for k in sorted(self.params))
 
     @property
     def trade_logs_df(self):

@@ -1,6 +1,8 @@
 import datetime as dt
+import hashlib
 import json
 import multiprocessing as mp
+import time
 import traceback
 from concurrent.futures import ProcessPoolExecutor
 
@@ -20,6 +22,8 @@ from finance_bot.core.tw_stock_trade.backtester.limited_market_data import Limit
 from finance_bot.core.tw_stock_trade.backtester.result import Result
 from finance_bot.core.tw_stock_trade.backtester.sim_broker import SimBroker
 from finance_bot.core.tw_stock_trade.market_data import MarketData
+from finance_bot.infrastructure import infra
+from finance_bot.model.tw_stock_backtest_result import TWStockBacktestResult
 from finance_bot.utility import generate_id
 
 
@@ -98,67 +102,140 @@ class Backtester:
             }
 
             strategy_name = strategy.name
-            params_key = ', '.join(f'{k}={strategy.params[k]}' for k in sorted(strategy.params))
-            message_conn.send(dict(
-                result_id=result_id,
-                action='init',
-                description=f'{strategy_name} <{params_key}> 回測中',
-            ))
 
-            limited_market_data = LimitedMarketData(
-                market_data=market_data,
-                start=start,
-                end=end,
-            )
-            broker = self.broker_class(limited_market_data, init_balance)
+            m = hashlib.md5()
+            m.update(strategy.name.encode())
+            m.update(', '.join(f'{k}={strategy.params[k]}' for k in sorted(strategy.params)).encode())
+            m.update(str(init_balance).encode())
+            m.update(start.isoformat().encode())
+            m.update(end.isoformat().encode())
+            key = m.hexdigest()
 
-            strategy.market_data = limited_market_data
-            strategy.broker = broker
-            strategy.pre_handle()
+            with Session(infra.db.engine) as session:
+                tw_stock_backtest_result = session.scalar(
+                    select(TWStockBacktestResult)
+                    .where(TWStockBacktestResult.key == key)
+                    .limit(1)
+                )
 
-            message_conn.send(dict(
-                result_id=result_id,
-                action='start',
-                total=len(limited_market_data.all_date_range),
-            ))
+            if tw_stock_backtest_result:
+                result_id = tw_stock_backtest_result.id
 
-            limited_market_data.is_limit = True
-            for today in limited_market_data.all_date_range:
+                params_key = ', '.join(f'{k}={strategy.params[k]}' for k in sorted(strategy.params))
+                message_conn.send(dict(
+                    result_id=result_id,
+                    action='init',
+                    description=f'{strategy_name} <{params_key}> 回測中',
+                ))
+
+                message_conn.send(dict(
+                    result_id=result_id,
+                    action='start',
+                    total=1,
+                ))
+
                 message_conn.send(dict(
                     result_id=result_id,
                     action='update',
-                    detail=today.strftime('%Y-%m-%d'),
+                    detail='讀取快取',
                 ))
-                limited_market_data.set_current_time(today)
 
-                for action in strategy.actions:
-                    if action['operation'] == 'buy':
-                        broker.buy_market(stock_id=action['stock_id'], shares=action['shares'], note=action['note'])
-                    elif action['operation'] == 'sell':
-                        broker.sell_all_market(stock_id=action['stock_id'], note=action['note'])
+                time.sleep(1)
+                trade_logs = json.loads(tw_stock_backtest_result.trade_logs)
+                params = json.loads(tw_stock_backtest_result.params)
 
-                broker.refresh()
-                strategy.inter_handle()
+                message_conn.send(dict(
+                    result_id=result_id,
+                    action='done',
+                ))
 
-            message_conn.send(dict(
-                result_id=result_id,
-                action='done',
-            ))
+                return Result(
+                    id=result_id,
+                    strategy_name=strategy_class.name,
+                    params=params,
+                    init_balance=init_balance,
+                    final_balance=tw_stock_backtest_result.final_balance,
+                    start_time=start,
+                    end_time=end,
+                    trade_logs=trade_logs,
+                    market_data=market_data,
+                )
+            else:
+                params_key = ', '.join(f'{k}={strategy.params[k]}' for k in sorted(strategy.params))
+                message_conn.send(dict(
+                    result_id=result_id,
+                    action='init',
+                    description=f'{strategy_name} <{params_key}> 回測中',
+                ))
 
-            return Result(
-                id=result_id,
-                strategy_name=strategy_class.name,
-                params_key=params_key,
-                init_balance=init_balance,
-                final_balance=broker.current_balance,
-                start_time=start,
-                end_time=end,
-                trade_logs=broker.trade_logs,
-                market_data=market_data,
-            )
-        except:
+                limited_market_data = LimitedMarketData(
+                    market_data=market_data,
+                    start=start,
+                    end=end,
+                )
+                broker = self.broker_class(limited_market_data, init_balance)
+
+                strategy.market_data = limited_market_data
+                strategy.broker = broker
+                strategy.pre_handle()
+
+                message_conn.send(dict(
+                    result_id=result_id,
+                    action='start',
+                    total=len(limited_market_data.all_date_range),
+                ))
+
+                limited_market_data.is_limit = True
+                for today in limited_market_data.all_date_range:
+                    message_conn.send(dict(
+                        result_id=result_id,
+                        action='update',
+                        detail=today.strftime('%Y-%m-%d'),
+                    ))
+                    limited_market_data.set_current_time(today)
+
+                    for action in strategy.actions:
+                        if action['operation'] == 'buy':
+                            broker.buy_market(stock_id=action['stock_id'], shares=action['shares'], note=action['note'])
+                        elif action['operation'] == 'sell':
+                            broker.sell_all_market(stock_id=action['stock_id'], note=action['note'])
+
+                    broker.refresh()
+                    strategy.inter_handle()
+
+                with Session(infra.db.engine) as session:
+                    infra.db.sync_insert_or_update(session, TWStockBacktestResult, dict(
+                        id=result_id,
+                        key=key,
+                        strategy_name=strategy_name,
+                        params=json.dumps(params),
+                        init_balance=init_balance,
+                        final_balance=broker.current_balance,
+                        start_time=start.to_pydatetime(),
+                        end_time=end.to_pydatetime(),
+                        trade_logs=json.dumps(broker.trade_logs),
+                    ))
+
+                message_conn.send(dict(
+                    result_id=result_id,
+                    action='done',
+                ))
+
+                return Result(
+                    id=result_id,
+                    strategy_name=strategy_class.name,
+                    params=params,
+                    init_balance=init_balance,
+                    final_balance=broker.current_balance,
+                    start_time=start,
+                    end_time=end,
+                    trade_logs=broker.trade_logs,
+                    market_data=market_data,
+                )
+        except Exception as e:
             message_conn.send(dict(
                 result_id=result_id,
                 action='error',
                 detail=traceback.format_exc(),
             ))
+            raise e
