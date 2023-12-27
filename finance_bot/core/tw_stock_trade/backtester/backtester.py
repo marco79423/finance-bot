@@ -103,18 +103,12 @@ class Backtester:
 
             strategy_name = strategy.name
 
-            m = hashlib.md5()
-            m.update(strategy.name.encode())
-            m.update(', '.join(f'{k}={strategy.params[k]}' for k in sorted(strategy.params)).encode())
-            m.update(str(init_balance).encode())
-            m.update(start.isoformat().encode())
-            m.update(end.isoformat().encode())
-            key = m.hexdigest()
+            signature = self._generate_signature(strategy, init_balance, start, end)
 
             with Session(infra.db.engine) as session:
                 tw_stock_backtest_result = session.scalar(
                     select(TWStockBacktestResult)
-                    .where(TWStockBacktestResult.key == key)
+                    .where(TWStockBacktestResult.signature == signature)
                     .limit(1)
                 )
 
@@ -206,7 +200,7 @@ class Backtester:
                 with Session(infra.db.engine) as session:
                     infra.db.sync_insert_or_update(session, TWStockBacktestResult, dict(
                         id=result_id,
-                        key=key,
+                        signature=signature,
                         strategy_name=strategy_name,
                         params=json.dumps(params),
                         init_balance=init_balance,
@@ -239,3 +233,14 @@ class Backtester:
                 detail=traceback.format_exc(),
             ))
             raise e
+
+    @staticmethod
+    def _generate_signature(strategy, init_balance, start, end):
+        m = hashlib.md5()
+        m.update(strategy.name.encode())
+        m.update(', '.join(f'{k}={strategy.params[k]}' for k in sorted(strategy.params)).encode())
+        m.update(str(init_balance).encode())
+        m.update(start.isoformat().encode())
+        m.update(end.isoformat().encode())
+        key = m.hexdigest()
+        return key

@@ -7,11 +7,11 @@ from .base import Base
 class TWStockBacktestResult(Base):
     __tablename__ = 'tw_stock_backtest_result'
     __table_args__ = (
-        Index('idx_key', 'key'),
+        Index('idx_signature', 'signature'),
     )
 
     id = Column(BigInteger, primary_key=True, comment='回測 ID')
-    key = Column(String(128), nullable=False, comment='回測參數雜湊')
+    signature = Column(String(128), nullable=False, comment='回測簽名')
 
     strategy_name = Column(String(10), comment='策略名稱')
     params = Column(LONGTEXT, nullable=False, comment='參數')
