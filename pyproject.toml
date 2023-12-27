@@ -34,6 +34,7 @@ dependencies = [
     "nats-py==2.6.0",
     "trogon==0.5.0",
     'a2wsgi==1.9.0',
+    'snowflake-id==0.0.5',
 ]
 
 [project.optional-dependencies]
