@@ -32,9 +32,17 @@ class DatabaseManager(ManagerBase):
     def engine(self):
         return self._engine
 
+    def start(self):
+        self.sync_migrate()
+
     @property
     def async_engine(self):
         return self._async_engine
+
+    def sync_migrate(self):
+        with self.engine.begin() as conn:
+            Base.metadata.create_all(conn)
+        self._migrated = True
 
     async def migrate(self):
         async with self.async_engine.begin() as conn:
@@ -42,18 +50,12 @@ class DatabaseManager(ManagerBase):
         self._migrated = True
 
     async def batch_insert_or_update(self, session, model, df):
-        if not self._migrated:
-            await self.migrate()
-
         for _, group in df.groupby(df.index // self.COMMIT_GROUP_SIZE):
             for _, v in group.iterrows():
                 await self.insert_or_update(session, model, v, False)
             await session.commit()
 
     async def insert_or_update(self, session, model, data, auto_commit=True):
-        if not self._migrated:
-            await self.migrate()
-
         # 移除 data 的空值不更新
         modified = {
             key: value if pd.notnull(value) else None
@@ -67,3 +69,18 @@ class DatabaseManager(ManagerBase):
         await session.execute(insert_stmt)
         if auto_commit:
             await session.commit()
+
+    def sync_insert_or_update(self, session, model, data, auto_commit=True):
+        # 移除 data 的空值不更新
+        modified = {
+            key: value if pd.notnull(value) else None
+            for key, value in data.items()
+        }
+
+        # 針對 updated_at 特別處理
+        modified['updated_at'] = dt.datetime.utcnow()
+
+        insert_stmt = insert(model).values(**modified).on_duplicate_key_update(**modified)
+        session.execute(insert_stmt)
+        if auto_commit:
+            session.commit()
