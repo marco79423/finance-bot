@@ -71,7 +71,7 @@ class Reporter:
 
         result_summaries = [
             {
-                'ID': result.id,
+                'ID': str(result.id),
                 '策略': result.strategy_name,
                 '參數': result.params_key,
                 '最終本金': f'{result.final_balance} 元',
@@ -91,7 +91,8 @@ class Reporter:
             dash_table.DataTable(data=result_summaries, page_size=20),
         )
 
-        result_ids = [result.id for result in self.results]
+        # Dash 似乎不能正常顯示 long int
+        result_ids = [str(result.id) for result in self.results]
         array.extend([
             html.Header(children=f'選擇策略：', style={'fontSize': '1.5em', 'fontWeight': '600'}),
             dcc.Dropdown(id='result_id', options=result_ids, value=result_ids[0]),
@@ -106,7 +107,7 @@ class Reporter:
             dcc.Dropdown(id='stock_id'),
         ])
 
-        result_map = {result.id: result for result in self.results}
+        result_map = {str(result.id): result for result in self.results}
         result_summary_map = {
             summary['ID']: summary for summary in result_summaries
         }
