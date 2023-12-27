@@ -148,7 +148,7 @@ class Result:
         trade_logs_df = self.trade_logs_df
 
         positions = {}
-        for date in self.market_data.all_date_range:
+        for date in self.market_data.close.loc[self.start_time:self.end_time].index:
             day_trade_logs = trade_logs_df[trade_logs_df['date'] == date]
 
             df = day_trade_logs[day_trade_logs['action'] == 'buy']
