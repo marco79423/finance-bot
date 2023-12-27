@@ -1,4 +1,5 @@
 import datetime as dt
+import json
 import multiprocessing as mp
 import traceback
 from concurrent.futures import ProcessPoolExecutor
@@ -12,11 +13,14 @@ from rich.progress import (
     TimeRemainingColumn,
     SpinnerColumn,
 )
+from sqlalchemy import select
+from sqlalchemy.orm import Session
 
 from finance_bot.core.tw_stock_trade.backtester.limited_market_data import LimitedMarketData
 from finance_bot.core.tw_stock_trade.backtester.result import Result
 from finance_bot.core.tw_stock_trade.backtester.sim_broker import SimBroker
 from finance_bot.core.tw_stock_trade.market_data import MarketData
+from finance_bot.utility import generate_id
 
 
 class Backtester:
@@ -33,12 +37,11 @@ class Backtester:
             parent_message_conn, message_conn = mp.Pipe()
 
             tasks = []
-            for idx, [strategy_class, params] in enumerate(strategies):
+            for [strategy_class, params] in strategies:
                 task = pool.submit(
                     self.backtest,
                     message_conn=message_conn,
                     market_data=market_data,
-                    result_id=idx,
                     init_balance=init_balance,
                     start=start,
                     end=end,
@@ -69,7 +72,7 @@ class Backtester:
                     elif message['action'] == 'update':
                         progress.update(task_id_map[message['result_id']], advance=1, detail=message['detail'])
                     elif message['action'] == 'done':
-                        del task_id_map[task_id_map[message['result_id']]]
+                        del task_id_map[message['result_id']]
                     elif message['action'] == 'error':
                         rich.print(message['detail'])
 
@@ -84,7 +87,9 @@ class Backtester:
         rich.print('回測花費時間：', dt.datetime.now() - start_time)
         return results
 
-    def backtest(self, message_conn, market_data, result_id, init_balance, start, end, strategy_class, params):
+    def backtest(self, message_conn, market_data, init_balance, start, end, strategy_class, params):
+        result_id = generate_id()
+
         try:
             strategy = strategy_class()
             strategy.params = {
