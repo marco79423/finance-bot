@@ -92,19 +92,14 @@ class Backtester:
         return results
 
     def backtest(self, message_conn, market_data, init_balance, start, end, strategy_class, params):
-        result_id = generate_id()
+        strategy = strategy_class()
+        strategy.params = {
+            **strategy_class.params,
+            **params,
+        }
+        signature = self._generate_signature(strategy, init_balance, start, end)
 
-        try:
-            strategy = strategy_class()
-            strategy.params = {
-                **strategy_class.params,
-                **params,
-            }
-
-            strategy_name = strategy.name
-
-            signature = self._generate_signature(strategy, init_balance, start, end)
-
+        if strategy.stabled:
             with Session(infra.db.engine) as session:
                 tw_stock_backtest_result = session.scalar(
                     select(TWStockBacktestResult)
@@ -114,12 +109,11 @@ class Backtester:
 
             if tw_stock_backtest_result:
                 result_id = tw_stock_backtest_result.id
-
                 params_key = ', '.join(f'{k}={strategy.params[k]}' for k in sorted(strategy.params))
                 message_conn.send(dict(
                     result_id=result_id,
                     action='init',
-                    description=f'{strategy_name} <{params_key}> 回測中',
+                    description=f'{strategy.name} <{params_key}> 回測中',
                 ))
 
                 message_conn.send(dict(
@@ -154,54 +148,58 @@ class Backtester:
                     trade_logs=trade_logs,
                     market_data=market_data,
                 )
-            else:
-                params_key = ', '.join(f'{k}={strategy.params[k]}' for k in sorted(strategy.params))
+
+        result_id = generate_id()
+        params_key = ', '.join(f'{k}={strategy.params[k]}' for k in sorted(strategy.params))
+        message_conn.send(dict(
+            result_id=result_id,
+            action='init',
+            description=f'{strategy.name} <{params_key}> 回測中',
+        ))
+
+        limited_market_data = LimitedMarketData(
+            market_data=market_data,
+            start=start,
+            end=end,
+        )
+        broker = self.broker_class(limited_market_data, init_balance)
+
+        strategy.market_data = limited_market_data
+        strategy.broker = broker
+
+        message_conn.send(dict(
+            result_id=result_id,
+            action='start',
+            total=len(limited_market_data.all_date_range),
+        ))
+
+        try:
+            strategy.pre_handle()
+
+            limited_market_data.is_limit = True
+            for today in limited_market_data.all_date_range:
                 message_conn.send(dict(
                     result_id=result_id,
-                    action='init',
-                    description=f'{strategy_name} <{params_key}> 回測中',
+                    action='update',
+                    detail=today.strftime('%Y-%m-%d'),
                 ))
+                limited_market_data.set_current_time(today)
 
-                limited_market_data = LimitedMarketData(
-                    market_data=market_data,
-                    start=start,
-                    end=end,
-                )
-                broker = self.broker_class(limited_market_data, init_balance)
+                for action in strategy.actions:
+                    if action['operation'] == 'buy':
+                        broker.buy_market(stock_id=action['stock_id'], shares=action['shares'], note=action['note'])
+                    elif action['operation'] == 'sell':
+                        broker.sell_all_market(stock_id=action['stock_id'], note=action['note'])
 
-                strategy.market_data = limited_market_data
-                strategy.broker = broker
-                strategy.pre_handle()
+                broker.refresh()
+                strategy.inter_handle()
 
-                message_conn.send(dict(
-                    result_id=result_id,
-                    action='start',
-                    total=len(limited_market_data.all_date_range),
-                ))
-
-                limited_market_data.is_limit = True
-                for today in limited_market_data.all_date_range:
-                    message_conn.send(dict(
-                        result_id=result_id,
-                        action='update',
-                        detail=today.strftime('%Y-%m-%d'),
-                    ))
-                    limited_market_data.set_current_time(today)
-
-                    for action in strategy.actions:
-                        if action['operation'] == 'buy':
-                            broker.buy_market(stock_id=action['stock_id'], shares=action['shares'], note=action['note'])
-                        elif action['operation'] == 'sell':
-                            broker.sell_all_market(stock_id=action['stock_id'], note=action['note'])
-
-                    broker.refresh()
-                    strategy.inter_handle()
-
+            if strategy.stabled:
                 with Session(infra.db.engine) as session:
                     infra.db.sync_insert_or_update(session, TWStockBacktestResult, dict(
                         id=result_id,
                         signature=signature,
-                        strategy_name=strategy_name,
+                        strategy_name=strategy.name,
                         params=json.dumps(params),
                         init_balance=init_balance,
                         final_balance=broker.current_balance,
@@ -210,22 +208,23 @@ class Backtester:
                         trade_logs=json.dumps(broker.trade_logs),
                     ))
 
-                message_conn.send(dict(
-                    result_id=result_id,
-                    action='done',
-                ))
+            message_conn.send(dict(
+                result_id=result_id,
+                action='done',
+            ))
 
-                return Result(
-                    id=result_id,
-                    strategy_name=strategy_class.name,
-                    params=params,
-                    init_balance=init_balance,
-                    final_balance=broker.current_balance,
-                    start_time=start,
-                    end_time=end,
-                    trade_logs=broker.trade_logs,
-                    market_data=market_data,
-                )
+            return Result(
+                id=result_id,
+                strategy_name=strategy.name,
+                params=params,
+                init_balance=init_balance,
+                final_balance=broker.current_balance,
+                start_time=start,
+                end_time=end,
+                trade_logs=broker.trade_logs,
+                market_data=market_data,
+            )
+
         except Exception as e:
             message_conn.send(dict(
                 result_id=result_id,

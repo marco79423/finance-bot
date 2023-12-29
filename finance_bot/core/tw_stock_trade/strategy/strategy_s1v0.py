@@ -11,6 +11,7 @@ class StrategyS1V0(StrategyBase):
     params = dict(
         max_single_position_exposure=0.1,
     )
+    stabled = True
     available_stock_ids = df.index.to_list()
 
     def init(self, data):

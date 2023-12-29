@@ -11,6 +11,7 @@ from finance_bot.utility import Cache
 class StrategyBase(abc.ABC):
     name: str
     params: dict = {}
+    stabled: bool = False
 
     stock_id: str
     broker: BrokerBase
