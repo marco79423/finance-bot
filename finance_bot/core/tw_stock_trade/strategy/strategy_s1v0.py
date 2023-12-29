@@ -1,10 +1,15 @@
 import pandas as pd
+from sqlalchemy import text
 
 from finance_bot.core.tw_stock_trade.strategy.base import StrategyBase
 from finance_bot.infrastructure import infra
 
-df = pd.read_csv(infra.path.multicharts_folder / f'stock_list_2.csv', header=None, index_col=0, dtype={0: str})
-
+task_stock_tag_df = pd.read_sql(
+    sql=text("SELECT * FROM tw_stock_tag"),
+    con=infra.db.engine,
+)
+df = task_stock_tag_df[task_stock_tag_df['name'] == '自選1']
+available_stock_ids = df['stock_id'].to_list()
 
 class StrategyS1V0(StrategyBase):
     name = '策略 S1V0'
@@ -12,7 +17,7 @@ class StrategyS1V0(StrategyBase):
         max_single_position_exposure=0.1,
     )
     stabled = True
-    available_stock_ids = df.index.to_list()
+    available_stock_ids = available_stock_ids
 
     def init(self, data):
         return dict(

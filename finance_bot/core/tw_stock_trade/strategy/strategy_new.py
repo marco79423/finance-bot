@@ -1,17 +1,24 @@
 import pandas as pd
+from sqlalchemy import text
 
 from finance_bot.infrastructure import infra
 from finance_bot.core.tw_stock_trade.market_data import MarketData
 from finance_bot.core.tw_stock_trade.strategy.base import StrategyBase
 
-df = pd.read_csv(infra.path.multicharts_folder / f'stock_list_2.csv', header=None, index_col=0, dtype={0: str})
+# df = pd.read_csv(infra.path.multicharts_folder / f'stock_list_2.csv', header=None, index_col=0, dtype={0: str})
 
+task_stock_tag_df = pd.read_sql(
+    sql=text("SELECT * FROM tw_stock_tag"),
+    con=infra.db.engine,
+)
+df = task_stock_tag_df[task_stock_tag_df['name'] == '自選1']
+available_stock_ids = df['stock_id'].to_list()
 
 class StrategyNew(StrategyBase):
     name = '策略 New'
     params = dict(
     )
-    available_stock_ids = df.index.to_list()
+    available_stock_ids = available_stock_ids
 
     def init(self, data: MarketData):
         i1 = data.close >= data.close.rolling(window=30).max()
