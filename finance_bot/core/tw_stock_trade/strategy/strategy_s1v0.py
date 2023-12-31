@@ -24,7 +24,7 @@ class StrategyS1V0(StrategyBase):
             sma5=data.close.rolling(window=5).mean(),
             sma10=data.close.rolling(window=10).mean(),
             sma35=data.close.rolling(window=35).mean(),
-            voc10=(data.volume - self.data.volume.shift(10)) / data.volume.shift(10) * 100,
+            voc10=(data.volume - data.volume.shift(10)) / data.volume.shift(10) * 100,
         )
 
     # noinspection PyTypeChecker
