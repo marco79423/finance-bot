@@ -18,9 +18,9 @@ from rich.progress import (
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
-from finance_bot.core.tw_stock_trade.backtester.limited_market_data import LimitedMarketData
-from finance_bot.core.tw_stock_trade.backtester.result import Result
-from finance_bot.core.tw_stock_trade.backtester.sim_broker import SimBroker
+from finance_bot.core.tw_stock_backtest.limited_market_data import LimitedMarketData
+from finance_bot.core.tw_stock_backtest.result import Result
+from finance_bot.core.tw_stock_backtest.sim_broker import SimBroker
 from finance_bot.core.tw_stock_trade.market_data import MarketData
 from finance_bot.infrastructure import infra
 from finance_bot.model.tw_stock_backtest_result import TWStockBacktestResult

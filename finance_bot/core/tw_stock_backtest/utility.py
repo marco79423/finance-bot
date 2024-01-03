@@ -1,9 +1,5 @@
 from decimal import Decimal
 
-from finance_bot.core.tw_stock_trade.backtester.backtester import Backtester
-from finance_bot.core.tw_stock_trade.backtester.reporter.reporter import Reporter
-from finance_bot.core.tw_stock_trade.strategy import StrategyS1V0, StrategyNew
-
 
 def generate_sequence(min_v, max_v, step_v):
     if isinstance(min_v, float):
@@ -48,37 +44,3 @@ def generate_strategies(*strategy_map_list) -> list:
                 [strategy_class, params]
             )
     return strategies
-
-
-def main():
-    backtester = Backtester()
-
-    strategies = generate_strategies(
-        (StrategyS1V0, [
-            dict(name='max_single_position_exposure', min=0.1, max=0.3, step=0.1),
-            dict(name='a', min=1, max=5, step=1, dispensable=True),
-        ]),
-        (StrategyNew, [
-            dict(name='max_single_position_exposure', min=0.1, max=0.3, step=0.1),
-        ]),
-    )
-
-    results = backtester.run(
-        init_balance=600000,
-        start='2015-08-01',
-        end='2023-08-10',
-        # end='2015-12-10',
-        strategies=[
-            [StrategyS1V0, dict(max_single_position_exposure=0.1)],
-            # [StrategyNew, dict(max_single_position_exposure=0.1)],
-        ],
-        # strategies=strategies
-    )
-
-    reporter = Reporter(results)
-    reporter.summary()
-    reporter.serve()
-
-
-if __name__ == '__main__':
-    main()
