@@ -94,7 +94,7 @@ class Backtester:
     def backtest(self, message_conn, market_data, init_balance, start, end, strategy_class, params):
         strategy = strategy_class()
         strategy.params = {
-            **strategy_class.params,
+            **strategy.params,
             **params,
         }
         signature = self._generate_signature(strategy, init_balance, start, end)
@@ -231,7 +231,6 @@ class Backtester:
                 action='error',
                 detail=traceback.format_exc(),
             ))
-            raise e
 
     @staticmethod
     def _generate_signature(strategy, init_balance, start, end):

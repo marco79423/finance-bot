@@ -16,6 +16,7 @@ available_stock_ids = df['stock_id'].to_list()
 
 
 class SignalBase(abc.ABC):
+    params = {}
 
     def init(self, data):
         return {}
@@ -30,6 +31,22 @@ class AndSignal(SignalBase):
     def __init__(self, *signals, reason=''):
         self.signals = signals
         self.reason = reason
+
+        self._params = {}
+        for signal in self.signals:
+            self._params.update(signal.params)
+        for signal in self.signals:
+            signal.params = self._params
+
+    @property
+    def params(self):
+        return self._params
+
+    @params.setter
+    def params(self, params):
+        self._params = params
+        for signal in self.signals:
+            signal.params = self._params
 
     def init(self, data):
         result = {}
@@ -92,13 +109,14 @@ class BuySignal(SignalBase):
 
 
 class GoodProfitSellSignal(SignalBase):
-    def __init__(self, ideal_growth_rate=5, accept_loss_rate=2):
-        self.ideal_growth_rate = ideal_growth_rate
-        self.accept_loss_rate = accept_loss_rate
+    params = dict(
+        ideal_growth_rate=5,
+        accept_loss_rate=2
+    )
 
     def handle(self, strategy: StrategyBase):
-        cond1 = strategy.growth_rate * 100 >= self.ideal_growth_rate
-        cond2 = strategy.growth_rate * 100 < (strategy.max_growth_rate * 100 - self.accept_loss_rate)
+        cond1 = strategy.growth_rate * 100 >= self.params.get('ideal_growth_rate', 5)
+        cond2 = strategy.growth_rate * 100 < (strategy.max_growth_rate * 100 - self.params.get('accept_loss_rate', 2))
 
         return (
             cond1 & cond2,
@@ -140,6 +158,23 @@ class SignalStrategyBase(StrategyBase):
     buy_signals = []
     sell_signals = []
 
+    def __init__(self):
+        self._params = {}
+        for signal in [*self.buy_signals, *self.sell_signals]:
+            self._params.update(signal.params)
+        for signal in [*self.buy_signals, *self.sell_signals]:
+            signal.params = self._params
+
+    @property
+    def params(self):
+        return self._params
+
+    @params.setter
+    def params(self, params):
+        self._params = params
+        for signal in [*self.buy_signals, *self.sell_signals]:
+            signal.params = self._params
+
     def init(self, data):
         result = {}
         for signal in [*self.buy_signals, *self.sell_signals]:
@@ -174,9 +209,6 @@ class SignalStrategyBase(StrategyBase):
 
 class StrategyS1V1(SignalStrategyBase):
     name = '策略 S1V1'
-    params = dict(
-        max_single_position_exposure=0.1,
-    )
 
     buy_signals = [
         AndSignal(
@@ -186,7 +218,7 @@ class StrategyS1V1(SignalStrategyBase):
     ]
 
     sell_signals = [
-        GoodProfitSellSignal(ideal_growth_rate=5, accept_loss_rate=2),
+        GoodProfitSellSignal(),
         HasProfitSellSignal(),
         RunSellSignal(),
     ]
