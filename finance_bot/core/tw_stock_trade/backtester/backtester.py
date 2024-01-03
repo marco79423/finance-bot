@@ -109,11 +109,10 @@ class Backtester:
 
             if tw_stock_backtest_result:
                 result_id = tw_stock_backtest_result.id
-                params_key = ', '.join(f'{k}={strategy.params[k]}' for k in sorted(strategy.params))
                 message_conn.send(dict(
                     result_id=result_id,
                     action='init',
-                    description=f'{strategy.name} <{params_key}> 回測中',
+                    description=f'{strategy.name} <{result_id}> 回測中',
                 ))
 
                 message_conn.send(dict(
@@ -150,11 +149,10 @@ class Backtester:
                 )
 
         result_id = generate_id()
-        params_key = ', '.join(f'{k}={strategy.params[k]}' for k in sorted(strategy.params))
         message_conn.send(dict(
             result_id=result_id,
             action='init',
-            description=f'{strategy.name} <{params_key}> 回測中',
+            description=f'{strategy.name} <{result_id}> 回測中',
         ))
 
         limited_market_data = LimitedMarketData(
