@@ -25,9 +25,48 @@ class SignalBase(abc.ABC):
         pass
 
 
-class BuySignal(SignalBase):
+class AndSignal(SignalBase):
+
+    def __init__(self, *signals, reason=''):
+        self.signals = signals
+        self.reason = reason
+
+    def init(self, data):
+        result = {}
+        for signal in self.signals:
+            result.update(signal.init(data))
+        return result
+
+    def handle(self, strategy: StrategyBase):
+        reasons = []
+        conditions = []
+        for signal in self.signals:
+            cond, reason = signal.handle(strategy)
+            conditions.append(cond)
+            reasons.append(reason)
+
+        df = pd.concat(conditions, axis=1)
+        df = df.fillna(False)
+        cond = df.all(axis=1)
+        return (
+            cond,
+            self.reason if self.reason else '&'.join(reasons)
+        )
+
+
+class TargetStockSignal(SignalBase):
     available_stock_ids = available_stock_ids
 
+    def handle(self, strategy: StrategyBase):
+        cond1 = pd.Series([True] * len(self.available_stock_ids), index=self.available_stock_ids)
+
+        return (
+            cond1,
+            '',
+        )
+
+
+class BuySignal(SignalBase):
     def init(self, data):
         return dict(
             sma10=data.close.rolling(window=10).mean(),
@@ -40,7 +79,7 @@ class BuySignal(SignalBase):
         sma35 = strategy.i('sma35')
         voc10 = strategy.i('voc10')
 
-        cond1 = (strategy.current_shares == 0).reindex(self.available_stock_ids, fill_value=True)
+        cond1 = (strategy.current_shares == 0).reindex(strategy.close.index, fill_value=True)
         cond2 = strategy.close > 10
         cond3 = (sma10.iloc[-1] > sma35.iloc[-1]) & (sma10.iloc[-2] < sma35.iloc[-2])
         cond4 = strategy.data.close.iloc[-1] > strategy.data.open.iloc[-1]
@@ -140,7 +179,10 @@ class StrategyS1V1(SignalStrategyBase):
     )
 
     buy_signals = [
-        BuySignal()
+        AndSignal(
+            TargetStockSignal(),
+            BuySignal(),
+        )
     ]
 
     sell_signals = [
