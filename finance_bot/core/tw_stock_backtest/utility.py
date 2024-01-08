@@ -21,7 +21,7 @@ def generate_sequence(min_v, max_v, step_v):
     return result
 
 
-def generate_strategies(*strategy_map_list) -> list:
+def generate_strategy_configs(*strategy_map_list) -> list:
     strategies = []
     for strategy_class, factors in strategy_map_list:
         params_list = [{}]
@@ -36,7 +36,7 @@ def generate_strategies(*strategy_map_list) -> list:
                 for value in generate_sequence(factor['min'], factor['max'], factor['step']):
                     new_params_list.append({**params, name: value})
                 if factor.get('dispensable', False):
-                    new_params_list.append({**params, name: None})
+                    new_params_list.append({**params})
             params_list = new_params_list
 
         for params in params_list:

@@ -1,5 +1,6 @@
 import abc
 import math
+from types import FunctionType
 
 import pandas as pd
 
@@ -188,3 +189,113 @@ class StrategyBase(abc.ABC):
         self._data_cache.clear()
         self._actions = []
         self.handle()
+
+
+class SignalBase(abc.ABC):
+    name = 'signal_base'
+    params = {}
+
+    def init(self, data):
+        return {}
+
+    @abc.abstractmethod
+    def handle(self, strategy: StrategyBase):
+        pass
+
+
+class AndSignal(SignalBase):
+
+    def __init__(self, *signals, reason=''):
+        self.signals = signals
+        self.reason = reason
+
+        self._params = {}
+        for signal in self.signals:
+            self._params.update(signal.params)
+        for signal in self.signals:
+            signal.params = self._params
+
+    @property
+    def params(self):
+        return self._params
+
+    @params.setter
+    def params(self, params):
+        self._params = params
+        for signal in self.signals:
+            signal.params = self._params
+
+    def init(self, data):
+        result = {}
+        for signal in self.signals:
+            result.update(signal.init(data))
+        return result
+
+    def handle(self, strategy: StrategyBase):
+        reasons = []
+        conditions = []
+        for signal in self.signals:
+            cond, reason = signal.handle(strategy)
+            conditions.append(cond)
+            reasons.append(reason)
+
+        df = pd.concat(conditions, axis=1)
+        df = df.fillna(False)
+        cond = df.all(axis=1)
+        return (
+            cond,
+            self.reason if self.reason else '&'.join(reasons)
+        )
+
+
+class SignalStrategyBase(StrategyBase):
+    buy_signals = []
+    sell_signals = []
+
+    def __init__(self):
+        self._params = {}
+        for signal in [*self.buy_signals, *self.sell_signals]:
+            self._params.update(signal.params)
+        for signal in [*self.buy_signals, *self.sell_signals]:
+            signal.params = self._params
+
+    @property
+    def params(self):
+        return self._params
+
+    @params.setter
+    def params(self, params):
+        self._params = params
+        for signal in [*self.buy_signals, *self.sell_signals]:
+            signal.params = self._params
+
+    def init(self, data):
+        result = {}
+        for signal in [*self.buy_signals, *self.sell_signals]:
+            result = {
+                **result,
+                **signal.init(data),
+            }
+        return result
+
+    # noinspection PyTypeChecker
+    def handle(self):
+        for buy_signal in self.buy_signals:
+            buy_cond, reason = buy_signal.handle(self)
+            target_list = self.new_target_list([
+                buy_cond
+            ])
+
+            for stock_id in target_list:
+                if isinstance(reason, FunctionType):
+                    reason = reason(stock_id)
+                self.buy_next_day_market(stock_id, reason)
+
+        for sell_signal in self.sell_signals:
+            sell_cond, reason = sell_signal.handle(self)
+            target_list = self.new_target_list([sell_cond])
+
+            for stock_id in target_list:
+                if isinstance(reason, FunctionType):
+                    reason = reason(stock_id)
+                self.sell_next_day_market(stock_id, note=reason)
