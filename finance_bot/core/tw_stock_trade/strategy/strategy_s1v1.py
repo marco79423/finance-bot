@@ -37,11 +37,35 @@ class EmptyHoldingStockSignal(SignalBase):
 
 class CloseOverSignal(SignalBase):
     params = dict(
-        close_over=10,
+        cos_close_over=10,
     )
 
     def handle(self, strategy: StrategyBase):
-        cond1 = strategy.close > self.params.get('close_over')
+        cond1 = strategy.close > self.params['cos_close_over']
+
+        return (
+            cond1,
+            '',
+        )
+
+
+class SMACrossOverSMA(SignalBase):
+    params = dict(
+        scos_sma_short=10,
+        scos_sma_long=35,
+    )
+
+    def init(self, data):
+        return dict(
+            scos_sma_short=data.close.rolling(window=self.params['scos_sma_short']).mean(),
+            scos_sma_long=data.close.rolling(window=self.params['scos_sma_long']).mean(),
+        )
+
+    def handle(self, strategy: StrategyBase):
+        sma_short = strategy.i('scos_sma_short')
+        sma_long = strategy.i('scos_sma_long')
+
+        cond1 = (sma_short.iloc[-1] > sma_long.iloc[-1]) & (sma_short.iloc[-2] < sma_long.iloc[-2])
 
         return (
             cond1,
@@ -52,22 +76,17 @@ class CloseOverSignal(SignalBase):
 class BuySignal(SignalBase):
     def init(self, data):
         return dict(
-            sma10=data.close.rolling(window=10).mean(),
-            sma35=data.close.rolling(window=35).mean(),
             voc10=(data.volume - data.volume.shift(10)) / data.volume.shift(10) * 100,
         )
 
     def handle(self, strategy: StrategyBase):
-        sma10 = strategy.i('sma10')
-        sma35 = strategy.i('sma35')
         voc10 = strategy.i('voc10')
 
-        cond1 = (sma10.iloc[-1] > sma35.iloc[-1]) & (sma10.iloc[-2] < sma35.iloc[-2])
-        cond2 = strategy.data.close.iloc[-1] > strategy.data.open.iloc[-1]
-        cond3 = voc10.iloc[-1] < 100
+        cond1 = strategy.data.close.iloc[-1] > strategy.data.open.iloc[-1]
+        cond2 = voc10.iloc[-1] < 100
 
         return (
-            cond1 & cond2 & cond3,
+            cond1 & cond2,
             '',
         )
 
@@ -126,6 +145,7 @@ class StrategyS1V1(SignalStrategyBase):
             TargetStockSignal(),
             EmptyHoldingStockSignal(),
             CloseOverSignal(),
+            SMACrossOverSMA(),
             BuySignal(),
         )
     ]
