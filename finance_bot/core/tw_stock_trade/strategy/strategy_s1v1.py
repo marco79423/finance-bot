@@ -24,6 +24,20 @@ class TargetStockSignal(SignalBase):
         )
 
 
+class CloseOverSignal(SignalBase):
+    params = dict(
+        close_over=10,
+    )
+
+    def handle(self, strategy: StrategyBase):
+        cond1 = strategy.close > self.params.get('close_over')
+
+        return (
+            cond1,
+            '',
+        )
+
+
 class BuySignal(SignalBase):
     def init(self, data):
         return dict(
@@ -38,13 +52,12 @@ class BuySignal(SignalBase):
         voc10 = strategy.i('voc10')
 
         cond1 = (strategy.current_shares == 0).reindex(strategy.close.index, fill_value=True)
-        cond2 = strategy.close > 10
-        cond3 = (sma10.iloc[-1] > sma35.iloc[-1]) & (sma10.iloc[-2] < sma35.iloc[-2])
-        cond4 = strategy.data.close.iloc[-1] > strategy.data.open.iloc[-1]
-        cond5 = voc10.iloc[-1] < 100
+        cond2 = (sma10.iloc[-1] > sma35.iloc[-1]) & (sma10.iloc[-2] < sma35.iloc[-2])
+        cond3 = strategy.data.close.iloc[-1] > strategy.data.open.iloc[-1]
+        cond4 = voc10.iloc[-1] < 100
 
         return (
-            cond1 & cond2 & cond3 & cond4 & cond5,
+            cond1 & cond2 & cond3 & cond4,
             '',
         )
 
@@ -101,6 +114,7 @@ class StrategyS1V1(SignalStrategyBase):
     buy_signals = [
         AndSignal(
             TargetStockSignal(),
+            CloseOverSignal(),
             BuySignal(),
         )
     ]
