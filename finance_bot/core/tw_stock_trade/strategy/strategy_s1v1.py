@@ -73,6 +73,17 @@ class SMACrossOverSMA(SignalBase):
         )
 
 
+class CloseOverOpenSignal(SignalBase):
+
+    def handle(self, strategy: StrategyBase):
+        cond1 = strategy.data.close.iloc[-1] > strategy.data.open.iloc[-1]
+
+        return (
+            cond1,
+            '',
+        )
+
+
 class BuySignal(SignalBase):
     def init(self, data):
         return dict(
@@ -81,12 +92,10 @@ class BuySignal(SignalBase):
 
     def handle(self, strategy: StrategyBase):
         voc10 = strategy.i('voc10')
-
-        cond1 = strategy.data.close.iloc[-1] > strategy.data.open.iloc[-1]
-        cond2 = voc10.iloc[-1] < 100
+        cond1 = voc10.iloc[-1] < 100
 
         return (
-            cond1 & cond2,
+            cond1,
             '',
         )
 
@@ -146,6 +155,7 @@ class StrategyS1V1(SignalStrategyBase):
             EmptyHoldingStockSignal(),
             CloseOverSignal(),
             SMACrossOverSMA(),
+            CloseOverOpenSignal(),
             BuySignal(),
         )
     ]
