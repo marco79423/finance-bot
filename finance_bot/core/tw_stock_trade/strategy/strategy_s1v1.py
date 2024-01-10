@@ -84,15 +84,22 @@ class CloseOverOpenSignal(SignalBase):
         )
 
 
-class BuySignal(SignalBase):
+class UnderVROCSignal(SignalBase):
+    """量變動速率指標"""
+    params = dict(
+        uvroc_days=10,
+        uvroc_under=1,
+    )
+
     def init(self, data):
+        uvroc_days = self.params['uvroc_days']
         return dict(
-            voc10=(data.volume - data.volume.shift(10)) / data.volume.shift(10) * 100,
+            uvroc_vroc=(data.volume - data.volume.shift(uvroc_days)) / data.volume.shift(uvroc_days),
         )
 
     def handle(self, strategy: StrategyBase):
-        voc10 = strategy.i('voc10')
-        cond1 = voc10.iloc[-1] < 100
+        vroc = strategy.i('uvroc_vroc')
+        cond1 = vroc.iloc[-1] < self.params['uvroc_under']
 
         return (
             cond1,
@@ -156,7 +163,7 @@ class StrategyS1V1(SignalStrategyBase):
             CloseOverSignal(),
             SMACrossOverSMA(),
             CloseOverOpenSignal(),
-            BuySignal(),
+            UnderVROCSignal(),
         )
     ]
 
