@@ -23,19 +23,15 @@ def generate_sequence(min_v, max_v, step_v):
 
 def generate_strategy_configs(*strategy_map_list) -> list:
     strategies = []
-    for strategy_class, factors in strategy_map_list:
+    for strategy_class, params_configs in strategy_map_list:
         params_list = [{}]
 
-        factor_map = {}
-        for factor in factors:
-            factor_map[factor['name']] = factor
-
-        for name, factor in factor_map.items():
+        for name, config in params_configs.items():
             new_params_list = []
             for params in params_list:
-                for value in generate_sequence(factor['min'], factor['max'], factor['step']):
+                for value in generate_sequence(config['min'], config['max'], config['step']):
                     new_params_list.append({**params, name: value})
-                if factor.get('dispensable', False):
+                if config.get('dispensable', False):
                     new_params_list.append({**params})
             params_list = new_params_list
 
