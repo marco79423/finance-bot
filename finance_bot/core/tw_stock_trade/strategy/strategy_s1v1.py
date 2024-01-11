@@ -13,6 +13,7 @@ available_stock_ids = df['stock_id'].to_list()
 
 
 class TargetStockSignal(SignalBase):
+    name = 'target_stock'
     available_stock_ids = available_stock_ids
 
     def handle(self, strategy: StrategyBase):
@@ -25,6 +26,7 @@ class TargetStockSignal(SignalBase):
 
 
 class EmptyHoldingStockSignal(SignalBase):
+    name = 'empty_holding'
 
     def handle(self, strategy: StrategyBase):
         cond1 = (strategy.current_shares == 0).reindex(strategy.close.index, fill_value=True)
@@ -36,6 +38,8 @@ class EmptyHoldingStockSignal(SignalBase):
 
 
 class CloseOverSignal(SignalBase):
+    name = 'close_over'
+
     params = dict(
         cos_close_over=10,
     )
@@ -49,7 +53,9 @@ class CloseOverSignal(SignalBase):
         )
 
 
-class SMACrossOverSMA(SignalBase):
+class SMACrossOverSMASignal(SignalBase):
+    name = 'sma_cross_over_sma'
+
     params = dict(
         scos_sma_short=10,
         scos_sma_long=35,
@@ -74,6 +80,7 @@ class SMACrossOverSMA(SignalBase):
 
 
 class CloseOverOpenSignal(SignalBase):
+    name = 'close_over_open'
 
     def handle(self, strategy: StrategyBase):
         cond1 = strategy.data.close.iloc[-1] > strategy.data.open.iloc[-1]
@@ -86,6 +93,8 @@ class CloseOverOpenSignal(SignalBase):
 
 class UnderVROCSignal(SignalBase):
     """量變動速率指標"""
+    name = 'under_vroc'
+
     params = dict(
         uvroc_days=10,
         uvroc_under=1,
@@ -108,14 +117,16 @@ class UnderVROCSignal(SignalBase):
 
 
 class GoodProfitSellSignal(SignalBase):
+    name = 'good_profit_sell'
+
     params = dict(
-        ideal_growth_rate=5,
-        accept_loss_rate=2
+        gps_ideal_growth_rate=5,
+        gps_accept_loss_rate=2
     )
 
     def handle(self, strategy: StrategyBase):
-        cond1 = strategy.growth_rate * 100 >= self.params.get('ideal_growth_rate', 5)
-        cond2 = strategy.growth_rate * 100 < (strategy.max_growth_rate * 100 - self.params.get('accept_loss_rate', 2))
+        cond1 = strategy.growth_rate * 100 >= self.params['gps_ideal_growth_rate']
+        cond2 = strategy.growth_rate * 100 < (strategy.max_growth_rate * 100 - self.params['gps_accept_loss_rate'])
 
         return (
             cond1 & cond2,
@@ -124,18 +135,24 @@ class GoodProfitSellSignal(SignalBase):
 
 
 class HasProfitSellSignal(SignalBase):
+    name = 'has_profit_sell'
+    params = dict(
+        hp_sma_short=5,
+        hp_sma_long=35,
+    )
+
     def init(self, data):
         return dict(
-            sma5=data.close.rolling(window=5).mean(),
-            sma35=data.close.rolling(window=35).mean(),
+            hps_sma_short=data.close.rolling(window=self.params['hp_sma_short']).mean(),
+            hps_sma_long=data.close.rolling(window=self.params['hp_sma_long']).mean(),
         )
 
     def handle(self, strategy: StrategyBase):
-        sma5 = strategy.i('sma5')
-        sma35 = strategy.i('sma35')
+        sma_short = strategy.i('hps_sma_short')
+        sma_long = strategy.i('hps_sma_long')
 
         cond1 = strategy.has_profit
-        cond2 = (sma5.iloc[-1] < sma35.iloc[-1]) & (sma5.iloc[-2] > sma35.iloc[-2])
+        cond2 = (sma_short.iloc[-1] < sma_long.iloc[-1]) & (sma_short.iloc[-2] > sma_long.iloc[-2])
 
         return (
             cond1 & cond2,
@@ -144,6 +161,8 @@ class HasProfitSellSignal(SignalBase):
 
 
 class RunSellSignal(SignalBase):
+    name = 'run_sell'
+
     def handle(self, strategy: StrategyBase):
         cond1 = strategy.has_profit
         cond2 = strategy.today - strategy.entry_date > pd.Timedelta(days=30 * 2)
@@ -161,7 +180,7 @@ class StrategyS1V1(SignalStrategyBase):
             TargetStockSignal(),
             EmptyHoldingStockSignal(),
             CloseOverSignal(),
-            SMACrossOverSMA(),
+            SMACrossOverSMASignal(),
             CloseOverOpenSignal(),
             UnderVROCSignal(),
         )
