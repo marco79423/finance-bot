@@ -11,6 +11,22 @@ task_stock_tag_df = pd.read_sql(
 df = task_stock_tag_df[task_stock_tag_df['name'] == '自選1']
 available_stock_ids = df['stock_id'].to_list()
 
+df = task_stock_tag_df[task_stock_tag_df['name'] == '個股']
+individual_stock_ids = df['stock_id'].to_list()
+
+
+class IndividualStockSignal(SignalBase):
+    name = 'individual_stock'
+    individual_stock_ids = individual_stock_ids
+
+    def handle(self, strategy: StrategyBase):
+        cond1 = pd.Series([True] * len(self.individual_stock_ids), index=self.individual_stock_ids)
+
+        return (
+            cond1,
+            '',
+        )
+
 
 class TargetStockSignal(SignalBase):
     name = 'target_stock'
@@ -177,6 +193,7 @@ class StrategyS1V1(SignalStrategyBase):
 
     buy_signals = [
         AndSignal(
+            IndividualStockSignal(),
             TargetStockSignal(),
             EmptyHoldingStockSignal(),
             CloseOverSignal(),
