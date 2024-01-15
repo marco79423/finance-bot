@@ -4,23 +4,25 @@ from sqlalchemy import text
 from finance_bot.core.tw_stock_trade.strategy.base import StrategyBase, SignalBase, SignalStrategyBase, AndSignal
 from finance_bot.infrastructure import infra
 
-task_stock_tag_df = pd.read_sql(
-    sql=text("SELECT * FROM tw_stock_tag"),
-    con=infra.db.engine,
-)
-df = task_stock_tag_df[task_stock_tag_df['name'] == '自選1']
-available_stock_ids = df['stock_id'].to_list()
-
-df = task_stock_tag_df[task_stock_tag_df['name'] == '個股']
-individual_stock_ids = df['stock_id'].to_list()
-
 
 class IndividualStockSignal(SignalBase):
     name = 'individual_stock'
-    individual_stock_ids = individual_stock_ids
+
+    _stock_list = []
+
+    def init(self, data):
+        task_stock_tag_df = pd.read_sql(
+            sql=text("SELECT * FROM tw_stock_tag"),
+            con=infra.db.engine,
+        )
+        df = task_stock_tag_df[task_stock_tag_df['name'] == '個股']
+        self._stock_list = df['stock_id'].to_list()
+
+        return dict(
+        )
 
     def handle(self, strategy: StrategyBase):
-        cond1 = pd.Series([True] * len(self.individual_stock_ids), index=self.individual_stock_ids)
+        cond1 = pd.Series([True] * len(self._stock_list), index=self._stock_list)
 
         return (
             cond1,
@@ -28,17 +30,34 @@ class IndividualStockSignal(SignalBase):
         )
 
 
-class TargetStockSignal(SignalBase):
-    name = 'target_stock'
-    available_stock_ids = available_stock_ids
+class StockTagSignal(SignalBase):
+    name = 'stock_tag'
+
+    params = dict(
+        st_tag='自選1',
+    )
+
+    _stock_list = []
+
+    def init(self, data):
+        task_stock_tag_df = pd.read_sql(
+            sql=text("SELECT * FROM tw_stock_tag"),
+            con=infra.db.engine,
+        )
+        df = task_stock_tag_df[task_stock_tag_df['name'] == self.params['st_tag']]
+        self._stock_list = df['stock_id'].to_list()
+
+        return dict(
+        )
 
     def handle(self, strategy: StrategyBase):
-        cond1 = pd.Series([True] * len(self.available_stock_ids), index=self.available_stock_ids)
+        cond1 = pd.Series([True] * len(self._stock_list), index=self._stock_list)
 
         return (
             cond1,
             '',
         )
+
 
 
 class EmptyHoldingStockSignal(SignalBase):
@@ -194,7 +213,7 @@ class StrategyS1V1(SignalStrategyBase):
     buy_signals = [
         AndSignal(
             IndividualStockSignal(),
-            TargetStockSignal(),
+            StockTagSignal(),
             EmptyHoldingStockSignal(),
             CloseOverSignal(),
             SMACrossOverSMASignal(),
