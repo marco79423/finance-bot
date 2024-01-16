@@ -35,7 +35,7 @@ class Backtester:
     def __init__(self):
         self.market_data = self.data_class()
 
-    async def run_task(self, init_balance, start, end, strategy_class, params):
+    def run_task(self, init_balance, start, end, strategy_class, params):
         start = pd.Timestamp(start)
         end = pd.Timestamp(end)
 
@@ -49,8 +49,8 @@ class Backtester:
         if not strategy.stabled:
             return
 
-        async with AsyncSession(infra.db.async_engine) as session:
-            tw_stock_backtest_result = await session.scalar(
+        with Session(infra.db.engine) as session:
+            tw_stock_backtest_result = session.scalar(
                 select(TWStockBacktestResult)
                 .where(TWStockBacktestResult.signature == signature)
                 .limit(1)
@@ -83,8 +83,8 @@ class Backtester:
             broker.refresh()
             strategy.inter_handle()
 
-        async with AsyncSession(infra.db.async_engine) as session:
-            infra.db.insert_or_update(session, TWStockBacktestResult, dict(
+        with Session(infra.db.engine) as session:
+            infra.db.sync_insert_or_update(session, TWStockBacktestResult, dict(
                 id=result_id,
                 signature=signature,
                 strategy_name=strategy.name,

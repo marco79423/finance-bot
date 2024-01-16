@@ -1,3 +1,4 @@
+import asyncio
 import uvicorn
 
 from finance_bot.core.base import CoreBase
@@ -20,22 +21,22 @@ class TWStockBacktest(CoreBase):
 
         @app.on_event("startup")
         async def startup():
-            await self.execute_backtest_task()
+            asyncio.create_task(asyncio.to_thread(self.execute_backtest_task))
 
         uvicorn.run(app, host='0.0.0.0', port=16950)
 
-    async def execute_backtest_task(self):
+    def execute_backtest_task(self):
         backtester = Backtester()
         strategy_configs = generate_strategy_configs(
-            (self.strategy_class, [
-                dict(name='max_single_position_exposure', min=0.1, max=0.3, step=0.1),
-            ]),
+            (self.strategy_class, {
+                'max_single_position_exposure': dict(min=0.1, max=0.3, step=0.1),
+            })
         )
 
         for [strategy_class, params] in strategy_configs:
             params_key = ', '.join(f'{k}={params[k]}' for k in sorted(params))
             self.logger.info(f'開始執行回測 {strategy_class.name} <{params_key}>...')
-            await backtester.run_task(
+            backtester.run_task(
                 init_balance=self.init_balance,
                 start=self.start_time,
                 end=self.end_time,
