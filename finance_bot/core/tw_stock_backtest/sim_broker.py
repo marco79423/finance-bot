@@ -12,7 +12,7 @@ class SimBroker(BrokerBase):
         self._balance = init_balance
 
         self._current_idx = 0
-        self._positions = []
+        self._position_map = {}
         self._positions_cache = {}
         self._trade_logs = []
 
@@ -47,13 +47,15 @@ class SimBroker(BrokerBase):
         if stock_id not in self._positions_cache:
             self._positions_cache[stock_id] = {}
 
-        self._positions.append(Position(
-            id=self._current_idx,
-            stock_id=stock_id,
-            shares=shares,
-            date=self._data.current_time,
-            price=entry_price
-        ))
+        if stock_id not in self._position_map:
+            self._position_map[stock_id] = Position(
+                stock_id=stock_id,
+                shares=shares,
+                entry_date=self._data.current_time,
+                avg_price=entry_price
+            )
+        else:
+            self._position_map[stock_id].increase(shares=shares, price=entry_price)
 
         self._positions_cache[stock_id][self._current_idx] = {
             'idx': self._current_idx,
@@ -97,7 +99,9 @@ class SimBroker(BrokerBase):
             # 執行交易
             self._balance = after
 
-        self._positions = [position for position in self._positions if position.stock_id != stock_id]
+        if stock_id in self._position_map:
+            del self._position_map[stock_id]
+
         del self._positions_cache[stock_id]
 
         return True
@@ -108,7 +112,7 @@ class SimBroker(BrokerBase):
 
     @property
     def positions(self) -> [Position]:
-        return self._positions
+        return list(self._position_map.values())
 
     @property
     def init_balance(self) -> int:

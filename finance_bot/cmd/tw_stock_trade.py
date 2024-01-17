@@ -45,10 +45,9 @@ def create_tw_stock_trade_cli():
 
         for position in t.positions:
             table.add_row(
-                str(position.id),
                 f'{position.date:%Y-%m-%d}',
                 position.stock_id,
-                str(position.price) + '元',
+                str(position.avg_price) + '元',
                 str(position.shares),
             )
         rich.print(table)

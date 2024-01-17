@@ -9,11 +9,18 @@ from finance_bot.infrastructure import infra
 
 @dataclasses.dataclass
 class Position:
-    id: int
-    date: pd.Timestamp
+    entry_date: pd.Timestamp
     stock_id: str
-    price: float
+    avg_price: float
     shares: int
+
+    def increase(self, shares, price):
+        self.avg_price = (self.avg_price * self.shares + shares * price) / (self.shares + shares)
+        self.shares += shares
+
+    def decrease(self, shares, price):
+        self.avg_price = (self.avg_price * self.shares - shares * price) / (self.shares - shares)
+        self.shares -= shares
 
 
 @dataclasses.dataclass
@@ -98,7 +105,7 @@ class BrokerBase(abc.ABC):
             stock_entry_date_map = {}
             for position in self.positions:
                 if position.stock_id not in stock_entry_date_map:
-                    stock_entry_date_map[position.stock_id] = position.date
+                    stock_entry_date_map[position.stock_id] = position.entry_date
 
             self._cache['holding_stock_entry_date_s'] = pd.Series(
                 [stock_entry_date_map[stock_id] for stock_id in self.holding_stock_ids],
@@ -107,13 +114,13 @@ class BrokerBase(abc.ABC):
         return self._cache['holding_stock_entry_date_s']
 
     @property
-    def holding_stock_entry_price_s(self) -> pd.Series:
-        """當前持有的股票入場價 (不考慮手續費)"""
+    def holding_stock_avg_price_s(self) -> pd.Series:
+        """當前持有的股票平均價 (不考慮手續費)"""
         if 'holding_stock_entry_price_s' not in self._cache:
             stock_entry_price_map = {}
             for position in self.positions:
                 if position.stock_id not in stock_entry_price_map:
-                    stock_entry_price_map[position.stock_id] = position.price
+                    stock_entry_price_map[position.stock_id] = position.avg_price
 
             self._cache['holding_stock_entry_price_s'] = pd.Series(
                 [stock_entry_price_map[stock_id] for stock_id in self.holding_stock_ids],
@@ -127,7 +134,7 @@ class BrokerBase(abc.ABC):
         if 'holding_stock_break_even_price_s' not in self._cache:
             fee_ratio = self.commission_info.fee_rate
             tax_ratio = self.commission_info.tax_rate
-            self._cache['holding_stock_break_even_price_s'] = self.holding_stock_entry_price_s * (1 + fee_ratio) / (
+            self._cache['holding_stock_break_even_price_s'] = self.holding_stock_avg_price_s * (1 + fee_ratio) / (
                     1 - fee_ratio - tax_ratio)
         return self._cache['holding_stock_break_even_price_s']
 
@@ -150,6 +157,6 @@ class BrokerBase(abc.ABC):
         if 'invested_funds' not in self._cache:
             funds = 0
             for position in self.positions:
-                funds += int(position.price * position.shares)
+                funds += int(position.avg_price * position.shares)
             self._cache['invested_funds'] = funds
         return self._cache['invested_funds']

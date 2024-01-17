@@ -134,8 +134,8 @@ class StrategyBase(abc.ABC):
         return self.broker.holding_stock_entry_date_s
 
     @property
-    def entry_price(self):
-        return self.broker.holding_stock_entry_price_s
+    def avg_price(self):
+        return self.broker.holding_stock_avg_price_s
 
     @property
     def break_even_price(self):
@@ -147,7 +147,7 @@ class StrategyBase(abc.ABC):
 
     @property
     def growth_rate(self):
-        return self._data_cache.get('growth_rate', lambda: (self.holding_close - self.entry_price) / self.entry_price)
+        return self._data_cache.get('growth_rate', lambda: (self.holding_close - self.avg_price) / self.avg_price)
 
     @property
     def max_growth_rate(self):
@@ -156,7 +156,7 @@ class StrategyBase(abc.ABC):
             data = []
             for stock_id in close.columns:
                 max_close = close.loc[self.entry_date[stock_id]:, stock_id].max()
-                entry_price = self.entry_price[stock_id]
+                entry_price = self.avg_price[stock_id]
                 data.append(dict(
                     stock_id=stock_id,
                     max_growth_rate=(max_close - entry_price) / entry_price
@@ -172,7 +172,7 @@ class StrategyBase(abc.ABC):
     @property
     def max_profit_rate(self):
         return self._data_cache.get('max_profit_rate',
-                                    lambda: (self.break_even_price - self.entry_price) / self.entry_price)
+                                    lambda: (self.break_even_price - self.avg_price) / self.avg_price)
 
     def pre_handle(self):
         self._indicators = self.init(self.data)

@@ -52,11 +52,10 @@ class SinoBroker(BrokerBase):
             if len(position_details) < 1 or len(position_details) > 2:
                 raise ValueError('發生不合理的事情')
             result.append(Position(
-                id=position.id,
                 stock_id=position.code,
                 shares=position.quantity * 1000,
-                price=position.price,
-                date=pd.Timestamp(position_details[0].date),
+                avg_price=position.price,
+                entry_date=pd.Timestamp(position_details[0].date),
             ))
         return result
 
