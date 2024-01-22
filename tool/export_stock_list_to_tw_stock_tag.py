@@ -35,7 +35,24 @@ async def export_stock_list_to_tw_stock_tag2(data):
     df = pd.DataFrame({
         'stock_id': df['stock_id'],
         'name': '個股',
-        'reason': '透過月財報判斷個股'
+        'reason': '透過財報判斷個股'
+    })
+
+    async with AsyncSession(infra.db.async_engine) as session:
+        await infra.db.batch_insert_or_update(session, TWStockTag, df)
+
+
+
+async def export_stock_list_to_tw_stock_tag3(data):
+    df = pd.read_sql(
+        sql=text("SELECT stock_id, instrument_type FROM tw_stock"),
+        con=infra.db.engine,
+    )
+
+    df = pd.DataFrame({
+        'stock_id': df['stock_id'],
+        'name': df['instrument_type'],
+        'reason': '透過 tw_stock 判斷類型'
     })
 
     async with AsyncSession(infra.db.async_engine) as session:
@@ -46,7 +63,8 @@ async def main():
     data = DataSync().data
 
     # await export_stock_list_to_tw_stock_tag(data)
-    await export_stock_list_to_tw_stock_tag2(data)
+    # await export_stock_list_to_tw_stock_tag2(data)
+    await export_stock_list_to_tw_stock_tag3(data)
 
 
 if __name__ == '__main__':
