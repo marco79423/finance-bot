@@ -42,7 +42,6 @@ async def export_stock_list_to_tw_stock_tag2(data):
         await infra.db.batch_insert_or_update(session, TWStockTag, df)
 
 
-
 async def export_stock_list_to_tw_stock_tag3(data):
     df = pd.read_sql(
         sql=text("SELECT stock_id, instrument_type FROM tw_stock"),
@@ -59,12 +58,29 @@ async def export_stock_list_to_tw_stock_tag3(data):
         await infra.db.batch_insert_or_update(session, TWStockTag, df)
 
 
+async def export_stock_list_to_tw_stock_tag4(data):
+    df = pd.read_sql(
+        sql=text("SELECT stock_id, industry FROM tw_stock WHERE industry IS NOT NULL"),
+        con=infra.db.engine,
+    )
+
+    df = pd.DataFrame({
+        'stock_id': df['stock_id'],
+        'name': df['industry'],
+        'reason': '透過 tw_stock 判斷產業別'
+    })
+
+    async with AsyncSession(infra.db.async_engine) as session:
+        await infra.db.batch_insert_or_update(session, TWStockTag, df)
+
+
 async def main():
     data = DataSync().data
 
     # await export_stock_list_to_tw_stock_tag(data)
     # await export_stock_list_to_tw_stock_tag2(data)
-    await export_stock_list_to_tw_stock_tag3(data)
+    # await export_stock_list_to_tw_stock_tag3(data)
+    await export_stock_list_to_tw_stock_tag4(data)
 
 
 if __name__ == '__main__':
