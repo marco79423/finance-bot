@@ -125,34 +125,33 @@ class CryptoLoan(CoreBase):
                 await self._client.rest.submit_cancel_funding_offer(min_amount_offer.id)
                 self.logger.info(f'[{dt.datetime.now()}] 取消訂單 {min_amount_offer}')
 
-        # 如果沒有 FRR 訂單，就下一個
-        balance_available = await self.get_funding_balance()
-        if balance_available >= 150 and not await self.has_frr_offer():
-            amount = balance_available
-            resp = await self._client.rest.submit_funding_offer(
-                symbol='fUSD',
-                amount=amount,
-                rate=0,
-                period=30,
-                funding_type=bfxapi.FundingOffer.Type.FRR_DELTA
-            )
-            self.logger.info(f'[{dt.datetime.now()}] 新增 FRR 訂單 {resp.notify_info})')
-
         # 根據當前餘額和策略下訂單
+        frr_rate = await self.get_frr_rate()
         balance_available = await self.get_funding_balance()
         while balance_available >= 150:
             amount = self.MAX_OFFER_AMOUNT
             if balance_available - self.MAX_OFFER_AMOUNT < 150:
                 amount = balance_available
 
-            resp = await self._client.rest.submit_funding_offer(
-                symbol='fUSD',
-                amount=amount,
-                rate=strategy.rate,
-                period=strategy.period,
-                funding_type=strategy.f_type
-            )
-            self.logger.info(f'[{dt.datetime.now()}] 新增訂單 {resp.notify_info} (金額：{amount})')
+            # 如果 FRR 比較好，優先 FRR
+            if strategy.rate < frr_rate:
+                resp = await self._client.rest.submit_funding_offer(
+                    symbol='fUSD',
+                    amount=amount,
+                    rate=0,
+                    period=30,
+                    funding_type=bfxapi.FundingOffer.Type.FRR_DELTA
+                )
+                self.logger.info(f'[{dt.datetime.now()}] 新增 FRR 訂單 {resp.notify_info} (金額：{amount})')
+            else:
+                resp = await self._client.rest.submit_funding_offer(
+                    symbol='fUSD',
+                    amount=amount,
+                    rate=strategy.rate,
+                    period=strategy.period,
+                    funding_type=strategy.f_type
+                )
+                self.logger.info(f'[{dt.datetime.now()}] 新增訂單 {resp.notify_info} (金額：{amount})')
             balance_available -= amount
 
     async def get_lending_records(self):
