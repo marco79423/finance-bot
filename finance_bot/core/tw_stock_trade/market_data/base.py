@@ -94,3 +94,8 @@ class MarketDataBase(abc.ABC):
     @abc.abstractmethod
     def volume(self):
         pass
+
+    @property
+    @abc.abstractmethod
+    def monthly_revenue(self):
+        pass

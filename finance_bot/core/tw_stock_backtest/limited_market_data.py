@@ -72,3 +72,8 @@ class LimitedMarketData(MarketDataBase):
     def volume(self):
         end = self.current_time if self.is_limit else self.end_time
         return self._market_data.volume[self.start_time:end]
+
+    @property
+    def monthly_revenue(self):
+        end = self.current_time if self.is_limit else self.end_time
+        return self._market_data.monthly_revenue[self.start_time:end]
