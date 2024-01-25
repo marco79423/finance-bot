@@ -14,7 +14,6 @@ class StrategyBase(abc.ABC):
     params: dict = {}
     stabled: bool = False
 
-    stock_id: str
     broker: BrokerBase
     market_data: MarketDataBase
     preload_days = 10
@@ -119,6 +118,10 @@ class StrategyBase(abc.ABC):
     @property
     def volume(self):
         return self._data_cache.get('volume', lambda: self.data.volume.iloc[-1])
+
+    @property
+    def monthly_revenue(self):
+        return self._data_cache.get('monthly_revenue', lambda: self.data.monthly_revenue.iloc[-1])
 
     @property
     def today(self):
@@ -248,15 +251,21 @@ class AndSignal(SignalBase):
         )
 
 
+class SortSignalBase(SignalBase, abc.ABC):
+    pass
+
+
 class SignalStrategyBase(StrategyBase):
     buy_signals = []
     sell_signals = []
+    sort_signal: SortSignalBase
 
     def __init__(self):
         self._params = {}
-        for signal in [*self.buy_signals, *self.sell_signals]:
+        for signal in [*self.buy_signals, *self.sell_signals, self.sort_signal]:
             self._params.update(signal.params)
-        for signal in [*self.buy_signals, *self.sell_signals]:
+
+        for signal in [*self.buy_signals, *self.sell_signals, self.sort_signal]:
             signal.params = self._params
 
     @property
@@ -266,12 +275,12 @@ class SignalStrategyBase(StrategyBase):
     @params.setter
     def params(self, params):
         self._params = params
-        for signal in [*self.buy_signals, *self.sell_signals]:
+        for signal in [*self.buy_signals, *self.sell_signals, self.sort_signal]:
             signal.params = self._params
 
     def init(self, data):
         result = {}
-        for signal in [*self.buy_signals, *self.sell_signals]:
+        for signal in [*self.buy_signals, *self.sell_signals, self.sort_signal]:
             result = {
                 **result,
                 **signal.init(data),
@@ -280,11 +289,20 @@ class SignalStrategyBase(StrategyBase):
 
     # noinspection PyTypeChecker
     def handle(self):
+        weight_s = self.sort_signal.handle(self)
+        # 過濾權重為 0 的元素
+        weight_s = weight_s[weight_s != 0]
+        # 根據權重排序
+        weight_s = weight_s.sort_values(ascending=False, kind='mergesort')
+
         for buy_signal in self.buy_signals:
             buy_cond, reason = buy_signal.handle(self)
             target_list = self.new_target_list([
                 buy_cond
             ])
+
+            # 提取排序後的索引並只保留在 l 中的元素
+            target_list = [index for index in weight_s.index if index in target_list]
 
             for stock_id in target_list:
                 if isinstance(reason, FunctionType):
