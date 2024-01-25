@@ -1,7 +1,8 @@
 import pandas as pd
 from sqlalchemy import text
 
-from finance_bot.core.tw_stock_trade.strategy.base import StrategyBase, SignalBase, SignalStrategyBase, AndSignal
+from finance_bot.core.tw_stock_trade.strategy.base import StrategyBase, SignalBase, SignalStrategyBase, AndSignal, \
+    SortSignalBase
 from finance_bot.infrastructure import infra
 
 
@@ -57,7 +58,6 @@ class StockTagSignal(SignalBase):
             cond1,
             '',
         )
-
 
 
 class EmptyHoldingStockSignal(SignalBase):
@@ -207,6 +207,12 @@ class RunSellSignal(SignalBase):
         )
 
 
+class BasicSortSignal(SortSignalBase):
+
+    def handle(self, strategy: StrategyBase):
+        return pd.Series([1] * len(strategy.data.all_stock_ids), index=strategy.data.all_stock_ids)
+
+
 class StrategyS1V1(SignalStrategyBase):
     name = '策略 S1V1'
 
@@ -227,3 +233,5 @@ class StrategyS1V1(SignalStrategyBase):
         HasProfitSellSignal(),
         RunSellSignal(),
     ]
+
+    sort_signal = BasicSortSignal()
