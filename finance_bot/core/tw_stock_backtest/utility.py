@@ -29,8 +29,12 @@ def generate_strategy_configs(*strategy_map_list) -> list:
         for name, config in params_configs.items():
             new_params_list = []
             for params in params_list:
-                for value in generate_sequence(config['min'], config['max'], config['step']):
-                    new_params_list.append({**params, name: value})
+                if 'choices' in config:
+                    for choice in config['choices']:
+                        new_params_list.append({**params, name: choice})
+                else:
+                    for value in generate_sequence(config['min'], config['max'], config['step']):
+                        new_params_list.append({**params, name: value})
                 if config.get('dispensable', False):
                     new_params_list.append({**params})
             params_list = new_params_list
