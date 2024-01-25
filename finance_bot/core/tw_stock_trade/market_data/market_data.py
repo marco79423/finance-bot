@@ -26,7 +26,7 @@ class MarketData(MarketDataBase):
 
     @property
     def all_stock_ids(self):
-        return self._data_adapter.close.loc[self.current_time].columns.tolist()
+        return self._data_adapter.close.columns.tolist()
 
     @property
     def all_date_range(self):
@@ -63,3 +63,7 @@ class MarketData(MarketDataBase):
     @property
     def volume(self):
         return self._data_adapter.volume
+
+    @property
+    def monthly_revenue(self):
+        return self._data_adapter.monthly_revenue
