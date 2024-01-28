@@ -1,5 +1,4 @@
-from . import MarketDataBase
-from .base import StockData
+from .base import MarketDataBase, StockData
 from .data_adapter import DataAdapter
 
 

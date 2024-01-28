@@ -16,13 +16,12 @@ from rich.progress import (
     SpinnerColumn,
 )
 from sqlalchemy import select
-from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import Session
 
 from finance_bot.core.tw_stock_backtest.limited_market_data import LimitedMarketData
 from finance_bot.core.tw_stock_backtest.result import Result
 from finance_bot.core.tw_stock_backtest.sim_broker import SimBroker
-from finance_bot.core.tw_stock_trade.market_data import MarketData
+from finance_bot.core.data_sync.tw_stock.market_data import MarketData
 from finance_bot.infrastructure import infra
 from finance_bot.model.tw_stock_backtest_result import TWStockBacktestResult
 from finance_bot.utility import generate_id

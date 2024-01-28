@@ -1,4 +1,4 @@
-from finance_bot.core.tw_stock_trade.market_data import MarketDataBase
+from finance_bot.core.data_sync.tw_stock.market_data import MarketDataBase
 
 
 class LimitedMarketData(MarketDataBase):
