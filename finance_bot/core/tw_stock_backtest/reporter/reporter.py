@@ -88,7 +88,7 @@ class Reporter:
             } for result in self.results
         ]
         array.append(
-            dash_table.DataTable(data=result_summaries, page_size=20),
+            dash_table.DataTable(data=result_summaries, page_size=20, sort_action='native', sort_mode='multi'),
         )
 
         # Dash 似乎不能正常顯示 long int
