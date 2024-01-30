@@ -2,7 +2,7 @@ import uvicorn
 
 from finance_bot.core.base import CoreBase
 from finance_bot.core.tw_stock_trade.broker import SinoBroker
-from finance_bot.core.data_sync.tw_stock.market_data import MarketData
+from finance_bot.core.tw_stock_data_sync import MarketData
 from finance_bot.core.tw_stock_trade.strategy import StrategyS1V0
 from finance_bot.infrastructure import infra
 

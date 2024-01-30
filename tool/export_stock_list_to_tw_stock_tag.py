@@ -3,7 +3,8 @@ import pandas as pd
 from sqlalchemy import text
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from finance_bot.core import DataSync
+from finance_bot.core import TWStockDataSync
+from finance_bot.core.tw_stock_data_sync import MarketData
 from finance_bot.infrastructure import infra
 from finance_bot.model import TWStockTag
 
@@ -75,7 +76,7 @@ async def export_stock_list_to_tw_stock_tag4(data):
 
 
 async def main():
-    data = DataSync().data
+    data = MarketData()
 
     # await export_stock_list_to_tw_stock_tag(data)
     # await export_stock_list_to_tw_stock_tag2(data)

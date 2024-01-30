@@ -4,10 +4,10 @@ import requests
 from trogon import tui
 
 from finance_bot.cmd.crypto_loan import create_crypto_loan_cli
-from finance_bot.cmd.data_sync import create_data_sync_cli
 from finance_bot.cmd.schedule import create_schedule_cli
 from finance_bot.cmd.super_bot import create_super_bot_cli
 from finance_bot.cmd.tw_stock_backtest import create_tw_stock_backtest_cli
+from finance_bot.cmd.tw_stock_data_sync import create_tw_stock_data_sync_cli
 from finance_bot.cmd.tw_stock_trade import create_tw_stock_trade_cli
 from finance_bot.core.shell.config import get_config
 
@@ -36,7 +36,7 @@ def create_cli():
 
     cli.add_command(create_schedule_cli())
     cli.add_command(create_crypto_loan_cli())
-    cli.add_command(create_data_sync_cli())
+    cli.add_command(create_tw_stock_data_sync_cli())
     cli.add_command(create_tw_stock_trade_cli())
     cli.add_command(create_super_bot_cli())
     cli.add_command(create_tw_stock_backtest_cli())

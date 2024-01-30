@@ -2,7 +2,7 @@ core:
   schedule:
     crypto_loan:
       update_status: '0 7 * * *'
-    data_sync:
+    tw_stock_data_sync:
       update_tw_stock: '0 0 * * *'
       update_tw_stock_prices: '0 0 * * *'
       update_monthly_revenue: '30 0 * * *'
@@ -19,7 +19,7 @@ core:
     api_key: <key>
     api_secret: <token>
 
-  data_sync:
+  tw_stock_data_sync:
     updater:
       finmind:
         api_token: <token>

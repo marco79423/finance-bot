@@ -25,12 +25,12 @@ class Schedule(CoreBase):
     tasks = [
         # crypto loan
         ('crypto_loan.update_status', 'core.schedule.crypto_loan.update_status'),
-        # data_sync
-        ('data_sync.update_tw_stock', 'core.schedule.data_sync.update_tw_stock'),
-        ('data_sync.update_tw_stock_prices', 'core.schedule.data_sync.update_tw_stock_prices'),
-        ('data_sync.update_monthly_revenue', 'core.schedule.data_sync.update_monthly_revenue'),
-        ('data_sync.update_financial_statements', 'core.schedule.data_sync.update_financial_statements'),
-        ('data_sync.update_db_cache', 'core.schedule.data_sync.update_db_cache'),
+        # tw_stock_data_sync
+        ('tw_stock_data_sync.update_tw_stock', 'core.schedule.tw_stock_data_sync.update_tw_stock'),
+        ('tw_stock_data_sync.update_tw_stock_prices', 'core.schedule.tw_stock_data_sync.update_tw_stock_prices'),
+        ('tw_stock_data_sync.update_monthly_revenue', 'core.schedule.tw_stock_data_sync.update_monthly_revenue'),
+        ('tw_stock_data_sync.update_financial_statements', 'core.schedule.tw_stock_data_sync.update_financial_statements'),
+        ('tw_stock_data_sync.update_db_cache', 'core.schedule.tw_stock_data_sync.update_db_cache'),
         # tw_stock_trade
         ('tw_stock_trade.update_strategy_actions', 'core.schedule.tw_stock_trade.update_strategy_actions'),
         # super_bot

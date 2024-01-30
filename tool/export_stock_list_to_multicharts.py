@@ -1,6 +1,9 @@
+import asyncio
+
 import pandas as pd
 
-from finance_bot.core import DataSync
+from finance_bot.core import TWStockDataSync
+from finance_bot.core.tw_stock_data_sync import MarketData
 from finance_bot.infrastructure import infra
 
 
@@ -40,10 +43,11 @@ def export_stock_list_to_multicharts(data):
 
 
 def main():
-    data = DataSync().data
-    # data.rebuild_cache()
+    loop = asyncio.get_event_loop()
+    # loop.run_until_complete(TWStockDataSync().updater.rebuild_cache())
 
-    export_stock_list_to_multicharts(data)
+    market_data = MarketData()
+    export_stock_list_to_multicharts(market_data)
 
 
 if __name__ == '__main__':

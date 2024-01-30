@@ -4,112 +4,18 @@ import random
 
 import asyncio
 import pandas as pd
-import uvicorn
-from sqlalchemy import select
+from sqlalchemy import select, text
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from finance_bot.core.base import CoreBase
-from finance_bot.core.data_sync.market_data import MarketData
 from finance_bot.infrastructure import infra
 from finance_bot.model import TWStockPrice, TWStock, TWStockMonthlyRevenue, TWStockFinancialStatements
 
 
-class DataSync(CoreBase):
-    name = 'data_sync'
-
+class TWStockUpdater:
     COMMIT_GROUP_SIZE = 1000
 
-    def __init__(self):
-        super().__init__()
-        self._market_data = MarketData(logger=self.logger)
-
-    def start(self):
-        self.logger.info(f'啟動 {self.name} ...')
-        app = self.get_app()
-
-        @app.on_event("startup")
-        async def startup():
-            await self.listen()
-
-        uvicorn.run(app, host='0.0.0.0', port=16920)
-
-    async def listen(self):
-        await infra.mq.subscribe('data_sync.update_tw_stock', self._update_tw_stock_handler)
-        await infra.mq.subscribe('data_sync.update_tw_stock_prices', self._update_tw_stock_prices_handler)
-        await infra.mq.subscribe('data_sync.update_monthly_revenue', self._update_monthly_revenue_handler)
-        await infra.mq.subscribe('data_sync.update_financial_statements', self._update_financial_statements_handler)
-        await infra.mq.subscribe('data_sync.update_db_cache', self._update_db_cache_handler)
-
-    async def _update_tw_stock_handler(self, sub, data):
-        await self.execute_task(
-            '台灣股票資訊更新',
-            'data_sync.update_tw_stock',
-            self.update_stocks,
-            retries=5,
-        )
-
-    async def _update_tw_stock_prices_handler(self, sub, data):
-        today = pd.Timestamp.today().normalize()
-        yesterday = today - pd.Timedelta(days=1)
-
-        await self.execute_task(
-            f'{yesterday:%Y-%m-%d} 股價資訊更新',
-            'data_sync.update_tw_stock_prices',
-            self.update_prices_for_date,
-            kargs=dict(date=yesterday),
-            retries=5,
-        )
-
-    async def _update_monthly_revenue_handler(self, sub, data):
-        # 根據規定上市櫃公司營收必須在次月的10號前公告，但遇假期可以延期，如 10 號是週六，可以等下週一才公布
-        # 但我想每天都抓應該也不會怎樣
-        today = pd.Timestamp.today().normalize()
-
-        # 上個月的同一天
-        target_date = today - pd.DateOffset(months=1)
-        year, month = target_date.year, target_date.month
-
-        await self.execute_task(
-            f'{year}-{month} 月營收財報更新',
-            'data_sync.update_monthly_revenue',
-            self.update_monthly_revenue,
-            kargs=dict(year=year, month=month),
-            retries=5,
-        )
-
-    async def _update_financial_statements_handler(self, sub, data):
-        # 財報公布： 一般公司
-        # * 第一季（Q1）法說會：5/15 前
-        # * 第二季（Q2）財報：8/14 前
-        # * 第三季（Q3）財報：11/14 前
-        # * 第四季（Q4）財報及年報：隔年 3/31 前
-        #
-        # 財報公布： 金融業
-        # * 第一季（Q1）財報：5/15 前
-        # * 第二季（Q2）財報：8/31 前
-        # * 第三季（Q3）財報：11/14 前
-
-        last_period = pd.Period(pd.Timestamp.now(), freq='Q') - 1
-        year, quarter = last_period.year, last_period.quarter
-        await self.execute_task(
-            f'{year}Q{quarter} 財報更新',
-            'data_sync.update_financial_statements',
-            self.update_all_financial_statements_by_quarter,
-            kargs=dict(year=year, quarter=quarter),
-            retries=5,
-        )
-
-    async def _update_db_cache_handler(self, sub, data):
-        await self.execute_task(
-            f'台股資料快取更新',
-            'data_sync.update_db_cache',
-            self.data.rebuild_cache,
-            retries=5,
-        )
-
-    @property
-    def data(self):
-        return self._market_data
+    def __init__(self, logger):
+        self.logger = logger
 
     async def update_stocks(self):
         self.logger.info(f'開始更新台灣股票資訊 ...')
@@ -121,20 +27,6 @@ class DataSync(CoreBase):
             await infra.db.batch_insert_or_update(session, TWStock, df)
         self.logger.info('台灣股票資訊更新完成')
         return dict(total_count=total_count)
-
-    async def update_prices_for_date_range(self, start=None, end=None, random_delay=True):
-        start = pd.Timestamp(start if start is not None else '2004-01-01')  # 證交所最早只到 2004-01-01
-        end = pd.Timestamp(end if end is not None else pd.Timestamp.today().normalize())
-
-        date_range = pd.date_range(start, end, freq='B')
-        self.logger.info(f'開始更新 {start:%Y-%m-%d} ~ {end:%Y-%m-%d} 股價資訊 ...')
-        for date in reversed(date_range):
-            await self.update_prices_for_date(date)
-            if random_delay:
-                delay_seconds = random.randint(1, 10)
-                self.logger.info(f'等待 {delay_seconds} 秒 ...')
-                await asyncio.sleep(delay_seconds)
-        self.logger.info(f'{start:%Y-%m-%d}-{end:%Y-%m-%d} 股價資訊更新完成')
 
     async def update_prices_for_date(self, date=None):
         date = pd.Timestamp(date if date is not None else pd.Timestamp.today().normalize())
@@ -174,6 +66,69 @@ class DataSync(CoreBase):
         return {
             'date': date.isoformat(),
         }
+
+    async def update_prices_for_date_range(self, start=None, end=None, random_delay=True):
+        start = pd.Timestamp(start if start is not None else '2004-01-01')  # 證交所最早只到 2004-01-01
+        end = pd.Timestamp(end if end is not None else pd.Timestamp.today().normalize())
+
+        date_range = pd.date_range(start, end, freq='B')
+        self.logger.info(f'開始更新 {start:%Y-%m-%d} ~ {end:%Y-%m-%d} 股價資訊 ...')
+        for date in reversed(date_range):
+            await self.update_prices_for_date(date)
+            if random_delay:
+                delay_seconds = random.randint(1, 10)
+                self.logger.info(f'等待 {delay_seconds} 秒 ...')
+                await asyncio.sleep(delay_seconds)
+        self.logger.info(f'{start:%Y-%m-%d}-{end:%Y-%m-%d} 股價資訊更新完成')
+
+    async def update_monthly_revenue(self, year, month):
+        self.logger.info(f'開始更新月財報資訊 ...')
+
+        if year < 2012:
+            raise ValueError('最早只到 2012 年 1 月 (民國 101 年)')
+        if year == 2012:
+            raise ValueError('2012 年都沒有 CSV，所以懶得處理')
+
+        listing_status = 'sii'  # sii: 上市公司, otc: 上櫃公司, rotc: 興櫃公司, pub: 公開發行公司
+        company_type = 0  # 0: 國內公司, 1: 國外 KY 公司
+
+        url = 'https://mops.twse.com.tw/server-java/FileDownLoad'
+        res = await infra.api.post(
+            url,
+            data={
+                'step': 9,  # 不知啥用的
+                'functionName': 'show_file2',
+                'filePath': f'/t21/{listing_status}/',
+                'fileName': f't21sc03_{year - 1911}_{month}.csv',
+            },
+        )
+
+        res.encoding = 'utf-8'  # HTTPX 自動偵測編碼會錯誤
+        df = pd.read_csv(io.StringIO(res.text))
+
+        df = df[['公司代號', '營業收入-當月營收']]
+        df = df.rename(columns={
+            '公司代號': 'stock_id',
+            '營業收入-當月營收': 'revenue',
+        })
+        df['date'] = f'{year}-{month:02}'
+        async with AsyncSession(infra.db.async_engine) as session:
+            await infra.db.batch_insert_or_update(session, TWStockMonthlyRevenue, df)
+
+        url = f'https://mops.twse.com.tw/nas/t21/{listing_status}/t21sc03_{year - 1911}_{month}_{company_type}.html'
+
+        res = await infra.api.get(url)
+        res.encoding = 'big5'
+        body = res.text
+
+        target_folder = infra.path.data_folder / 'monthly_revenue'
+        await target_folder.mkdir(parents=True, exist_ok=True)
+        target_file = target_folder / f'{year}_{month}.html'
+        async with target_file.open('w', encoding='utf-8') as fp:
+            await fp.write(body)
+
+        self.logger.info(f'更新月財報資訊完成')
+        return dict(year=year, month=month)
 
     async def update_all_financial_statements(self, force_update_db=False):
         async with AsyncSession(infra.db.async_engine) as session:
@@ -277,6 +232,48 @@ class DataSync(CoreBase):
         for period in periods:
             await self.update_financial_statements_for_stock_by_quarter(stock_id, period.year, period.quarter)
 
+    async def rebuild_cache(self):
+        # tw_stock
+        self.logger.info(f'開始重建 tw_stock 快取 ...')
+        stock_df = pd.read_sql(
+            sql=text("SELECT * FROM tw_stock"),
+            con=infra.db.engine,
+            index_col='stock_id',
+            parse_dates=['listing_date', 'created_at', 'updated_at'],
+        )
+        infra.db_cache.save(key='tw_stock', df=stock_df)
+
+        # tw_stock_price
+        self.logger.info(f'開始重建 tw_stock_price 快取 ...')
+        prices_df = pd.read_sql(
+            sql=text("SELECT * FROM tw_stock_price"),
+            con=infra.db.engine,
+            index_col='date',
+            parse_dates=['date'],
+        )
+        infra.db_cache.save(key='tw_stock_price', df=prices_df)
+
+        # tw_stock_monthly_revenue
+        self.logger.info(f'開始重建 tw_stock_monthly_revenue 快取 ...')
+        df = pd.read_sql(
+            sql=text("SELECT date, stock_id, revenue FROM tw_stock_monthly_revenue"),
+            con=infra.db.engine,
+        )
+        df['date'] = pd.to_datetime(df['date']).dt.to_period('M')
+        monthly_revenue_df = df.set_index('date')
+        infra.db_cache.save(key='tw_stock_monthly_revenue', df=monthly_revenue_df)
+
+        # tw_stock_financial_statements
+        self.logger.info(f'開始重建 tw_stock_financial_statements 快取 ...')
+        df = pd.read_sql(
+            sql=text("SELECT * FROM tw_stock_financial_statements"),
+            con=infra.db.engine,
+            index_col='date',
+        )
+        df.index = df.index.astype('period[Q]')
+        financial_statements_df = df
+        infra.db_cache.save(key='tw_stock_financial_statements', df=financial_statements_df)
+
     @staticmethod
     async def crawl_stocks():
         res = await infra.api.get(
@@ -345,55 +342,6 @@ class DataSync(CoreBase):
         df['date'] = pd.to_datetime(date)
 
         return df
-
-    async def update_monthly_revenue(self, year, month):
-        self.logger.info(f'開始更新月財報資訊 ...')
-
-        if year < 2012:
-            raise ValueError('最早只到 2012 年 1 月 (民國 101 年)')
-        if year == 2012:
-            raise ValueError('2012 年都沒有 CSV，所以懶得處理')
-
-        listing_status = 'sii'  # sii: 上市公司, otc: 上櫃公司, rotc: 興櫃公司, pub: 公開發行公司
-        company_type = 0  # 0: 國內公司, 1: 國外 KY 公司
-
-        url = 'https://mops.twse.com.tw/server-java/FileDownLoad'
-        res = await infra.api.post(
-            url,
-            data={
-                'step': 9,  # 不知啥用的
-                'functionName': 'show_file2',
-                'filePath': f'/t21/{listing_status}/',
-                'fileName': f't21sc03_{year - 1911}_{month}.csv',
-            },
-        )
-
-        res.encoding = 'utf-8'  # HTTPX 自動偵測編碼會錯誤
-        df = pd.read_csv(io.StringIO(res.text))
-
-        df = df[['公司代號', '營業收入-當月營收']]
-        df = df.rename(columns={
-            '公司代號': 'stock_id',
-            '營業收入-當月營收': 'revenue',
-        })
-        df['date'] = f'{year}-{month:02}'
-        async with AsyncSession(infra.db.async_engine) as session:
-            await infra.db.batch_insert_or_update(session, TWStockMonthlyRevenue, df)
-
-        url = f'https://mops.twse.com.tw/nas/t21/{listing_status}/t21sc03_{year - 1911}_{month}_{company_type}.html'
-
-        res = await infra.api.get(url)
-        res.encoding = 'big5'
-        body = res.text
-
-        target_folder = infra.path.data_folder / 'monthly_revenue'
-        await target_folder.mkdir(parents=True, exist_ok=True)
-        target_file = target_folder / f'{year}_{month}.html'
-        async with target_file.open('w', encoding='utf-8') as fp:
-            await fp.write(body)
-
-        self.logger.info(f'更新月財報資訊完成')
-        return dict(year=year, month=month)
 
     @staticmethod
     async def _get_financial_statements_path(stock_id, year, quarter):
@@ -477,19 +425,3 @@ class DataSync(CoreBase):
                 except KeyError:
                     pass
         return value
-
-
-if __name__ == '__main__':
-    def main():
-        bot = DataSync()
-        # bot.update_stocks()
-        # bot.update_prices_for_date_range('2004-01-01', '2022-02-14')
-        # for d in pd.date_range('2014-07', '2023-07', freq='MS'):
-        #     print(f'{d.year}-{d.month:02}')
-        #     bot.update_monthly_revenue(year=d.year, month=d.month)
-        #     time.sleep(30)
-        bot.update_all_financial_statements_for_stock_id('2330')
-        bot.update_all_financial_statements_by_quarter(2022, 1)
-
-
-    main()

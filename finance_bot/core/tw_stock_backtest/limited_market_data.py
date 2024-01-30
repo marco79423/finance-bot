@@ -1,4 +1,4 @@
-from finance_bot.core.data_sync.tw_stock.market_data import MarketDataBase
+from finance_bot.core.tw_stock_data_sync.market_data import MarketDataBase
 
 
 class LimitedMarketData(MarketDataBase):
@@ -49,6 +49,11 @@ class LimitedMarketData(MarketDataBase):
         return self._market_data.close.loc[self.current_time, stock_id]
 
     @property
+    def prices(self):
+        end = self.current_time if self.is_limit else self.end_time
+        return self._market_data.prices.loc[self.start_time:end]
+
+    @property
     def open(self):
         end = self.current_time if self.is_limit else self.end_time
         return self._market_data.open[self.start_time:end]
@@ -77,3 +82,48 @@ class LimitedMarketData(MarketDataBase):
     def monthly_revenue(self):
         end = self.current_time if self.is_limit else self.end_time
         return self._market_data.monthly_revenue[self.start_time:end]
+
+    @property
+    def traded_value(self):
+        end = self.current_time if self.is_limit else self.end_time
+        return self._market_data.traded_value[self.start_time:end]
+
+    @property
+    def transaction_count(self):
+        end = self.current_time if self.is_limit else self.end_time
+        return self._market_data.transaction_count[self.start_time:end]
+
+    @property
+    def last_bid_price(self):
+        end = self.current_time if self.is_limit else self.end_time
+        return self._market_data.last_bid_price[self.start_time:end]
+
+    @property
+    def last_bid_volume(self):
+        end = self.current_time if self.is_limit else self.end_time
+        return self._market_data.last_bid_volume[self.start_time:end]
+
+    @property
+    def last_ask_price(self):
+        end = self.current_time if self.is_limit else self.end_time
+        return self._market_data.last_ask_price[self.start_time:end]
+
+    @property
+    def last_ask_volume(self):
+        end = self.current_time if self.is_limit else self.end_time
+        return self._market_data.last_ask_volume[self.start_time:end]
+
+    @property
+    def share_capital(self):
+        end = self.current_time if self.is_limit else self.end_time
+        return self._market_data.share_capital[self.start_time:end]
+
+    @property
+    def total_shares_outstanding(self):
+        end = self.current_time if self.is_limit else self.end_time
+        return self._market_data.total_shares_outstanding[self.start_time:end]
+
+    @property
+    def market_capitalization(self):
+        end = self.current_time if self.is_limit else self.end_time
+        return self._market_data.market_capitalization[self.start_time:end]

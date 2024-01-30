@@ -2,7 +2,7 @@ import pandas as pd
 from sqlalchemy import text
 
 from finance_bot.infrastructure import infra
-from finance_bot.core.data_sync.tw_stock.market_data import MarketData
+from finance_bot.core.tw_stock_data_sync import MarketData
 from finance_bot.core.tw_stock_trade.strategy.base import StrategyBase
 
 # df = pd.read_csv(infra.path.multicharts_folder / f'stock_list_2.csv', header=None, index_col=0, dtype={0: str})

@@ -26,11 +26,11 @@ services:
       - "./data:/app/data"
       - "./logs:/app/logs"
 
-  data_sync:
+  tw_stock_data_sync:
     build: .
     ports:
       - "16920:16920"
-    command: data_sync start
+    command: tw_stock_data_sync start
     volumes:
       - "./conf.d:/app/conf.d"
       - "./data:/app/data"

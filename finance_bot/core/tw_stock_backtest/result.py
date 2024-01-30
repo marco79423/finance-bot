@@ -3,7 +3,7 @@ import dataclasses
 import numpy as np
 import pandas as pd
 
-from finance_bot.core.data_sync.tw_stock.market_data import MarketDataBase
+from finance_bot.core.tw_stock_data_sync.market_data import MarketDataBase
 from finance_bot.utility import Cache
 
 
