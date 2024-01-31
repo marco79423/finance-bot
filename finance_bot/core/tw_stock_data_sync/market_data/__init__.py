@@ -1,2 +1,0 @@
-from finance_bot.core.tw_stock_data_sync.market_data.base import MarketDataBase
-from finance_bot.core.tw_stock_data_sync.market_data.market_data import MarketData

@@ -2,7 +2,7 @@ import pandas as pd
 import pytest
 from pandas.testing import assert_frame_equal
 
-from . import market_data
+from finance_bot.core.tw_stock_data_sync import market_data
 
 
 @pytest.fixture
