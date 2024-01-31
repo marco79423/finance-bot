@@ -39,7 +39,7 @@ class TWStockDataSync(CoreBase):
         )
 
     async def _update_tw_stock_prices_handler(self, sub, data):
-        today = pd.Timestamp.today().normalize()
+        today = pd.Timestamp(infra.time.get_now()).normalize()
         yesterday = today - pd.Timedelta(days=1)
 
         await self.execute_task(
@@ -53,7 +53,7 @@ class TWStockDataSync(CoreBase):
     async def _update_monthly_revenue_handler(self, sub, data):
         # 根據規定上市櫃公司營收必須在次月的10號前公告，但遇假期可以延期，如 10 號是週六，可以等下週一才公布
         # 但我想每天都抓應該也不會怎樣
-        today = pd.Timestamp.today().normalize()
+        today = pd.Timestamp(infra.time.get_now()).normalize()
 
         # 上個月的同一天
         target_date = today - pd.DateOffset(months=1)
@@ -79,7 +79,7 @@ class TWStockDataSync(CoreBase):
         # * 第二季（Q2）財報：8/31 前
         # * 第三季（Q3）財報：11/14 前
 
-        last_period = pd.Period(pd.Timestamp.now(), freq='Q') - 1
+        last_period = pd.Period(pd.Timestamp(infra.time.get_now()), freq='Q') - 1
         year, quarter = last_period.year, last_period.quarter
         await self.execute_task(
             f'{year}Q{quarter} 財報更新',
