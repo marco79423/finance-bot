@@ -62,6 +62,12 @@ class DatabaseManager(ManagerBase):
             for key, value in data.items()
         }
 
+        # 將 Timestamp 改為 datetime
+        modified = {
+            key: value.to_pydatetime() if isinstance(value, pd.Timestamp) else value
+            for key, value in modified.items()
+        }
+
         # 針對 updated_at 特別處理
         modified['updated_at'] = dt.datetime.utcnow()
 
