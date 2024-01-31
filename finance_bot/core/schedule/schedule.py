@@ -50,9 +50,9 @@ class Schedule(CoreBase):
             self.logger.info(f'發送 {task_key} 至 MQ')
             await infra.mq.publish(task_key, {})
 
-    @staticmethod
-    def create_task(topic):
+    def create_task(self, topic):
         async def send_task():
+            self.logger.info(f'發送 {topic} 至 MQ')
             await infra.mq.publish(topic, {})
 
         send_task.__name__ = f'send_task<{topic}>'
