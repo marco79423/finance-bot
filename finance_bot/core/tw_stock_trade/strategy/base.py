@@ -108,6 +108,10 @@ class StrategyBase(abc.ABC):
         return self.market_data
 
     @property
+    def open(self):
+        return self._data_cache.get('open', lambda: self.data.open.iloc[-1])
+
+    @property
     def close(self):
         return self._data_cache.get('close', lambda: self.data.close.iloc[-1])
 
