@@ -3,14 +3,14 @@ import uvicorn
 from finance_bot.core.base import CoreBase
 from finance_bot.core.tw_stock_trade.broker import SinoBroker
 from finance_bot.core.tw_stock_data_sync import MarketData
-from finance_bot.core.tw_stock_trade.strategy import StrategyS1V0
+from finance_bot.core.tw_stock_trade.strategy.strategy_s2v1 import StrategyS2V1
 from finance_bot.infrastructure import infra
 
 
 class TWStockTrade(CoreBase):
     name = 'tw_stock_trade'
 
-    strategy = StrategyS1V0()
+    strategy = StrategyS2V1()
 
     def __init__(self):
         super().__init__()
