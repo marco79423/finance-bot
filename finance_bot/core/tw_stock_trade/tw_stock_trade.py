@@ -101,8 +101,8 @@ class TWStockTrade(CoreBase):
         await infra.notifier.send('確認餘額')
 
         for action in actions:
-            if action['operation'] == 'sell':
-                await infra.notifier.send('賣 {stock_id} {shares} 股 參考價: {price} (理由：{note})\n'.format(**action))
+            if action['operation'] == 'buy':
+                await infra.notifier.send('買 {stock_id} {shares} 股 參考價: {price} (理由：{note})\n'.format(**action))
                 await asyncio.sleep(1)
                 await infra.notifier.send('成交')
 
