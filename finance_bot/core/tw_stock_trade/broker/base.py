@@ -74,15 +74,25 @@ class BrokerBase(abc.ABC):
     #      狀態
     ################
 
-    @property
     @abc.abstractmethod
-    def current_balance(self):
+    def get_current_balance(self):
+        pass
+
+    @abc.abstractmethod
+    def get_positions(self) -> [Position]:
         pass
 
     @property
-    @abc.abstractmethod
+    def current_balance(self):
+        if 'current_balance' not in self._cache:
+            self._cache['current_balance'] = self.get_current_balance()
+        return self._cache['current_balance']
+
+    @property
     def positions(self) -> [Position]:
-        pass
+        if 'positions' not in self._cache:
+            self._cache['current_balance'] = self.get_positions()
+        return self._cache['positions']
 
     ################
     #      統計

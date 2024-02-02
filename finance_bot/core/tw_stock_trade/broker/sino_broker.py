@@ -26,7 +26,7 @@ class SinoBroker(BrokerBase):
         self.logger.info('開始登入永豐證券 ...')
         self._shioaji_api.login(
             api_key=infra.conf.core.tw_stock_trade.shioaji.api_key,
-            secret_key=infra.conf.core.tw_stock_trade.shioaji.api_secret,
+            secret_key=infra.conf.core.tw_stock_trade.shioaji.secret_key,
         )
 
         result = self._shioaji_api.activate_ca(
@@ -41,8 +41,7 @@ class SinoBroker(BrokerBase):
         self.is_login = True
         self.logger.info('登入永豐證券成功')
 
-    @property
-    def positions(self):
+    def get_positions(self):
         if not self.is_login:
             self.login()
 
@@ -59,8 +58,7 @@ class SinoBroker(BrokerBase):
             ))
         return result
 
-    @property
-    def current_balance(self):
+    def get_current_balance(self):
         if not self.is_login:
             self.login()
         ab = self._shioaji_api.account_balance()
