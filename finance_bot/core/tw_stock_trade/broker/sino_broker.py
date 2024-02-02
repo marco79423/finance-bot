@@ -26,7 +26,7 @@ class SinoBroker(BrokerBase):
         self.logger.info('開始登入永豐證券 ...')
         self._shioaji_api.login(
             api_key=infra.conf.core.tw_stock_trade.shioaji.api_key,
-            secret_key=infra.conf.core.tw_stock_trade.shioaji.secret_key,
+            secret_key=infra.conf.core.tw_stock_trade.shioaji.api_secret,
         )
 
         result = self._shioaji_api.activate_ca(
