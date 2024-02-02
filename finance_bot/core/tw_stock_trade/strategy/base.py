@@ -70,8 +70,8 @@ class StrategyBase(abc.ABC):
         self._actions.append({
             'operation': 'buy',
             'stock_id': stock_id,
-            'shares': shares,
-            'price': price,
+            'shares': int(shares),
+            'price': float(price),
             'note': note,
         })
 
@@ -92,8 +92,8 @@ class StrategyBase(abc.ABC):
         self._actions.append({
             'operation': 'sell',
             'stock_id': stock_id,
-            'shares': shares,
-            'price': price,
+            'shares': int(shares),
+            'price': float(price),
             'note': note,
         })
 
