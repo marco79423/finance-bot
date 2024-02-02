@@ -10,7 +10,7 @@ class SinoBroker(BrokerBase):
     name = 'sino_broker'
     commission_info = CommissionInfo(fee_discount=1)
 
-    ca_path = infra.path.config_folder / 'Sinopac.pfx'
+    ca_path = str(infra.path.config_folder / 'Sinopac.pfx')
 
     def __init__(self):
         super().__init__()
