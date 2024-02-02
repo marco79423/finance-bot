@@ -29,7 +29,7 @@ core:
   tw_stock_trade:
     shioaji:
       api_key: <key>
-      api_secret: <token>
+      secret_key: <token>
       person_id: <person_id>
       ca_password: <password>
 
