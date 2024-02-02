@@ -27,7 +27,7 @@ dependencies = [
     "loguru==0.6.0",
     "aiopath==0.6.11",
     "aiomysql==0.2.0",
-    "shioaji[speed]==1.1.12",
+    "shioaji[speed]==1.2.2",
     "dash==2.14.1",
     "rich==13.7.0",
     "easydict==1.11",
