@@ -91,7 +91,7 @@ class BrokerBase(abc.ABC):
     @property
     def positions(self) -> [Position]:
         if 'positions' not in self._cache:
-            self._cache['current_balance'] = self.get_positions()
+            self._cache['positions'] = self.get_positions()
         return self._cache['positions']
 
     ################
