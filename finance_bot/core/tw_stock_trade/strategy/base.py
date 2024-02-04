@@ -57,9 +57,10 @@ class StrategyBase(abc.ABC):
         if stock_id in self._day_action_cache:
             return
 
+        broker_balance = self.broker.current_balance
         invested_funds = self.broker.invested_funds
         max_single_position_exposure = self.params.get('max_single_position_exposure', 0.1)
-        single_entry_limit = min(math.floor((invested_funds + self._balance) * max_single_position_exposure),
+        single_entry_limit = min(math.floor((invested_funds + broker_balance) * max_single_position_exposure),
                                  self._balance)
         price = self.data.get_stock_close_price(stock_id)
         shares = int((single_entry_limit / (price * (1 + self.broker.commission_info.fee_rate)) // 1000) * 1000)
