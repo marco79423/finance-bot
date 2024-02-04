@@ -20,6 +20,7 @@ class StrategyBase(abc.ABC):
 
     _indicators = {}
     _actions = []
+    _balance = 0
     _day_action_cache = set()
     _data_cache = Cache()
 
@@ -57,10 +58,9 @@ class StrategyBase(abc.ABC):
             return
 
         invested_funds = self.broker.invested_funds
-        current_balance = self.broker.current_balance
         max_single_position_exposure = self.params.get('max_single_position_exposure', 0.1)
-        single_entry_limit = min(math.floor((invested_funds + current_balance) * max_single_position_exposure),
-                                 current_balance)
+        single_entry_limit = min(math.floor((invested_funds + self._balance) * max_single_position_exposure),
+                                 self._balance)
         price = self.data.get_stock_close_price(stock_id)
         shares = int((single_entry_limit / (price * (1 + self.broker.commission_info.fee_rate)) // 1000) * 1000)
         total = int(price * shares) + self.broker.commission_info.get_buy_commission(price, shares)
@@ -76,7 +76,7 @@ class StrategyBase(abc.ABC):
             'total': total,
             'note': note,
         })
-
+        self._balance -= total
         self._day_action_cache.add(stock_id)
 
     def sell_next_day_market(self, stock_id, note=''):
@@ -101,6 +101,7 @@ class StrategyBase(abc.ABC):
             'note': note,
         })
 
+        self._balance += total
         self._day_action_cache.add(stock_id)
 
     @property
@@ -198,6 +199,7 @@ class StrategyBase(abc.ABC):
 
         self._day_action_cache = set()
         self._data_cache.clear()
+        self._balance = self.broker.current_balance
         self._actions = []
         self.handle()
 
