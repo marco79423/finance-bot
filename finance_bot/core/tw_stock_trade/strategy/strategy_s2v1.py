@@ -19,7 +19,7 @@ class StrategyS2V1(StrategyBase):
         max_single_position_exposure=0.1,
         sma_short=20,
         sma_long=60,
-        mrs_num=90,
+        mrs_num=120,
     )
     stabled = False
     available_stock_ids = available_stock_ids
