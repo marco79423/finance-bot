@@ -3,13 +3,15 @@ import json
 import asyncio
 import pandas as pd
 import uvicorn
-from sqlalchemy import text
+from sqlalchemy import text, select
+from sqlalchemy.ext.asyncio import AsyncSession
 
 from finance_bot.core.base import CoreBase
 from finance_bot.core.tw_stock_data_sync import MarketData
 from finance_bot.core.tw_stock_trade.broker import SinoBroker
 from finance_bot.core.tw_stock_trade.strategy.strategy_s2v1 import StrategyS2V1
 from finance_bot.infrastructure import infra
+from finance_bot.model import Wallet
 
 
 class TWStockTrade(CoreBase):
@@ -92,9 +94,18 @@ class TWStockTrade(CoreBase):
             await infra.notifier.send('沒有要執行的交易')
             return
 
+        with AsyncSession(infra.db.engine) as session:
+            balance, = await session.execute(
+                select(Wallet.balance)
+                .where(Wallet.code == 'sinopac')
+                .limit(1)
+            ).first()
+        await infra.notifier.send(f'當前餘額 {balance}')
+
         for action in actions:
             if action['operation'] == 'sell':
-                await infra.notifier.send('賣 {stock_id} {shares} 股 參考價: {price} (理由：{note})\n'.format(**action))
+                await infra.notifier.send(
+                    '賣 {stock_id} {shares} 股 參考價: {price} 費用： {total} (理由：{note})\n'.format(**action))
                 await asyncio.sleep(1)
                 await infra.notifier.send('成交')
 
@@ -102,7 +113,7 @@ class TWStockTrade(CoreBase):
 
         for action in actions:
             if action['operation'] == 'buy':
-                await infra.notifier.send('買 {stock_id} {shares} 股 參考價: {price} (理由：{note})\n'.format(**action))
+                await infra.notifier.send('買 {stock_id} {shares} 股 參考價: {price} 費用： {total} (理由：{note})\n'.format(**action))
                 await asyncio.sleep(1)
                 await infra.notifier.send('成交')
 

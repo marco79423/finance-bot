@@ -1,9 +1,12 @@
 import pandas as pd
 import shioaji as sj
+from sqlalchemy import select
+from sqlalchemy.orm import Session
 
 from finance_bot.core.tw_stock_trade.broker import BrokerBase
 from finance_bot.core.tw_stock_trade.broker.base import Position, CommissionInfo
 from finance_bot.infrastructure import infra
+from finance_bot.model import Wallet
 
 
 class SinoBroker(BrokerBase):
@@ -59,14 +62,32 @@ class SinoBroker(BrokerBase):
         return result
 
     def get_current_balance(self):
-        if not self.is_login:
-            self.login()
-        ab = self._shioaji_api.account_balance()
-        return ab.acc_balance
+        with Session(infra.db.engine) as session:
+            balance, = session.execute(
+                select(Wallet.balance)
+                .where(Wallet.code == 'sinopac')
+                .limit(1)
+            ).first()
+        return balance
 
     def buy_market(self, stock_id, shares, note=''):
-        """發現沒錢就自動放棄購買"""
         pass
 
     def sell_all_market(self, stock_id, note=''):
         pass
+        # shares = self.holding_stock_shares_s[stock_id]
+        #
+        # order = self._shioaji_api.Order(
+        #     price=0,  # 價格
+        #     quantity=shares // 1000,  # 數量
+        #     action=sj.constant.Action.Sell,  # 買賣別
+        #     price_type=sj.constant.StockPriceType.MKT,  # 委託價格類別
+        #     order_type=sj.constant.OrderType.IOC,  # 委託條件
+        #     account=self._shioaji_api.stock_account  # 下單帳號
+        # )
+        #
+        # contract = self._shioaji_api.Contracts.Stocks.TSE[stock_id]
+        # return self._shioaji_api.place_order(contract, order)
+        #
+        # self._shioaji_api.update_status(self._shioaji_api.stock_account)
+        # trade.status.status == Status.Filled
