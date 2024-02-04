@@ -74,11 +74,9 @@ class BrokerBase(abc.ABC):
     #      狀態
     ################
 
-    @abc.abstractmethod
     def get_current_balance(self):
         pass
 
-    @abc.abstractmethod
     def get_positions(self) -> [Position]:
         pass
 

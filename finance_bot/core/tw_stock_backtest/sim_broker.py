@@ -106,10 +106,12 @@ class SimBroker(BrokerBase):
 
         return True
 
-    def get_current_balance(self) -> int:
+    @property
+    def current_balance(self) -> int:
         return self._balance
 
-    def get_positions(self) -> [Position]:
+    @property
+    def positions(self) -> [Position]:
         return list(self._position_map.values())
 
     @property
