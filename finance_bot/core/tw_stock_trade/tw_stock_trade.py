@@ -3,6 +3,7 @@ import json
 import asyncio
 import pandas as pd
 import uvicorn
+from shioaji.constant import Status
 from sqlalchemy import text, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -68,6 +69,18 @@ class TWStockTrade(CoreBase):
         return self.strategy.actions
 
     async def execute_trades(self):
+        try:
+            await asyncio.wait_for(self._execute_trades(), timeout=60 * 30)
+        except TimeoutError:
+            await infra.notifier.send('超時任務取消')
+            for trade in self._broker.trades():
+                if trade.status.status != Status.Filled:
+                    self._broker.cancel_trade(trade)
+                await infra.notifier.send('取消委託 {stock_id}'.format(
+                    stock_id=trade.contract.code,
+                ))
+
+    async def _execute_trades(self):
         self.logger.info('開始執行交易 ...')
         task_status_df = pd.read_sql(
             sql=text("SELECT * FROM task_status"),
@@ -100,22 +113,125 @@ class TWStockTrade(CoreBase):
                 .where(Wallet.code == 'sinopac')
                 .limit(1)
             ).first()
-        await infra.notifier.send(f'當前餘額 {balance}')
+        await infra.notifier.send(f'當前餘額 {balance} 元')
+
+        buy_actions = []
+        sell_actions = []
 
         for action in actions:
             if action['operation'] == 'sell':
-                await infra.notifier.send(
-                    '賣 {stock_id} {shares} 股 參考價: {price} 費用： {total} (理由：{note})\n'.format(**action))
-                await asyncio.sleep(1)
-                await infra.notifier.send('成交')
+                sell_actions.append(action)
+            elif action['operation'] == 'buy':
+                buy_actions.append(action)
 
-        await infra.notifier.send('確認餘額')
+        # 委託賣股
+        trades = []
+        message = ''
+        for action in sell_actions:
+            stock_id = action['stock_id']
+            shares = action['shares']
+            price = action['price']
+            total = action['total']
+            note = action['note']
 
-        for action in actions:
-            if action['operation'] == 'buy':
-                await infra.notifier.send('買 {stock_id} {shares} 股 參考價: {price} 費用： {total} (理由：{note})\n'.format(**action))
+            trade = await self._broker.sell_all_market(stock_id=stock_id, note=note)
+            message += '賣 {stock_id} {shares} 股 參考價: {price} 費用： {total} (理由：{note})\n'.format(
+                stock_id=stock_id,
+                shares=shares,
+                price=price,
+                total=total,
+                note=note,
+            )
+            trades.append(trade)
+
+        await infra.notifier.send(message)
+
+        # 等待賣股成交
+        await asyncio.sleep(5)
+        while not all(trade.status.status == Status.Filled for trade in trades):
+            self._broker.update_status()
+            await asyncio.sleep(5)
+
+        message = ''
+        for trade in trades:
+            total = 0
+            total_shares = 0
+            for deal in trade.status.deals:
+                shares = deal.quantity * 1000
+                total += deal.price * shares - self._broker.commission_info.get_sell_commission(
+                    deal.price,
+                    shares,
+                )
+                total_shares += shares
+
+            balance += total
+            message += '賣 {stock_id} {price} 元 {shares} 股完全成交 費用：{total}\n'.format(
+                stock_id=trade.contract.code,
+                price=total / total_shares,
+                shares=total_shares,
+                total=total,
+            )
+        message += '新餘額 {balance} 元'
+        await infra.notifier.send(message)
+
+        # 委託買股直到成交
+        for action in buy_actions:
+            stock_id = action['stock_id']
+            price = action['price']
+            shares = action['shares']
+            note = action['note']
+
+            high_price = self._broker.get_high_price(stock_id)
+            possible_highest_cost = (shares * high_price) + self._broker.commission_info.get_buy_commission(
+                price=high_price,
+                shares=shares
+            )
+
+            if balance < possible_highest_cost:
+                break
+
+            await infra.notifier.send(
+                '買 {stock_id} {shares} 股 參考價: {price} (最高 {high_price}) (理由：{note})\n'.format(
+                    stock_id=stock_id,
+                    shares=shares,
+                    price=price,
+                    high_price=high_price,
+                    note=note,
+                )
+            )
+
+            trade = await self._broker.buy_market(stock_id=stock_id, shares=shares, note=note)
+            while True:
+                self._broker.update_status()
+                if trade.status.status == Status.Filled:
+                    break
                 await asyncio.sleep(1)
-                await infra.notifier.send('成交')
+
+            total = 0
+            total_shares = 0
+            for deal in trade.status.deals:
+                shares = deal.quantity * 1000
+                total += deal.price * shares + self._broker.commission_info.get_buy_commission(
+                    deal.price,
+                    deal.quantity * 1000,
+                )
+                total_shares += shares
+
+            await infra.notifier.send('買 {stock_id} {price} 元 {shares} 股完全成交 費用：{total}\n'.format(
+                stock_id=trade.contract.code,
+                price=total / total_shares,
+                shares=total_shares,
+                total=total,
+            ))
+            balance -= total
+
+        with AsyncSession(infra.db.engine) as session:
+            await infra.db.insert_or_update(session, Wallet, dict(
+                code='sinopac',
+                name='永豐活存',
+                currency_code='TWD',
+                balance=balance
+            ))
 
         await infra.notifier.send('執行交易成功')
         self.logger.info('執行交易成功 ...')

@@ -71,23 +71,42 @@ class SinoBroker(BrokerBase):
         return int(balance)
 
     def buy_market(self, stock_id, shares, note=''):
-        pass
+        order = self._shioaji_api.Order(
+            price=0,  # 價格
+            quantity=shares // 1000,  # 數量
+            action=sj.constant.Action.Buy,  # 買賣別
+            price_type=sj.constant.StockPriceType.MKT,  # 委託價格類別
+            order_type=sj.constant.OrderType.IOC,  # 委託條件
+            account=self._shioaji_api.stock_account  # 下單帳號
+        )
+
+        contract = self._shioaji_api.Contracts.Stocks.TSE[stock_id]
+        return self._shioaji_api.place_order(contract, order)
 
     def sell_all_market(self, stock_id, note=''):
-        pass
-        # shares = self.holding_stock_shares_s[stock_id]
-        #
-        # order = self._shioaji_api.Order(
-        #     price=0,  # 價格
-        #     quantity=shares // 1000,  # 數量
-        #     action=sj.constant.Action.Sell,  # 買賣別
-        #     price_type=sj.constant.StockPriceType.MKT,  # 委託價格類別
-        #     order_type=sj.constant.OrderType.IOC,  # 委託條件
-        #     account=self._shioaji_api.stock_account  # 下單帳號
-        # )
-        #
-        # contract = self._shioaji_api.Contracts.Stocks.TSE[stock_id]
-        # return self._shioaji_api.place_order(contract, order)
-        #
-        # self._shioaji_api.update_status(self._shioaji_api.stock_account)
-        # trade.status.status == Status.Filled
+        shares = self.holding_stock_shares_s[stock_id]
+
+        order = self._shioaji_api.Order(
+            price=0,  # 價格
+            quantity=shares // 1000,  # 數量
+            action=sj.constant.Action.Sell,  # 買賣別
+            price_type=sj.constant.StockPriceType.MKT,  # 委託價格類別
+            order_type=sj.constant.OrderType.IOC,  # 委託條件
+            account=self._shioaji_api.stock_account  # 下單帳號
+        )
+
+        contract = self._shioaji_api.Contracts.Stocks.TSE[stock_id]
+        return self._shioaji_api.place_order(contract, order)
+
+    def trades(self):
+        return self._shioaji_api.list_trades()
+
+    def update_status(self):
+        self._shioaji_api.update_status(self._shioaji_api.stock_account)
+
+    def cancel_trade(self, trade):
+        self._shioaji_api.cancel_order(trade)
+
+    def get_high_price(self, stock_id):
+        contract = self._shioaji_api.Contracts.Stocks.TSE[stock_id]
+        return contract.limit_up
