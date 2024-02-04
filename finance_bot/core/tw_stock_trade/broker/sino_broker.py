@@ -68,7 +68,7 @@ class SinoBroker(BrokerBase):
                 .where(Wallet.code == 'sinopac')
                 .limit(1)
             ).first()
-        return balance
+        return int(balance)
 
     def buy_market(self, stock_id, shares, note=''):
         pass
