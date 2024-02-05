@@ -135,7 +135,7 @@ class TWStockTrade(CoreBase):
             total = action['total']
             note = action['note']
 
-            trade = await self._broker.sell_all_market(stock_id=stock_id, note=note)
+            trade = self._broker.sell_all_market(stock_id=stock_id, note=note)
             message += '賣 {stock_id} {shares} 股 參考價: {price} 費用： {total} (理由：{note})\n'.format(
                 stock_id=stock_id,
                 shares=shares,
@@ -201,7 +201,7 @@ class TWStockTrade(CoreBase):
                 )
             )
 
-            trade = await self._broker.buy_market(stock_id=stock_id, shares=shares, note=note)
+            trade = self._broker.buy_market(stock_id=stock_id, shares=shares, note=note)
             while True:
                 self._broker.update_status()
                 if trade.status.status == Status.Filled:
