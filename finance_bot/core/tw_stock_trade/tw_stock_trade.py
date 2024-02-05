@@ -127,7 +127,7 @@ class TWStockTrade(CoreBase):
 
         # 委託賣股
         trades = []
-        message = ''
+        message = '進行委託賣股\n'
         for action in sell_actions:
             stock_id = action['stock_id']
             shares = action['shares']
@@ -153,7 +153,7 @@ class TWStockTrade(CoreBase):
             self._broker.update_status()
             await asyncio.sleep(5)
 
-        message = ''
+        message = '成交股票\n'
         for trade in trades:
             total = 0
             total_shares = 0
@@ -176,6 +176,7 @@ class TWStockTrade(CoreBase):
         await infra.notifier.send(message)
 
         # 委託買股直到成交
+        await infra.notifier.send('委託買股直到成交')
         for action in buy_actions:
             stock_id = action['stock_id']
             price = action['price']
