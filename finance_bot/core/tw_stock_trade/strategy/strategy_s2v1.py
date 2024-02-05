@@ -13,7 +13,7 @@ available_stock_ids = df['stock_id'].to_list()
 
 
 class StrategyS2V1(StrategyBase):
-    """第一次上線的版本"""
+    """"""
     name = '策略 S2V1'
     params = dict(
         max_single_position_exposure=0.1,

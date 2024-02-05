@@ -10,7 +10,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from finance_bot.core.base import CoreBase
 from finance_bot.core.tw_stock_data_sync import MarketData
 from finance_bot.core.tw_stock_trade.broker import SinoBroker
-from finance_bot.core.tw_stock_trade.strategy.strategy_s2v1 import StrategyS2V1
+from finance_bot.core.tw_stock_trade.strategy.strategy_s2v0 import StrategyS2V0
 from finance_bot.infrastructure import infra
 from finance_bot.model import Wallet
 
@@ -18,7 +18,7 @@ from finance_bot.model import Wallet
 class TWStockTrade(CoreBase):
     name = 'tw_stock_trade'
 
-    strategy = StrategyS2V1()
+    strategy = StrategyS2V0()
 
     def __init__(self):
         super().__init__()
