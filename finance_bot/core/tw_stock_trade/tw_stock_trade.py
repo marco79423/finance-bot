@@ -1,3 +1,4 @@
+import decimal
 import json
 
 import asyncio
@@ -155,7 +156,7 @@ class TWStockTrade(CoreBase):
 
         message = '成交股票\n'
         for trade in trades:
-            total = 0
+            total = decimal.Decimal(0)
             total_shares = 0
             for deal in trade.status.deals:
                 shares = deal.quantity * 1000
@@ -209,7 +210,7 @@ class TWStockTrade(CoreBase):
                     break
                 await asyncio.sleep(1)
 
-            total = 0
+            total = decimal.Decimal(0)
             total_shares = 0
             for deal in trade.status.deals:
                 shares = deal.quantity * 1000
@@ -227,13 +228,13 @@ class TWStockTrade(CoreBase):
             ))
             balance -= total
 
-        async with AsyncSession(infra.db.async_engine) as session:
-            await infra.db.insert_or_update(session, Wallet, dict(
-                code='sinopac',
-                name='永豐活存',
-                currency_code='TWD',
-                balance=balance
-            ))
+            async with AsyncSession(infra.db.async_engine) as session:
+                await infra.db.insert_or_update(session, Wallet, dict(
+                    code='sinopac',
+                    name='永豐活存',
+                    currency_code='TWD',
+                    balance=balance
+                ))
 
         await infra.notifier.send('執行交易成功')
         self.logger.info('執行交易成功 ...')
