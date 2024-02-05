@@ -107,7 +107,7 @@ class TWStockTrade(CoreBase):
             await infra.notifier.send('沒有要執行的交易')
             return
 
-        with AsyncSession(infra.db.engine) as session:
+        with AsyncSession(infra.db.async_engine) as session:
             balance, = await session.execute(
                 select(Wallet.balance)
                 .where(Wallet.code == 'sinopac')
@@ -225,7 +225,7 @@ class TWStockTrade(CoreBase):
             ))
             balance -= total
 
-        with AsyncSession(infra.db.engine) as session:
+        with AsyncSession(infra.db.async_engine) as session:
             await infra.db.insert_or_update(session, Wallet, dict(
                 code='sinopac',
                 name='永豐活存',
