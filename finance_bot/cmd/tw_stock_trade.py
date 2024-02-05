@@ -37,15 +37,14 @@ def create_tw_stock_trade_cli():
         rich.print('當前持倉：')
 
         table = Table()
-        table.add_column('ID')
-        table.add_column('時間')
+        table.add_column('入場時間')
         table.add_column('股票代碼')
-        table.add_column('價格')
+        table.add_column('平均價格')
         table.add_column('股數')
 
         for position in t.positions:
             table.add_row(
-                f'{position.date:%Y-%m-%d}',
+                f'{position.entry_date:%Y-%m-%d}',
                 position.stock_id,
                 str(position.avg_price) + '元',
                 str(position.shares),
