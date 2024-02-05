@@ -172,7 +172,7 @@ class TWStockTrade(CoreBase):
                 shares=total_shares,
                 total=total,
             )
-        message += '新餘額 {balance} 元'
+        message += f'賣股後新餘額 {balance} 元'
         await infra.notifier.send(message)
 
         # 委託買股直到成交
