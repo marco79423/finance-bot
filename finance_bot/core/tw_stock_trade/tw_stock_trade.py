@@ -160,7 +160,7 @@ class TWStockTrade(CoreBase):
             total_shares = 0
             for deal in trade.status.deals:
                 shares = deal.quantity * 1000
-                total += deal.price * shares - self._broker.commission_info.get_sell_commission(
+                total += int(deal.price * shares) - self._broker.commission_info.get_sell_commission(
                     deal.price,
                     shares,
                 )
@@ -214,7 +214,7 @@ class TWStockTrade(CoreBase):
             total_shares = 0
             for deal in trade.status.deals:
                 shares = deal.quantity * 1000
-                total += deal.price * shares + self._broker.commission_info.get_buy_commission(
+                total += int(deal.price * shares) + self._broker.commission_info.get_buy_commission(
                     deal.price,
                     deal.quantity * 1000,
                 )
