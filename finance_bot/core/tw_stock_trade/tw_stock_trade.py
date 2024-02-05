@@ -107,12 +107,13 @@ class TWStockTrade(CoreBase):
             await infra.notifier.send('沒有要執行的交易')
             return
 
-        async with AsyncSession(infra.db.async_engine) as session:
-            balance, = await session.execute(
+        async with (AsyncSession(infra.db.async_engine) as session):
+            q = await session.execute(
                 select(Wallet.balance)
                 .where(Wallet.code == 'sinopac')
                 .limit(1)
-            ).first()
+            )
+            balance, = q.first()
         await infra.notifier.send(f'當前餘額 {balance} 元')
 
         buy_actions = []
