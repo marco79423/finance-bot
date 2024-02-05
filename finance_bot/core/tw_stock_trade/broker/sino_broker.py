@@ -30,7 +30,6 @@ class SinoBroker(BrokerBase):
         self._shioaji_api.login(
             api_key=infra.conf.core.tw_stock_trade.shioaji.api_key,
             secret_key=infra.conf.core.tw_stock_trade.shioaji.secret_key,
-            contracts_timeout=10000,  # 等待10秒下載商品檔
         )
 
         result = self._shioaji_api.activate_ca(
@@ -72,6 +71,9 @@ class SinoBroker(BrokerBase):
         return int(balance)
 
     def buy_market(self, stock_id, shares, note=''):
+        if not self.is_login:
+            self.login()
+
         order = self._shioaji_api.Order(
             price=0,  # 價格
             quantity=shares // 1000,  # 數量
@@ -85,6 +87,9 @@ class SinoBroker(BrokerBase):
         return self._shioaji_api.place_order(contract, order)
 
     def sell_all_market(self, stock_id, note=''):
+        if not self.is_login:
+            self.login()
+
         shares = self.holding_stock_shares_s[stock_id]
 
         order = self._shioaji_api.Order(
@@ -100,14 +105,22 @@ class SinoBroker(BrokerBase):
         return self._shioaji_api.place_order(contract, order)
 
     def trades(self):
+        if not self.is_login:
+            self.login()
         return self._shioaji_api.list_trades()
 
     def update_status(self):
+        if not self.is_login:
+            self.login()
         self._shioaji_api.update_status(self._shioaji_api.stock_account)
 
     def cancel_trade(self, trade):
+        if not self.is_login:
+            self.login()
         self._shioaji_api.cancel_order(trade)
 
     def get_high_price(self, stock_id):
+        if not self.is_login:
+            self.login()
         contract = self._shioaji_api.Contracts.Stocks.TSE[stock_id]
         return contract.limit_up
