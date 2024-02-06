@@ -5,7 +5,7 @@ import asyncio
 import pandas as pd
 import uvicorn
 from shioaji.constant import Status
-from sqlalchemy import text, select
+from sqlalchemy import text
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from finance_bot.core.base import CoreBase
@@ -13,7 +13,7 @@ from finance_bot.core.tw_stock_data_sync import MarketData
 from finance_bot.core.tw_stock_trade.broker import SinoBroker
 from finance_bot.core.tw_stock_trade.strategy.strategy_s2v0 import StrategyS2V0
 from finance_bot.infrastructure import infra
-from finance_bot.model import Wallet
+from finance_bot.repository import WalletRepository
 
 
 class TWStockTrade(CoreBase):
@@ -25,6 +25,7 @@ class TWStockTrade(CoreBase):
         super().__init__()
 
         self._broker = SinoBroker()
+        self._wallet_repo = WalletRepository()
 
     @property
     def account_balance(self):
@@ -109,12 +110,7 @@ class TWStockTrade(CoreBase):
             return
 
         async with (AsyncSession(infra.db.async_engine) as session):
-            q = await session.execute(
-                select(Wallet.balance)
-                .where(Wallet.code == 'sinopac')
-                .limit(1)
-            )
-            balance, = q.first()
+            balance = await self._wallet_repo.get_balance(session, code='sinopac')
         await infra.notifier.send(f'當前餘額 {balance} 元')
 
         buy_actions = []
@@ -126,9 +122,8 @@ class TWStockTrade(CoreBase):
             elif action['operation'] == 'buy':
                 buy_actions.append(action)
 
-        # 委託賣股
-        trades = []
-        message = '進行委託賣股\n'
+        # 委託賣股直到成交
+        await infra.notifier.send('進行委託賣股直到成交')
         for action in sell_actions:
             stock_id = action['stock_id']
             shares = action['shares']
@@ -136,26 +131,21 @@ class TWStockTrade(CoreBase):
             total = action['total']
             note = action['note']
 
-            trade = self._broker.sell_all_market(stock_id=stock_id, note=note)
-            message += '賣 {stock_id} {shares} 股 參考價: {price} 費用： {total} (理由：{note})\n'.format(
+            await infra.notifier.send('賣 {stock_id} {shares} 股 參考價: {price} 費用： {total} (理由：{note})\n'.format(
                 stock_id=stock_id,
                 shares=shares,
                 price=price,
                 total=total,
                 note=note,
-            )
-            trades.append(trade)
+            ))
 
-        await infra.notifier.send(message)
+            trade = self._broker.sell_all_market(stock_id=stock_id, note=note)
+            while True:
+                self._broker.update_status()
+                if trade.status.status == Status.Filled:
+                    break
+                await asyncio.sleep(1)
 
-        # 等待賣股成交
-        await asyncio.sleep(5)
-        while not all(trade.status.status == Status.Filled for trade in trades):
-            self._broker.update_status()
-            await asyncio.sleep(5)
-
-        message = '成交股票\n'
-        for trade in trades:
             total = decimal.Decimal(0)
             total_shares = 0
             for deal in trade.status.deals:
@@ -167,14 +157,23 @@ class TWStockTrade(CoreBase):
                 total_shares += shares
 
             balance += total
-            message += '賣 {stock_id} {price} 元 {shares} 股完全成交 費用：{total}\n'.format(
+            message = '賣 {stock_id} {price} 元 {shares} 股完全成交 費用：{total}\n'.format(
                 stock_id=trade.contract.code,
                 price=total / total_shares,
                 shares=total_shares,
                 total=total,
             )
-        message += f'賣股後新餘額 {balance} 元'
-        await infra.notifier.send(message)
+            await infra.notifier.send(message)
+
+            async with AsyncSession(infra.db.async_engine) as session:
+                await self._wallet_repo.set_balance(
+                    session=session,
+                    code='sinopac',
+                    balance=balance,
+                    description=message
+                )
+
+        await infra.notifier.send(f'賣股後新餘額 {balance} 元')
 
         # 委託買股直到成交
         await infra.notifier.send('委託買股直到成交')
@@ -220,21 +219,23 @@ class TWStockTrade(CoreBase):
                 )
                 total_shares += shares
 
-            await infra.notifier.send('買 {stock_id} {price} 元 {shares} 股完全成交 費用：{total}\n'.format(
+            balance -= total
+
+            message = '買 {stock_id} {price} 元 {shares} 股完全成交 費用：{total}'.format(
                 stock_id=trade.contract.code,
                 price=total / total_shares,
                 shares=total_shares,
                 total=total,
-            ))
-            balance -= total
+            )
+            await infra.notifier.send(message)
 
             async with AsyncSession(infra.db.async_engine) as session:
-                await infra.db.insert_or_update(session, Wallet, dict(
+                await self._wallet_repo.set_balance(
+                    session=session,
                     code='sinopac',
-                    name='永豐活存',
-                    currency_code='TWD',
-                    balance=balance
-                ))
+                    balance=balance,
+                    description=message
+                )
 
         await infra.notifier.send('執行交易成功')
         self.logger.info('執行交易成功 ...')

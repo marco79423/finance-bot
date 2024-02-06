@@ -4,3 +4,4 @@ from .tw_stock_monthly_revenue import TWStockMonthlyRevenue
 from .tw_stock_price import TWStockPrice
 from .tw_stock_tag import TWStockTag
 from .wallet import Wallet
+from .wallet_log import WalletLog

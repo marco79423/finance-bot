@@ -1,0 +1,1 @@
+from finance_bot.repository.wallet_repository import WalletRepository
