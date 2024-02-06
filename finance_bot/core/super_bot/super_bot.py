@@ -49,6 +49,7 @@ class SuperBot(CoreBase):
         token = infra.conf.core.super_bot.telegram.token
         app = Application.builder().token(token).build()
         app.add_handler(CommandHandler("balance", self.command_balance))
+        app.add_handler(CommandHandler("strategy", self.command_strategy))
         app.add_handler(CommandHandler("trades", self.command_trades))
         return app
 
@@ -186,7 +187,14 @@ class SuperBot(CoreBase):
         if update.message.chat_id == chat_id:
             await update.message.reply_text(f'當前餘額: {self._tw_stock_trade.account_balance} 元')
 
-    async def command_trades(self, update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    @staticmethod
+    async def command_strategy(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+        chat_id = infra.conf.core.super_bot.telegram.chat_id
+        if update.message.chat_id == chat_id:
+            await infra.mq.publish('tw_stock_trade.update_strategy_actions', {})
+
+    @staticmethod
+    async def command_trades(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         chat_id = infra.conf.core.super_bot.telegram.chat_id
         if update.message.chat_id == chat_id:
             await infra.mq.publish('tw_stock_trade.execute_trades', {})
