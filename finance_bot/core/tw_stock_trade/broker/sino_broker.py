@@ -80,6 +80,7 @@ class SinoBroker(BrokerBase):
             action=sj.constant.Action.Buy,  # 買賣別
             price_type=sj.constant.StockPriceType.MKT,  # 委託價格類別
             order_type=sj.constant.OrderType.IOC,  # 委託條件
+            order_lot=sj.constant.StockOrderLot.Common,  # 整股
             account=self._shioaji_api.stock_account  # 下單帳號
         )
 
@@ -96,8 +97,12 @@ class SinoBroker(BrokerBase):
             action=sj.constant.Action.Sell,  # 買賣別
             price_type=sj.constant.StockPriceType.MKT,  # 委託價格類別
             order_type=sj.constant.OrderType.ROD,  # 委託條件
+            order_lot=sj.constant.StockOrderLot.Common,  # 整股
             account=self._shioaji_api.stock_account  # 下單帳號
         )
+
+        self.logger.info(order)
+
         contract = self._shioaji_api.Contracts.Stocks.TSE[stock_id]
         return self._shioaji_api.place_order(contract, order)
 
