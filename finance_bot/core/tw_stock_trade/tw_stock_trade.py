@@ -144,15 +144,13 @@ class TWStockTrade(CoreBase):
             ))
 
             trade = self._broker.sell_market(stock_id=stock_id, shares=shares, note=note)
-            self.logger.info(5)
             while True:
                 self._broker.update_status()
                 if trade.status.status == Status.Filled:
                     break
-                elif trade.status.status == Status.Failed:
-                    self.logger.error(str(trade.status))
+                elif trade.status.status in [Status.Failed, Status.Cancelled]:
+                    self.logger.error(trade.status)
                     return
-                self.logger.info(trade.status)
                 await asyncio.sleep(1)
 
             total = decimal.Decimal(0)
@@ -216,8 +214,8 @@ class TWStockTrade(CoreBase):
                 self._broker.update_status()
                 if trade.status.status == Status.Filled:
                     break
-                elif trade.status.status == Status.Failed:
-                    self.logger.error(str(trade.status))
+                elif trade.status.status in [Status.Failed, Status.Cancelled]:
+                    self.logger.error(trade.status)
                     return
                 await asyncio.sleep(1)
 

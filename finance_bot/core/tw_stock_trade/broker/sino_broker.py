@@ -87,22 +87,18 @@ class SinoBroker(BrokerBase):
         return self._shioaji_api.place_order(contract, order)
 
     def sell_market(self, stock_id, shares, note=''):
-        self.logger.info(1)
         if not self.is_login:
             self.login()
 
-        self.logger.info(2)
         order = self._shioaji_api.Order(
             price=0,  # 價格
             quantity=shares // 1000,  # 數量
             action=sj.constant.Action.Sell,  # 買賣別
             price_type=sj.constant.StockPriceType.MKT,  # 委託價格類別
-            order_type=sj.constant.OrderType.IOC,  # 委託條件
+            order_type=sj.constant.OrderType.ROD,  # 委託條件
             account=self._shioaji_api.stock_account  # 下單帳號
         )
-        self.logger.info(3)
         contract = self._shioaji_api.Contracts.Stocks.TSE[stock_id]
-        self.logger.info(4)
         return self._shioaji_api.place_order(contract, order)
 
     def sell_all_market(self, stock_id, note=''):
