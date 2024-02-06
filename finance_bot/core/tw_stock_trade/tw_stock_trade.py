@@ -47,6 +47,7 @@ class TWStockTrade(CoreBase):
 
     async def listen(self):
         await infra.mq.subscribe('tw_stock_trade.update_strategy_actions', self._update_strategy_actions_handler)
+        await infra.mq.subscribe('tw_stock_trade.execute_trades', self._execute_strategy_handler)
 
     async def _update_strategy_actions_handler(self, sub, data):
         await self.execute_task(
@@ -55,6 +56,9 @@ class TWStockTrade(CoreBase):
             self.execute_strategy,
             retries=5,
         )
+
+    async def _execute_strategy_handler(self, sub, data):
+        await self.execute_strategy()
 
     async def execute_strategy(self):
         self.logger.info('開始執行策略 ...')

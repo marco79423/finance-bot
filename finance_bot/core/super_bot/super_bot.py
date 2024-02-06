@@ -189,5 +189,4 @@ class SuperBot(CoreBase):
     async def command_trades(self, update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         chat_id = infra.conf.core.super_bot.telegram.chat_id
         if update.message.chat_id == chat_id:
-            await self._tw_stock_trade.execute_trades()
-            await update.message.reply_text(f'執行交易完畢')
+            await infra.mq.publish('tw_stock_trade.execute_trades', {})
