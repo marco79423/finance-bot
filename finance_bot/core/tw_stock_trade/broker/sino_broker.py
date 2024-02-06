@@ -31,6 +31,7 @@ class SinoBroker(BrokerBase):
         self._shioaji_api.login(
             api_key=infra.conf.core.tw_stock_trade.shioaji.api_key,
             secret_key=infra.conf.core.tw_stock_trade.shioaji.secret_key,
+            contracts_timeout=10000,  # 10s
             contracts_cb=lambda security_type: self.logger.info(f"{repr(security_type)} fetch done."),
         )
 
@@ -98,7 +99,7 @@ class SinoBroker(BrokerBase):
             quantity=shares // 1000,  # 數量
             action=sj.constant.Action.Sell,  # 買賣別
             price_type=sj.constant.StockPriceType.MKT,  # 委託價格類別
-            order_type=sj.constant.OrderType.ROD,  # 委託條件
+            order_type=sj.constant.OrderType.IOC,  # 委託條件
             order_lot=sj.constant.StockOrderLot.Common,  # 整股
             account=self._shioaji_api.stock_account  # 下單帳號
         )
