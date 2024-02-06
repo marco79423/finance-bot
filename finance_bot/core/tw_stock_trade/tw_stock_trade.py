@@ -143,7 +143,7 @@ class TWStockTrade(CoreBase):
                 note=note,
             ))
 
-            trade = self._broker.sell_all_market(stock_id=stock_id, note=note)
+            trade = self._broker.sell_market(stock_id=stock_id, shares=shares, note=note)
             while True:
                 self._broker.update_status()
                 if trade.status.status == Status.Filled:

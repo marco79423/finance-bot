@@ -86,11 +86,9 @@ class SinoBroker(BrokerBase):
         contract = self._shioaji_api.Contracts.Stocks.TSE[stock_id]
         return self._shioaji_api.place_order(contract, order)
 
-    def sell_all_market(self, stock_id, note=''):
+    def sell_market(self, stock_id, shares, note=''):
         if not self.is_login:
             self.login()
-
-        shares = self.holding_stock_shares_s[stock_id]
 
         order = self._shioaji_api.Order(
             price=0,  # 價格
@@ -103,6 +101,13 @@ class SinoBroker(BrokerBase):
 
         contract = self._shioaji_api.Contracts.Stocks.TSE[stock_id]
         return self._shioaji_api.place_order(contract, order)
+
+    def sell_all_market(self, stock_id, note=''):
+        if not self.is_login:
+            self.login()
+
+        shares = self.holding_stock_shares_s[stock_id]
+        return self.sell_market(stock_id, shares, note)
 
     def trades(self):
         if not self.is_login:
