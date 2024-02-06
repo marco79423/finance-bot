@@ -107,6 +107,8 @@ class SinoBroker(BrokerBase):
         self.logger.info(order)
 
         contract = self._shioaji_api.Contracts.Stocks.TSE[stock_id]
+        self.logger.info(contract)
+
         return self._shioaji_api.place_order(contract, order)
 
     def sell_all_market(self, stock_id, note=''):
