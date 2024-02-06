@@ -87,6 +87,9 @@ class TWStockTrade(CoreBase):
                 ))
 
     async def _execute_trades(self):
+        self.logger.info('重新連線 ...')
+        self._broker.login()
+
         self.logger.info('開始執行交易 ...')
         task_status_df = pd.read_sql(
             sql=text("SELECT * FROM task_status"),
