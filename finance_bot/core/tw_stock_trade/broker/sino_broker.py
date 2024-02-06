@@ -31,6 +31,7 @@ class SinoBroker(BrokerBase):
         self._shioaji_api.login(
             api_key=infra.conf.core.tw_stock_trade.shioaji.api_key,
             secret_key=infra.conf.core.tw_stock_trade.shioaji.secret_key,
+            contracts_cb=lambda security_type: self.logger.info(f"{repr(security_type)} fetch done."),
         )
 
         result = self._shioaji_api.activate_ca(
