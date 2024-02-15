@@ -134,17 +134,10 @@ class TWStockTrade(CoreBase):
         for action in sell_actions:
             stock_id = action['stock_id']
             shares = action['shares']
-            price = action['price']
-            total = action['total']
             note = action['note']
 
-            await infra.notifier.send('賣 {stock_id} {shares} 股 參考價: {price} 費用： {total} (理由：{note})\n'.format(
-                stock_id=stock_id,
-                shares=shares,
-                price=price,
-                total=total,
-                note=note,
-            ))
+            await infra.notifier.send(
+                '賣 {stock_id} 參考價 {price} 元 {shares} 股\n預估費用： {total} (理由：{note})'.format(**action))
 
             trade = self._broker.sell_market(stock_id=stock_id, shares=shares, note=note)
             while True:
@@ -156,22 +149,25 @@ class TWStockTrade(CoreBase):
                     return
                 await asyncio.sleep(1)
 
-            total = decimal.Decimal(0)
-            total_shares = 0
+            total_price = decimal.Decimal(0)
+            avg_price = decimal.Decimal(0)
+            total_fee = decimal.Decimal(0)
             for deal in trade.status.deals:
-                shares = deal.quantity * 1000
-                total += int(deal.price * shares) - self._broker.commission_info.get_sell_commission(
+                fee = self._broker.commission_info.get_sell_commission(
                     deal.price,
-                    shares,
+                    deal.quantity * 1000,
                 )
-                total_shares += shares
+                total_price += int(deal.price * deal.quantity * 1000) - fee
+                avg_price += int(deal.price * (deal.quantity * 1000 / shares))
+                total_fee += fee
 
-            balance += total
-            message = '賣 {stock_id} {price} 元 {shares} 股完全成交 費用：{total}\n'.format(
+            balance += total_price
+            message = '賣 {stock_id} 價格 {avg_price} 元 {shares} 股完全成交\n總費用：{total_price}(手續費：{total_fee})\n'.format(
                 stock_id=trade.contract.code,
-                price=total / total_shares,
-                shares=total_shares,
-                total=total,
+                avg_price=avg_price,
+                shares=shares,
+                total_price=total_price,
+                total_fee=total_fee,
             )
             await infra.notifier.send(message)
 
@@ -189,7 +185,6 @@ class TWStockTrade(CoreBase):
         await infra.notifier.send('委託買股直到成交')
         for action in buy_actions:
             stock_id = action['stock_id']
-            price = action['price']
             shares = action['shares']
             note = action['note']
 
@@ -202,15 +197,7 @@ class TWStockTrade(CoreBase):
             if balance < possible_highest_cost:
                 break
 
-            await infra.notifier.send(
-                '買 {stock_id} {shares} 股 參考價: {price} (最高 {high_price}) (理由：{note})\n'.format(
-                    stock_id=stock_id,
-                    shares=shares,
-                    price=price,
-                    high_price=high_price,
-                    note=note,
-                )
-            )
+            await infra.notifier.send('買 {stock_id} 參考價: {price} 元 {shares} 股 (理由：{note})'.format(**action))
 
             trade = self._broker.buy_market(stock_id=stock_id, shares=shares, note=note)
             while True:
@@ -222,23 +209,26 @@ class TWStockTrade(CoreBase):
                     return
                 await asyncio.sleep(1)
 
-            total = decimal.Decimal(0)
-            total_shares = 0
+            total_price = decimal.Decimal(0)
+            avg_price = decimal.Decimal(0)
+            total_fee = decimal.Decimal(0)
+
             for deal in trade.status.deals:
-                shares = deal.quantity * 1000
-                total += int(deal.price * shares) + self._broker.commission_info.get_buy_commission(
+                fee = self._broker.commission_info.get_buy_commission(
                     deal.price,
                     deal.quantity * 1000,
                 )
-                total_shares += shares
+                total_price += int(deal.price * deal.quantity * 1000) + fee
+                avg_price += int(deal.price * (deal.quantity * 1000 / shares))
+                total_fee += fee
 
-            balance -= total
-
-            message = '買 {stock_id} {price} 元 {shares} 股完全成交 費用：{total}'.format(
+            balance -= total_price
+            message = '買 {stock_id} 價格 {avg_price} 元 {shares} 股完全成交\n費用：{total_price}(手續費：{total_fee})'.format(
                 stock_id=trade.contract.code,
-                price=total / total_shares,
-                shares=total_shares,
-                total=total,
+                avg_price=avg_price,
+                shares=shares,
+                total_price=total_price,
+                total_fee=total_fee,
             )
             await infra.notifier.send(message)
 
