@@ -3,10 +3,11 @@ import json
 import pandas as pd
 import uvicorn
 from sqlalchemy import text
-from telegram import Update
-from telegram.ext import Application, ContextTypes, CommandHandler
+from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
+from telegram.ext import Application, ContextTypes, CommandHandler, CallbackQueryHandler
 
 from finance_bot.core.base import CoreBase
+from finance_bot.core.schedule import Schedule
 from finance_bot.core.tw_stock_trade import TWStockTrade
 from finance_bot.infrastructure import infra
 
@@ -19,6 +20,7 @@ class SuperBot(CoreBase):
 
         self._telegram_app = self._setup_telegram_app()
         self._tw_stock_trade = TWStockTrade()
+        self._schedule = Schedule()
 
     def start(self):
         self.logger.info(f'啟動 {self.name} ...')
@@ -51,6 +53,8 @@ class SuperBot(CoreBase):
         app.add_handler(CommandHandler("balance", self.command_balance))
         app.add_handler(CommandHandler("strategy", self.command_strategy))
         app.add_handler(CommandHandler("trades", self.command_trades))
+        app.add_handler(CommandHandler("schedule", self.command_schedule))
+        app.add_handler(CallbackQueryHandler(self.handle_schedule_command))
         return app
 
     async def _send_daily_status_handler(self, sub, data):
@@ -198,3 +202,23 @@ class SuperBot(CoreBase):
         chat_id = infra.conf.core.super_bot.telegram.chat_id
         if update.message.chat_id == chat_id:
             await infra.mq.publish('tw_stock_trade.execute_trades', {})
+
+    async def command_schedule(self, update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+        chat_id = infra.conf.core.super_bot.telegram.chat_id
+        if update.message.chat_id == chat_id:
+            keyboard = [
+                [InlineKeyboardButton(task_key, callback_data=task_key)]
+                for task_key in self._schedule.task_keys
+            ]
+            reply_markup = InlineKeyboardMarkup(keyboard)
+
+            await update.message.reply_text("選擇一項:", reply_markup=reply_markup)
+
+    async def handle_schedule_command(self, update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+        query = update.callback_query
+
+        # CallbackQueries need to be answered, even if no notification to the user is needed
+        # Some clients may have trouble otherwise. See https://core.telegram.org/bots/api#callbackquery
+        await query.answer()
+
+        await self._schedule.send_task(query.data)

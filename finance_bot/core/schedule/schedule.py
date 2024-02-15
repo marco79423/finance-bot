@@ -7,6 +7,22 @@ from finance_bot.infrastructure import infra
 class Schedule(CoreBase):
     name = 'schedule'
 
+    task_config_mappings = [
+        # crypto loan
+        ('crypto_loan.update_status', 'core.schedule.crypto_loan.update_status'),
+        # tw_stock_data_sync
+        ('tw_stock_data_sync.update_tw_stock', 'core.schedule.tw_stock_data_sync.update_tw_stock'),
+        ('tw_stock_data_sync.update_tw_stock_prices', 'core.schedule.tw_stock_data_sync.update_tw_stock_prices'),
+        ('tw_stock_data_sync.update_monthly_revenue', 'core.schedule.tw_stock_data_sync.update_monthly_revenue'),
+        ('tw_stock_data_sync.update_financial_statements',
+         'core.schedule.tw_stock_data_sync.update_financial_statements'),
+        ('tw_stock_data_sync.update_db_cache', 'core.schedule.tw_stock_data_sync.update_db_cache'),
+        # tw_stock_trade
+        ('tw_stock_trade.update_strategy_actions', 'core.schedule.tw_stock_trade.update_strategy_actions'),
+        # super_bot
+        ('super_bot.send_daily_status', 'core.schedule.super_bot.send_daily_status'),
+    ]
+
     def start(self):
         self.logger.info(f'啟動 {self.name} ...')
 
@@ -22,23 +38,12 @@ class Schedule(CoreBase):
 
         uvicorn.run(app, host='0.0.0.0', port=16930)
 
-    tasks = [
-        # crypto loan
-        ('crypto_loan.update_status', 'core.schedule.crypto_loan.update_status'),
-        # tw_stock_data_sync
-        ('tw_stock_data_sync.update_tw_stock', 'core.schedule.tw_stock_data_sync.update_tw_stock'),
-        ('tw_stock_data_sync.update_tw_stock_prices', 'core.schedule.tw_stock_data_sync.update_tw_stock_prices'),
-        ('tw_stock_data_sync.update_monthly_revenue', 'core.schedule.tw_stock_data_sync.update_monthly_revenue'),
-        ('tw_stock_data_sync.update_financial_statements', 'core.schedule.tw_stock_data_sync.update_financial_statements'),
-        ('tw_stock_data_sync.update_db_cache', 'core.schedule.tw_stock_data_sync.update_db_cache'),
-        # tw_stock_trade
-        ('tw_stock_trade.update_strategy_actions', 'core.schedule.tw_stock_trade.update_strategy_actions'),
-        # super_bot
-        ('super_bot.send_daily_status', 'core.schedule.super_bot.send_daily_status'),
-    ]
+    @property
+    def task_keys(self):
+        return [task_key for task_key, conf_key in self.task_config_mappings]
 
     async def start_jobs(self):
-        for task_key, conf_key in self.tasks:
+        for task_key, conf_key in self.task_config_mappings:
             infra.scheduler.add_schedule_task(
                 self.create_task(task_key),
                 schedule_conf_key=conf_key,
@@ -46,7 +51,7 @@ class Schedule(CoreBase):
 
     async def send_task(self, task_key):
         self.logger.info(f'開始發送任務 {task_key} ...')
-        if task_key in (key for key, _ in self.tasks):
+        if task_key in (key for key, _ in self.task_config_mappings):
             self.logger.info(f'發送 {task_key} 至 MQ')
             await infra.mq.publish(task_key, {})
 
