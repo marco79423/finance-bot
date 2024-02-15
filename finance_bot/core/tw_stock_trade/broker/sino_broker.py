@@ -108,8 +108,6 @@ class SinoBroker(BrokerBase):
             account=self._shioaji_api.stock_account  # 下單帳號
         )
 
-        self.logger.info(order)
-
         contract = self._shioaji_api.Contracts.Stocks.TSE[stock_id]
         self.logger.info(contract)
 
