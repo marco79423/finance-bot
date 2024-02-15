@@ -18,10 +18,10 @@ from rich.progress import (
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
-from finance_bot.core.tw_stock_backtest.limited_market_data import LimitedMarketData
-from finance_bot.core.tw_stock_backtest.result import Result
-from finance_bot.core.tw_stock_backtest.sim_broker import SimBroker
+from finance_bot.core.tw_stock_trade.backtest.limited_market_data import LimitedMarketData
+from finance_bot.core.tw_stock_trade.backtest.result import Result
 from finance_bot.core.tw_stock_data_sync.market_data import MarketData
+from finance_bot.core.tw_stock_trade.broker import SimulatedBroker
 from finance_bot.infrastructure import infra
 from finance_bot.model.tw_stock_backtest_result import TWStockBacktestResult
 from finance_bot.utility import generate_id
@@ -29,7 +29,7 @@ from finance_bot.utility import generate_id
 
 class Backtester:
     data_class = MarketData
-    broker_class = SimBroker
+    broker_class = SimulatedBroker
 
     def __init__(self):
         self.market_data = self.data_class()

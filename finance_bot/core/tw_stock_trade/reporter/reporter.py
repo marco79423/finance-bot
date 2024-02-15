@@ -7,8 +7,8 @@ from fastapi import FastAPI
 from rich.console import Console
 from rich.table import Table
 
-from finance_bot.core.tw_stock_backtest.result import Result
 from finance_bot.core.tw_stock_data_sync.market_data import MarketData
+from finance_bot.core.tw_stock_trade.backtest.result import Result
 
 
 class Reporter:

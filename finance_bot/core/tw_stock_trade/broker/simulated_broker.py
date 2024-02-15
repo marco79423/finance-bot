@@ -1,8 +1,8 @@
 from finance_bot.core.tw_stock_trade.broker.base import BrokerBase, Position, CommissionInfo
 
 
-class SimBroker(BrokerBase):
-    name = 'sim_broker'
+class SimulatedBroker(BrokerBase):
+    name = 'simulated_broker'
     commission_info = CommissionInfo(fee_discount=1)
 
     def __init__(self, data, init_balance):
