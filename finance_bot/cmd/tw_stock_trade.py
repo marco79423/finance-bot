@@ -39,7 +39,7 @@ def create_tw_stock_trade_cli():
         table = Table()
         table.add_column('入場時間')
         table.add_column('股票代碼')
-        table.add_column('平均價格')
+        table.add_column('平均成本')
         table.add_column('股數')
 
         for position in t.positions:
