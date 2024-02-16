@@ -158,7 +158,7 @@ class TWStockTrade(CoreBase):
                     deal.quantity * 1000,
                 )
                 total_price += int(deal.price * deal.quantity * 1000) - fee
-                avg_price += int(deal.price * (deal.quantity * 1000 / shares))
+                avg_price += decimal.Decimal(int(deal.price * (deal.quantity * 1000))) / shares
                 total_fee += fee
 
             balance += total_price
@@ -219,7 +219,7 @@ class TWStockTrade(CoreBase):
                     deal.quantity * 1000,
                 )
                 total_price += int(deal.price * deal.quantity * 1000) + fee
-                avg_price += int(deal.price * (deal.quantity * 1000 / shares))
+                avg_price += decimal.Decimal(int(deal.price * (deal.quantity * 1000))) / shares
                 total_fee += fee
 
             balance -= total_price
