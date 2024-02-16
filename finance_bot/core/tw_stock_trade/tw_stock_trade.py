@@ -136,8 +136,10 @@ class TWStockTrade(CoreBase):
             shares = action['shares']
             note = action['note']
 
-            await infra.notifier.send(
-                '賣 {stock_id} 參考價 {price} 元 {shares} 股\n預估費用： {total} (理由：{note})'.format(**action))
+            message = f'賣 {stock_id} {shares}'
+            if note:
+                message += f'(理由：{note})'
+            await infra.notifier.send(message)
 
             trade = self._broker.sell_market(stock_id=stock_id, shares=shares, note=note)
             while True:
@@ -197,7 +199,10 @@ class TWStockTrade(CoreBase):
             if balance < possible_highest_cost:
                 break
 
-            await infra.notifier.send('買 {stock_id} 參考價: {price} 元 {shares} 股 (理由：{note})'.format(**action))
+            message = f'買 {stock_id} {shares} 股'
+            if note:
+                message += f'(理由：{note})'
+            await infra.notifier.send(message)
 
             trade = self._broker.buy_market(stock_id=stock_id, shares=shares, note=note)
             while True:
