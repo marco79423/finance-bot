@@ -1,0 +1,2 @@
+class ExecuteError(Exception):
+    pass

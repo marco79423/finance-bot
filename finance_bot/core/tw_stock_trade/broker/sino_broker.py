@@ -135,7 +135,7 @@ class SinoBroker(BrokerBase):
             self.login()
         self._shioaji_api.cancel_order(trade)
 
-    def get_high_price(self, stock_id):
+    def get_today_high_price(self, stock_id):
         if not self.is_login:
             self.login()
         contract = self._shioaji_api.Contracts.Stocks.TSE[stock_id]
