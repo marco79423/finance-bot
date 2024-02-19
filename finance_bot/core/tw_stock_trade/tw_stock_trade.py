@@ -139,51 +139,53 @@ class TWStockTrade(CoreBase):
                 buy_actions.append(action)
 
         # 委託賣股直到成交
-        await infra.notifier.send('進行委託賣股直到成交')
-        for action in sell_actions:
-            result = await self.sell_market(
-                stock_id=action['stock_id'],
-                shares=action['shares'],
-                note=action['note']
-            )
-            balance += result['total']
+        if sell_actions:
+            await infra.notifier.send('進行委託賣股直到成交')
+            for action in sell_actions:
+                result = await self.sell_market(
+                    stock_id=action['stock_id'],
+                    shares=action['shares'],
+                    note=action['note']
+                )
+                balance += result['total']
 
-            async with AsyncSession(infra.db.async_engine) as session:
-                await self._wallet_repo.set_balance(
-                    session=session,
-                    code='sinopac',
-                    balance=balance,
-                    description=result['description']
+                async with AsyncSession(infra.db.async_engine) as session:
+                    await self._wallet_repo.set_balance(
+                        session=session,
+                        code='sinopac',
+                        balance=balance,
+                        description=result['description']
+                    )
+
+            await infra.notifier.send(f'賣股後新餘額 {balance} 元')
+
+        if buy_actions:
+            # 委託買股直到成交
+            await infra.notifier.send('委託買股直到成交')
+            for action in buy_actions:
+                high_price = self._broker.get_today_high_price(action['stock_id'])
+                possible_highest_cost = (action['shares'] * high_price) + self._broker.commission_info.get_buy_commission(
+                    price=high_price,
+                    shares=action['shares']
                 )
 
-        await infra.notifier.send(f'賣股後新餘額 {balance} 元')
+                if balance < possible_highest_cost:
+                    break
 
-        # 委託買股直到成交
-        await infra.notifier.send('委託買股直到成交')
-        for action in buy_actions:
-            high_price = self._broker.get_today_high_price(action['stock_id'])
-            possible_highest_cost = (action['shares'] * high_price) + self._broker.commission_info.get_buy_commission(
-                price=high_price,
-                shares=action['shares']
-            )
-
-            if balance < possible_highest_cost:
-                break
-
-            result = await self.buy_market(
-                stock_id=action['stock_id'],
-                shares=action['shares'],
-                note=action['note']
-            )
-
-            balance -= result['total']
-            async with AsyncSession(infra.db.async_engine) as session:
-                await self._wallet_repo.set_balance(
-                    session=session,
-                    code='sinopac',
-                    balance=balance,
-                    description=result['description']
+                result = await self.buy_market(
+                    stock_id=action['stock_id'],
+                    shares=action['shares'],
+                    note=action['note']
                 )
+
+                balance -= result['total']
+                async with AsyncSession(infra.db.async_engine) as session:
+                    await self._wallet_repo.set_balance(
+                        session=session,
+                        code='sinopac',
+                        balance=balance,
+                        description=result['description']
+                    )
 
         await infra.notifier.send('執行交易成功')
         self.logger.info('執行交易成功 ...')
