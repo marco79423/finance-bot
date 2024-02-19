@@ -127,7 +127,7 @@ class TWStockTrade(CoreBase):
 
         async with (AsyncSession(infra.db.async_engine) as session):
             balance = await self._wallet_repo.get_balance(session, code='sinopac')
-        await infra.notifier.send(f'當前餘額 {balance} 元')
+        await infra.notifier.send(f'當前餘額 {int(balance)} 元')
 
         buy_actions = []
         sell_actions = []
@@ -157,7 +157,7 @@ class TWStockTrade(CoreBase):
                         description=result['description']
                     )
 
-            await infra.notifier.send(f'賣股後新餘額 {balance} 元')
+            await infra.notifier.send(f'賣股後新餘額 {int(balance)} 元')
 
         if buy_actions:
             # 委託買股直到成交
@@ -186,6 +186,7 @@ class TWStockTrade(CoreBase):
                         balance=balance,
                         description=result['description']
                     )
+            await infra.notifier.send(f'買股新餘額 {int(balance)} 元')
 
         await infra.notifier.send('執行交易成功')
         self.logger.info('執行交易成功 ...')
