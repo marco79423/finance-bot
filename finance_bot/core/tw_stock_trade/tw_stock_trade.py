@@ -153,7 +153,7 @@ class TWStockTrade(CoreBase):
                     session=session,
                     code='sinopac',
                     balance=balance,
-                    description=result['message']
+                    description=result['description']
                 )
 
         await infra.notifier.send(f'賣股後新餘額 {balance} 元')
@@ -182,7 +182,7 @@ class TWStockTrade(CoreBase):
                     session=session,
                     code='sinopac',
                     balance=balance,
-                    description=result['message']
+                    description=result['description']
                 )
 
         await infra.notifier.send('執行交易成功')
