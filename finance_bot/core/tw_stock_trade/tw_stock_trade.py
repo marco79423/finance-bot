@@ -14,7 +14,7 @@ from finance_bot.core.tw_stock_data_sync import MarketData
 from finance_bot.core.tw_stock_trade.broker import SinoBroker
 from finance_bot.core.tw_stock_trade.strategy.strategy_s2v1 import StrategyS2V1
 from finance_bot.infrastructure import infra
-from finance_bot.repository import WalletRepository
+from finance_bot.repository import WalletRepository, TWStockTradeLogRepository
 
 
 class TWStockTrade(CoreBase):
@@ -27,6 +27,7 @@ class TWStockTrade(CoreBase):
 
         self._broker = SinoBroker()
         self._wallet_repo = WalletRepository()
+        self._tw_stock_trade_log_repo = TWStockTradeLogRepository()
 
     @property
     def account_balance(self):
@@ -125,7 +126,7 @@ class TWStockTrade(CoreBase):
             await infra.notifier.send('沒有要執行的交易')
             return
 
-        async with (AsyncSession(infra.db.async_engine) as session):
+        async with AsyncSession(infra.db.async_engine) as session:
             balance = await self._wallet_repo.get_balance(session, code='sinopac')
         await infra.notifier.send(f'當前餘額 {int(balance)} 元')
 
@@ -156,6 +157,20 @@ class TWStockTrade(CoreBase):
                         balance=balance,
                         description=result['description']
                     )
+                    await self._tw_stock_trade_log_repo.add_log(
+                        session=session,
+                        wallet_code='sinopac',
+                        strategy_name=self.strategy.name,
+                        action='sell',
+                        stock_id=action['stock_id'],
+                        shares=action['shares'],
+                        price=action['avg_price'],
+                        fee=action['total_fee'],
+                        before=balance - result['total'],
+                        funds=result['total'],
+                        after=balance,
+                        note=action['note']
+                    )
 
             await infra.notifier.send(f'賣股後新餘額 {int(balance)} 元')
 
@@ -164,7 +179,8 @@ class TWStockTrade(CoreBase):
             await infra.notifier.send('委託買股直到成交')
             for action in buy_actions:
                 high_price = self._broker.get_today_high_price(action['stock_id'])
-                possible_highest_cost = (action['shares'] * high_price) + self._broker.commission_info.get_buy_commission(
+                possible_highest_cost = (action[
+                                             'shares'] * high_price) + self._broker.commission_info.get_buy_commission(
                     price=high_price,
                     shares=action['shares']
                 )
@@ -185,6 +201,20 @@ class TWStockTrade(CoreBase):
                         code='sinopac',
                         balance=balance,
                         description=result['description']
+                    )
+                    await self._tw_stock_trade_log_repo.add_log(
+                        session=session,
+                        wallet_code='sinopac',
+                        strategy_name=self.strategy.name,
+                        action='buy',
+                        stock_id=action['stock_id'],
+                        shares=action['shares'],
+                        price=action['avg_price'],
+                        fee=action['total_fee'],
+                        before=balance + result['total'],
+                        funds=-result['total'],
+                        after=balance,
+                        note=action['note']
                     )
             await infra.notifier.send(f'買股新餘額 {int(balance)} 元')
 
@@ -230,9 +260,11 @@ class TWStockTrade(CoreBase):
         await infra.notifier.send(message)
 
         return dict(
-            total=total,
+            stock_id=stock_id,
             avg_price=avg_price,
-            total_price=total_fee,
+            shares=shares,
+            total=total,
+            total_fee=total_fee,
             description=message,
         )
 
@@ -276,8 +308,10 @@ class TWStockTrade(CoreBase):
         await infra.notifier.send(message)
 
         return dict(
-            total=total,
+            stock_id=trade.contract.code,
             avg_price=avg_price,
-            total_price=total_fee,
+            shares=shares,
+            total=total,
+            total_fee=total_fee,
             description=message,
         )
