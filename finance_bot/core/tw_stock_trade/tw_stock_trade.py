@@ -164,8 +164,8 @@ class TWStockTrade(CoreBase):
                         action='sell',
                         stock_id=action['stock_id'],
                         shares=action['shares'],
-                        price=action['avg_price'],
-                        fee=action['total_fee'],
+                        price=result['avg_price'],
+                        fee=result['total_fee'],
                         funds=result['total'],
                         note=action['note']
                     )
@@ -207,8 +207,8 @@ class TWStockTrade(CoreBase):
                         action='buy',
                         stock_id=action['stock_id'],
                         shares=action['shares'],
-                        price=action['avg_price'],
-                        fee=action['total_fee'],
+                        price=result['avg_price'],
+                        fee=result['total_fee'],
                         funds=result['total'],
                         note=action['note']
                     )
