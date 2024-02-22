@@ -4,6 +4,7 @@ from finance_bot.core.tw_stock_trade.reporter.reporter import Reporter
 from finance_bot.core.tw_stock_trade.strategy.strategy_s2v0 import StrategyS2V0
 from finance_bot.core.tw_stock_trade.strategy.strategy_s2v1 import StrategyS2V1
 from finance_bot.core.tw_stock_trade.strategy.strategy_s2v2 import StrategyS2V2
+from finance_bot.core.tw_stock_trade.strategy.strategy_s2v3 import StrategyS2V3
 
 
 def main():
@@ -12,12 +13,14 @@ def main():
     strategy_configs = generate_strategy_configs(
         (StrategyS2V0, {}),
         (StrategyS2V1, {}),
-        (StrategyS2V2, {
-            'max_single_position_exposure': 0.1,
+        (StrategyS2V2, {}),
+        (StrategyS2V3, {
+            # 'max_single_position_exposure': 0.1,
             # 'sma_short': dict(min=5, max=60, step=5),
             # 'sma_long': dict(min=20, max=120, step=5),
             # 'mrs_num': dict(choices=[90, 120]),
             # 'sma_out': dict(choices=[20, 40]),
+            # 'market_over': dict(min=20, max=120, step=20),
         }),
     )
 

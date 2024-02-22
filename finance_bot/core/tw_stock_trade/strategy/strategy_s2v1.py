@@ -13,7 +13,9 @@ available_stock_ids = df['stock_id'].to_list()
 
 
 class StrategyS2V1(StrategyBase):
-    """"""
+    """
+    新增月營收排名的要求
+    """
     name = '策略 S2V1'
     params = dict(
         max_single_position_exposure=0.1,
