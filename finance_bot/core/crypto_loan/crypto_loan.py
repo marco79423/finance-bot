@@ -5,10 +5,9 @@ import bfxapi
 import uvicorn
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from finance_bot.constants import ReserveAmountKey
 from finance_bot.core.base import CoreBase
 from finance_bot.infrastructure import infra
-from finance_bot.repository import SettingReserveAmountRepository
+from finance_bot.repository import SettingCryptoLoanRepository
 
 
 @dataclasses.dataclass
@@ -68,7 +67,7 @@ class CryptoLoan(CoreBase):
             API_SECRET=infra.conf.core.crypto_loan.api_secret,
         )
 
-        self._setting_reserve_amount_repo = SettingReserveAmountRepository()
+        self._setting_repo = SettingCryptoLoanRepository()
 
     def start(self):
         self.logger.info(f'啟動 {self.name} ...')
@@ -286,5 +285,5 @@ class CryptoLoan(CoreBase):
 
     async def get_reserve_amount(self):
         async with AsyncSession(infra.db.async_engine) as session:
-            amount = await self._setting_reserve_amount_repo.get_reserve_amount(session, ReserveAmountKey.CryptoLoan)
+            amount = await self._setting_repo.get_reserve_amount(session)
             return float(amount)
