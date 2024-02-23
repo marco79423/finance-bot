@@ -10,6 +10,7 @@ core:
       update_db_cache: '0 6 * * *'
     tw_stock_trade:
       update_strategy_actions: '0 7 * * *'
+      execute_trades: '0 9 * * mon,tue,wed,thu,fri'
     super_bot:
       send_daily_status:
         - '0 8 * * mon,tue,wed,thu,fri'

@@ -14,7 +14,7 @@ from finance_bot.core.tw_stock_data_sync import MarketData
 from finance_bot.core.tw_stock_trade.broker import SinoBroker
 from finance_bot.core.tw_stock_trade.strategy.strategy_s2v2 import StrategyS2V2
 from finance_bot.infrastructure import infra
-from finance_bot.repository import WalletRepository, TWStockTradeLogRepository
+from finance_bot.repository import WalletRepository, TWStockTradeLogRepository, SettingControlRepository
 
 
 class TWStockTrade(CoreBase):
@@ -28,6 +28,7 @@ class TWStockTrade(CoreBase):
         self._broker = SinoBroker()
         self._wallet_repo = WalletRepository()
         self._tw_stock_trade_log_repo = TWStockTradeLogRepository()
+        self._setting_control_repo = SettingControlRepository()
 
     @property
     def account_balance(self):
@@ -77,6 +78,11 @@ class TWStockTrade(CoreBase):
         return self.strategy.actions
 
     async def execute_trades(self):
+        async with AsyncSession(infra.db.async_engine) as session:
+            enabled = await self._setting_control_repo.is_enabled(session, code='tw_stock_trade.auto_trade')
+            if not enabled:
+                await infra.notifier.send(f'台股交易功能沒有啟動')
+                return
         try:
             await asyncio.wait_for(self._execute_trades(), timeout=60 * 30)
         except ExecuteError:

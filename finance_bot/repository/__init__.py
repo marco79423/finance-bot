@@ -1,2 +1,3 @@
+from finance_bot.repository.setting_control_repository import SettingControlRepository
 from finance_bot.repository.tw_stock_trade_log_repository import TWStockTradeLogRepository
 from finance_bot.repository.wallet_repository import WalletRepository
