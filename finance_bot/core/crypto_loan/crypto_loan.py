@@ -3,9 +3,12 @@ import datetime as dt
 
 import bfxapi
 import uvicorn
+from sqlalchemy.ext.asyncio import AsyncSession
 
+from finance_bot.constants import ReserveAmountKey
 from finance_bot.core.base import CoreBase
 from finance_bot.infrastructure import infra
+from finance_bot.repository import SettingReserveAmountRepository
 
 
 @dataclasses.dataclass
@@ -65,6 +68,8 @@ class CryptoLoan(CoreBase):
             API_SECRET=infra.conf.core.crypto_loan.api_secret,
         )
 
+        self._setting_reserve_amount_repo = SettingReserveAmountRepository()
+
     def start(self):
         self.logger.info(f'啟動 {self.name} ...')
 
@@ -97,6 +102,7 @@ class CryptoLoan(CoreBase):
 
     async def _execute_lending_task(self):
         strategy = await self.make_strategy()
+        reserve_amount = await self.get_reserve_amount()
 
         # 取消所有不同策略的訂單
         offers = await self._client.rest.get_funding_offers(symbol='fUSD')
@@ -128,6 +134,10 @@ class CryptoLoan(CoreBase):
         # 根據當前餘額和策略下訂單
         frr_rate = await self.get_frr_rate()
         balance_available = await self.get_funding_balance()
+
+        if reserve_amount:
+            balance_available -= reserve_amount
+
         while balance_available >= 150:
             amount = self.MAX_OFFER_AMOUNT
             if balance_available - self.MAX_OFFER_AMOUNT < 150:
@@ -273,3 +283,8 @@ class CryptoLoan(CoreBase):
     @staticmethod
     def get_annual_rate(rate, period):
         return (1 + rate * period) ** (365 / period) - 1
+
+    async def get_reserve_amount(self):
+        async with AsyncSession(infra.db.async_engine) as session:
+            amount = await self._setting_reserve_amount_repo.get_reserve_amount(session, ReserveAmountKey.CryptoLoan)
+            return float(amount)
