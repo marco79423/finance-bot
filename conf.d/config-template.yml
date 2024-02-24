@@ -1,3 +1,5 @@
+app:
+  node_id: example
 core:
   schedule:
     crypto_loan:
