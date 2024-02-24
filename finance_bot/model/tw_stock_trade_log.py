@@ -18,7 +18,7 @@ class TWStockTradeLog(Base):
     shares = Column(Integer, nullable=False, comment='股')
     price = Column(Numeric(precision=10, scale=4), nullable=False, comment='價格')
     fee = Column(Integer, nullable=False, comment='手續費')
-    funds = Column(Integer, nullable=False, comment='金額')
+    amount = Column(Integer, nullable=False, comment='金額')
     note = Column(String(32), nullable=False, comment='備註')
 
     created_at = Column(DateTime, nullable=False, server_default=func.now())

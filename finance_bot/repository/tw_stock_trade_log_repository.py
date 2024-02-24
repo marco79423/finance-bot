@@ -4,7 +4,7 @@ from finance_bot.model import TWStockTradeLog
 class TWStockTradeLogRepository:
 
     @staticmethod
-    async def add_log(session, wallet_code, strategy_name, action, stock_id, price, shares, fee, funds, note):
+    async def add_log(session, wallet_code, strategy_name, action, stock_id, price, shares, fee, amount, note):
         async with session.begin():
             session.add(TWStockTradeLog(
                 wallet_code=wallet_code,
@@ -14,12 +14,12 @@ class TWStockTradeLogRepository:
                 shares=shares,
                 price=price,
                 fee=fee,
-                funds=funds,
+                amount=amount,
                 note=note,
             ))
 
     @staticmethod
-    def sync_add_log(session, wallet_code, strategy_name, action, stock_id, price, shares, fee, funds, note):
+    def sync_add_log(session, wallet_code, strategy_name, action, stock_id, price, shares, fee, amount, note):
         with session.begin():
             session.add(TWStockTradeLog(
                 wallet_code=wallet_code,
@@ -29,6 +29,6 @@ class TWStockTradeLogRepository:
                 shares=shares,
                 price=price,
                 fee=fee,
-                funds=funds,
+                amount=amount,
                 note=note,
             ))

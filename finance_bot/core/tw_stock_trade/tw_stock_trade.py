@@ -172,7 +172,7 @@ class TWStockTrade(CoreBase):
                         shares=action['shares'],
                         price=result['avg_price'],
                         fee=result['total_fee'],
-                        funds=result['total'],
+                        amount=result['total'],
                         note=action['note']
                     )
 
@@ -215,7 +215,7 @@ class TWStockTrade(CoreBase):
                         shares=action['shares'],
                         price=result['avg_price'],
                         fee=result['total_fee'],
-                        funds=result['total'],
+                        amount=result['total'],
                         note=action['note']
                     )
             await infra.notifier.send(f'買股新餘額 {int(balance)} 元')
