@@ -34,67 +34,6 @@ class Backtester:
     def __init__(self):
         self.market_data = self.data_class()
 
-    def run_task(self, init_balance, start, end, strategy_class, params):
-        start = pd.Timestamp(start)
-        end = pd.Timestamp(end)
-
-        strategy = strategy_class()
-        strategy.params = {
-            **strategy.params,
-            **params,
-        }
-        signature = self._generate_signature(strategy, init_balance, start, end)
-
-        # if not strategy.stabled:
-        #     return
-
-        with Session(infra.db.engine) as session:
-            tw_stock_backtest_result = session.scalar(
-                select(TWStockBacktestResult)
-                .where(TWStockBacktestResult.signature == signature)
-                .limit(1)
-            )
-            if tw_stock_backtest_result:
-                return
-
-        result_id = generate_id()
-        limited_market_data = LimitedMarketData(
-            market_data=self.market_data,
-            start=start,
-            end=end,
-        )
-        broker = self.broker_class(limited_market_data, init_balance)
-
-        strategy.market_data = limited_market_data
-        strategy.broker = broker
-        strategy.pre_handle()
-
-        limited_market_data.is_limit = True
-        for today in limited_market_data.all_date_range:
-            limited_market_data.set_current_time(today)
-
-            for action in strategy.actions:
-                if action['operation'] == 'buy':
-                    broker.buy_market(stock_id=action['stock_id'], shares=action['shares'], note=action['note'])
-                elif action['operation'] == 'sell':
-                    broker.sell_all_market(stock_id=action['stock_id'], note=action['note'])
-
-            broker.refresh()
-            strategy.inter_handle()
-
-        with Session(infra.db.engine) as session:
-            infra.db.sync_insert_or_update(session, TWStockBacktestResult, dict(
-                id=result_id,
-                signature=signature,
-                strategy_name=strategy.name,
-                params=json.dumps(params),
-                init_balance=init_balance,
-                final_balance=broker.current_balance,
-                start_time=start.to_pydatetime(),
-                end_time=end.to_pydatetime(),
-                trade_logs=json.dumps(broker.trade_logs),
-            ))
-
     def run(self, init_balance, start, end, strategy_configs):
         start_time = dt.datetime.now()
         start = pd.Timestamp(start)

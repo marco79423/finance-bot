@@ -1,4 +1,5 @@
 from finance_bot.repository.setting_crypto_loan_repository import SettingCryptoLoanRepository
 from finance_bot.repository.setting_tw_stock_trade_repository import SettingTWStockTradeRepository
+from finance_bot.repository.tw_stock_action_repository import TWStockActionRepository
 from finance_bot.repository.tw_stock_trade_log_repository import TWStockTradeLogRepository
 from finance_bot.repository.wallet_repository import WalletRepository

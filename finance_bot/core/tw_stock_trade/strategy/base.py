@@ -73,8 +73,6 @@ class StrategyBase(abc.ABC):
             'operation': 'buy',
             'stock_id': stock_id,
             'shares': int(shares),
-            'price': float(price),
-            'total': total,
             'note': note,
         })
         self._balance -= total
@@ -97,8 +95,6 @@ class StrategyBase(abc.ABC):
             'operation': 'sell',
             'stock_id': stock_id,
             'shares': int(shares),
-            'price': float(price),
-            'total': total,
             'note': note,
         })
 

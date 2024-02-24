@@ -21,7 +21,7 @@ def create_tw_stock_trade_cli():
 
     @tw_stock_trade.command('strategy')
     def strategy():
-        actions = asyncio.run(t.execute_strategy())
+        actions = asyncio.run(t.update_actions())
         rich.print(actions)
 
     @tw_stock_trade.group("broker")
