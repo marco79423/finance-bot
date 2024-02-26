@@ -19,6 +19,7 @@ class Schedule(CoreBase):
         ('tw_stock_data_sync.update_db_cache', 'core.schedule.tw_stock_data_sync.update_db_cache'),
         # tw_stock_trade
         ('tw_stock_trade.update_strategy_actions', 'core.schedule.tw_stock_trade.update_strategy_actions'),
+        ('tw_stock_trade.execute_trades', 'core.schedule.tw_stock_trade.execute_trades'),
         # super_bot
         ('super_bot.send_daily_status', 'core.schedule.super_bot.send_daily_status'),
     ]
