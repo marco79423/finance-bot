@@ -171,9 +171,9 @@ class SuperBot(CoreBase):
                 if actions:
                     for action in actions:
                         if action['operation'] == 'buy':
-                            actions_msg += '買 {stock_id} {shares} 股 參考價: {price} (理由：{note})\n'.format(**action)
+                            actions_msg += '買 {stock_id} {shares} 股 (理由：{note})\n'.format(**action)
                         if action['operation'] == 'sell':
-                            actions_msg += '賣 {stock_id} {shares} 股 參考價: {price} (理由：{note})\n'.format(**action)
+                            actions_msg += '賣 {stock_id} {shares} 股 (理由：{note})\n'.format(**action)
                 else:
                     actions_msg = '沒有\n'
 
