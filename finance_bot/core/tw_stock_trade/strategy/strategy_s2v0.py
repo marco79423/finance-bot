@@ -21,7 +21,7 @@ class StrategyS2V0(StrategyBase):
         sma_long=60,
         mrs_num=120,
     )
-    stabled = False
+    stabled = True
     available_stock_ids = available_stock_ids
 
     def init(self, data):

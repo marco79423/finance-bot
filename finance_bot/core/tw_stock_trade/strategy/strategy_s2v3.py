@@ -73,11 +73,12 @@ class StrategyS2V3(StrategyBase):
             for stock_id in target_list:
                 self.buy_next_day_market(stock_id)
 
-        target_list = self.new_target_list([
-            self.close < sma_out.iloc[-1],
-        ], available_list=self.broker.holding_stock_ids)
-        for stock_id in target_list:
-            self.sell_next_day_market(stock_id, note=f'{self.growth_rate[stock_id] * 100:.2f}%')
+        if self.data.close['0050'].iloc[-1] >= self.data.open['0050'].iloc[-1]:
+            target_list = self.new_target_list([
+                self.close < sma_out.iloc[-1],
+            ], available_list=self.broker.holding_stock_ids)
+            for stock_id in target_list:
+                self.sell_next_day_market(stock_id, note=f'{self.growth_rate[stock_id] * 100:.2f}%')
 
         # target_list = self.new_target_list([
         #     # self.close < sma_short.iloc[-1],

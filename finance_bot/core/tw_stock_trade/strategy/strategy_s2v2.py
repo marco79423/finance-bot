@@ -26,7 +26,7 @@ class StrategyS2V2(StrategyBase):
         top_mrs_num=50,
         market_over=100
     )
-    stabled = False
+    stabled = True
     available_stock_ids = available_stock_ids
 
     def init(self, data):

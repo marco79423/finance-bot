@@ -11,7 +11,7 @@ class SimulatedBroker(BrokerBase):
         self._init_balance = init_balance
         self._balance = init_balance
 
-        self._current_idx = 0
+        self._current_index = 0
         self._position_map = {}
         self._positions_cache = {}
         self._trade_logs = []
@@ -30,16 +30,14 @@ class SimulatedBroker(BrokerBase):
 
         # 先寫 log
         self._trade_logs.append({
-            'idx': self._current_idx,
+            'index': self._current_index,
             'date': self._data.current_time.isoformat(),
             'action': 'buy',
             'stock_id': stock_id,
             'shares': shares,
             'fee': fee,
             'price': entry_price,
-            'before': before,
             'amount': -amount,
-            'after': after,
             'note': note,
         })
 
@@ -57,15 +55,15 @@ class SimulatedBroker(BrokerBase):
         else:
             self._position_map[stock_id].increase(shares=shares, price=entry_price)
 
-        self._positions_cache[stock_id][self._current_idx] = {
-            'idx': self._current_idx,
+        self._positions_cache[stock_id][self._current_index] = {
+            'index': self._current_index,
             'stock_id': stock_id,
             'shares': shares,
             'start_date': self._data.current_time,
             'start_price': entry_price,
         }
         self._balance = after
-        self._current_idx += 1
+        self._current_index += 1
 
         return True
 
@@ -83,16 +81,14 @@ class SimulatedBroker(BrokerBase):
 
             # 先寫 log
             self._trade_logs.append({
-                'idx': position['idx'],
+                'index': position['index'],
                 'date': self._data.current_time.isoformat(),
                 'action': 'sell',
                 'stock_id': stock_id,
                 'shares': position['shares'],
                 'fee': fee,
                 'price': price,
-                'before': before,
                 'amount': amount,
-                'after': after,
                 'note': note,
             })
 

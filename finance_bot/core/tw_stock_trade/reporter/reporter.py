@@ -71,7 +71,7 @@ class Reporter:
 
         result_summaries = [
             {
-                'ID': str(result.id),
+                'Sig.': str(result.signature),
                 '策略': result.strategy_name,
                 '參數': result.params_key,
                 '最終本金': f'{result.final_balance} 元',
@@ -91,11 +91,10 @@ class Reporter:
             dash_table.DataTable(data=result_summaries, page_size=20, sort_action='native', sort_mode='multi'),
         )
 
-        # Dash 似乎不能正常顯示 long int
-        result_ids = [str(result.id) for result in self.results]
+        signatures = [str(result.signature) for result in self.results]
         array.extend([
             html.Header(children=f'選擇策略：', style={'fontSize': '1.5em', 'fontWeight': '600'}),
-            dcc.Dropdown(id='result_id', options=result_ids, value=result_ids[0]),
+            dcc.Dropdown(id='signature', options=signatures, value=signatures[0]),
             dash_table.DataTable(id='summary', sort_action='native', sort_mode='multi'),
             html.Div(children=f'權益曲線：'),
             dcc.Graph(id='equity_curve'),
@@ -107,9 +106,9 @@ class Reporter:
             dcc.Dropdown(id='stock_id'),
         ])
 
-        result_map = {str(result.id): result for result in self.results}
+        result_map = {result.signature: result for result in self.results}
         result_summary_map = {
-            summary['ID']: summary for summary in result_summaries
+            summary['Sig.']: summary for summary in result_summaries
         }
 
         @callback(
@@ -119,10 +118,10 @@ class Reporter:
             Output('trade_logs', 'data'),
             Output('stock_id', 'options'),
             Output('stock_id', 'value'),
-            Input('result_id', 'value'),
+            Input('signature', 'value'),
         )
-        def update_strategy(result_id):
-            result = result_map[result_id]
+        def update_strategy(signature):
+            result = result_map[signature]
             stock_ids = sorted(result.positions_df['stock_id'].unique())
 
             fig = sp.make_subplots(
@@ -137,14 +136,14 @@ class Reporter:
             trace = go.Scatter(
                 x=result.equity_curve_s.index,
                 y=result.equity_curve_s,
-                name=f'權益'
+                name=f'權益(台幣)'
             )
             fig.add_trace(trace, row=1, col=1)
 
             trace = go.Scatter(
                 x=result.stock_count_s.index,
                 y=result.stock_count_s,
-                name=f'權益'
+                name=f'持倉數量'
             )
             fig.add_trace(trace, row=2, col=1)
 
@@ -155,7 +154,7 @@ class Reporter:
             )
 
             return (
-                [result_summary_map[result_id]],
+                [result_summary_map[signature]],
                 fig,
                 result.positions_df.to_dict('records'),
                 result.trade_logs_df.to_dict('records'),
@@ -176,10 +175,10 @@ class Reporter:
             Output('positions_per_stock', 'data'),
             Output('trade_logs_per_stock', 'data'),
             Input('stock_id', 'value'),
-            State('result_id', 'value')
+            State('signature', 'value')
         )
-        def update_graph(stock_id, result_id):
-            result = result_map[result_id]
+        def update_graph(stock_id, signature):
+            result = result_map[signature]
 
             data = self.market_data[stock_id]
             positions_per_stock = result.positions_df[result.positions_df['stock_id'] == stock_id]

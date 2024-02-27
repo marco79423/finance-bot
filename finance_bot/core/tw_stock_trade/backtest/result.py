@@ -9,7 +9,7 @@ from finance_bot.utility import Cache
 
 @dataclasses.dataclass
 class Result:
-    id: int
+    signature: str
     strategy_name: str
     params: dict
     init_balance: int
@@ -87,25 +87,23 @@ class Result:
 
     def _calculate_trade_logs_df(self):
         trade_logs = pd.DataFrame(self.trade_logs, columns=[
-            'idx', 'date', 'action', 'stock_id', 'shares', 'fee', 'price', 'before', 'funds', 'after', 'note',
+            'index', 'date', 'action', 'stock_id', 'shares', 'fee', 'price', 'amount', 'note',
         ])
         trade_logs = trade_logs.astype({
-            'idx': 'int',
+            'index': 'int',
             'date': 'datetime64[ns]',
             'action': 'str',
             'stock_id': 'str',
             'shares': 'int',
             'fee': 'int',
             'price': 'float',
-            'before': 'int',
-            'funds': 'int',
-            'after': 'int',
+            'amount': 'int',
             'note': 'str',
         })
         return trade_logs
 
     def _calculate_positions_df(self):
-        df = self.trade_logs_df.groupby('idx').agg(
+        df = self.trade_logs_df.groupby('index').agg(
             status=('date', lambda x: 'open' if len(x) == 1 else 'close'),
             stock_id=('stock_id', 'first'),
             shares=('shares', 'first'),
@@ -157,16 +155,16 @@ class Result:
 
             df = day_trade_logs[day_trade_logs['action'] == 'buy']
             for _, row in df.iterrows():
-                balance += row['funds']
-                positions[row['idx']] = {
+                balance += row['amount']
+                positions[row['index']] = {
                     'stock_id': row['stock_id'],
                     'shares': row['shares'],
                 }
 
             df = day_trade_logs[day_trade_logs['action'] == 'sell']
             for _, row in df.iterrows():
-                balance += row['funds']
-                del positions[row['idx']]
+                balance += row['amount']
+                del positions[row['index']]
 
             equity = balance
 
@@ -201,7 +199,7 @@ class Result:
         return self.positions_df['total_return (fee)'].sum()
 
     def _calculate_stock_count_s(self) -> pd.Series:
-        df = self.trade_logs_df
+        df = self.trade_logs_df.copy()
 
         # 標記買入為正值，賣出為負值
         df['signed_shares'] = df.apply(lambda row: row['shares'] if row['action'] == 'buy' else -row['shares'], axis=1)
