@@ -30,10 +30,11 @@ class TWStockActionRepository:
             await session.execute(
                 delete(TWStockAction)
             )
-            await session.execute(
-                insert(TWStockAction),
-                actions,
-            )
+            if actions:
+                await session.execute(
+                    insert(TWStockAction),
+                    actions,
+                )
 
     @staticmethod
     def sync_get_buy_actions(session):
