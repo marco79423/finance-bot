@@ -21,8 +21,8 @@ class SimulatedBroker(BrokerBase):
 
         before = self.current_balance
         fee = self.commission_info.get_buy_commission(entry_price, shares)
-        funds = int(shares * entry_price) + fee
-        after = before - funds
+        amount = int(shares * entry_price) + fee
+        after = before - amount
 
         # 發現為負值就放棄購買
         if after < 0:
@@ -38,7 +38,7 @@ class SimulatedBroker(BrokerBase):
             'fee': fee,
             'price': entry_price,
             'before': before,
-            'funds': -funds,
+            'amount': -amount,
             'after': after,
             'note': note,
         })
@@ -78,8 +78,8 @@ class SimulatedBroker(BrokerBase):
         for position in self._positions_cache[stock_id].values():
             before = self.current_balance
             fee = self.commission_info.get_sell_commission(price, position['shares'])
-            funds = int(position['shares'] * price) - fee
-            after = before + funds
+            amount = int(position['shares'] * price) - fee
+            after = before + amount
 
             # 先寫 log
             self._trade_logs.append({
@@ -91,7 +91,7 @@ class SimulatedBroker(BrokerBase):
                 'fee': fee,
                 'price': price,
                 'before': before,
-                'funds': funds,
+                'amount': amount,
                 'after': after,
                 'note': note,
             })
