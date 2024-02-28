@@ -8,5 +8,7 @@ from .tw_stock_monthly_revenue import TWStockMonthlyRevenue
 from .tw_stock_price import TWStockPrice
 from .tw_stock_tag import TWStockTag
 from .tw_stock_trade_log import TWStockTradeLog
+from .us_stock import USStock
+from .us_stock_price import USStockPrice
 from .wallet import Wallet
 from .wallet_log import WalletLog

@@ -53,3 +53,13 @@ services:
       - "./conf.d:/app/conf.d"
       - "./data:/app/data"
       - "./logs:/app/logs"
+
+  us_stock_data_sync:
+    build: .
+    ports:
+      - "16960:16960"
+    command: us_stock_data_sync start
+    volumes:
+      - "./conf.d:/app/conf.d"
+      - "./data:/app/data"
+      - "./logs:/app/logs"
