@@ -213,8 +213,8 @@ class BasicSortSignal(SortSignalBase):
         return pd.Series([1] * len(strategy.data.all_stock_ids), index=strategy.data.all_stock_ids)
 
 
-class StrategyS1V1(SignalStrategyBase):
-    name = '策略 S1V1'
+class StrategyT1V1(SignalStrategyBase):
+    name = '策略 T1V1'
 
     buy_signals = [
         AndSignal(

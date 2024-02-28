@@ -1,4 +1,3 @@
-
 import pandas as pd
 from sqlalchemy import text
 
@@ -13,9 +12,11 @@ df = task_stock_tag_df[task_stock_tag_df['name'] == '個股']
 available_stock_ids = df['stock_id'].to_list()
 
 
-class StrategyS2V3(StrategyBase):
-    """"""
-    name = '策略 S2V3'
+class StrategyT2V2(StrategyBase):
+    """
+    新增牛市才買的規則
+    """
+    name = '策略 T2V2'
     params = dict(
         max_single_position_exposure=0.1,
         sma_short=20,
@@ -25,7 +26,7 @@ class StrategyS2V3(StrategyBase):
         top_mrs_num=50,
         market_over=100
     )
-    stabled = False
+    stabled = True
     available_stock_ids = available_stock_ids
 
     def init(self, data):
@@ -73,16 +74,9 @@ class StrategyS2V3(StrategyBase):
             for stock_id in target_list:
                 self.buy_next_day_market(stock_id)
 
-        if self.data.close['0050'].iloc[-1] >= self.data.open['0050'].iloc[-1]:
-            target_list = self.new_target_list([
-                self.close < sma_out.iloc[-1],
-            ], available_list=self.broker.holding_stock_ids)
-            for stock_id in target_list:
-                self.sell_next_day_market(stock_id, note=f'{self.growth_rate[stock_id] * 100:.2f}%')
+        target_list = self.new_target_list([
+            self.close < sma_out.iloc[-1],
+        ], available_list=self.broker.holding_stock_ids)
+        for stock_id in target_list:
+            self.sell_next_day_market(stock_id, note=f'{self.growth_rate[stock_id] * 100:.2f}%')
 
-        # target_list = self.new_target_list([
-        #     # self.close < sma_short.iloc[-1],
-        #     self.today - self.entry_date > pd.Timedelta(days=30),
-        # ], available_list=self.broker.holding_stock_ids)
-        # for stock_id in target_list:
-        #     self.sell_next_day_market(stock_id, note=f'{self.growth_rate[stock_id] * 100:.2f}%')

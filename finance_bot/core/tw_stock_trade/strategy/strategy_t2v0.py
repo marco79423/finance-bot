@@ -12,9 +12,9 @@ df = task_stock_tag_df[task_stock_tag_df['name'] == '個股']
 available_stock_ids = df['stock_id'].to_list()
 
 
-class StrategyS2V0(StrategyBase):
+class StrategyT2V0(StrategyBase):
     """參考 Ray 領導的第一個可用策略，同時也是第一次上線的版本"""
-    name = '策略 S2V0'
+    name = '策略 T2V0'
     params = dict(
         max_single_position_exposure=0.1,
         sma_short=20,

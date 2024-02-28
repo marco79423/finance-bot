@@ -11,8 +11,8 @@ task_stock_tag_df = pd.read_sql(
 df = task_stock_tag_df[task_stock_tag_df['name'] == '自選1']
 available_stock_ids = df['stock_id'].to_list()
 
-class StrategyS1V0(StrategyBase):
-    name = '策略 S1V0'
+class StrategyT1V0(StrategyBase):
+    name = '策略 T1V0'
     params = dict(
         max_single_position_exposure=0.1,
     )
