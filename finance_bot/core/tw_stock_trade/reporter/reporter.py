@@ -91,6 +91,24 @@ class Reporter:
             dash_table.DataTable(data=result_summaries, page_size=20, sort_action='native', sort_mode='multi'),
         )
 
+        fig = go.Figure(
+            data=[
+                go.Scatter(
+                    x=result.equity_curve_s.index,
+                    y=result.equity_curve_s,
+                    name=result.strategy_name,
+                ) for result in self.results
+            ],
+            layout=go.Layout(
+                xaxis_title='日期',
+                yaxis_title='權益',
+                xaxis_rangeslider_visible=False,
+            )
+        )
+        array.append(
+            dcc.Graph(figure=fig),
+        )
+
         signatures = [str(result.signature) for result in self.results]
         array.extend([
             html.Header(children=f'選擇策略：', style={'fontSize': '1.5em', 'fontWeight': '600'}),
