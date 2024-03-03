@@ -1,3 +1,5 @@
+import decimal
+
 import asyncio
 import click
 import rich
@@ -23,6 +25,17 @@ def create_tw_stock_trade_cli():
     def strategy():
         actions = asyncio.run(t.update_actions())
         rich.print(actions)
+
+    @tw_stock_trade.command('balance')
+    @click.argument('action', type=click.Choice(['inc', 'dec']))
+    @click.argument('amount', type=decimal.Decimal)
+    @click.argument('reason')
+    def balance(action, amount, reason):
+        match action:
+            case 'inc':
+                asyncio.run(t.increase_balance(amount, reason))
+            case 'dec':
+                asyncio.run(t.decrease_balance(amount, reason))
 
     @tw_stock_trade.group("broker")
     def broker():
