@@ -26,15 +26,15 @@ class TWStockActionRepository:
 
     @staticmethod
     async def set_actions(session: AsyncSession, actions):
-        async with session.begin():
+        await session.execute(
+            delete(TWStockAction)
+        )
+        if actions:
             await session.execute(
-                delete(TWStockAction)
+                insert(TWStockAction),
+                actions,
             )
-            if actions:
-                await session.execute(
-                    insert(TWStockAction),
-                    actions,
-                )
+        await session.commit()
 
     @staticmethod
     def sync_get_buy_actions(session):
@@ -46,11 +46,11 @@ class TWStockActionRepository:
 
     @staticmethod
     def sync_set_actions(session, actions):
-        with session.begin():
-            session.execute(
-                delete(TWStockAction)
-            )
-            session.execute(
-                insert(TWStockAction),
-                actions,
-            )
+        session.execute(
+            delete(TWStockAction)
+        )
+        session.execute(
+            insert(TWStockAction),
+            actions,
+        )
+        session.commit()

@@ -15,6 +15,6 @@ class SettingCryptoLoanRepository:
 
     @staticmethod
     async def set_amount(self, session: AsyncSession, amount):
-        async with session.begin():
-            setting_reserve_amount = await session.get(SettingCryptoLoan, self._note_id)
-            setting_reserve_amount.amount = amount
+        setting_reserve_amount = await session.get(SettingCryptoLoan, self._note_id)
+        setting_reserve_amount.amount = amount
+        await session.commit()

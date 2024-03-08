@@ -7,20 +7,20 @@ class TWStockBacktestResultRepository:
 
     @staticmethod
     async def add_result(session, signature, strategy_name, params, init_balance, final_balance, start_time, end_time):
-        async with session.begin():
-            session.add(TWStockBacktestResult(
-                signature=signature,
-                strategy_name=strategy_name,
-                params=params,
-                init_balance=init_balance,
-                final_balance=final_balance,
-                start_time=start_time,
-                end_time=end_time,
-            ))
+        session.add(TWStockBacktestResult(
+            signature=signature,
+            strategy_name=strategy_name,
+            params=params,
+            init_balance=init_balance,
+            final_balance=final_balance,
+            start_time=start_time,
+            end_time=end_time,
+        ))
+        await session.commit()
 
     @staticmethod
     async def get_result(session, signature):
-        return await  session.scalar(
+        return await session.scalar(
             select(TWStockBacktestResult)
             .where(TWStockBacktestResult.signature == signature)
             .limit(1)
@@ -29,16 +29,16 @@ class TWStockBacktestResultRepository:
     @staticmethod
     def sync_add_result(session, signature, strategy_name, params, init_balance, final_balance, start_time,
                               end_time):
-        with session.begin():
-            session.add(TWStockBacktestResult(
-                signature=signature,
-                strategy_name=strategy_name,
-                params=params,
-                init_balance=init_balance,
-                final_balance=final_balance,
-                start_time=start_time,
-                end_time=end_time,
-            ))
+        session.add(TWStockBacktestResult(
+            signature=signature,
+            strategy_name=strategy_name,
+            params=params,
+            init_balance=init_balance,
+            final_balance=final_balance,
+            start_time=start_time,
+            end_time=end_time,
+        ))
+        session.commit()
 
     @staticmethod
     def sync_get_result(session, signature):

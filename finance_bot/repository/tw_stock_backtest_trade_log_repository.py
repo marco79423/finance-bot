@@ -7,11 +7,11 @@ class TWStockBacktestTradeLogRepository:
 
     @staticmethod
     async def add_logs(session, trade_logs):
-        async with session.begin():
-            session.execute(
-                insert(TWStockBacktestTradeLog),
-                trade_logs,
-            )
+        session.execute(
+            insert(TWStockBacktestTradeLog),
+            trade_logs,
+        )
+        await session.commit()
 
     @staticmethod
     async def get_logs(session, signature):
@@ -24,11 +24,10 @@ class TWStockBacktestTradeLogRepository:
 
     @staticmethod
     def sync_add_logs(session, trade_logs):
-        with session.begin():
-            session.execute(
-                insert(TWStockBacktestTradeLog),
-                trade_logs,
-            )
+        session.execute(
+            insert(TWStockBacktestTradeLog),
+            trade_logs,
+        )
 
     @staticmethod
     def sync_get_logs(session, signature):
