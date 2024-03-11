@@ -124,11 +124,12 @@ class TWStockTrade(CoreBase):
             balance = await self._wallet_repo.get_balance(session, code=self.wallet_code)
             await infra.notifier.send(f'當前餘額 {int(balance)} 元')
 
-            # 委託賣股直到成交
-            sell_actions = await self._tw_stock_action_repo.get_sell_actions(session)
-            if sell_actions:
-                await infra.notifier.send('進行委託賣股直到成交')
-                for action in sell_actions:
+        # 委託賣股直到成交
+        sell_actions = await self._tw_stock_action_repo.get_sell_actions(session)
+        if sell_actions:
+            await infra.notifier.send('進行委託賣股直到成交')
+            for action in sell_actions:
+                async with infra.db.async_engine.begin():
                     result = await self.sell_market(
                         stock_id=action.stock_id,
                         shares=action.shares,
@@ -155,13 +156,14 @@ class TWStockTrade(CoreBase):
                         note=action.note
                     )
 
-                await infra.notifier.send(f'賣股後新餘額 {int(balance)} 元')
+            await infra.notifier.send(f'賣股後新餘額 {int(balance)} 元')
 
-            # 委託買股直到成交
-            buy_actions = await self._tw_stock_action_repo.get_buy_actions(session)
-            if buy_actions:
-                await infra.notifier.send('委託買股直到成交')
-                for action in buy_actions:
+        # 委託買股直到成交
+        buy_actions = await self._tw_stock_action_repo.get_buy_actions(session)
+        if buy_actions:
+            await infra.notifier.send('委託買股直到成交')
+            for action in buy_actions:
+                async with infra.db.async_engine.begin():
                     high_price = self._broker.get_today_high_price(action.stock_id)
                     possible_highest_cost = (
                                                     action.shares * high_price) + self._broker.commission_info.get_buy_commission(
@@ -179,26 +181,25 @@ class TWStockTrade(CoreBase):
                     )
 
                     balance -= result['total']
-                    async with AsyncSession(infra.db.async_engine) as session:
-                        await self._wallet_repo.set_balance(
-                            session=session,
-                            code=self.wallet_code,
-                            balance=balance,
-                            description=result['description']
-                        )
-                        await self._tw_stock_trade_log_repo.add_log(
-                            session=session,
-                            wallet_code=self.wallet_code,
-                            strategy_name=self.strategy.name,
-                            action='buy',
-                            stock_id=action.stock_id,
-                            shares=action.shares,
-                            price=result['avg_price'],
-                            fee=result['total_fee'],
-                            amount=result['total'],
-                            note=action.note
-                        )
-                await infra.notifier.send(f'買股新餘額 {int(balance)} 元')
+                    await self._wallet_repo.set_balance(
+                        session=session,
+                        code=self.wallet_code,
+                        balance=balance,
+                        description=result['description']
+                    )
+                    await self._tw_stock_trade_log_repo.add_log(
+                        session=session,
+                        wallet_code=self.wallet_code,
+                        strategy_name=self.strategy.name,
+                        action='buy',
+                        stock_id=action.stock_id,
+                        shares=action.shares,
+                        price=result['avg_price'],
+                        fee=result['total_fee'],
+                        amount=result['total'],
+                        note=action.note
+                    )
+            await infra.notifier.send(f'買股新餘額 {int(balance)} 元')
 
         await infra.notifier.send('執行交易成功')
         self.logger.info('執行交易成功 ...')

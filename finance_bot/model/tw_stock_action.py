@@ -8,7 +8,7 @@ class TWStockAction(Base):
 
     id = Column(BigInteger, primary_key=True, autoincrement=True, comment='ID')
     operation = Column(String(32), comment='操作')
-    stock_id = Column(String(32), primary_key=True, nullable=False, comment='股票 ID')
+    stock_id = Column(String(32), nullable=False, comment='股票 ID')
     shares = Column(Integer, nullable=False, comment='股')
     note = Column(String(32), nullable=False, comment='備註')
 
