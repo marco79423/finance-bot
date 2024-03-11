@@ -132,7 +132,7 @@ class TWStockTrade(CoreBase):
         if sell_actions:
             await infra.notifier.send('進行委託賣股直到成交')
             for action in sell_actions:
-                async with infra.db.async_engine.begin():
+                async with AsyncSession(infra.db.async_engine) as session, session.begin():
                     result = await self.sell_market(
                         stock_id=action.stock_id,
                         shares=action.shares,
@@ -166,7 +166,7 @@ class TWStockTrade(CoreBase):
         if buy_actions:
             await infra.notifier.send('委託買股直到成交')
             for action in buy_actions:
-                async with infra.db.async_engine.begin():
+                async with AsyncSession(infra.db.async_engine) as session, session.begin():
                     high_price = self._broker.get_today_high_price(action.stock_id)
                     possible_highest_cost = (
                                                     action.shares * high_price) + self._broker.commission_info.get_buy_commission(
