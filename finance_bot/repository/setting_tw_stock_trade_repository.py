@@ -16,4 +16,3 @@ class SettingTWStockTradeRepository:
     async def enable(self, session: AsyncSession):
         setting_tw_stock_trade = await session.get(SettingTWStockTrade, self._note_id)
         setting_tw_stock_trade.auto_trade_enabled = True
-        await session.commit()

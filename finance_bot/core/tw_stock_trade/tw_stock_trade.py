@@ -55,10 +55,12 @@ class TWStockTrade(CoreBase):
     async def increase_balance(self, amount, reason):
         async with AsyncSession(infra.db.async_engine) as session:
             await self._wallet_repo.increase_balance(session=session, code=self.wallet_code, amount=amount, description=reason)
+            await session.commit()
 
     async def decrease_balance(self, amount, reason):
         async with AsyncSession(infra.db.async_engine) as session:
             await self._wallet_repo.decrease_balance(session=session, code=self.wallet_code, amount=amount, description=reason)
+            await session.commit()
 
     async def _update_strategy_actions_handler(self, sub, data):
         await self.execute_task(
@@ -82,6 +84,7 @@ class TWStockTrade(CoreBase):
 
         async with AsyncSession(infra.db.async_engine) as session:
             await self._tw_stock_action_repo.set_actions(session, self.strategy.actions)
+            await session.commit()
         self.logger.info('開始更新策略行動成功')
         return self.strategy.actions
 

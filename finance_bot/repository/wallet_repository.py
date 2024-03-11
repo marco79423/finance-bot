@@ -23,7 +23,6 @@ class WalletRepository:
         ))
 
         wallet.balance = balance
-        await session.commit()
 
     @staticmethod
     async def increase_balance(session: AsyncSession, code, amount, description=''):
@@ -36,7 +35,6 @@ class WalletRepository:
             description=description,
         ))
         wallet.balance = wallet.balance + amount
-        await session.commit()
 
     @staticmethod
     async def decrease_balance(session: AsyncSession, code, amount, description=''):
@@ -49,7 +47,6 @@ class WalletRepository:
             description=description,
         ))
         wallet.balance = wallet.balance - amount
-        await session.commit()
 
     @staticmethod
     def sync_set_balance(session: Session, code, balance, description=''):
@@ -63,4 +60,3 @@ class WalletRepository:
         ))
 
         wallet.balance = balance
-        session.commit()

@@ -17,4 +17,3 @@ class SettingCryptoLoanRepository:
     async def set_amount(self, session: AsyncSession, amount):
         setting_reserve_amount = await session.get(SettingCryptoLoan, self._note_id)
         setting_reserve_amount.amount = amount
-        await session.commit()

@@ -11,7 +11,6 @@ class TWStockBacktestTradeLogRepository:
             insert(TWStockBacktestTradeLog),
             trade_logs,
         )
-        await session.commit()
 
     @staticmethod
     async def get_logs(session, signature):

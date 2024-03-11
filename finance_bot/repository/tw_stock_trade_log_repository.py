@@ -16,7 +16,6 @@ class TWStockTradeLogRepository:
             amount=amount,
             note=note,
         ))
-        await session.commit()
 
     @staticmethod
     def sync_add_log(session, wallet_code, strategy_name, action, stock_id, price, shares, fee, amount, note):
@@ -31,4 +30,3 @@ class TWStockTradeLogRepository:
             amount=amount,
             note=note,
         ))
-        session.commit()

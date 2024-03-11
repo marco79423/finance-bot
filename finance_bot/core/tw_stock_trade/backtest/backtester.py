@@ -205,7 +205,7 @@ class Backtester:
                 strategy.inter_handle()
 
             if strategy.stabled:
-                with Session(infra.db.engine) as session:
+                with infra.db.engine.begin() as session:
                     self._tw_stock_backtest_result_repo.sync_add_result(
                         session,
                         signature=signature,

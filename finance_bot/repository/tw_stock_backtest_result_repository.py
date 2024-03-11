@@ -16,7 +16,6 @@ class TWStockBacktestResultRepository:
             start_time=start_time,
             end_time=end_time,
         ))
-        await session.commit()
 
     @staticmethod
     async def get_result(session, signature):
@@ -38,7 +37,6 @@ class TWStockBacktestResultRepository:
             start_time=start_time,
             end_time=end_time,
         ))
-        session.commit()
 
     @staticmethod
     def sync_get_result(session, signature):

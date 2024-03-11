@@ -34,7 +34,6 @@ class TWStockActionRepository:
                 insert(TWStockAction),
                 actions,
             )
-        await session.commit()
 
     @staticmethod
     def sync_get_buy_actions(session):
@@ -53,4 +52,3 @@ class TWStockActionRepository:
             insert(TWStockAction),
             actions,
         )
-        session.commit()
