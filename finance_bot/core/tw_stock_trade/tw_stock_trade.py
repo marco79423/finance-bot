@@ -73,7 +73,7 @@ class TWStockTrade(CoreBase):
         )
 
     async def _execute_trades_handler(self, sub, data):
-        await self.execute_trades()
+        await self.execute_trade_task()
 
     async def update_actions(self):
         self.logger.info('開始更新策略行動 ...')
@@ -90,7 +90,7 @@ class TWStockTrade(CoreBase):
         self.logger.info('開始更新策略行動成功')
         return self.strategy.actions
 
-    async def execute_trades(self):
+    async def execute_trade_task(self):
         # 確認需不需要執行交易
         async with AsyncSession(infra.db.async_engine) as session:
             enabled = await self._setting_repo.is_auto_trade_enabled(session)
@@ -125,86 +125,97 @@ class TWStockTrade(CoreBase):
         self._broker.login()
 
         self.logger.info('開始執行交易 ...')
-        async with AsyncSession(infra.db.async_engine) as session:
-            balance = await self._wallet_repo.get_balance(session, code=self.wallet_code)
-            await infra.notifier.send(f'當前餘額 {int(balance)} 元')
+        try:
+            async with AsyncSession(infra.db.async_engine) as session:
+                await self._execute_sell_actions(session)
+                await self._execute_buy_actions(session)
+            self.logger.info('執行交易成功')
+            await infra.notifier.send('執行交易成功')
+        except:
+            self.logger.opt(exception=True).error('執行交易失敗')
+            raise ExecuteError()
 
-        # 委託賣股直到成交
+    async def _execute_sell_actions(self, session):
         sell_actions = await self._tw_stock_action_repo.get_sell_actions(session)
-        if sell_actions:
-            await infra.notifier.send('進行委託賣股直到成交')
-            for action in sell_actions:
-                async with AsyncSession(infra.db.async_engine) as session, session.begin():
-                    result = await self.sell_market(
-                        stock_id=action.stock_id,
-                        shares=action.shares,
-                        note=action.note
-                    )
-                    balance += result['total']
+        if not sell_actions:
+            return
 
-                    await self._wallet_repo.set_balance(
-                        session=session,
-                        code=self.wallet_code,
-                        balance=balance,
-                        description=result['description']
-                    )
-                    await self._tw_stock_trade_log_repo.add_log(
-                        session=session,
-                        wallet_code=self.wallet_code,
-                        strategy_name=self.strategy.name,
-                        action='sell',
-                        stock_id=action.stock_id,
-                        shares=action.shares,
-                        price=result['avg_price'],
-                        fee=result['total_fee'],
-                        amount=result['total'],
-                        note=action.note
-                    )
+        balance = await self._wallet_repo.get_balance(session, code=self.wallet_code)
+        await infra.notifier.send(f'進行委託賣股直到成交... [餘額 {int(balance)} 元]')
 
-            await infra.notifier.send(f'賣股後新餘額 {int(balance)} 元')
+        for action in sell_actions:
+            # 委託賣股直到成交
+            async with session.begin():
+                result = await self.sell_market(
+                    stock_id=action.stock_id,
+                    shares=action.shares,
+                    note=action.note
+                )
+                balance += result['total']
 
-        # 委託買股直到成交
+                await self._wallet_repo.set_balance(
+                    session=session,
+                    code=self.wallet_code,
+                    balance=balance,
+                    description=result['description']
+                )
+                await self._tw_stock_trade_log_repo.add_log(
+                    session=session,
+                    wallet_code=self.wallet_code,
+                    strategy_name=self.strategy.name,
+                    action='sell',
+                    stock_id=action.stock_id,
+                    shares=action.shares,
+                    price=result['avg_price'],
+                    fee=result['total_fee'],
+                    amount=result['total'],
+                    note=action.note
+                )
+        await infra.notifier.send(f'賣股成交完成 [餘額 {int(balance)} 元]')
+
+    async def _execute_buy_actions(self, session):
         buy_actions = await self._tw_stock_action_repo.get_buy_actions(session)
-        if buy_actions:
-            await infra.notifier.send('委託買股直到成交')
-            for action in buy_actions:
-                async with AsyncSession(infra.db.async_engine) as session, session.begin():
-                    possible_highest_cost = self.get_possible_highest_cost(
-                        stock_id=action.stock_id,
-                        shares=action.shares,
-                    )
-                    if balance < possible_highest_cost:
-                        break
+        if not buy_actions:
+            return
 
-                    result = await self.buy_market(
-                        stock_id=action.stock_id,
-                        shares=action.shares,
-                        note=action.note
-                    )
+        balance = await self._wallet_repo.get_balance(session, code=self.wallet_code)
+        await infra.notifier.send(f'進行委託買股直到成交... [餘額 {int(balance)} 元]')
+        for action in buy_actions:
+            # 委託買股直到成交
+            async with session.begin():
+                possible_highest_cost = self.get_possible_highest_cost(
+                    stock_id=action.stock_id,
+                    shares=action.shares,
+                )
+                if balance < possible_highest_cost:
+                    break
 
-                    balance -= result['total']
-                    await self._wallet_repo.set_balance(
-                        session=session,
-                        code=self.wallet_code,
-                        balance=balance,
-                        description=result['description']
-                    )
-                    await self._tw_stock_trade_log_repo.add_log(
-                        session=session,
-                        wallet_code=self.wallet_code,
-                        strategy_name=self.strategy.name,
-                        action='buy',
-                        stock_id=action.stock_id,
-                        shares=action.shares,
-                        price=result['avg_price'],
-                        fee=result['total_fee'],
-                        amount=result['total'],
-                        note=action.note
-                    )
-            await infra.notifier.send(f'買股新餘額 {int(balance)} 元')
+                result = await self.buy_market(
+                    stock_id=action.stock_id,
+                    shares=action.shares,
+                    note=action.note
+                )
 
-        await infra.notifier.send('執行交易成功')
-        self.logger.info('執行交易成功 ...')
+                balance -= result['total']
+                await self._wallet_repo.set_balance(
+                    session=session,
+                    code=self.wallet_code,
+                    balance=balance,
+                    description=result['description']
+                )
+                await self._tw_stock_trade_log_repo.add_log(
+                    session=session,
+                    wallet_code=self.wallet_code,
+                    strategy_name=self.strategy.name,
+                    action='buy',
+                    stock_id=action.stock_id,
+                    shares=action.shares,
+                    price=result['avg_price'],
+                    fee=result['total_fee'],
+                    amount=result['total'],
+                    note=action.note
+                )
+        await infra.notifier.send(f'買股成交完成 [餘額 {int(balance)} 元]')
 
     async def sell_market(self, stock_id, shares, note):
         message = f'賣 {stock_id} {shares} 股'
