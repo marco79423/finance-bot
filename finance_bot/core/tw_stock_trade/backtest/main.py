@@ -22,8 +22,7 @@ def main():
     )
 
     results = backtester.run(
-        init_balance=600000,
-        # init_balance=600000,
+        init_balance=500000,
         # start='2015-08-01',
         # end='2023-08-10',
 
