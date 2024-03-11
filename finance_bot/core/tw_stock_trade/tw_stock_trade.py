@@ -54,12 +54,14 @@ class TWStockTrade(CoreBase):
 
     async def increase_balance(self, amount, reason):
         async with AsyncSession(infra.db.async_engine) as session:
-            await self._wallet_repo.increase_balance(session=session, code=self.wallet_code, amount=amount, description=reason)
+            await self._wallet_repo.increase_balance(session=session, code=self.wallet_code, amount=amount,
+                                                     description=reason)
             await session.commit()
 
     async def decrease_balance(self, amount, reason):
         async with AsyncSession(infra.db.async_engine) as session:
-            await self._wallet_repo.decrease_balance(session=session, code=self.wallet_code, amount=amount, description=reason)
+            await self._wallet_repo.decrease_balance(session=session, code=self.wallet_code, amount=amount,
+                                                     description=reason)
             await session.commit()
 
     async def _update_strategy_actions_handler(self, sub, data):
@@ -167,13 +169,10 @@ class TWStockTrade(CoreBase):
             await infra.notifier.send('委託買股直到成交')
             for action in buy_actions:
                 async with AsyncSession(infra.db.async_engine) as session, session.begin():
-                    high_price = self._broker.get_today_high_price(action.stock_id)
-                    possible_highest_cost = (
-                                                    action.shares * high_price) + self._broker.commission_info.get_buy_commission(
-                        price=high_price,
-                        shares=action.shares
+                    possible_highest_cost = self.get_possible_highest_cost(
+                        stock_id=action.stock_id,
+                        shares=action.shares,
                     )
-
                     if balance < possible_highest_cost:
                         break
 
@@ -301,3 +300,11 @@ class TWStockTrade(CoreBase):
             total_fee=total_fee,
             description=message,
         )
+
+    def get_possible_highest_cost(self, stock_id, shares):
+        highest_price = self._broker.get_today_high_price(stock_id)
+        possible_highest_fee = self._broker.commission_info.get_buy_commission(
+            price=highest_price,
+            shares=shares
+        )
+        return (shares * highest_price) + possible_highest_fee
