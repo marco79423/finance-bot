@@ -134,7 +134,6 @@ class TWStockTrade(CoreBase):
             self.logger.opt(exception=True).error('執行交易失敗')
             raise ExecuteError()
 
-
     async def _execute_sell_actions(self):
         async with AsyncSession(infra.db.async_engine) as session:
             sell_actions = await self._tw_stock_action_repo.get_sell_actions(session)
