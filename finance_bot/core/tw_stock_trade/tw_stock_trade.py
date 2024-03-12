@@ -154,25 +154,24 @@ class TWStockTrade(CoreBase):
             balance += result['total']
 
             async with AsyncSession(infra.db.async_engine) as session:
-                async with session.begin():
-                    await self._wallet_repo.set_balance(
-                        session=session,
-                        code=self.wallet_code,
-                        balance=balance,
-                        description=result['description']
-                    )
-                    await self._tw_stock_trade_log_repo.add_log(
-                        session=session,
-                        wallet_code=self.wallet_code,
-                        strategy_name=self.strategy.name,
-                        action='sell',
-                        stock_id=stock_id,
-                        shares=shares,
-                        price=result['avg_price'],
-                        fee=result['total_fee'],
-                        amount=result['total'],
-                        note=note
-                    )
+                await self._wallet_repo.set_balance(
+                    session=session,
+                    code=self.wallet_code,
+                    balance=balance,
+                    description=result['description']
+                )
+                await self._tw_stock_trade_log_repo.add_log(
+                    session=session,
+                    wallet_code=self.wallet_code,
+                    strategy_name=self.strategy.name,
+                    action='sell',
+                    stock_id=stock_id,
+                    shares=shares,
+                    price=result['avg_price'],
+                    fee=result['total_fee'],
+                    amount=result['total'],
+                    note=note
+                )
         await infra.notifier.send(f'賣股成交完成 [餘額 {int(balance)} 元]')
 
     async def _execute_buy_actions(self):
@@ -199,25 +198,24 @@ class TWStockTrade(CoreBase):
             balance -= result['total']
 
             async with AsyncSession(infra.db.async_engine) as session:
-                async with session.begin():
-                    await self._wallet_repo.set_balance(
-                        session=session,
-                        code=self.wallet_code,
-                        balance=balance,
-                        description=result['description']
-                    )
-                    await self._tw_stock_trade_log_repo.add_log(
-                        session=session,
-                        wallet_code=self.wallet_code,
-                        strategy_name=self.strategy.name,
-                        action='buy',
-                        stock_id=stock_id,
-                        shares=shares,
-                        price=result['avg_price'],
-                        fee=result['total_fee'],
-                        amount=result['total'],
-                        note=note
-                    )
+                await self._wallet_repo.set_balance(
+                    session=session,
+                    code=self.wallet_code,
+                    balance=balance,
+                    description=result['description']
+                )
+                await self._tw_stock_trade_log_repo.add_log(
+                    session=session,
+                    wallet_code=self.wallet_code,
+                    strategy_name=self.strategy.name,
+                    action='buy',
+                    stock_id=stock_id,
+                    shares=shares,
+                    price=result['avg_price'],
+                    fee=result['total_fee'],
+                    amount=result['total'],
+                    note=note
+                )
         await infra.notifier.send(f'買股成交完成 [餘額 {int(balance)} 元]')
 
     async def sell_market(self, stock_id, shares, note):
