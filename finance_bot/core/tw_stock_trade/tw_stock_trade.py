@@ -172,6 +172,8 @@ class TWStockTrade(CoreBase):
                 amount=result['total'],
                 note=note
             )
+            await session.commit()
+
         await infra.notifier.send(f'賣股成交完成 [餘額 {int(balance)} 元]')
 
     async def _execute_buy_actions(self, session):
@@ -215,6 +217,7 @@ class TWStockTrade(CoreBase):
                 amount=result['total'],
                 note=note
             )
+            await session.commit()
         await infra.notifier.send(f'買股成交完成 [餘額 {int(balance)} 元]')
 
     async def sell_market(self, stock_id, shares, note):
