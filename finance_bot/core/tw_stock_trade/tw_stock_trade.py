@@ -1,6 +1,6 @@
+import asyncio
 import decimal
 
-import asyncio
 import uvicorn
 from shioaji.constant import Status
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -9,7 +9,7 @@ from finance_bot.core.base import CoreBase
 from finance_bot.core.exception import ExecuteError
 from finance_bot.core.tw_stock_data_sync import MarketData
 from finance_bot.core.tw_stock_trade.broker import SinoBroker
-from finance_bot.core.tw_stock_trade.strategy.strategy_t2v2 import StrategyT2V2
+from finance_bot.core.tw_stock_trade.strategy import StrategyT2V3
 from finance_bot.infrastructure import infra
 from finance_bot.repository import WalletRepository, TWStockTradeLogRepository, SettingTWStockTradeRepository, \
     TWStockActionRepository
@@ -18,7 +18,7 @@ from finance_bot.repository import WalletRepository, TWStockTradeLogRepository, 
 class TWStockTrade(CoreBase):
     name = 'tw_stock_trade'
 
-    strategy = StrategyT2V2()
+    strategy = StrategyT2V3()
     wallet_code = 'sinopac'
 
     def __init__(self):

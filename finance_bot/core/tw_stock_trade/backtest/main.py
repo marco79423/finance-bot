@@ -1,7 +1,8 @@
 from finance_bot.core.tw_stock_trade.backtest.backtester import Backtester
 from finance_bot.core.tw_stock_trade.backtest.utility import generate_strategy_configs
 from finance_bot.core.tw_stock_trade.reporter.reporter import Reporter
-from finance_bot.core.tw_stock_trade.strategy import StrategyT2V0, StrategyT2V1, StrategyT2V2, StrategyT2V3
+from finance_bot.core.tw_stock_trade.strategy import StrategyT2V0, StrategyT2V1, StrategyT2V2, StrategyT2V3, \
+    StrategyT2V4
 
 
 def main():
@@ -11,7 +12,8 @@ def main():
         (StrategyT2V0, {}),
         (StrategyT2V1, {}),
         (StrategyT2V2, {}),
-        (StrategyT2V3, {
+        (StrategyT2V3, {}),
+        (StrategyT2V4, {
             # 'max_single_position_exposure': 0.1,
             # 'sma_short': dict(min=5, max=60, step=5),
             # 'sma_long': dict(min=20, max=120, step=5),

@@ -2,7 +2,6 @@ import datetime as dt
 import hashlib
 import json
 import multiprocessing as mp
-import time
 import traceback
 from concurrent.futures import ProcessPoolExecutor
 
@@ -205,7 +204,7 @@ class Backtester:
                 strategy.inter_handle()
 
             if strategy.stabled:
-                with infra.db.engine.begin() as session:
+                with Session(infra.db.engine) as session:
                     self._tw_stock_backtest_result_repo.sync_add_result(
                         session,
                         signature=signature,
@@ -225,6 +224,7 @@ class Backtester:
                             ) for trade_log in broker.trade_logs
                         ]
                     )
+                    session.commit()
 
             message_conn.send(dict(
                 signature=signature,

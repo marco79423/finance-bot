@@ -12,13 +12,9 @@ df = task_stock_tag_df[task_stock_tag_df['name'] == '個股']
 available_stock_ids = df['stock_id'].to_list()
 
 
-class StrategyT2V3(StrategyBase):
-    """
-    新增兩個限制
-    * 大盤跌時不賣
-    * 成交量太少不買
-    """
-    name = '策略 T2V3'
+class StrategyT2V4(StrategyBase):
+    """"""
+    name = '策略 T2V4'
     params = dict(
         max_single_position_exposure=0.1,
         sma_short=20,
@@ -28,7 +24,7 @@ class StrategyT2V3(StrategyBase):
         top_mrs_num=50,
         market_over=100
     )
-    stabled = True
+    stabled = False
     available_stock_ids = available_stock_ids
 
     def init(self, data):
@@ -83,3 +79,10 @@ class StrategyT2V3(StrategyBase):
             ], available_list=self.broker.holding_stock_ids)
             for stock_id in target_list:
                 self.sell_next_day_market(stock_id, note=f'{self.growth_rate[stock_id] * 100:.2f}%')
+
+        # target_list = self.new_target_list([
+        #     # self.close < sma_short.iloc[-1],
+        #     self.today - self.entry_date > pd.Timedelta(days=30),
+        # ], available_list=self.broker.holding_stock_ids)
+        # for stock_id in target_list:
+        #     self.sell_next_day_market(stock_id, note=f'{self.growth_rate[stock_id] * 100:.2f}%')
