@@ -14,7 +14,15 @@ available_stock_ids = df['stock_id'].to_list()
 
 class StrategyT2V2(StrategyBase):
     """
-    新增牛市才買的規則
+    選股標準：
+    * 個股
+    * 收盤價大於 10
+    * 收盤價同時大於月均線和季均線
+    * 月營收三個月成長比率排名前 50 名
+    * 根據月營收三個月成長比率排名順序買股
+    * 大盤收盤價大於 100 日均線（牛市才買）
+    賣股標準：
+    * 若收盤價價低於月均線賣股
     """
     name = '策略 T2V2'
     params = dict(

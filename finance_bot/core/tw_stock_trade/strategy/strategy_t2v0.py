@@ -13,7 +13,17 @@ available_stock_ids = df['stock_id'].to_list()
 
 
 class StrategyT2V0(StrategyBase):
-    """參考 Ray 領導的第一個可用策略，同時也是第一次上線的版本"""
+    """
+    參考 Ray 領導的第一個可用策略，同時也是第一次上線的版本
+
+    選股標準：
+    * 個股
+    * 收盤價大於 10
+    * 收盤價同時大於月均線和季均線
+    * 根據月營收三個月成長比率排名順序買股
+    賣股標準：
+    * 若收盤價價低於月均線或入場超過 30 天賣股
+    """
     name = '策略 T2V0'
     params = dict(
         max_single_position_exposure=0.1,
