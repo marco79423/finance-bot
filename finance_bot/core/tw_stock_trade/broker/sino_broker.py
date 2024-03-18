@@ -23,11 +23,11 @@ class SinoBroker(BrokerBase):
 
     def refresh(self):
         super().refresh()
+        if self.is_login:
+            self.logout()
         self.login()
 
     def login(self):
-        self._shioaji_api = sj.Shioaji()
-
         self.logger.info('開始登入永豐證券 ...')
         self._shioaji_api.login(
             api_key=infra.conf.core.tw_stock_trade.shioaji.api_key,
@@ -52,6 +52,10 @@ class SinoBroker(BrokerBase):
 
         self.is_login = True
         self.logger.info('登入永豐證券成功')
+
+    def logout(self):
+        self._shioaji_api.logout()
+        self.is_login = False
 
     def get_positions(self):
         if not self.is_login:

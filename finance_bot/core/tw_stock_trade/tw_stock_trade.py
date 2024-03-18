@@ -83,6 +83,7 @@ class TWStockTrade(CoreBase):
         self.strategy.broker = self._broker
         self.strategy.pre_handle()
         self.strategy.inter_handle()
+        self._broker.logout()
 
         async with AsyncSession(infra.db.async_engine) as session:
             await self._tw_stock_action_repo.set_actions(session, self.strategy.actions)
@@ -134,6 +135,8 @@ class TWStockTrade(CoreBase):
         except:
             self.logger.opt(exception=True).error('執行交易失敗')
             raise ExecuteError()
+        finally:
+            self._broker.logout()
 
     async def _execute_sell_actions(self, session):
         sell_actions = await self._tw_stock_action_repo.get_sell_actions(session)
