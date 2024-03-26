@@ -27,7 +27,7 @@ def create_tw_stock_trade_cli():
         rich.print(actions)
 
     @tw_stock_trade.command('balance')
-    @click.argument('action', type=click.Choice(['inc', 'dec']))
+    @click.argument('action', type=click.Choice(['inc', 'dec', 'set']))
     @click.argument('amount', type=decimal.Decimal)
     @click.argument('reason')
     def balance(action, amount, reason):
@@ -36,6 +36,8 @@ def create_tw_stock_trade_cli():
                 asyncio.run(t.increase_balance(amount, reason))
             case 'dec':
                 asyncio.run(t.decrease_balance(amount, reason))
+            case 'set':
+                asyncio.run(t.set_balance(amount, reason))
 
     @tw_stock_trade.group("broker")
     def broker():

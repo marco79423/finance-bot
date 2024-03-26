@@ -64,6 +64,12 @@ class TWStockTrade(CoreBase):
                                                      description=reason)
             await session.commit()
 
+    async def set_balance(self, balance, reason):
+        async with AsyncSession(infra.db.async_engine) as session:
+            await self._wallet_repo.set_balance(session=session, code=self.wallet_code, balance=balance,
+                                                     description=reason)
+            await session.commit()
+
     async def _update_strategy_actions_handler(self, sub, data):
         await self.execute_task(
             f'最新策略行動更新',
