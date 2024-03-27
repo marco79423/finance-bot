@@ -223,7 +223,7 @@ class TWStockTrade(CoreBase):
                 shares=shares,
                 price=result['avg_price'],
                 fee=result['total_fee'],
-                amount=result['total'],
+                amount=-result['total'],
                 note=note
             )
             await session.commit()
