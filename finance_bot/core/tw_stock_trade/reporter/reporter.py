@@ -1,6 +1,8 @@
+import pandas as pd
 import plotly.graph_objects as go
 import plotly.subplots as sp
 import uvicorn
+import yfinance as yf
 from a2wsgi import WSGIMiddleware
 from dash import Dash, html, dash_table, dcc, callback, Output, Input, State
 from fastapi import FastAPI
@@ -56,6 +58,31 @@ class Reporter:
                 f'{result.annualized_return_rate_with_fee * 100:.2f}%',
             )
 
+        ticker = yf.Ticker('0050.TW')
+        market_df = ticker.history(start=pd.Timestamp(start_time), end=pd.Timestamp(end_time))
+        market_equity_s = market_df['Close'] * init_balance / market_df['Close'].iloc[0]
+        market_equity_s = market_equity_s.astype(int)
+        market_final_equity = market_equity_s.iloc[-1]
+        market_total_return = market_final_equity - init_balance
+        market_total_return_rate = market_total_return / init_balance
+        market_days = (pd.Timestamp(end_time) - pd.Timestamp(start_time)).days
+        hold_year = market_days / 365.25
+        market_annualized_return_rate = (1 + market_total_return_rate) ** (1 / hold_year) - 1
+
+        table.add_row(
+            '大盤',
+            '',
+            f'{market_final_equity} 元',
+            f'{market_total_return} 元',
+            f'{0} 元',
+            f'{market_days} 天',
+            f'{market_days:} 天',
+            f'100%',
+            f'x%',
+            f'{market_total_return_rate * 100:.2f}%',
+            f'{market_annualized_return_rate * 100:.2f}%',
+        )
+
         console.print(table)
 
     def serve(self):
@@ -87,6 +114,35 @@ class Reporter:
                 '年化報酬率(含手續費)': f'{result.annualized_return_rate_with_fee * 100:.2f}%',
             } for result in self.results
         ]
+
+        ticker = yf.Ticker('0050.TW')
+        market_df = ticker.history(start=start_time, end=end_time)
+        market_equity_s = market_df['Close'] * (init_funds / market_df['Close'].iloc[0])
+        market_equity_s = market_equity_s.astype(int)
+        market_final_equity = market_equity_s.iloc[-1]
+        market_total_return = market_final_equity - init_funds
+        market_total_return_rate = market_total_return / init_funds
+        market_days = (pd.Timestamp(end_time) - pd.Timestamp(start_time)).days
+        hold_year = market_days / 365.25
+        market_annualized_return_rate = (1 + market_total_return_rate) ** (1 / hold_year) - 1
+
+        result_summaries.append({
+            'Sig.': '0050',
+            '策略': '大盤',
+            '參數': '',
+            '最終本金': f'{market_final_equity} 元',
+            '最終權益': f'{market_final_equity} 元',
+            '總獲利(含手續費)': f'{market_total_return} 元',
+            '手續費': f'{0} 元',
+            '平均天數': f'{market_days:.1f} 天',
+            '最短天數': f'{market_days:.1f} 天',
+            '最長天數': f'{market_days:.1f} 天',
+            '勝率': f'{100:.2f}%',
+            'MDD': f'{0 * 100:.2f}%',
+            '總報酬率': f'{market_total_return_rate * 100:.2f}%',
+            '年化報酬率(含手續費)': f'{market_annualized_return_rate * 100:.2f}%',
+        })
+
         array.append(
             dash_table.DataTable(data=result_summaries, page_size=20, sort_action='native', sort_mode='multi'),
         )
@@ -98,6 +154,12 @@ class Reporter:
                     y=result.equity_curve_s,
                     name=result.strategy_name,
                 ) for result in self.results
+            ] + [
+                go.Scatter(
+                    x=market_equity_s.index,
+                    y=market_equity_s,
+                    name='大盤',
+                )
             ],
             layout=go.Layout(
                 xaxis_title='日期',

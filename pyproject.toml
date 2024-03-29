@@ -35,6 +35,7 @@ dependencies = [
     "trogon==0.5.0",
     'a2wsgi==1.9.0',
     'snowflake-id==0.0.5',
+    'yfinance==0.2.37',
 ]
 
 [project.optional-dependencies]
