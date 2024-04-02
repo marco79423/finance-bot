@@ -10,17 +10,17 @@
 	WindowCount = '0'
 
 [Wsp\Window_0]
-	ContainerHeight = '868'
+	ContainerHeight = '575'
 	ContainerWidth = '1750'
 	Flags = '2'
-	Height = '680'
-	Left = '85'
+	Height = '608'
+	Left = '93'
 	MinX = '-1'
 	MinY = '-1'
 	State = '3'
-	Top = '53'
+	Top = '46'
 	ViewType = '0'
-	Width = '2124'
+	Width = '1940'
 
 [Wsp\Window_0\ChartManager]
 	ChartCount = '2'
@@ -74,9 +74,9 @@
 	ExpirationDate = '0'
 	FieldId = '201'
 	FieldName = '成交價'
-	FinishDate2Id = '45347'
+	FinishDate2Id = '45384'
 	FinishDate2Name = ''
-	FinishDateId = '45347'
+	FinishDateId = '45384'
 	FinishDateName = ''
 	FootPrintChartType = '0'
 	KagiReversal = '0,1'
@@ -109,7 +109,7 @@
 	ShowPhantomBars = '1'
 	ShowRealOpen = '0'
 	ShowWick = '0'
-	StartDateId = '42251'
+	StartDateId = '42008'
 	StartDateName = ''
 	StrikePrice = ''
 	Symbol = 'U-BTCUSDT'
@@ -138,8 +138,8 @@
 	ManualMode = '0'
 	MarginBottom = '5'
 	MarginTop = '5'
-	Maximum = '53714,4611111111'
-	Minimum = '41243,2388888889'
+	Maximum = '53234,1333333333'
+	Minimum = '50369,4666666667'
 	MovementSize.Long = '1'
 	MovementSize.Metric = 'False'
 	MovementSize.Price = '5'
@@ -1526,8 +1526,8 @@
 	ManualMode = '0'
 	MarginBottom = '5'
 	MarginTop = '5'
-	Maximum = '53714,4611111111'
-	Minimum = '41243,2388888889'
+	Maximum = '53234,1333333333'
+	Minimum = '50369,4666666667'
 	MovementSize.Long = '1'
 	MovementSize.Metric = 'False'
 	MovementSize.Price = '5'
@@ -1657,8 +1657,8 @@
 	ManualMode = '0'
 	MarginBottom = '5'
 	MarginTop = '5'
-	Maximum = '53714,4611111111'
-	Minimum = '41243,2388888889'
+	Maximum = '53234,1333333333'
+	Minimum = '50369,4666666667'
 	MovementSize.Long = '1'
 	MovementSize.Metric = 'False'
 	MovementSize.Price = '5'
@@ -1785,8 +1785,8 @@
 	ManualMode = '0'
 	MarginBottom = '5'
 	MarginTop = '5'
-	Maximum = '1047944452,77778'
-	Minimum = '-43994002,7777778'
+	Maximum = '612020118,888889'
+	Minimum = '-15225058,8888889'
 	MovementSize.Long = '1'
 	MovementSize.Metric = 'False'
 	MovementSize.Price = '5'
@@ -1850,9 +1850,9 @@
 	Type = '4'
 
 [Wsp\Window_0\ChartManager\IndexViewCalc]
-	BarSpacing = '3'
+	BarSpacing = '8'
 	BarsToRight = '10'
-	BarsToRightValue = '55'
+	BarsToRightValue = '21'
 	ChartShiftViewType = '0'
 	ShowEmptyPeriod = '0'
 
@@ -2062,7 +2062,7 @@
 
 [Wsp\Window_0\ChartManager\OptimizeManager\OptimizeManager\ClassicOptimizer\ClassicOtimizer]
 	OptReportExist = '0'
-	ReportFilePath = ''
+	ReportFilePath = 'C:\Users\marco\Documents\Optimization KWBINANCE64 加密貨幣 U-BTCUSDT BINANCE 60 Minutes 20240327-083547.MCReport'
 
 [Wsp\Window_0\ChartManager\OptimizeManager\OptimizeManager\MOOptimizer\MO]
 	MOReportExist = '0'
@@ -2078,13 +2078,13 @@
 	WFIntervalType = '0'
 
 [Wsp\Window_0\ChartManager\OptimizeManager\OptimizeManager\WFOptimizer\WFO]
-	IS_size = '10'
+	IS_size = '53196'
 	IntervalType = '0'
 	IsAnchored = '0'
-	IsDefaultInitNeeded = '1'
+	IsDefaultInitNeeded = '0'
 	Num_of_Runs = '5'
 	OOS_Size_Type = '0'
-	OOS_size = '10'
+	OOS_size = '5319'
 	ReportFilePath = ''
 	Segment_type = '1'
 	WFReportExist = '0'
@@ -2253,8 +2253,8 @@
 	isStatusWindowShow = '1'
 
 [Wsp\Window_0\ChartManager\Strategy\SignalObject_0]
-	IdName = 'sb_MovAvgb20Crossb20LE'
-	Status = '1'
+	IdName = 's_strategy_s2v0'
+	Status = '0'
 
 [Wsp\Window_0\ChartManager\Strategy\SignalObject_0\SignalHelper]
 	CalcRTAsHistory = '1'
@@ -2265,24 +2265,21 @@
 	TimesPerBar = '1'
 	UseFreshSnapOnAdditionalDS = '0'
 
-[Wsp\Window_0\ChartManager\Strategy\SignalObject_0\SignalHelper\InputHelper\Input_ConfirmBars]
-	IsInputOptimizable = '0'
-	LocalCurrentValue2 = '1'
-	Start2 = '1'
-	Step2 = '1'
-	Stop2 = '1'
-	Value = '1'
-
-[Wsp\Window_0\ChartManager\Strategy\SignalObject_0\SignalHelper\InputHelper\Input_Length]
-	IsInputOptimizable = '0'
+[Wsp\Window_0\ChartManager\Strategy\SignalObject_0\SignalHelper\InputHelper\Input_LELength]
+	IsInputOptimizable = '1'
 	LocalCurrentValue2 = '20'
 	Start2 = '5'
-	Step2 = '1'
-	Stop2 = '100'
+	Step2 = '5'
+	Stop2 = '1000'
 	Value = '20'
 
-[Wsp\Window_0\ChartManager\Strategy\SignalObject_0\SignalHelper\InputHelper\Input_Price]
-	Value = 'close'
+[Wsp\Window_0\ChartManager\Strategy\SignalObject_0\SignalHelper\InputHelper\Input_SELength]
+	IsInputOptimizable = '1'
+	LocalCurrentValue2 = '100'
+	Start2 = '5'
+	Step2 = '5'
+	Stop2 = '1000'
+	Value = '100'
 
 [Wsp\Window_0\ChartManager\Strategy\SignalObject_0\SignalHelper\Styles\OrderType: Buy Entry\ArrowProps]
 	Color = '16711680'
@@ -2429,7 +2426,7 @@
 	Width = '2'
 
 [Wsp\Window_0\ChartManager\Strategy\SignalObject_1]
-	IdName = 'sb_MovAvgb20Crossb20SE'
+	IdName = 's_strategy_s2v1'
 	Status = '1'
 
 [Wsp\Window_0\ChartManager\Strategy\SignalObject_1\SignalHelper]
@@ -2441,24 +2438,29 @@
 	TimesPerBar = '1'
 	UseFreshSnapOnAdditionalDS = '0'
 
-[Wsp\Window_0\ChartManager\Strategy\SignalObject_1\SignalHelper\InputHelper\Input_ConfirmBars]
+[Wsp\Window_0\ChartManager\Strategy\SignalObject_1\SignalHelper\InputHelper\Input_AcceptLossRate]
 	IsInputOptimizable = '0'
-	LocalCurrentValue2 = '1'
+	LocalCurrentValue2 = '5'
 	Start2 = '1'
 	Step2 = '1'
-	Stop2 = '1'
-	Value = '1'
+	Stop2 = '100'
+	Value = '4'
 
-[Wsp\Window_0\ChartManager\Strategy\SignalObject_1\SignalHelper\InputHelper\Input_Length]
-	IsInputOptimizable = '1'
-	LocalCurrentValue2 = '100'
+[Wsp\Window_0\ChartManager\Strategy\SignalObject_1\SignalHelper\InputHelper\Input_LELength]
+	IsInputOptimizable = '0'
+	LocalCurrentValue2 = '20'
 	Start2 = '100'
-	Step2 = '1'
-	Stop2 = '1000'
-	Value = '100'
+	Step2 = '5'
+	Stop2 = '500'
+	Value = '20'
 
-[Wsp\Window_0\ChartManager\Strategy\SignalObject_1\SignalHelper\InputHelper\Input_Price]
-	Value = 'close'
+[Wsp\Window_0\ChartManager\Strategy\SignalObject_1\SignalHelper\InputHelper\Input_SELength]
+	IsInputOptimizable = '1'
+	LocalCurrentValue2 = '395'
+	Start2 = '100'
+	Step2 = '5'
+	Stop2 = '500'
+	Value = '395'
 
 [Wsp\Window_0\ChartManager\Strategy\SignalObject_1\SignalHelper\Styles\OrderType: Buy Entry\ArrowProps]
 	Color = '16711680'
@@ -2609,7 +2611,7 @@
 	Confirm = 'False'
 	NeedActivateAT = 'False'
 	Profile = 'Interactive Brokers'
-	StrategyName = 'MovAvg Cross LE; MovAvg Cross SE'
+	StrategyName = 'strategy_s2v1'
 	SymbolName = 'U-BTCUSDT - 60 分鐘 - KWBINANCE64'
 
 [Wsp\Window_0\ChartManager\Strategy\StrategyHelper\OptimizerProperties\Algorithm_0]
@@ -2849,8 +2851,8 @@ The reserved words supported in Portfolio optimization:
 	Currency = '0'
 	DollarsPerTrade = '10000'
 	EnablePositionLimit = '0'
-	FixedContracts = '1'
-	InitCapital = '100000'
+	FixedContracts = '200'
+	InitCapital = '10000000'
 	InterestRate = '0'
 	LIBEnabled = '0'
 	LIBSize = '1'
