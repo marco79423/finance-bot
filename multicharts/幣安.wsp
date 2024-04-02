@@ -74,9 +74,9 @@
 	ExpirationDate = '0'
 	FieldId = '201'
 	FieldName = '成交價'
-	FinishDate2Id = '45369'
+	FinishDate2Id = '45384'
 	FinishDate2Name = ''
-	FinishDateId = '45369'
+	FinishDateId = '45384'
 	FinishDateName = ''
 	FootPrintChartType = '0'
 	KagiReversal = '0,1'
@@ -138,8 +138,8 @@
 	ManualMode = '0'
 	MarginBottom = '5'
 	MarginTop = '5'
-	Maximum = '74959,5333333333'
-	Minimum = '50468,1819444444'
+	Maximum = '75659,9888888889'
+	Minimum = '40088,2111111111'
 	MovementSize.Long = '1'
 	MovementSize.Metric = 'False'
 	MovementSize.Price = '5'
@@ -1526,8 +1526,8 @@
 	ManualMode = '0'
 	MarginBottom = '5'
 	MarginTop = '5'
-	Maximum = '74959,5333333333'
-	Minimum = '50468,1819444444'
+	Maximum = '75659,9888888889'
+	Minimum = '40088,2111111111'
 	MovementSize.Long = '1'
 	MovementSize.Metric = 'False'
 	MovementSize.Price = '5'
@@ -1657,8 +1657,8 @@
 	ManualMode = '0'
 	MarginBottom = '5'
 	MarginTop = '5'
-	Maximum = '74959,5333333333'
-	Minimum = '50468,1819444444'
+	Maximum = '75659,9888888889'
+	Minimum = '40088,2111111111'
 	MovementSize.Long = '1'
 	MovementSize.Metric = 'False'
 	MovementSize.Price = '5'
@@ -1785,8 +1785,8 @@
 	ManualMode = '0'
 	MarginBottom = '5'
 	MarginTop = '5'
-	Maximum = '2440981931,11111'
-	Minimum = '-128471691,111111'
+	Maximum = '2440392935'
+	Minimum = '-117280765'
 	MovementSize.Long = '1'
 	MovementSize.Metric = 'False'
 	MovementSize.Price = '5'
@@ -1850,9 +1850,9 @@
 	Type = '4'
 
 [Wsp\Window_0\ChartManager\IndexViewCalc]
-	BarSpacing = '3'
+	BarSpacing = '1'
 	BarsToRight = '10'
-	BarsToRightValue = '55'
+	BarsToRightValue = '165'
 	ChartShiftViewType = '0'
 	ShowEmptyPeriod = '0'
 
@@ -2345,7 +2345,7 @@
 	isStatusWindowShow = '1'
 
 [Wsp\Window_0\ChartManager\Strategy\SignalObject_0]
-	IdName = 's_strategy_s2v0'
+	IdName = 's_strategy_s2v1'
 	Status = '1'
 
 [Wsp\Window_0\ChartManager\Strategy\SignalObject_0\SignalHelper]
@@ -2356,6 +2356,14 @@
 	IOGTypeExit = '1'
 	TimesPerBar = '1'
 	UseFreshSnapOnAdditionalDS = '0'
+
+[Wsp\Window_0\ChartManager\Strategy\SignalObject_0\SignalHelper\InputHelper\Input_AcceptLossRate]
+	IsInputOptimizable = '1'
+	LocalCurrentValue2 = '4'
+	Start2 = '4'
+	Step2 = '1'
+	Stop2 = '4'
+	Value = '4'
 
 [Wsp\Window_0\ChartManager\Strategy\SignalObject_0\SignalHelper\InputHelper\Input_LELength]
 	IsInputOptimizable = '1'
@@ -2518,11 +2526,11 @@
 	Width = '2'
 
 [Wsp\Window_0\ChartManager\Strategy\StrategyATPersistHelper]
-	ATOn = 'True'
+	ATOn = 'False'
 	Confirm = 'False'
 	NeedActivateAT = 'False'
 	Profile = '幣安串接下單機'
-	StrategyName = 'strategy_s2v0'
+	StrategyName = 'strategy_s2v1'
 	SymbolName = 'U-BTCUSDT - 60 分鐘 - KWBINANCE64'
 
 [Wsp\Window_0\ChartManager\Strategy\StrategyHelper\OptimizerProperties\Algorithm_0]
@@ -2763,7 +2771,7 @@ The reserved words supported in Portfolio optimization:
 	DollarsPerTrade = '10000'
 	EnablePositionLimit = '0'
 	FixedContracts = '200'
-	InitCapital = '1000000'
+	InitCapital = '10000000'
 	InterestRate = '0'
 	LIBEnabled = '0'
 	LIBSize = '1'
