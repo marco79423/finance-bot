@@ -193,7 +193,10 @@ class CryptoLoan(CoreBase):
             lending_amount += credit_record.amount
             daily_earn += credit_record.daily_earn
 
-        average_rate = daily_earn / lending_amount
+        if lending_amount != 0:
+            average_rate = daily_earn / lending_amount
+        else:
+            average_rate = 0
 
         return {
             'lending_amount': lending_amount,
