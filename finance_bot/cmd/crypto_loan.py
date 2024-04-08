@@ -24,4 +24,15 @@ def create_crypto_loan_cli():
         for record in sorted(records, key=lambda r: r.end):
             print('金額：{amount:.2f}\t利率：{current_rate:.6f}%\t到期 {end}\t剩下 {last_time}'.format(**record.json()))
 
+    @crypto_loan.command('status')
+    def get_records():
+        status = asyncio.run(cl.get_stats())
+        status = {
+            **status,
+            'average_rate': status['average_rate'] * 100
+        }
+
+        print('總借出: {lending_amount:.2f}'.format(**status))
+        print('預估日收益: {daily_earn:.2f} (平均利率: {average_rate:.6f}%)'.format(**status))
+
     return crypto_loan
