@@ -1,8 +1,10 @@
 import asyncio
 import decimal
 
+import pandas as pd
 import uvicorn
 from shioaji.constant import Status
+from sqlalchemy import text
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from finance_bot.core.base import CoreBase
@@ -104,6 +106,18 @@ class TWStockTrade(CoreBase):
             if not enabled:
                 await infra.notifier.send(f'台股交易功能沒有啟動')
                 return
+
+        # 檢查是否異常
+        task_status_df = pd.read_sql(
+            sql=text("SELECT * FROM task_status"),
+            con=infra.db.engine,
+            dtype={
+                'is_error': bool,
+            }
+        )
+        if task_status_df['is_error'].any():
+            await infra.notifier.send(f'資料異常，台股交易功能停止交易')
+            return
 
         # 更新策略
         await self.update_actions()
