@@ -12,12 +12,8 @@ def main():
         (StrategyT2V0, {}),
         (StrategyT2V1, {}),
         (StrategyT2V2, {}),
-        (StrategyT2V3, {
-            # 'sma_short': dict(choices=[19,20]),
-            # 'sma_long': dict(choices=[59,60]),
-            # 'sma_out': dict(min=38, max=42, step=1),
-        }),
-        # (StrategyT2V4, {
+        (StrategyT2V3, {}),
+        (StrategyT2V4, {
         #     # 'sma_short': dict(min=18, max=22, step=1),
         #     # 'sma_long': dict(min=58, max=62, step=1),
         #     # 'sma_out': dict(min=38, max=42, step=1),
@@ -28,7 +24,7 @@ def main():
         #     # 'mrs_num': dict(choices=[90, 120]),
         #     # 'sma_out': dict(choices=[20, 40]),
         #     # 'market_over': dict(min=20, max=120, step=20),
-        # }),
+        }),
     )
 
     results = backtester.run(
