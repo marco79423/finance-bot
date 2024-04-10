@@ -7,6 +7,14 @@ from finance_bot.model import USStock
 class USStockRepository:
     COMMIT_GROUP_SIZE = 1000
 
+    @staticmethod
+    async def add(session, stock_id, name, tracked=True):
+        session.add(USStock(
+            stock_id=stock_id,
+            name=name,
+            tracked=tracked,
+        ))
+
     async def set_stocks(self, session, stock_df):
         for _, group in stock_df.groupby(stock_df.index // self.COMMIT_GROUP_SIZE):
             for _, v in group.iterrows():
