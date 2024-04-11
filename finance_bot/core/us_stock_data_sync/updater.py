@@ -1,11 +1,10 @@
-import datetime as dt
-
 import pandas as pd
 import yfinance as yf
 from sqlalchemy import text
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from finance_bot.infrastructure import infra
+from finance_bot.model import USStockPrice
 from finance_bot.repository import USStockRepository
 
 
@@ -47,10 +46,35 @@ class USStockUpdater:
         return dict(total_count=total_count)
 
     async def update_prices_for_date(self, date=None):
-        pass
+        await self.update_prices_for_date_range(start=date, end=date)
 
-    async def update_prices_for_date_range(self, start=None, end=None, random_delay=True):
-        pass
+    async def update_prices_for_date_range(self, start=None, end=None):
+        stock_df = pd.read_sql(
+            sql=text("SELECT stock_id FROM us_stock WHERE tracked = 1"),
+            con=infra.db.engine,
+            index_col='stock_id',
+        )
+
+        for stock_id in stock_df.index:
+            ticker = yf.Ticker(stock_id)
+            df = ticker.history(start=start, end=end)
+            if df.empty:
+                continue
+
+            df = df.reset_index()
+            df = df.rename(columns={
+                'Date': 'date',
+                'Open': 'open',
+                'Close': 'close',
+                'High': 'high',
+                'Low': 'low',
+                'Volume': 'volume',
+            })
+            df['stock_id'] = stock_id
+            df = df[['stock_id', 'date', 'open', 'close', 'high', 'low', 'volume']]
+
+            async with AsyncSession(infra.db.async_engine) as session:
+                await infra.db.batch_insert_or_update(session, USStockPrice, df)
 
     async def rebuild_cache(self):
         # us_stock
@@ -72,18 +96,3 @@ class USStockUpdater:
             parse_dates=['date'],
         )
         infra.db_cache.save(key='us_stock_price', df=prices_df)
-
-    @staticmethod
-    async def crawl_price(date: dt.datetime):
-        pass
-
-    @staticmethod
-    def _get_df_value(df, possible_indexes, column_name='value'):
-        value = None
-        for possible_index in possible_indexes:
-            if value is None:
-                try:
-                    value = df.at[possible_index, column_name]
-                except KeyError:
-                    pass
-        return value

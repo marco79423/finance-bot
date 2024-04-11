@@ -26,6 +26,7 @@ class USStockDataSync(CoreBase):
     async def listen(self):
         await infra.mq.subscribe('us_stock_data_sync.update_us_stock', self._update_us_stock_handler)
         await infra.mq.subscribe('us_stock_data_sync.update_us_stock_prices', self._update_us_stock_prices_handler)
+        await infra.mq.subscribe('us_stock_data_sync.update_db_cache', self._update_db_cache_handler)
 
     async def _update_us_stock_handler(self, sub, data):
         await self.execute_task(
@@ -61,7 +62,6 @@ if __name__ == '__main__':
         bot = USStockDataSync()
         # bot.update_stocks()
         # bot.update_prices_for_date_range('2004-01-01', '2022-02-14')
-
 
 
     main()

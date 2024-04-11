@@ -6,13 +6,17 @@ core:
       update_status: '0 7 * * *'
     tw_stock_data_sync:
       update_tw_stock: '0 0 * * *'
-      update_tw_stock_prices: '0 0 * * *'
+      update_tw_stock_prices: '0 0 * * tue,wed,thu,fri,sat'
       update_monthly_revenue: '30 0 * * *'
       update_financial_statements: '0 1 * * *'
       update_db_cache: '0 6 * * *'
     tw_stock_trade:
       update_strategy_actions: '0 7 * * *'
       execute_trades: '0 9 * * mon,tue,wed,thu,fri'
+    us_stock_data_sync:
+      update_us_stock: '0 12 * * *'
+      update_us_stock_prices: '0 12 * * tue,wed,thu,fri,sat'
+      update_db_cache: '0 15 * * *'
     super_bot:
       send_daily_status:
         - '0 8 * * mon,tue,wed,thu,fri'

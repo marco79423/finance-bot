@@ -12,10 +12,10 @@ class USStockPrice(Base):
 
     stock_id = Column(String(32), primary_key=True, nullable=False, comment='股票 ID')
     date = Column(DateTime, primary_key=True, nullable=False, comment='時間')
-    open = Column(Numeric(precision=10, scale=4), comment='開盤價')
-    close = Column(Numeric(precision=10, scale=4), comment='收盤價')
-    high = Column(Numeric(precision=10, scale=4), comment='最高價')
-    low = Column(Numeric(precision=10, scale=4), comment='最低價')
+    open = Column(Numeric(precision=38, scale=18), comment='開盤價')
+    close = Column(Numeric(precision=38, scale=18), comment='收盤價')
+    high = Column(Numeric(precision=38, scale=18), comment='最高價')
+    low = Column(Numeric(precision=38, scale=18), comment='最低價')
     volume = Column(Integer, comment='成交股數')
 
     created_at = Column(DateTime, nullable=False, server_default=func.now())
