@@ -46,9 +46,9 @@ class USStockUpdater:
         return dict(total_count=total_count)
 
     async def update_prices_for_date(self, date=None):
-        await self.update_prices_for_date_range(start=date, end=date)
+        await self.update_prices_for_date_range(start=date, interval='1d')
 
-    async def update_prices_for_date_range(self, start=None, end=None):
+    async def update_prices_for_date_range(self, start=None, end=None, interval=None):
         stock_df = pd.read_sql(
             sql=text("SELECT stock_id FROM us_stock WHERE tracked = 1"),
             con=infra.db.engine,
@@ -57,7 +57,7 @@ class USStockUpdater:
 
         for stock_id in stock_df.index:
             ticker = yf.Ticker(stock_id)
-            df = ticker.history(start=start, end=end)
+            df = ticker.history(start=start, end=end, interval=interval)
             if df.empty:
                 continue
 
