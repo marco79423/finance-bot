@@ -142,8 +142,8 @@ class CryptoLoan(CoreBase):
             if balance_available - self.MAX_OFFER_AMOUNT < 150:
                 amount = balance_available
 
-            # 如果 FRR 比較好，優先 FRR
-            if strategy.rate < frr_rate:
+            # 如果 FRR 比較好，而且沒有 FRR 的訂單，優先 FRR
+            if strategy.rate < frr_rate and not await self.has_frr_offer():
                 resp = await self._client.rest.submit_funding_offer(
                     symbol='fUSD',
                     amount=amount,
