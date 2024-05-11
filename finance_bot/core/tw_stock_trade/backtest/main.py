@@ -1,19 +1,20 @@
 from finance_bot.core.tw_stock_trade.backtest.backtester import Backtester
 from finance_bot.core.tw_stock_trade.backtest.utility import generate_strategy_configs
 from finance_bot.core.tw_stock_trade.reporter.reporter import Reporter
-from finance_bot.core.tw_stock_trade.strategy import StrategyT2V0, StrategyT2V1, StrategyT2V2, StrategyT2V3, \
-    StrategyT2V4
+from finance_bot.core.tw_stock_trade.strategy import StrategyT2V3, StrategyT2V4, StrategyT2V5
 
 
 def main():
     backtester = Backtester()
 
     strategy_configs = generate_strategy_configs(
-        (StrategyT2V0, {}),
-        (StrategyT2V1, {}),
-        (StrategyT2V2, {}),
+        # (StrategyT2V0, {}),
+        # (StrategyT2V1, {}),
+        # (StrategyT2V2, {}),
         (StrategyT2V3, {}),
-        (StrategyT2V4, {
+        (StrategyT2V4, {}),
+        (StrategyT2V5, {
+            # 'b': dict(min=0.05, max=0.1, step=0.05),
         #     # 'sma_short': dict(min=18, max=22, step=1),
         #     # 'sma_long': dict(min=58, max=62, step=1),
         #     # 'sma_out': dict(min=38, max=42, step=1),

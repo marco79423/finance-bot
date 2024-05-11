@@ -12,7 +12,7 @@ df = task_stock_tag_df[task_stock_tag_df['name'] == '個股']
 available_stock_ids = df['stock_id'].to_list()
 
 
-class StrategyT2V4(StrategyBase):
+class StrategyT2V5(StrategyBase):
     """
     選股標準：
     * 個股
@@ -26,7 +26,7 @@ class StrategyT2V4(StrategyBase):
     * 大盤當日沒跌（大盤跌時不賣）
     * 若收盤價價低於月均線賣股或是持股超過 6 個月
     """
-    name = '策略 T2V4'
+    name = '策略 T2V5'
     params = dict(
         max_single_position_exposure=0.1,
         sma_short=20,
@@ -37,7 +37,7 @@ class StrategyT2V4(StrategyBase):
         market_over=100,
         long_num=6,
     )
-    stabled = True
+    stabled = False
     available_stock_ids = available_stock_ids
 
     def init(self, data):
