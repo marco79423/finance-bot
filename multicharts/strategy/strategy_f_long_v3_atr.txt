@@ -1,4 +1,4 @@
-//TXF 48 min
+//TXF 43 min
 inputs: Enabled(1), OrderSize(1);
 
 if Enabled = 0 then
@@ -23,25 +23,35 @@ end else begin
 	EntryHigh = 0;
 end;
 
-//Entry
 if MarketPosition = 0 then begin
 	vars: BuyCond(True);
 	BuyCond = not (OverMonth and 1200 < Time and Time < 1400);
 	BuyCond = BuyCond and not (0845 <= Time and Time <= 0847);
 	BuyCond = BuyCond and High > BBandUp;
 	BuyCond = BuyCond and Close > Open;
-	BuyCond = BuyCond and Close > HH; // test
+	BuyCond = BuyCond and Close > HH;
 	if BuyCond then
 		Buy ("LE") OrderSize contracts next bar market;
 
-end else if MarketPosition > 0 then begin
+end else begin
 	if OverMonth and 1200 < Time and Time < 1400 then begin
 		Sell ("LX_Settle") all contracts next bar market;
 	end;
 
 	if Close < EntryHigh - ATR * 2 then
 		Sell ("LX") all contracts next bar market;
-
-	if Close > BollingerBand(Close, KBar, 4) and Close < Low then
-	 	Sell ("LX_TooHigh") all contracts next bar market;
 end;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
