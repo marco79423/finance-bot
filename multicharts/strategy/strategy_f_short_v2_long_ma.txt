@@ -30,7 +30,7 @@ if MarketPosition = 0 then begin
 		SellShort ( "SE" ) OrderSize contracts next bar market;
 
 end else if MarketPosition = -1 then begin
-	if OverMonth and 1320 < Time and Time < 1430 then begin
+	if OverMonth and 1320 < Time and Time < 1400 then begin
 		BuyToCover ("SX_Settle") all contracts next bar market;
 	end;
 
