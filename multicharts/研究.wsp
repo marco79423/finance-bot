@@ -10,17 +10,17 @@
 	WindowCount = '0'
 
 [Wsp\Window_0]
-	ContainerHeight = '656'
+	ContainerHeight = '860'
 	ContainerWidth = '1750'
 	Flags = '2'
-	Height = '326'
-	Left = '20'
+	Height = '325'
+	Left = '21'
 	MinX = '-1'
 	MinY = '-1'
 	State = '3'
-	Top = '47'
+	Top = '46'
 	ViewType = '0'
-	Width = '1694'
+	Width = '1855'
 
 [Wsp\Window_0\ChartManager]
 	ChartCount = '2'
@@ -74,9 +74,9 @@
 	ExpirationDate = '0'
 	FieldId = '201'
 	FieldName = '成交價'
-	FinishDate2Id = '45438'
+	FinishDate2Id = '45465'
 	FinishDate2Name = ''
-	FinishDateId = '45438'
+	FinishDateId = '45465'
 	FinishDateName = ''
 	FootPrintChartType = '0'
 	KagiReversal = '10'
@@ -100,7 +100,7 @@
 	RequestOffline = '0'
 	ResolutionId = '2'
 	ResolutionName = '分鐘'
-	ResolutionSizeId = '16'
+	ResolutionSizeId = '4'
 	ResolutionSizeName = ''
 	SessionsId = '6795'
 	SessionsName = 'TXF.MXF.TXO.UDF.SPF|Session New'
@@ -138,8 +138,8 @@
 	ManualMode = '0'
 	MarginBottom = '5'
 	MarginTop = '5'
-	Maximum = '21503,4444444444'
-	Minimum = '21134,5555555556'
+	Maximum = '23275,2777777778'
+	Minimum = '22669,7222222222'
 	MovementSize.Long = '1'
 	MovementSize.Metric = 'False'
 	MovementSize.Price = '5'
@@ -1526,8 +1526,8 @@
 	ManualMode = '0'
 	MarginBottom = '5'
 	MarginTop = '5'
-	Maximum = '21503,4444444444'
-	Minimum = '21134,5555555556'
+	Maximum = '23275,2777777778'
+	Minimum = '22669,7222222222'
 	MovementSize.Long = '1'
 	MovementSize.Metric = 'False'
 	MovementSize.Price = '5'
@@ -1657,8 +1657,8 @@
 	ManualMode = '0'
 	MarginBottom = '5'
 	MarginTop = '5'
-	Maximum = '21503,4444444444'
-	Minimum = '21134,5555555556'
+	Maximum = '23275,2777777778'
+	Minimum = '22669,7222222222'
 	MovementSize.Long = '1'
 	MovementSize.Metric = 'False'
 	MovementSize.Price = '5'
@@ -1785,8 +1785,8 @@
 	ManualMode = '0'
 	MarginBottom = '5'
 	MarginTop = '5'
-	Maximum = '15140,5555555556'
-	Minimum = '-690,555555555556'
+	Maximum = '5869,61111111111'
+	Minimum = '-282,611111111111'
 	MovementSize.Long = '1'
 	MovementSize.Metric = 'False'
 	MovementSize.Price = '5'
@@ -1850,9 +1850,9 @@
 	Type = '4'
 
 [Wsp\Window_0\ChartManager\IndexViewCalc]
-	BarSpacing = '7'
+	BarSpacing = '5'
 	BarsToRight = '20'
-	BarsToRightValue = '44'
+	BarsToRightValue = '61'
 	ChartShiftViewType = '0'
 	ShowEmptyPeriod = '0'
 
@@ -2055,7 +2055,7 @@
 	Width = '1'
 
 [Wsp\Window_0\ChartManager\OptimizeManager\OptimizeManager]
-	OptimizeAlgorithm = '0'
+	OptimizeAlgorithm = '1'
 
 [Wsp\Window_0\ChartManager\OptimizeManager\OptimizeManager\AlgorithmGrouper\OptAlgorithmGrouper]
 	Group = '0'
@@ -2094,7 +2094,7 @@
 	Left Manual = '0'
 	Left Scale = '0'
 	Precise Marker = '1'
-	Right Characters = '10'
+	Right Characters = '12'
 	Right Manual = '0'
 	Right Scale = '1'
 	Time To Close = '1'
@@ -2309,22 +2309,6 @@
 	TimesPerBar = '1'
 	UseFreshSnapOnAdditionalDS = '0'
 
-[Wsp\Window_0\ChartManager\Strategy\SignalObject_0\SignalHelper\InputHelper\Input_C1]
-	IsInputOptimizable = '1'
-	LocalCurrentValue2 = '0'
-	Start2 = '100'
-	Step2 = '5'
-	Stop2 = '1000'
-	Value = '0'
-
-[Wsp\Window_0\ChartManager\Strategy\SignalObject_0\SignalHelper\InputHelper\Input_C2]
-	IsInputOptimizable = '0'
-	LocalCurrentValue2 = '0'
-	Start2 = '0'
-	Step2 = '1'
-	Stop2 = '0'
-	Value = '0'
-
 [Wsp\Window_0\ChartManager\Strategy\SignalObject_0\SignalHelper\InputHelper\Input_Enabled]
 	IsInputOptimizable = '0'
 	LocalCurrentValue2 = '1'
@@ -2335,11 +2319,11 @@
 
 [Wsp\Window_0\ChartManager\Strategy\SignalObject_0\SignalHelper\InputHelper\Input_OrderSize]
 	IsInputOptimizable = '0'
-	LocalCurrentValue2 = '2'
-	Start2 = '2'
+	LocalCurrentValue2 = '1'
+	Start2 = '1'
 	Step2 = '1'
-	Stop2 = '2'
-	Value = '2'
+	Stop2 = '1'
+	Value = '1'
 
 [Wsp\Window_0\ChartManager\Strategy\SignalObject_0\SignalHelper\Styles\OrderType: Buy Entry\ArrowProps]
 	Color = '16711680'
@@ -2491,7 +2475,7 @@
 	NeedActivateAT = 'False'
 	Profile = '凱衛串接下單機'
 	StrategyName = 'strategy_fx_test'
-	SymbolName = 'TXF1 - 16 分鐘 - KWAY64V2'
+	SymbolName = 'TXF1 - 4 分鐘 - KWAY64V2'
 
 [Wsp\Window_0\ChartManager\Strategy\StrategyHelper\OptimizerProperties\Algorithm_0]
 	CFFScriptGenetic = '// TODO: Enter your formula to replace the samples below 
@@ -2722,7 +2706,7 @@ The reserved words supported in Portfolio optimization:
 	BTOFAMode = '0'
 	BTOFAPoints = '0'
 	BTOFA_TIF = '1'
-	BarReference = '500'
+	BarReference = '1000'
 	BidIndex = '0'
 	CalcPnLInSymbolCurrency = '1'
 	CommisionType = '0'
@@ -2743,7 +2727,7 @@ The reserved words supported in Portfolio optimization:
 	MinimumContracts = '0'
 	PercentOfEquity = '5'
 	RoundDown = '1'
-	Slippage = '200'
+	Slippage = '400'
 	SlippageType = '2'
 	TradeSizeType = '1'
 
@@ -2802,10 +2786,7 @@ The reserved words supported in Portfolio optimization:
 	TIF = '1'
 
 [Wsp\Window_0\ChartManager\TradePanelPlaceholder\TradePanelObject\PerAccountSetting\Settings\Settings\Item_0\Second\TIFDate]
-	Ticks = '599266080000000000'
-
-[Wsp\Window_0\ChartManager\TradePanelPlaceholder\TradePanelObject\Window\AtmAutoApplyCtx\PropertyState]
-	Count = '0'
+	Ticks = '638544692084100000'
 
 [Wsp\Window_0\ChartManager\VolumeScale]
 	VolumeBarColor = '8421504'

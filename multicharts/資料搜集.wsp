@@ -1,7 +1,7 @@
 
 [Wsp]
-	(C2526AC1-535C-4a67-92B5-101E53EA9E4B) = '{0}{1}'
-	ActiveIndex = '0'
+	(C2526AC1-535C-4a67-92B5-101E53EA9E4B) = '{1}{0}'
+	ActiveIndex = '1'
 	MaximizedFlag = '0'
 	Version = '1'
 	WindowCount = '2'
@@ -10,15 +10,15 @@
 	WindowCount = '0'
 
 [Wsp\Window_0]
-	ContainerHeight = '727'
+	ContainerHeight = '856'
 	ContainerWidth = '1746'
 	Flags = '0'
-	Height = '242'
-	Left = '2'
+	Height = '284'
+	Left = '1'
 	MinX = '-1'
 	MinY = '-1'
 	State = '1'
-	Top = '243'
+	Top = '286'
 	ViewType = '0'
 	Width = '873'
 
@@ -53,7 +53,7 @@
 [Wsp\Window_0\ChartManager\Chart_0\Series_0\DataSeries\Request]
 	AnchorFinishDate = '0'
 	BackTypeId = '275'
-	BackTypeName = 'Ticks使用'
+	BackTypeName = '根K棒使用'
 	BreakOnSession = '1'
 	BuildDayFromMinutes = '0'
 	CallPut = '0'
@@ -74,9 +74,9 @@
 	ExpirationDate = '0'
 	FieldId = '201'
 	FieldName = '成交價'
-	FinishDate2Id = '45456'
+	FinishDate2Id = '45465'
 	FinishDate2Name = ''
-	FinishDateId = '45456'
+	FinishDateId = '45465'
 	FinishDateName = ''
 	FootPrintChartType = '0'
 	KagiReversal = '10'
@@ -98,8 +98,8 @@
 	RenkoBoxSize = '10'
 	RenkoBoxSizeType = '0'
 	RequestOffline = '0'
-	ResolutionId = '1'
-	ResolutionName = 'Tick'
+	ResolutionId = '2'
+	ResolutionName = '分鐘'
 	ResolutionSizeId = '1'
 	ResolutionSizeName = ''
 	SessionsId = '6795'
@@ -138,8 +138,8 @@
 	ManualMode = '0'
 	MarginBottom = '5'
 	MarginTop = '5'
-	Maximum = '68833,8111111111'
-	Minimum = '68197,5888888889'
+	Maximum = '64213,8333333333'
+	Minimum = '64081,1666666667'
 	MovementSize.Long = '1'
 	MovementSize.Metric = 'False'
 	MovementSize.Price = '5'
@@ -1318,7 +1318,7 @@
 	Width = '1'
 
 [Wsp\Window_0\ChartManager\Chart_0\Series_0\Styler\SymbolType]
-	ChartType = '1'
+	ChartType = '3'
 	SelectedBarTypeByChart = '4294967295:5 1:5 3:3 2147483647:5 '
 
 [Wsp\Window_0\ChartManager\Chart_0\Series_0\Styler\TPOOptions]
@@ -1688,13 +1688,13 @@
 	WFIntervalType = '0'
 
 [Wsp\Window_0\ChartManager\OptimizeManager\OptimizeManager\WFOptimizer\WFO]
-	IS_size = '6890'
+	IS_size = '10'
 	IntervalType = '0'
 	IsAnchored = '0'
-	IsDefaultInitNeeded = '0'
+	IsDefaultInitNeeded = '1'
 	Num_of_Runs = '5'
 	OOS_Size_Type = '0'
-	OOS_size = '689'
+	OOS_size = '10'
 	ReportFilePath = ''
 	Segment_type = '1'
 	WFReportExist = '0'
@@ -1912,7 +1912,7 @@
 	NeedActivateAT = 'False'
 	Profile = '幣安串接下單機'
 	StrategyName = ''
-	SymbolName = 'U-BTCUSDT - 1 Tick - KWBINANCE64'
+	SymbolName = 'U-BTCUSDT - 1 分鐘 - KWBINANCE64'
 
 [Wsp\Window_0\ChartManager\Strategy\StrategyHelper\OptimizerProperties\Algorithm_0]
 	CFFScriptGenetic = '// TODO: Enter your formula to replace the samples below 
@@ -2223,10 +2223,7 @@ The reserved words supported in Portfolio optimization:
 	TIF = '4'
 
 [Wsp\Window_0\ChartManager\TradePanelPlaceholder\TradePanelObject\PerAccountSetting\Settings\Settings\Item_0\Second\TIFDate]
-	Ticks = '638539112400780000'
-
-[Wsp\Window_0\ChartManager\TradePanelPlaceholder\TradePanelObject\Window\AtmAutoApplyCtx\PropertyState]
-	Count = '0'
+	Ticks = '638544692076310000'
 
 [Wsp\Window_0\ChartManager\VolumeScale]
 	VolumeBarColor = '8421504'
@@ -2236,15 +2233,15 @@ The reserved words supported in Portfolio optimization:
 	VolumeRightScaleWidth = '50'
 
 [Wsp\Window_1]
-	ContainerHeight = '727'
+	ContainerHeight = '856'
 	ContainerWidth = '1746'
 	Flags = '0'
-	Height = '242'
-	Left = '2'
+	Height = '285'
+	Left = '1'
 	MinX = '-1'
 	MinY = '-1'
 	State = '1'
-	Top = '1'
+	Top = '0'
 	ViewType = '0'
 	Width = '873'
 
@@ -2279,7 +2276,7 @@ The reserved words supported in Portfolio optimization:
 [Wsp\Window_1\ChartManager\Chart_0\Series_0\DataSeries\Request]
 	AnchorFinishDate = '0'
 	BackTypeId = '275'
-	BackTypeName = 'Ticks使用'
+	BackTypeName = '根K棒使用'
 	BreakOnSession = '1'
 	BuildDayFromMinutes = '0'
 	CallPut = '0'
@@ -2300,9 +2297,9 @@ The reserved words supported in Portfolio optimization:
 	ExpirationDate = '0'
 	FieldId = '201'
 	FieldName = '成交價'
-	FinishDate2Id = '45456'
+	FinishDate2Id = '45465'
 	FinishDate2Name = ''
-	FinishDateId = '45456'
+	FinishDateId = '45465'
 	FinishDateName = ''
 	FootPrintChartType = '0'
 	KagiReversal = '10'
@@ -2324,8 +2321,8 @@ The reserved words supported in Portfolio optimization:
 	RenkoBoxSize = '10'
 	RenkoBoxSizeType = '0'
 	RequestOffline = '0'
-	ResolutionId = '1'
-	ResolutionName = 'Tick'
+	ResolutionId = '2'
+	ResolutionName = '分鐘'
 	ResolutionSizeId = '1'
 	ResolutionSizeName = ''
 	SessionsId = '6795'
@@ -2364,8 +2361,8 @@ The reserved words supported in Portfolio optimization:
 	ManualMode = '0'
 	MarginBottom = '5'
 	MarginTop = '5'
-	Maximum = '22321,3888888889'
-	Minimum = '22313,6111111111'
+	Maximum = '23036,5'
+	Minimum = '23006,5'
 	MovementSize.Long = '1'
 	MovementSize.Metric = 'False'
 	MovementSize.Price = '5'
@@ -3544,7 +3541,7 @@ The reserved words supported in Portfolio optimization:
 	Width = '1'
 
 [Wsp\Window_1\ChartManager\Chart_0\Series_0\Styler\SymbolType]
-	ChartType = '1'
+	ChartType = '3'
 	SelectedBarTypeByChart = '4294967295:5 1:5 3:3 2147483647:5 '
 
 [Wsp\Window_1\ChartManager\Chart_0\Series_0\Styler\TPOOptions]
@@ -4134,7 +4131,7 @@ The reserved words supported in Portfolio optimization:
 
 [Wsp\Window_1\ChartManager\Strategy\SignalObject_0]
 	IdName = 's_strategy_f_long_v1_maup'
-	Status = '1'
+	Status = '0'
 
 [Wsp\Window_1\ChartManager\Strategy\SignalObject_0\SignalHelper]
 	CalcRTAsHistory = '1'
@@ -4310,8 +4307,8 @@ The reserved words supported in Portfolio optimization:
 	Confirm = 'False'
 	NeedActivateAT = 'False'
 	Profile = '凱衛串接下單機'
-	StrategyName = 'strategy_f_long_v1_maup'
-	SymbolName = 'TXF1 - 1 Tick - KWAY64V2'
+	StrategyName = ''
+	SymbolName = 'TXF1 - 1 分鐘 - KWAY64V2'
 
 [Wsp\Window_1\ChartManager\Strategy\StrategyHelper\OptimizerProperties\Algorithm_0]
 	CFFScriptGenetic = '// TODO: Enter your formula to replace the samples below 
@@ -4622,10 +4619,7 @@ The reserved words supported in Portfolio optimization:
 	TIF = '4'
 
 [Wsp\Window_1\ChartManager\TradePanelPlaceholder\TradePanelObject\PerAccountSetting\Settings\Settings\Item_0\Second\TIFDate]
-	Ticks = '638539112404860000'
-
-[Wsp\Window_1\ChartManager\TradePanelPlaceholder\TradePanelObject\Window\AtmAutoApplyCtx\PropertyState]
-	Count = '0'
+	Ticks = '638544692081120000'
 
 [Wsp\Window_1\ChartManager\VolumeScale]
 	VolumeBarColor = '8421504'
