@@ -1,0 +1,53 @@
+// TXF AM 4min
+inputs: Enabled(1), OrderSize(1);
+
+if Enabled = 0 then
+	#Return;
+
+vars: OpenPrice(Open);
+if 0845 <= Time and Time <= 0850 then begin
+	OpenPrice = Open;
+end;
+
+vars: MaxOpenPositionProfit(0);
+if MarketPosition <> 0 then begin
+	if MaxOpenPositionProfit < OpenPositionProfit then
+		MaxOpenPositionProfit = OpenPositionProfit;
+end else begin
+	MaxOpenPositionProfit = 0;
+end;
+
+vars: EnvCond(False);
+EnvCond = True;
+
+
+if MarketPosition = 0 then begin
+	vars: ShortCond(True);
+	ShortCond = True;
+	ShortCond = ShortCond and (Month(Date) <> 1 and Month(Date) <> 2);
+	ShortCond = ShortCond and not (OverMonth and 1200 < Time and Time < 1400);
+	ShortCond = ShortCond and not (0845 <= Time and Time <= 0847);
+	ShortCond = ShortCond and High < OpenPrice;
+	ShortCond = ShortCond and Close < AverageFC(Close, 990);
+	ShortCond = ShortCond and Close < AverageFC(Close, 50);
+	ShortCond = ShortCond and Close = Lowest(Close, 15);
+	ShortCond = ShortCond and Ticks = Highest(Ticks, 130);
+	if ShortCond then
+		SellShort ( "SE" ) OrderSize contracts next bar market;
+end else if MarketPosition = -1 then begin
+	if OverMonth and 1200 < Time and Time < 1430 then begin
+		BuyToCover ("SX_Settle") all contracts next bar market;
+	end;
+
+	if OpenPositionProfit > 0 and OpenPositionProfit < MaxOpenPositionProfit - 35 * BigPointValue * OrderSize then begin
+		BuyToCover ("SX_Win") all contracts next bar market;
+	end;
+
+	if BarsSinceEntry > 230 then begin
+		BuyToCover ("SX_Run") all contracts next bar market;
+	end;
+
+	if OpenPositionProfit < -280 * BigPointValue * OrderSize then begin
+		BuyToCover ("SX_Stop") all contracts next bar market;
+	end;
+end;

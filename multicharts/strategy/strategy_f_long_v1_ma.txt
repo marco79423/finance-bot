@@ -1,0 +1,61 @@
+// TXF AM 4min
+inputs: Enabled(1), OrderSize(1);
+
+if Enabled = 0 then
+	#Return;
+
+vars: OpenPrice(Open);
+if 0845 <= Time and Time <= 0850 then begin
+	OpenPrice = Open;
+end;
+
+vars: MaxOpenPositionProfit(0);
+if MarketPosition <> 0 then begin
+	if MaxOpenPositionProfit < OpenPositionProfit then
+		MaxOpenPositionProfit = OpenPositionProfit;
+end else begin
+	MaxOpenPositionProfit = 0;
+end;
+
+vars: EnvCond(False);
+EnvCond = True;
+EnvCond = EnvCond and Close > OpenPrice;
+EnvCond = EnvCond and Close > AverageFC(Close, 70);
+EnvCond = EnvCond and Close > AverageFC(Close, 430);
+if EnvCond then begin
+	if MarketPosition = 0 then begin
+		vars: BuyCond(False);
+		BuyCond = not (OverMonth and 1200 < Time and Time < 1400);
+		BuyCond = BuyCond and not (0845 <= Time and Time <= 0847);
+		BuyCond = BuyCond and (Month(Date) <> 9 and Month(Date) <> 10);
+		BuyCond = BuyCond and Close > Open;
+		BuyCond = BuyCond and Close > AverageFC(Close, 4);
+		BuyCond = BuyCond and Close > AverageFC(Close, 13);
+		BuyCond = BuyCond and Ticks = Highest(Ticks, 2);
+		if BuyCond then begin
+			Buy ("LE") OrderSize contracts next bar market;
+		end;
+	end else begin
+		if OverMonth and 1200 < Time and Time < 1430 then begin
+			Sell ("LX_Settle") all contracts next bar market;
+		end;
+
+		if OpenPositionProfit > 0 and OpenPositionProfit < MaxOpenPositionProfit - 30 * BigPointValue * OrderSize then begin
+			Sell ("LX_Win") all contracts next bar market;
+		end;
+
+		if OpenPositionProfit < -455 * BigPointValue * OrderSize then begin
+			Sell ("LX_Stop") all contracts next bar market;
+		end;
+	end;
+end;
+
+
+
+
+
+
+
+
+
+
