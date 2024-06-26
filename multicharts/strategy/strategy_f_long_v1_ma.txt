@@ -1,4 +1,4 @@
-// TXF AM 4min
+// TXF 4min
 inputs: Enabled(1), OrderSize(1);
 
 if Enabled = 0 then
@@ -45,7 +45,7 @@ if EnvCond then begin
 		end;
 
 		if OpenPositionProfit < -455 * BigPointValue * OrderSize then begin
-			Sell ("LX_Stop") all contracts next bar market;
+			Sell ("LX_StopLoss") all contracts next bar market;
 		end;
 	end;
 end;

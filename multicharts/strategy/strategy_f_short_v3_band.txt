@@ -1,4 +1,4 @@
-// TXF AM 43min
+// TXF 43min
 inputs: Enabled(1), OrderSize(1);
 
 if Enabled = 0 then

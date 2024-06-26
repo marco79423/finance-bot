@@ -1,4 +1,4 @@
-// TXF AM 43min
+// TXF 43min
 inputs: Enabled(1), OrderSize(1);
 
 if Enabled = 0 then
@@ -49,6 +49,6 @@ end else if MarketPosition = -1 then begin
 	end;
 
 	if OpenPositionProfit < -185 * BigPointValue * OrderSize then begin
-		BuyToCover ("SX_Stop") all contracts next bar market;
+		BuyToCover ("SX_StopLoss") all contracts next bar market;
 	end;
 end;
