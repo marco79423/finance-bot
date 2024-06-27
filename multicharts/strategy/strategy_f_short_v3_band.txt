@@ -4,11 +4,6 @@ inputs: Enabled(1), OrderSize(1);
 if Enabled = 0 then
 	#Return;
 
-vars: OpenPrice(Open);
-if 0845 <= Time and Time <= 0850 then begin
-	OpenPrice = Open;
-end;
-
 vars: MaxOpenPositionProfit(0);
 if MarketPosition <> 0 then begin
 	if MaxOpenPositionProfit < OpenPositionProfit then
@@ -40,7 +35,6 @@ end else if MarketPosition = -1 then begin
 	if BuyToCoverCond then
 		BuyToCover ("SX") all contracts next bar market;
 
-
 	if OpenPositionProfit > 250 * BigPointValue * OrderSize then
 		BuyToCover ("SX_MaxWin") all contracts next bar market;
 
@@ -49,6 +43,6 @@ end else if MarketPosition = -1 then begin
 	end;
 
 	if OpenPositionProfit < -185 * BigPointValue * OrderSize then begin
-		BuyToCover ("SX_Stop") all contracts next bar market;
+		BuyToCover ("SX_StopLoss") all contracts next bar market;
 	end;
 end;
