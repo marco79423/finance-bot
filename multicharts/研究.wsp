@@ -13,14 +13,14 @@
 	ContainerHeight = '860'
 	ContainerWidth = '1750'
 	Flags = '2'
-	Height = '325'
-	Left = '21'
+	Height = '324'
+	Left = '22'
 	MinX = '-1'
 	MinY = '-1'
 	State = '3'
-	Top = '46'
+	Top = '45'
 	ViewType = '0'
-	Width = '1855'
+	Width = '2031'
 
 [Wsp\Window_0\ChartManager]
 	ChartCount = '2'
@@ -74,9 +74,9 @@
 	ExpirationDate = '0'
 	FieldId = '201'
 	FieldName = '成交價'
-	FinishDate2Id = '45465'
+	FinishDate2Id = '45472'
 	FinishDate2Name = ''
-	FinishDateId = '45465'
+	FinishDateId = '45472'
 	FinishDateName = ''
 	FootPrintChartType = '0'
 	KagiReversal = '10'
@@ -100,7 +100,7 @@
 	RequestOffline = '0'
 	ResolutionId = '2'
 	ResolutionName = '分鐘'
-	ResolutionSizeId = '4'
+	ResolutionSizeId = '43'
 	ResolutionSizeName = ''
 	SessionsId = '6795'
 	SessionsName = 'TXF.MXF.TXO.UDF.SPF|Session New'
@@ -138,8 +138,8 @@
 	ManualMode = '0'
 	MarginBottom = '5'
 	MarginTop = '5'
-	Maximum = '23275,2777777778'
-	Minimum = '22669,7222222222'
+	Maximum = '21728,2777777778'
+	Minimum = '21122,7222222222'
 	MovementSize.Long = '1'
 	MovementSize.Metric = 'False'
 	MovementSize.Price = '5'
@@ -1441,7 +1441,7 @@
 	DrawingsCount = '0'
 	InvisibleSubChart = '0'
 	SeriesType = '0'
-	Status = '1'
+	Status = '0'
 	UpdateOnEveryTick = '1'
 
 [Wsp\Window_0\ChartManager\Chart_0\Series_1\AlertObject]
@@ -1526,8 +1526,8 @@
 	ManualMode = '0'
 	MarginBottom = '5'
 	MarginTop = '5'
-	Maximum = '23275,2777777778'
-	Minimum = '22669,7222222222'
+	Maximum = '23025,2777777778'
+	Minimum = '22619,7222222222'
 	MovementSize.Long = '1'
 	MovementSize.Metric = 'False'
 	MovementSize.Price = '5'
@@ -1572,7 +1572,7 @@
 	DrawingsCount = '0'
 	InvisibleSubChart = '0'
 	SeriesType = '0'
-	Status = '1'
+	Status = '0'
 	UpdateOnEveryTick = '1'
 
 [Wsp\Window_0\ChartManager\Chart_0\Series_2\AlertObject]
@@ -1657,8 +1657,8 @@
 	ManualMode = '0'
 	MarginBottom = '5'
 	MarginTop = '5'
-	Maximum = '23275,2777777778'
-	Minimum = '22669,7222222222'
+	Maximum = '23025,2777777778'
+	Minimum = '22619,7222222222'
 	MovementSize.Long = '1'
 	MovementSize.Metric = 'False'
 	MovementSize.Price = '5'
@@ -1785,8 +1785,8 @@
 	ManualMode = '0'
 	MarginBottom = '5'
 	MarginTop = '5'
-	Maximum = '5869,61111111111'
-	Minimum = '-282,611111111111'
+	Maximum = '38571,8888888889'
+	Minimum = '-1765,88888888889'
 	MovementSize.Long = '1'
 	MovementSize.Metric = 'False'
 	MovementSize.Price = '5'
@@ -1850,9 +1850,9 @@
 	Type = '4'
 
 [Wsp\Window_0\ChartManager\IndexViewCalc]
-	BarSpacing = '5'
+	BarSpacing = '8'
 	BarsToRight = '20'
-	BarsToRightValue = '61'
+	BarsToRightValue = '37'
 	ChartShiftViewType = '0'
 	ShowEmptyPeriod = '0'
 
@@ -2055,7 +2055,7 @@
 	Width = '1'
 
 [Wsp\Window_0\ChartManager\OptimizeManager\OptimizeManager]
-	OptimizeAlgorithm = '1'
+	OptimizeAlgorithm = '0'
 
 [Wsp\Window_0\ChartManager\OptimizeManager\OptimizeManager\AlgorithmGrouper\OptAlgorithmGrouper]
 	Group = '0'
@@ -2094,7 +2094,7 @@
 	Left Manual = '0'
 	Left Scale = '0'
 	Precise Marker = '1'
-	Right Characters = '12'
+	Right Characters = '15'
 	Right Manual = '0'
 	Right Scale = '1'
 	Time To Close = '1'
@@ -2309,6 +2309,14 @@
 	TimesPerBar = '1'
 	UseFreshSnapOnAdditionalDS = '0'
 
+[Wsp\Window_0\ChartManager\Strategy\SignalObject_0\SignalHelper\InputHelper\Input_C1]
+	IsInputOptimizable = '1'
+	LocalCurrentValue2 = '1'
+	Start2 = '1'
+	Step2 = '1'
+	Stop2 = '1'
+	Value = '1'
+
 [Wsp\Window_0\ChartManager\Strategy\SignalObject_0\SignalHelper\InputHelper\Input_Enabled]
 	IsInputOptimizable = '0'
 	LocalCurrentValue2 = '1'
@@ -2475,7 +2483,7 @@
 	NeedActivateAT = 'False'
 	Profile = '凱衛串接下單機'
 	StrategyName = 'strategy_fx_test'
-	SymbolName = 'TXF1 - 4 分鐘 - KWAY64V2'
+	SymbolName = 'TXF1 - 43 分鐘 - KWAY64V2'
 
 [Wsp\Window_0\ChartManager\Strategy\StrategyHelper\OptimizerProperties\Algorithm_0]
 	CFFScriptGenetic = '// TODO: Enter your formula to replace the samples below 
@@ -2786,7 +2794,7 @@ The reserved words supported in Portfolio optimization:
 	TIF = '1'
 
 [Wsp\Window_0\ChartManager\TradePanelPlaceholder\TradePanelObject\PerAccountSetting\Settings\Settings\Item_0\Second\TIFDate]
-	Ticks = '638544692084100000'
+	Ticks = '638546474742800000'
 
 [Wsp\Window_0\ChartManager\VolumeScale]
 	VolumeBarColor = '8421504'
