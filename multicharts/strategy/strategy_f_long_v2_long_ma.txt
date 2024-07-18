@@ -23,8 +23,8 @@ EnvCond = EnvCond and Close > OpenPrice;
 EnvCond = EnvCond and Close > AverageFC(Close, 50);
 EnvCond = EnvCond and Close > AverageFC(Close, 65);
 
-if EnvCond then begin
-	if MarketPosition = 0 then begin
+if MarketPosition = 0 then begin
+	if EnvCond then begin
 		vars: BuyCond(False);
 		BuyCond = not (OverMonth and 1200 < Time and Time < 1400);
 		BuyCond = BuyCond and not (0845 <= Time and Time <= 0847);
@@ -35,11 +35,13 @@ if EnvCond then begin
 		if BuyCond then begin
 			Buy ("LE") OrderSize contracts next bar market;
 		end;
-	end else if MarketPosition = 1 then begin
-		if OverMonth and 1200 < Time and Time < 1400 then begin
-			Sell ("LX_Settle") all contracts next bar market;
-		end;
+	end;
+end else begin
+	if OverMonth and 1200 < Time and Time < 1400 then begin
+		Sell ("LX_Settle") all contracts next bar market;
+	end;
 
+	if EnvCond then begin
 		if OpenPositionProfit > 0 and OpenPositionProfit < MaxOpenPositionProfit - 61 * BigPointValue * OrderSize then begin
 			Sell ("LX_Win") all contracts next bar market;
 		end;
