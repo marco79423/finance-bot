@@ -69,7 +69,7 @@ class TWStockTrade(CoreBase):
     async def set_balance(self, balance, reason):
         async with AsyncSession(infra.db.async_engine) as session:
             await self._wallet_repo.set_balance(session=session, code=self.wallet_code, balance=balance,
-                                                     description=reason)
+                                                description=reason)
             await session.commit()
 
     async def _update_strategy_actions_handler(self, sub, data):
@@ -168,11 +168,7 @@ class TWStockTrade(CoreBase):
         balance = await self._wallet_repo.get_balance(session, code=self.wallet_code)
         await infra.notifier.send(f'進行委託賣股直到成交... [餘額 {int(balance)} 元]')
 
-        for action in sell_actions:
-            stock_id = action.stock_id
-            shares = action.shares
-            note = action.note
-
+        for stock_id, shares, note in [(action.stock_id, action.shares, action.note) for action in sell_actions]:
             # 委託賣股直到成交
             result = await self.sell_market(stock_id=stock_id, shares=shares, note=note)
             balance += result['total']
@@ -209,11 +205,7 @@ class TWStockTrade(CoreBase):
         balance = await self._wallet_repo.get_balance(session, code=self.wallet_code)
         await infra.notifier.send(f'進行委託買股直到成交... [餘額 {int(balance)} 元]')
 
-        for action in buy_actions:
-            stock_id = action.stock_id
-            shares = action.shares
-            note = action.note
-
+        for stock_id, shares, note in [(action.stock_id, action.shares, action.note) for action in buy_actions]:
             possible_highest_cost = self._get_possible_highest_cost(stock_id=stock_id, shares=shares)
             if balance < possible_highest_cost:
                 break
