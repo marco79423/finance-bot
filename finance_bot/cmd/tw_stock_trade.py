@@ -26,6 +26,10 @@ def create_tw_stock_trade_cli():
         actions = asyncio.run(t.update_actions())
         rich.print(actions)
 
+    @tw_stock_trade.command('trades')
+    def trades():
+        asyncio.run(t.execute_trade_task())
+
     @tw_stock_trade.command('balance')
     @click.argument('action', type=click.Choice(['inc', 'dec', 'set']))
     @click.argument('amount', type=decimal.Decimal)
