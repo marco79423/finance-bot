@@ -1,0 +1,51 @@
+// BTCUSDT 43 min
+inputs: Enabled(1), OrderSize(1);
+
+if Enabled = 0 then
+	#Return;
+
+
+var: KBar(40), BBandUp(0), ATR(0);
+BBandUp = BollingerBand(Close, KBar, 2) ;
+ATR = AvgTrueRange(KBar) ;
+
+//Over day reset
+var:HH(99999);
+if D > D[1] then begin
+	HH = OpenD(0) + ATR / 2 ;
+end;
+
+var: EntryHigh(0);
+if MarketPosition = 1 then begin
+	if High > EntryHigh then
+		EntryHigh = High;
+end else begin
+	EntryHigh = 0;
+end;
+
+if MarketPosition = 0 then begin
+	vars: BuyCond(True);
+	BuyCond = BuyCond and High > BBandUp;
+	BuyCond = BuyCond and Close > Open;
+	BuyCond = BuyCond and Close > HH;
+	if BuyCond then
+		Buy ("LE") OrderSize contracts next bar market;
+
+end else begin
+	if Close < EntryHigh - ATR * 2 then
+		Sell ("LX") all contracts next bar market;
+end;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
