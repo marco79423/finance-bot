@@ -1,7 +1,7 @@
 
 [Wsp]
-	(C2526AC1-535C-4a67-92B5-101E53EA9E4B) = '{3}{2}{5}{0}{1}{4}'
-	ActiveIndex = '3'
+	(C2526AC1-535C-4a67-92B5-101E53EA9E4B) = '{4}{5}{3}{2}{0}{1}'
+	ActiveIndex = '4'
 	MaximizedFlag = '0'
 	Version = '1'
 	WindowCount = '6'
@@ -20,7 +20,7 @@
 	State = '1'
 	Top = '572'
 	ViewType = '0'
-	Width = '870'
+	Width = '867'
 
 [Wsp\Window_0\ChartManager]
 	ChartCount = '2'
@@ -74,9 +74,9 @@
 	ExpirationDate = '0'
 	FieldId = '201'
 	FieldName = '成交價'
-	FinishDate2Id = '45472'
+	FinishDate2Id = '45494'
 	FinishDate2Name = ''
-	FinishDateId = '45472'
+	FinishDateId = '45494'
 	FinishDateName = ''
 	FootPrintChartType = '0'
 	KagiReversal = '10'
@@ -138,8 +138,8 @@
 	ManualMode = '0'
 	MarginBottom = '5'
 	MarginTop = '5'
-	Maximum = '23118,1111111111'
-	Minimum = '22835,8888888889'
+	Maximum = '23026,6111111111'
+	Minimum = '22674,3888888889'
 	MovementSize.Long = '1'
 	MovementSize.Metric = 'False'
 	MovementSize.Price = '5'
@@ -2530,7 +2530,7 @@ The reserved words supported in Portfolio optimization:
 	TIF = '4'
 
 [Wsp\Window_0\ChartManager\TradePanelPlaceholder\TradePanelObject\PerAccountSetting\Settings\Settings\Item_0\Second\TIFDate]
-	Ticks = '638546474728240000'
+	Ticks = '638570700046090000'
 
 [Wsp\Window_0\ChartManager\VolumeScale]
 	VolumeBarColor = '8421504'
@@ -2604,9 +2604,9 @@ The reserved words supported in Portfolio optimization:
 	ExpirationDate = '0'
 	FieldId = '201'
 	FieldName = '成交價'
-	FinishDate2Id = '45472'
+	FinishDate2Id = '45494'
 	FinishDate2Name = ''
-	FinishDateId = '45472'
+	FinishDateId = '45494'
 	FinishDateName = ''
 	FootPrintChartType = '0'
 	KagiReversal = '10'
@@ -2668,8 +2668,8 @@ The reserved words supported in Portfolio optimization:
 	ManualMode = '0'
 	MarginBottom = '5'
 	MarginTop = '5'
-	Maximum = '23135'
-	Minimum = '22775'
+	Maximum = '23212,3888888889'
+	Minimum = '22664,6111111111'
 	MovementSize.Long = '1'
 	MovementSize.Metric = 'False'
 	MovementSize.Price = '5'
@@ -4352,13 +4352,13 @@ The reserved words supported in Portfolio optimization:
 	WFIntervalType = '0'
 
 [Wsp\Window_1\ChartManager\OptimizeManager\OptimizeManager\WFOptimizer\WFO]
-	IS_size = '6890'
+	IS_size = '10'
 	IntervalType = '0'
 	IsAnchored = '0'
-	IsDefaultInitNeeded = '0'
+	IsDefaultInitNeeded = '1'
 	Num_of_Runs = '5'
 	OOS_Size_Type = '0'
-	OOS_size = '689'
+	OOS_size = '10'
 	ReportFilePath = ''
 	Segment_type = '1'
 	WFReportExist = '0'
@@ -4571,7 +4571,7 @@ The reserved words supported in Portfolio optimization:
 	isStatusWindowShow = '1'
 
 [Wsp\Window_1\ChartManager\Strategy\SignalObject_0]
-	IdName = 's_strategy_f_long_v2_maup2'
+	IdName = 's_strategy_f_long_v2_long_ma'
 	Status = '1'
 
 [Wsp\Window_1\ChartManager\Strategy\SignalObject_0\SignalHelper]
@@ -4584,7 +4584,7 @@ The reserved words supported in Portfolio optimization:
 	UseFreshSnapOnAdditionalDS = '0'
 
 [Wsp\Window_1\ChartManager\Strategy\SignalObject_0\SignalHelper\InputHelper\Input_Enabled]
-	IsInputOptimizable = '0'
+	IsInputOptimizable = '1'
 	LocalCurrentValue2 = '1'
 	Start2 = '1'
 	Step2 = '1'
@@ -4592,7 +4592,7 @@ The reserved words supported in Portfolio optimization:
 	Value = '1'
 
 [Wsp\Window_1\ChartManager\Strategy\SignalObject_0\SignalHelper\InputHelper\Input_OrderSize]
-	IsInputOptimizable = '0'
+	IsInputOptimizable = '1'
 	LocalCurrentValue2 = '1'
 	Start2 = '1'
 	Step2 = '1'
@@ -4748,7 +4748,7 @@ The reserved words supported in Portfolio optimization:
 	Confirm = 'False'
 	NeedActivateAT = 'False'
 	Profile = '凱衛串接下單機'
-	StrategyName = 'strategy_f_long_v2_maup2'
+	StrategyName = 'strategy_f_long_v2_long_ma'
 	SymbolName = 'TXF1 - 43 分鐘 - KWAY64V2'
 
 [Wsp\Window_1\ChartManager\Strategy\StrategyHelper\OptimizerProperties\Algorithm_0]
@@ -5060,7 +5060,7 @@ The reserved words supported in Portfolio optimization:
 	TIF = '4'
 
 [Wsp\Window_1\ChartManager\TradePanelPlaceholder\TradePanelObject\PerAccountSetting\Settings\Settings\Item_0\Second\TIFDate]
-	Ticks = '638546474729850000'
+	Ticks = '638570700047670000'
 
 [Wsp\Window_1\ChartManager\VolumeScale]
 	VolumeBarColor = '8421504'
@@ -5134,9 +5134,9 @@ The reserved words supported in Portfolio optimization:
 	ExpirationDate = '0'
 	FieldId = '201'
 	FieldName = '成交價'
-	FinishDate2Id = '45472'
+	FinishDate2Id = '45494'
 	FinishDate2Name = ''
-	FinishDateId = '45472'
+	FinishDateId = '45494'
 	FinishDateName = ''
 	FootPrintChartType = '0'
 	KagiReversal = '10'
@@ -5198,8 +5198,8 @@ The reserved words supported in Portfolio optimization:
 	ManualMode = '0'
 	MarginBottom = '5'
 	MarginTop = '5'
-	Maximum = '23148,2222222222'
-	Minimum = '22523,7777777778'
+	Maximum = '23026,6111111111'
+	Minimum = '22674,3888888889'
 	MovementSize.Long = '1'
 	MovementSize.Metric = 'False'
 	MovementSize.Price = '5'
@@ -6654,9 +6654,9 @@ The reserved words supported in Portfolio optimization:
 	Type = '4'
 
 [Wsp\Window_2\ChartManager\IndexViewCalc]
-	BarSpacing = '10'
+	BarSpacing = '30'
 	BarsToRight = '20'
-	BarsToRightValue = '16'
+	BarsToRightValue = '5'
 	ChartShiftViewType = '0'
 	ShowEmptyPeriod = '0'
 
@@ -6882,13 +6882,13 @@ The reserved words supported in Portfolio optimization:
 	WFIntervalType = '0'
 
 [Wsp\Window_2\ChartManager\OptimizeManager\OptimizeManager\WFOptimizer\WFO]
-	IS_size = '6890'
+	IS_size = '10'
 	IntervalType = '0'
 	IsAnchored = '0'
-	IsDefaultInitNeeded = '0'
+	IsDefaultInitNeeded = '1'
 	Num_of_Runs = '5'
 	OOS_Size_Type = '0'
-	OOS_size = '689'
+	OOS_size = '10'
 	ReportFilePath = ''
 	Segment_type = '1'
 	WFReportExist = '0'
@@ -7101,7 +7101,7 @@ The reserved words supported in Portfolio optimization:
 	isStatusWindowShow = '1'
 
 [Wsp\Window_2\ChartManager\Strategy\SignalObject_0]
-	IdName = 's_strategy_f_short_v2_madown2'
+	IdName = 's_strategy_f_short_v2_long_ma'
 	Status = '1'
 
 [Wsp\Window_2\ChartManager\Strategy\SignalObject_0\SignalHelper]
@@ -7114,7 +7114,7 @@ The reserved words supported in Portfolio optimization:
 	UseFreshSnapOnAdditionalDS = '0'
 
 [Wsp\Window_2\ChartManager\Strategy\SignalObject_0\SignalHelper\InputHelper\Input_Enabled]
-	IsInputOptimizable = '0'
+	IsInputOptimizable = '1'
 	LocalCurrentValue2 = '1'
 	Start2 = '1'
 	Step2 = '1'
@@ -7122,7 +7122,7 @@ The reserved words supported in Portfolio optimization:
 	Value = '1'
 
 [Wsp\Window_2\ChartManager\Strategy\SignalObject_0\SignalHelper\InputHelper\Input_OrderSize]
-	IsInputOptimizable = '0'
+	IsInputOptimizable = '1'
 	LocalCurrentValue2 = '1'
 	Start2 = '1'
 	Step2 = '1'
@@ -7278,7 +7278,7 @@ The reserved words supported in Portfolio optimization:
 	Confirm = 'False'
 	NeedActivateAT = 'False'
 	Profile = '凱衛串接下單機'
-	StrategyName = 'strategy_f_short_v2_madown2'
+	StrategyName = 'strategy_f_short_v2_long_ma'
 	SymbolName = 'TXF1 - 43 分鐘 - KWAY64V2'
 
 [Wsp\Window_2\ChartManager\Strategy\StrategyHelper\OptimizerProperties\Algorithm_0]
@@ -7590,7 +7590,7 @@ The reserved words supported in Portfolio optimization:
 	TIF = '4'
 
 [Wsp\Window_2\ChartManager\TradePanelPlaceholder\TradePanelObject\PerAccountSetting\Settings\Settings\Item_0\Second\TIFDate]
-	Ticks = '638546474731480000'
+	Ticks = '638570700048630000'
 
 [Wsp\Window_2\ChartManager\VolumeScale]
 	VolumeBarColor = '8421504'
@@ -7604,7 +7604,7 @@ The reserved words supported in Portfolio optimization:
 	ContainerWidth = '1746'
 	Flags = '0'
 	Height = '283'
-	Left = '868'
+	Left = '865'
 	MinX = '-1'
 	MinY = '-1'
 	State = '1'
@@ -7664,9 +7664,9 @@ The reserved words supported in Portfolio optimization:
 	ExpirationDate = '0'
 	FieldId = '201'
 	FieldName = '成交價'
-	FinishDate2Id = '45472'
+	FinishDate2Id = '45494'
 	FinishDate2Name = ''
-	FinishDateId = '45472'
+	FinishDateId = '45494'
 	FinishDateName = ''
 	FootPrintChartType = '0'
 	KagiReversal = '10'
@@ -7728,8 +7728,8 @@ The reserved words supported in Portfolio optimization:
 	ManualMode = '0'
 	MarginBottom = '5'
 	MarginTop = '5'
-	Maximum = '23148,2222222222'
-	Minimum = '22523,7777777778'
+	Maximum = '23642'
+	Minimum = '22642'
 	MovementSize.Long = '1'
 	MovementSize.Metric = 'False'
 	MovementSize.Price = '5'
@@ -10120,7 +10120,7 @@ The reserved words supported in Portfolio optimization:
 	TIF = '4'
 
 [Wsp\Window_3\ChartManager\TradePanelPlaceholder\TradePanelObject\PerAccountSetting\Settings\Settings\Item_0\Second\TIFDate]
-	Ticks = '638546474732600000'
+	Ticks = '638570700049600000'
 
 [Wsp\Window_3\ChartManager\VolumeScale]
 	VolumeBarColor = '8421504'
@@ -10194,9 +10194,9 @@ The reserved words supported in Portfolio optimization:
 	ExpirationDate = '0'
 	FieldId = '201'
 	FieldName = '成交價'
-	FinishDate2Id = '45472'
+	FinishDate2Id = '45494'
 	FinishDate2Name = ''
-	FinishDateId = '45472'
+	FinishDateId = '45494'
 	FinishDateName = ''
 	FootPrintChartType = '0'
 	KagiReversal = '10'
@@ -10258,8 +10258,8 @@ The reserved words supported in Portfolio optimization:
 	ManualMode = '0'
 	MarginBottom = '5'
 	MarginTop = '5'
-	Maximum = '22962,9444444444'
-	Minimum = '22844,0555555556'
+	Maximum = '22833,5555555556'
+	Minimum = '22722,4444444444'
 	MovementSize.Long = '1'
 	MovementSize.Metric = 'False'
 	MovementSize.Price = '5'
@@ -12161,7 +12161,7 @@ The reserved words supported in Portfolio optimization:
 	isStatusWindowShow = '1'
 
 [Wsp\Window_4\ChartManager\Strategy\SignalObject_0]
-	IdName = 's_strategy_f_long_v1_maup'
+	IdName = 's_strategy_f_long_v1_ma'
 	Status = '1'
 
 [Wsp\Window_4\ChartManager\Strategy\SignalObject_0\SignalHelper]
@@ -12338,7 +12338,7 @@ The reserved words supported in Portfolio optimization:
 	Confirm = 'False'
 	NeedActivateAT = 'False'
 	Profile = '凱衛串接下單機'
-	StrategyName = 'strategy_f_long_v1_maup'
+	StrategyName = 'strategy_f_long_v1_ma'
 	SymbolName = 'TXF1 - 4 分鐘 - KWAY64V2'
 
 [Wsp\Window_4\ChartManager\Strategy\StrategyHelper\OptimizerProperties\Algorithm_0]
@@ -12650,7 +12650,7 @@ The reserved words supported in Portfolio optimization:
 	TIF = '4'
 
 [Wsp\Window_4\ChartManager\TradePanelPlaceholder\TradePanelObject\PerAccountSetting\Settings\Settings\Item_0\Second\TIFDate]
-	Ticks = '638546474733620000'
+	Ticks = '638570700050590000'
 
 [Wsp\Window_4\ChartManager\VolumeScale]
 	VolumeBarColor = '8421504'
@@ -12724,9 +12724,9 @@ The reserved words supported in Portfolio optimization:
 	ExpirationDate = '0'
 	FieldId = '201'
 	FieldName = '成交價'
-	FinishDate2Id = '45472'
+	FinishDate2Id = '45494'
 	FinishDate2Name = ''
-	FinishDateId = '45472'
+	FinishDateId = '45494'
 	FinishDateName = ''
 	FootPrintChartType = '0'
 	KagiReversal = '10'
@@ -12788,8 +12788,8 @@ The reserved words supported in Portfolio optimization:
 	ManualMode = '0'
 	MarginBottom = '5'
 	MarginTop = '5'
-	Maximum = '23026,2777777778'
-	Minimum = '22840,7222222222'
+	Maximum = '22834,6111111111'
+	Minimum = '22722,3888888889'
 	MovementSize.Long = '1'
 	MovementSize.Metric = 'False'
 	MovementSize.Price = '5'
@@ -14691,7 +14691,7 @@ The reserved words supported in Portfolio optimization:
 	isStatusWindowShow = '1'
 
 [Wsp\Window_5\ChartManager\Strategy\SignalObject_0]
-	IdName = 's_strategy_f_short_v1_madown'
+	IdName = 's_strategy_f_short_v1_ma'
 	Status = '1'
 
 [Wsp\Window_5\ChartManager\Strategy\SignalObject_0\SignalHelper]
@@ -14868,7 +14868,7 @@ The reserved words supported in Portfolio optimization:
 	Confirm = 'False'
 	NeedActivateAT = 'False'
 	Profile = '凱衛串接下單機'
-	StrategyName = 'strategy_f_short_v1_madown'
+	StrategyName = 'strategy_f_short_v1_ma'
 	SymbolName = 'TXF1 - 4 分鐘 - KWAY64V2'
 
 [Wsp\Window_5\ChartManager\Strategy\StrategyHelper\OptimizerProperties\Algorithm_0]
@@ -15180,7 +15180,7 @@ The reserved words supported in Portfolio optimization:
 	TIF = '4'
 
 [Wsp\Window_5\ChartManager\TradePanelPlaceholder\TradePanelObject\PerAccountSetting\Settings\Settings\Item_0\Second\TIFDate]
-	Ticks = '638546474734620000'
+	Ticks = '638570700051590000'
 
 [Wsp\Window_5\ChartManager\VolumeScale]
 	VolumeBarColor = '8421504'
