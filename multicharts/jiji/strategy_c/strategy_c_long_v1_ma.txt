@@ -1,10 +1,8 @@
 // BTCUSDT 4min
 inputs: Enabled(1), OrderSize(1);
-inputs: C1(70), C2(870);
 
 if Enabled = 0 then
 	#Return;
-
 
 vars: MaxOpenPositionProfit(0);
 if MarketPosition <> 0 then begin
@@ -14,80 +12,34 @@ end else begin
 	MaxOpenPositionProfit = 0;
 end;
 
-inputs: C3(4), C4(13), C5(2);
-inputs: C6(30), C7(455);
-
-{vars: C9(true);
-if C9 then begin
-	//print("BigPointValue ", BigPointValue );
-	//print("OpenPositionProfit ", OpenPositionProfit );
-	C9 = false;
-end;}
-
-vars: EnvCond(True);
-EnvCond = True;
-EnvCond = EnvCond and Close > OpenD(0);
-EnvCond = EnvCond and AverageFC(Close, 45)> AverageFC(Close, 75);
-
-
 if MarketPosition = 0 then begin
-	if EnvCond then begin
-		vars: BuyCond(True);
-		BuyCond = True;
-		BuyCond = BuyCond and Close > Open;
-		BuyCond = BuyCond and Close > AverageFC(Close, 30); // 2
-		BuyCond = BuyCond and Close > AverageFC(Close, 45); // 75
-		BuyCond = BuyCond and Ticks = Highest(Ticks, 2); // 1
-		if BuyCond then begin
-			Buy ("LE") OrderSize contracts next bar market;
-		end;
+	vars: BuyCond(True);
+	BuyCond = True;
+	BuyCond = BuyCond and Close > Open;
+	BuyCond = BuyCond and Close > AverageFC(Close, 5);
+	BuyCond = BuyCond and Close > AverageFC(Close, 1620);
+	BuyCond = BuyCond and Ticks = Highest(Ticks, 14);
+	if BuyCond then begin
+		Buy ("LE") OrderSize contracts next bar market;
 	end;
-
 end else begin
-	inputs: WinPoint(50);
-	vars: Level(WinPoint * BigPointValue * OrderSize);
-
-	if MaxOpenPositionProfit < Level then begin
-		if OpenPositionProfit < 0 and BarsSinceEntry > 15 then
-			Sell ("LX_Giveup") all contracts next bar market;
-	end else if Level < MaxOpenPositionProfit and MaxOpenPositionProfit < Level * 1.8 then begin
-		if OpenPositionProfit < Level * 1.5 then
-			Sell ("LX_Giveup2") all contracts next bar market;
-	end else if Level * 1.8 < MaxOpenPositionProfit and MaxOpenPositionProfit < Level * 2.6 then begin
-		if OpenPositionProfit < Level * 2.3 then
-			Sell ("LX_Giveup3") all contracts next bar market;
-	end else if Level * 2.6 < MaxOpenPositionProfit and MaxOpenPositionProfit < Level * C1 then begin
-		if OpenPositionProfit < Level * C2 then
-			Sell ("LX_Giveup4") all contracts next bar market;
-	end else if Level * C1 < MaxOpenPositionProfit and MaxOpenPositionProfit < Level * 5 then begin
-		if OpenPositionProfit < Level * 4.8 then
-			Sell ("LX_Giveup5") all contracts next bar market;
+	if OpenPositionProfit > 0 and OpenPositionProfit > 8200 * BigPointValue * OrderSize then begin
+		Sell ("LX_BigWin") all contracts next bar market;
 	end;
 
-		{if BarsSinceEntry <= 15 then begin
-			if OpenPositionProfit > 0 and OpenPositionProfit > 30 * BigPointValue * OrderSize then begin
-				Sell ("LX_FastWin") all contracts next bar market;
-			end;
-		end else begin
-			if OpenPositionProfit > 0 and OpenPositionProfit < MaxOpenPositionProfit - 945 * BigPointValue * OrderSize then begin
-				Sell ("LX_PullBack") all contracts next bar market;
-			end;
-		end;}
+	if OpenPositionProfit > 2500 * BigPointValue * OrderSize and OpenPositionProfit < MaxOpenPositionProfit * 0.4 then begin
+		Sell ("LX_Pullback1") all contracts next bar market;
+	end;
 
-		{if BarsSinceEntry <= 60 and OpenPositionProfit > 190 * BigPointValue * OrderSize then begin
-			Sell ("LX_FastWin2") all contracts next bar market;
-		end;}
+	if OpenPositionProfit > 600 * BigPointValue * OrderSize and OpenPositionProfit < MaxOpenPositionProfit * 0.2 then begin
+		Sell ("LX_Pullback2") all contracts next bar market;
+	end;
 
-	if EnvCond then begin
-		if (OpenPositionProfit > C1 * BigPointValue * OrderSize) and OpenPositionProfit < (MaxOpenPositionProfit - (C2 - C1) * C3 * BigPointValue * OrderSize) then begin
-			if OpenPositionProfit < 0 and BarsSinceEntry < 15 then
-				#Return;
+	if BarsSinceEntry > 30 and OpenPositionProfit > 0 and OpenPositionProfit < MaxOpenPositionProfit * 0.1 then begin
+		Sell ("LX_Pullback3") all contracts next bar market;
+	end;
 
-			Sell ("LX_PullBack") all contracts next bar market;
-		end;
-		end;
-
-	if OpenPositionProfit < -C7 * BigPointValue * OrderSize then begin
+	if OpenPositionProfit < -5500 * BigPointValue * OrderSize then begin
 		Sell ("LX_StopLoss") all contracts next bar market;
 	end;
 end;
