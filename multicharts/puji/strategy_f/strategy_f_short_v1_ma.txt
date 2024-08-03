@@ -51,7 +51,7 @@ end else begin
 		BuyToCover ("SX_Pullback3") all contracts next bar market;
 	end;
 
-	if BarsSinceEntry > 230 then begin
+	if BarsSinceEntry > 660 then begin
 		BuyToCover ("SX_Run") all contracts next bar market;
 	end;
 
