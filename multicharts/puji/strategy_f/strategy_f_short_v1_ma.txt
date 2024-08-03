@@ -39,8 +39,16 @@ end else begin
     	BuyToCover ("SX_Settle") all contracts next bar market;
     end;
 
+	if OpenPositionProfit > 170 * BigPointValue * OrderSize and OpenPositionProfit < MaxOpenPositionProfit - 19 * BigPointValue * OrderSize then begin
+		BuyToCover ("SX_Pullback") all contracts next bar market;
+	end;
+
+	if OpenPositionProfit > 260 * BigPointValue * OrderSize and OpenPositionProfit < MaxOpenPositionProfit - 3 * BigPointValue * OrderSize then begin
+		BuyToCover ("SX_Pullback2") all contracts next bar market;
+	end;
+
 	if OpenPositionProfit > 0 and OpenPositionProfit < MaxOpenPositionProfit - 35 * BigPointValue * OrderSize then begin
-		BuyToCover ("SX_Win") all contracts next bar market;
+		BuyToCover ("SX_Pullback3") all contracts next bar market;
 	end;
 
 	if BarsSinceEntry > 230 then begin
