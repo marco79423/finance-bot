@@ -1,13 +1,8 @@
 // BTCUSDT 4min
-inputs: Enabled(1), OrderSize(1);
+inputs: Enabled(1), OrderSize(10);
 
 if Enabled = 0 then
 	#Return;
-
-vars: OpenPrice(Open);
-if 0845 <= Time and Time <= 0850 then begin
-	OpenPrice = Open;
-end;
 
 vars: MaxOpenPositionProfit(0);
 if MarketPosition <> 0 then begin
@@ -17,30 +12,34 @@ end else begin
 	MaxOpenPositionProfit = 0;
 end;
 
-vars: EnvCond(False);
-EnvCond = True;
-
-
 if MarketPosition = 0 then begin
-	vars: ShortCond(True);
-	ShortCond = True;
-	ShortCond = ShortCond and High < OpenPrice;
-	ShortCond = ShortCond and Close < AverageFC(Close, 990);
-	ShortCond = ShortCond and Close < AverageFC(Close, 50);
-	ShortCond = ShortCond and Close = Lowest(Close, 15);
-	ShortCond = ShortCond and Ticks = Highest(Ticks, 130);
-	if ShortCond then
-		SellShort ( "SE" ) OrderSize contracts next bar market;
+	vars: BuyCond(True);
+	BuyCond = True;
+	BuyCond = BuyCond and Close < Open;
+	BuyCond = BuyCond and Close < AverageFC(Close, 5);
+	BuyCond = BuyCond and Close < AverageFC(Close, 1620);
+	BuyCond = BuyCond and Ticks = Lowest(Ticks, 14);
+	if BuyCond then begin
+		SellShort ("SE") OrderSize contracts next bar market;
+	end;
 end else begin
-	if OpenPositionProfit > 0 and OpenPositionProfit < MaxOpenPositionProfit - 35 * BigPointValue * OrderSize then begin
-		BuyToCover ("SX_Win") all contracts next bar market;
+	if OpenPositionProfit > 0 and OpenPositionProfit > 8200 * BigPointValue * OrderSize then begin
+		BuyToCover ("SX_BigWin") all contracts next bar market;
 	end;
 
-	if BarsSinceEntry > 230 then begin
-		BuyToCover ("SX_Run") all contracts next bar market;
+	if OpenPositionProfit > 2500 * BigPointValue * OrderSize and OpenPositionProfit < MaxOpenPositionProfit * 0.4 then begin
+		BuyToCover ("SX_Pullback1") all contracts next bar market;
 	end;
 
-	if OpenPositionProfit < -280 * BigPointValue * OrderSize then begin
-		BuyToCover ("SX_StopLoss") all contracts next bar market;
+	if OpenPositionProfit > 600 * BigPointValue * OrderSize and OpenPositionProfit < MaxOpenPositionProfit * 0.2 then begin
+		BuyToCover ("SX_Pullback2") all contracts next bar market;
+	end;
+
+	if BarsSinceEntry > 30 and OpenPositionProfit > 0 and OpenPositionProfit < MaxOpenPositionProfit * 0.1 then begin
+		BuyToCover ("SX_Pullback3") all contracts next bar market;
+	end;
+
+	if OpenPositionProfit < -5500 * BigPointValue * OrderSize then begin
+		BuyToCover ("LX_StopLoss") all contracts next bar market;
 	end;
 end;

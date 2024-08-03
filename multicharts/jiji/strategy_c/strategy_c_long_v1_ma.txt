@@ -1,5 +1,5 @@
 // BTCUSDT 4min
-inputs: Enabled(1), OrderSize(1);
+inputs: Enabled(1), OrderSize(10);
 
 if Enabled = 0 then
 	#Return;
