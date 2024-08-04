@@ -42,12 +42,33 @@ end else begin
 	end;
 
 	if EnvCond then begin
-		if OpenPositionProfit > 0 and OpenPositionProfit < MaxOpenPositionProfit - 61 * BigPointValue * OrderSize then begin
-			Sell ("LX_Win") all contracts next bar market;
+
+		if OpenPositionProfit > 630 * BigPointValue * OrderSize and OpenPositionProfit < MaxOpenPositionProfit * 0.97 then begin
+			Sell("LX_Pullback") all contracts next bar market;
 		end;
 
-		if OpenPositionProfit < -330 * BigPointValue * OrderSize then begin
-			Sell ("LX_StopLoss") all contracts next bar market;
+		if OpenPositionProfit > 500 * BigPointValue * OrderSize and OpenPositionProfit < MaxOpenPositionProfit * 0.78 then begin
+			Sell("LX_Pullback2") all contracts next bar market;
+		end;
+
+		if OpenPositionProfit > 220 * BigPointValue * OrderSize and OpenPositionProfit < MaxOpenPositionProfit * 0.72 then begin
+			Sell("LX_Pullback3") all contracts next bar market;
+		end;
+
+		if OpenPositionProfit > 90 * BigPointValue * OrderSize and OpenPositionProfit < MaxOpenPositionProfit * 0.61 then begin
+			Sell("LX_Pullback4") all contracts next bar market;
+		end;
+
+		if OpenPositionProfit > 40 * BigPointValue * OrderSize and OpenPositionProfit < MaxOpenPositionProfit * 0.32 then begin
+			Sell("LX_Pullback5") all contracts next bar market;
+		end;
+
+		if OpenPositionProfit > 10 * BigPointValue * OrderSize and OpenPositionProfit < MaxOpenPositionProfit * 0.18 then begin
+			Sell("LX_Pullback6") all contracts next bar market;
+		end;
+
+		if OpenPositionProfit < -270 * BigPointValue * OrderSize then begin
+			Sell("LX_StopLoss") all contracts next bar market;
 		end;
 	end;
 end;
