@@ -34,21 +34,30 @@ end else begin
 		BuyToCover ("SX_Settle") all contracts next bar market;
 	end;
 
-	vars: BuyToCoverCond(True);
-	BuyToCoverCond = True;
-	BuyToCoverCond = BuyToCoverCond and Close > AverageFC(Close, 32);
-	if BuyToCoverCond then
-		BuyToCover ("SX") all contracts next bar market;
-
-
-	if OpenPositionProfit > 250 * BigPointValue * OrderSize then
+	if OpenPositionProfit > 270 * BigPointValue * OrderSize then
 		BuyToCover ("SX_MaxWin") all contracts next bar market;
 
-	if BarsSinceEntry > 9 then begin
+	if OpenPositionProfit > 200 * BigPointValue * OrderSize and OpenPositionProfit < MaxOpenPositionProfit * 0.98 then begin
+		BuyToCover ("SX_Pullback") all contracts next bar market;
+	end;
+
+	if OpenPositionProfit > 110 * BigPointValue * OrderSize and OpenPositionProfit < MaxOpenPositionProfit * 0.88 then begin
+		BuyToCover ("SX_Pullback2") all contracts next bar market;
+	end;
+
+	if OpenPositionProfit > 90 * BigPointValue * OrderSize and OpenPositionProfit < MaxOpenPositionProfit * 0.86 then begin
+		BuyToCover ("SX_Pullback3") all contracts next bar market;
+	end;
+
+	if OpenPositionProfit > 10 * BigPointValue * OrderSize and OpenPositionProfit < MaxOpenPositionProfit * 0.18 then begin
+		BuyToCover ("SX_Pullback4") all contracts next bar market;
+	end;
+
+	if BarsSinceEntry > 10 then begin
 		BuyToCover ("SX_Giveup") all contracts next bar market;
 	end;
 
-	if OpenPositionProfit < -185 * BigPointValue * OrderSize then begin
+	if OpenPositionProfit < -70 * BigPointValue * OrderSize then begin
 		BuyToCover ("SX_StopLoss") all contracts next bar market;
 	end;
 end;
