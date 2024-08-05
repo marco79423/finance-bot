@@ -6,13 +6,21 @@ if Enabled = 0 then
 
 
 var: KBar(40), BBandUp(0), ATR(0);
-BBandUp = BollingerBand(Close, KBar, 2) ;
-ATR = AvgTrueRange(KBar) ;
+BBandUp = BollingerBand(Close, KBar, 2);
+ATR = AvgTrueRange(KBar);
 
 //Over day reset
 var:HH(99999);
 if D > D[1] then begin
-	HH = OpenD(0) + ATR / 2 ;
+	HH = OpenD(0) + ATR * 0.6;
+end;
+
+vars: MaxOpenPositionProfit(0);
+if MarketPosition <> 0 then begin
+	if MaxOpenPositionProfit < OpenPositionProfit then
+		MaxOpenPositionProfit = OpenPositionProfit;
+end else begin
+	MaxOpenPositionProfit = 0;
 end;
 
 var: EntryHigh(0);
@@ -38,20 +46,10 @@ end else begin
 		Sell ("LX_Settle") all contracts next bar market;
 	end;
 
-	if Close < EntryHigh - ATR * 2 then
-		Sell ("LX") all contracts next bar market;
+	if OpenPositionProfit > 0 and OpenPositionProfit < MaxOpenPositionProfit - 80 * BigPointValue * OrderSize then begin
+		Sell ("LX_Pullback") all contracts next bar market;
+	end;
+
+	if Close < EntryHigh - ATR * 4 then
+		Sell ("LX_Giveup") all contracts next bar market;
 end;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
