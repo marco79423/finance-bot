@@ -242,6 +242,7 @@ class TWStockTrade(CoreBase):
         message += '...'
         await infra.notifier.send(message)
 
+        self._broker.update_status()
         trade = self._broker.sell_market(stock_id=stock_id, shares=shares, note=note)
         while True:
             self._broker.update_status()
@@ -289,6 +290,7 @@ class TWStockTrade(CoreBase):
         message += '...'
         await infra.notifier.send(message)
 
+        self._broker.update_status()
         trade = self._broker.buy_market(stock_id=stock_id, shares=shares, note=note)
         while True:
             self._broker.update_status()
