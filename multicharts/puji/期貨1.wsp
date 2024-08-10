@@ -1,6 +1,6 @@
 
 [Wsp]
-	(C2526AC1-535C-4a67-92B5-101E53EA9E4B) = '{3}{2}{5}{0}{1}{4}'
+	(C2526AC1-535C-4a67-92B5-101E53EA9E4B) = '{3}{2}{5}{0}{4}{1}'
 	ActiveIndex = '3'
 	MaximizedFlag = '0'
 	Version = '1'
@@ -20,7 +20,7 @@
 	State = '1'
 	Top = '572'
 	ViewType = '0'
-	Width = '867'
+	Width = '864'
 
 [Wsp\Window_0\ChartManager]
 	ChartCount = '2'
@@ -53,7 +53,7 @@
 [Wsp\Window_0\ChartManager\Chart_0\Series_0\DataSeries\Request]
 	AnchorFinishDate = '0'
 	BackTypeId = '275'
-	BackTypeName = '®ÚK´Î¨Ï¥Î'
+	BackTypeName = 'ï¿½ï¿½Kï¿½Î¨Ï¥ï¿½'
 	BreakOnSession = '1'
 	BuildDayFromMinutes = '0'
 	CallPut = '0'
@@ -61,22 +61,22 @@
 	CapacityName = ''
 	Category = '0'
 	CategoryFilter = '0'
-	CategoryFilterName = '´Á³f'
+	CategoryFilterName = 'ï¿½ï¿½ï¿½f'
 	ChartTypeId = '0'
-	ChartTypeName = '¼Ð·Ç'
+	ChartTypeName = 'ï¿½Ð·ï¿½'
 	CumulativeDeltaChartType = '1'
-	CustomResolutionsInfo = '0;8;¼Ð·Ç;1;8;'
+	CustomResolutionsInfo = '0;8;ï¿½Ð·ï¿½;1;8;'
 	CustomResolutionsParams = ''
 	DataFeed = 'KWAY64V2'
 	DeltaType = '1'
-	Description = '»O«ü´Á³sÄò¤ë1'
+	Description = 'ï¿½Oï¿½ï¿½ï¿½ï¿½ï¿½sï¿½ï¿½ï¿½1'
 	Exchange = 'TAIFEX'
 	ExpirationDate = '0'
 	FieldId = '201'
-	FieldName = '¦¨¥æ»ù'
-	FinishDate2Id = '45496'
+	FieldName = 'ï¿½ï¿½ï¿½ï¿½ï¿½'
+	FinishDate2Id = '45512'
 	FinishDate2Name = ''
-	FinishDateId = '45496'
+	FinishDateId = '45512'
 	FinishDateName = ''
 	FootPrintChartType = '0'
 	KagiReversal = '10'
@@ -99,7 +99,7 @@
 	RenkoBoxSizeType = '0'
 	RequestOffline = '0'
 	ResolutionId = '2'
-	ResolutionName = '¤ÀÄÁ'
+	ResolutionName = 'ï¿½ï¿½ï¿½ï¿½'
 	ResolutionSizeId = '43'
 	ResolutionSizeName = ''
 	SessionsId = '6795'
@@ -121,10 +121,10 @@
 	TPOResolution = '6'
 	TPOResolutionSize = '1'
 	TimeZoneId = '2'
-	TimeZoneName = '¥æ©ö©Ò'
+	TimeZoneName = 'ï¿½ï¿½ï¿½ï¿½ï¿½'
 	Version = '2'
 	VolumeType = '249'
-	VolumeTypeName = '¦¨¥æªÑ(¤f)¼Æ'
+	VolumeTypeName = 'ï¿½ï¿½ï¿½ï¿½ï¿½(ï¿½f)ï¿½ï¿½'
 
 [Wsp\Window_0\ChartManager\Chart_0\Series_0\IntervalObject]
 	AxisType = '0'
@@ -138,8 +138,8 @@
 	ManualMode = '0'
 	MarginBottom = '5'
 	MarginTop = '5'
-	Maximum = '22887,6666666667'
-	Minimum = '22554,3333333333'
+	Maximum = '21544,3086419753'
+	Minimum = '20593,6913580247'
 	MovementSize.Long = '1'
 	MovementSize.Metric = 'False'
 	MovementSize.Price = '5'
@@ -1485,7 +1485,7 @@
 
 [Wsp\Window_0\ChartManager\Chart_1\Series_0\AlertObject\Property_7]
 	PropertyName = '_Email_Subject'
-	PropertyValue = 'MultiCharts64 Äµ¥Ü'
+	PropertyValue = 'MultiCharts64 Äµï¿½ï¿½'
 
 [Wsp\Window_0\ChartManager\Chart_1\Series_0\IndicatorHelper]
 	BaseDataNumber = '0'
@@ -1529,8 +1529,8 @@
 	ManualMode = '0'
 	MarginBottom = '5'
 	MarginTop = '5'
-	Maximum = '1'
-	Minimum = '-1'
+	Maximum = '1,11111111111111'
+	Minimum = '-1,11111111111111'
 	MovementSize.Long = '1'
 	MovementSize.Metric = 'False'
 	MovementSize.Price = '5'
@@ -1957,7 +1957,7 @@
 
 [Wsp\Window_0\ChartManager\Strategy\AlertObject\Property_7]
 	PropertyName = '_Email_Subject'
-	PropertyValue = 'MultiCharts64 Äµ¥Ü'
+	PropertyValue = 'MultiCharts64 Äµï¿½ï¿½'
 
 [Wsp\Window_0\ChartManager\Strategy\MCBroker\MCBrokerObject\PluginsProxies\MCPluginProxiesCollection]
 	Count = '2'
@@ -1966,7 +1966,7 @@
 	Name = 'Interactive Brokers'
 
 [Wsp\Window_0\ChartManager\Strategy\MCBroker\MCBrokerObject\PluginsProxies\MCPluginProxiesCollection\Item_1]
-	Name = '³Í½Ã¦ê±µ¤U³æ¾÷'
+	Name = 'ï¿½Í½Ã¦ê±µï¿½Uï¿½ï¿½ï¿½'
 
 [Wsp\Window_0\ChartManager\Strategy\MCBroker\MCBrokerObject\PluginsProxies\MCPluginProxiesCollection\Item_1\Proxy\MCPluginProxy\AdditionalInfo]
 	PluginData = {
@@ -2035,7 +2035,7 @@
 	ReculcOnOrderFill = '1'
 	ReculcOnOrderReject = '0'
 	ShowSyncMPDialogMode = '3'
-	SystemName = '³Í½Ã¦ê±µ¤U³æ¾÷'
+	SystemName = 'ï¿½Í½Ã¦ê±µï¿½Uï¿½ï¿½ï¿½'
 	isBrokerRT = '0'
 	isSincMode = '0'
 	isStatusWindowShow = '1'
@@ -2217,9 +2217,9 @@
 	ATOn = 'False'
 	Confirm = 'False'
 	NeedActivateAT = 'False'
-	Profile = '³Í½Ã¦ê±µ¤U³æ¾÷'
+	Profile = 'ï¿½Í½Ã¦ê±µï¿½Uï¿½ï¿½ï¿½'
 	StrategyName = 'strategy_f_long_v3_band'
-	SymbolName = 'TXF1 - 43 ¤ÀÄÁ - KWAY64V2'
+	SymbolName = 'TXF1 - 43 ï¿½ï¿½ï¿½ï¿½ - KWAY64V2'
 
 [Wsp\Window_0\ChartManager\Strategy\StrategyHelper\OptimizerProperties\Algorithm_0]
 	CFFScriptGenetic = '// TODO: Enter your formula to replace the samples below 
@@ -2530,7 +2530,7 @@ The reserved words supported in Portfolio optimization:
 	TIF = '4'
 
 [Wsp\Window_0\ChartManager\TradePanelPlaceholder\TradePanelObject\PerAccountSetting\Settings\Settings\Item_0\Second\TIFDate]
-	Ticks = '638570700046090000'
+	Ticks = '638587030456320000'
 
 [Wsp\Window_0\ChartManager\VolumeScale]
 	VolumeBarColor = '8421504'
@@ -2583,7 +2583,7 @@ The reserved words supported in Portfolio optimization:
 [Wsp\Window_1\ChartManager\Chart_0\Series_0\DataSeries\Request]
 	AnchorFinishDate = '0'
 	BackTypeId = '275'
-	BackTypeName = '®ÚK´Î¨Ï¥Î'
+	BackTypeName = 'ï¿½ï¿½Kï¿½Î¨Ï¥ï¿½'
 	BreakOnSession = '1'
 	BuildDayFromMinutes = '0'
 	CallPut = '0'
@@ -2591,22 +2591,22 @@ The reserved words supported in Portfolio optimization:
 	CapacityName = ''
 	Category = '0'
 	CategoryFilter = '0'
-	CategoryFilterName = '´Á³f'
+	CategoryFilterName = 'ï¿½ï¿½ï¿½f'
 	ChartTypeId = '0'
-	ChartTypeName = '¼Ð·Ç'
+	ChartTypeName = 'ï¿½Ð·ï¿½'
 	CumulativeDeltaChartType = '1'
-	CustomResolutionsInfo = '0;8;¼Ð·Ç;1;8;'
+	CustomResolutionsInfo = '0;8;ï¿½Ð·ï¿½;1;8;'
 	CustomResolutionsParams = ''
 	DataFeed = 'KWAY64V2'
 	DeltaType = '1'
-	Description = '»O«ü´Á³sÄò¤ë1'
+	Description = 'ï¿½Oï¿½ï¿½ï¿½ï¿½ï¿½sï¿½ï¿½ï¿½1'
 	Exchange = 'TAIFEX'
 	ExpirationDate = '0'
 	FieldId = '201'
-	FieldName = '¦¨¥æ»ù'
-	FinishDate2Id = '45496'
+	FieldName = 'ï¿½ï¿½ï¿½ï¿½ï¿½'
+	FinishDate2Id = '45512'
 	FinishDate2Name = ''
-	FinishDateId = '45496'
+	FinishDateId = '45512'
 	FinishDateName = ''
 	FootPrintChartType = '0'
 	KagiReversal = '10'
@@ -2629,7 +2629,7 @@ The reserved words supported in Portfolio optimization:
 	RenkoBoxSizeType = '0'
 	RequestOffline = '0'
 	ResolutionId = '2'
-	ResolutionName = '¤ÀÄÁ'
+	ResolutionName = 'ï¿½ï¿½ï¿½ï¿½'
 	ResolutionSizeId = '43'
 	ResolutionSizeName = ''
 	SessionsId = '6795'
@@ -2651,10 +2651,10 @@ The reserved words supported in Portfolio optimization:
 	TPOResolution = '6'
 	TPOResolutionSize = '1'
 	TimeZoneId = '2'
-	TimeZoneName = '¥æ©ö©Ò'
+	TimeZoneName = 'ï¿½ï¿½ï¿½ï¿½ï¿½'
 	Version = '2'
 	VolumeType = '249'
-	VolumeTypeName = '¦¨¥æªÑ(¤f)¼Æ'
+	VolumeTypeName = 'ï¿½ï¿½ï¿½ï¿½ï¿½(ï¿½f)ï¿½ï¿½'
 
 [Wsp\Window_1\ChartManager\Chart_0\Series_0\IntervalObject]
 	AxisType = '0'
@@ -2668,8 +2668,8 @@ The reserved words supported in Portfolio optimization:
 	ManualMode = '0'
 	MarginBottom = '5'
 	MarginTop = '5'
-	Maximum = '22891,5'
-	Minimum = '22481,5'
+	Maximum = '21566,5925925926'
+	Minimum = '20381,4074074074'
 	MovementSize.Long = '1'
 	MovementSize.Metric = 'False'
 	MovementSize.Price = '5'
@@ -4015,7 +4015,7 @@ The reserved words supported in Portfolio optimization:
 
 [Wsp\Window_1\ChartManager\Chart_1\Series_0\AlertObject\Property_7]
 	PropertyName = '_Email_Subject'
-	PropertyValue = 'MultiCharts64 Äµ¥Ü'
+	PropertyValue = 'MultiCharts64 Äµï¿½ï¿½'
 
 [Wsp\Window_1\ChartManager\Chart_1\Series_0\IndicatorHelper]
 	BaseDataNumber = '0'
@@ -4059,8 +4059,8 @@ The reserved words supported in Portfolio optimization:
 	ManualMode = '0'
 	MarginBottom = '5'
 	MarginTop = '5'
-	Maximum = '1'
-	Minimum = '-1'
+	Maximum = '1,11111111111111'
+	Minimum = '-1,11111111111111'
 	MovementSize.Long = '1'
 	MovementSize.Metric = 'False'
 	MovementSize.Price = '5'
@@ -4487,7 +4487,7 @@ The reserved words supported in Portfolio optimization:
 
 [Wsp\Window_1\ChartManager\Strategy\AlertObject\Property_7]
 	PropertyName = '_Email_Subject'
-	PropertyValue = 'MultiCharts64 Äµ¥Ü'
+	PropertyValue = 'MultiCharts64 Äµï¿½ï¿½'
 
 [Wsp\Window_1\ChartManager\Strategy\MCBroker\MCBrokerObject\PluginsProxies\MCPluginProxiesCollection]
 	Count = '2'
@@ -4496,7 +4496,7 @@ The reserved words supported in Portfolio optimization:
 	Name = 'Interactive Brokers'
 
 [Wsp\Window_1\ChartManager\Strategy\MCBroker\MCBrokerObject\PluginsProxies\MCPluginProxiesCollection\Item_1]
-	Name = '³Í½Ã¦ê±µ¤U³æ¾÷'
+	Name = 'ï¿½Í½Ã¦ê±µï¿½Uï¿½ï¿½ï¿½'
 
 [Wsp\Window_1\ChartManager\Strategy\MCBroker\MCBrokerObject\PluginsProxies\MCPluginProxiesCollection\Item_1\Proxy\MCPluginProxy\AdditionalInfo]
 	PluginData = {
@@ -4565,7 +4565,7 @@ The reserved words supported in Portfolio optimization:
 	ReculcOnOrderFill = '1'
 	ReculcOnOrderReject = '0'
 	ShowSyncMPDialogMode = '3'
-	SystemName = '³Í½Ã¦ê±µ¤U³æ¾÷'
+	SystemName = 'ï¿½Í½Ã¦ê±µï¿½Uï¿½ï¿½ï¿½'
 	isBrokerRT = '0'
 	isSincMode = '0'
 	isStatusWindowShow = '1'
@@ -4747,9 +4747,9 @@ The reserved words supported in Portfolio optimization:
 	ATOn = 'False'
 	Confirm = 'False'
 	NeedActivateAT = 'False'
-	Profile = '³Í½Ã¦ê±µ¤U³æ¾÷'
+	Profile = 'ï¿½Í½Ã¦ê±µï¿½Uï¿½ï¿½ï¿½'
 	StrategyName = 'strategy_f_long_v2_long_ma'
-	SymbolName = 'TXF1 - 43 ¤ÀÄÁ - KWAY64V2'
+	SymbolName = 'TXF1 - 43 ï¿½ï¿½ï¿½ï¿½ - KWAY64V2'
 
 [Wsp\Window_1\ChartManager\Strategy\StrategyHelper\OptimizerProperties\Algorithm_0]
 	CFFScriptGenetic = '// TODO: Enter your formula to replace the samples below 
@@ -5060,7 +5060,7 @@ The reserved words supported in Portfolio optimization:
 	TIF = '4'
 
 [Wsp\Window_1\ChartManager\TradePanelPlaceholder\TradePanelObject\PerAccountSetting\Settings\Settings\Item_0\Second\TIFDate]
-	Ticks = '638570700047670000'
+	Ticks = '638587030460120000'
 
 [Wsp\Window_1\ChartManager\VolumeScale]
 	VolumeBarColor = '8421504'
@@ -5113,7 +5113,7 @@ The reserved words supported in Portfolio optimization:
 [Wsp\Window_2\ChartManager\Chart_0\Series_0\DataSeries\Request]
 	AnchorFinishDate = '0'
 	BackTypeId = '275'
-	BackTypeName = '®ÚK´Î¨Ï¥Î'
+	BackTypeName = 'ï¿½ï¿½Kï¿½Î¨Ï¥ï¿½'
 	BreakOnSession = '1'
 	BuildDayFromMinutes = '0'
 	CallPut = '0'
@@ -5121,22 +5121,22 @@ The reserved words supported in Portfolio optimization:
 	CapacityName = ''
 	Category = '0'
 	CategoryFilter = '0'
-	CategoryFilterName = '´Á³f'
+	CategoryFilterName = 'ï¿½ï¿½ï¿½f'
 	ChartTypeId = '0'
-	ChartTypeName = '¼Ð·Ç'
+	ChartTypeName = 'ï¿½Ð·ï¿½'
 	CumulativeDeltaChartType = '1'
-	CustomResolutionsInfo = '0;8;¼Ð·Ç;1;8;'
+	CustomResolutionsInfo = '0;8;ï¿½Ð·ï¿½;1;8;'
 	CustomResolutionsParams = ''
 	DataFeed = 'KWAY64V2'
 	DeltaType = '1'
-	Description = '»O«ü´Á³sÄò¤ë1'
+	Description = 'ï¿½Oï¿½ï¿½ï¿½ï¿½ï¿½sï¿½ï¿½ï¿½1'
 	Exchange = 'TAIFEX'
 	ExpirationDate = '0'
 	FieldId = '201'
-	FieldName = '¦¨¥æ»ù'
-	FinishDate2Id = '45496'
+	FieldName = 'ï¿½ï¿½ï¿½ï¿½ï¿½'
+	FinishDate2Id = '45512'
 	FinishDate2Name = ''
-	FinishDateId = '45496'
+	FinishDateId = '45512'
 	FinishDateName = ''
 	FootPrintChartType = '0'
 	KagiReversal = '10'
@@ -5159,7 +5159,7 @@ The reserved words supported in Portfolio optimization:
 	RenkoBoxSizeType = '0'
 	RequestOffline = '0'
 	ResolutionId = '2'
-	ResolutionName = '¤ÀÄÁ'
+	ResolutionName = 'ï¿½ï¿½ï¿½ï¿½'
 	ResolutionSizeId = '43'
 	ResolutionSizeName = ''
 	SessionsId = '6795'
@@ -5181,10 +5181,10 @@ The reserved words supported in Portfolio optimization:
 	TPOResolution = '6'
 	TPOResolutionSize = '1'
 	TimeZoneId = '2'
-	TimeZoneName = '¥æ©ö©Ò'
+	TimeZoneName = 'ï¿½ï¿½ï¿½ï¿½ï¿½'
 	Version = '2'
 	VolumeType = '249'
-	VolumeTypeName = '¦¨¥æªÑ(¤f)¼Æ'
+	VolumeTypeName = 'ï¿½ï¿½ï¿½ï¿½ï¿½(ï¿½f)ï¿½ï¿½'
 
 [Wsp\Window_2\ChartManager\Chart_0\Series_0\IntervalObject]
 	AxisType = '0'
@@ -5198,8 +5198,8 @@ The reserved words supported in Portfolio optimization:
 	ManualMode = '0'
 	MarginBottom = '5'
 	MarginTop = '5'
-	Maximum = '22887,6666666667'
-	Minimum = '22554,3333333333'
+	Maximum = '21544,3086419753'
+	Minimum = '20593,6913580247'
 	MovementSize.Long = '1'
 	MovementSize.Metric = 'False'
 	MovementSize.Price = '5'
@@ -6545,7 +6545,7 @@ The reserved words supported in Portfolio optimization:
 
 [Wsp\Window_2\ChartManager\Chart_1\Series_0\AlertObject\Property_7]
 	PropertyName = '_Email_Subject'
-	PropertyValue = 'MultiCharts64 Äµ¥Ü'
+	PropertyValue = 'MultiCharts64 Äµï¿½ï¿½'
 
 [Wsp\Window_2\ChartManager\Chart_1\Series_0\IndicatorHelper]
 	BaseDataNumber = '0'
@@ -6589,8 +6589,8 @@ The reserved words supported in Portfolio optimization:
 	ManualMode = '0'
 	MarginBottom = '5'
 	MarginTop = '5'
-	Maximum = '1'
-	Minimum = '-1'
+	Maximum = '1,11111111111111'
+	Minimum = '-1,11111111111111'
 	MovementSize.Long = '1'
 	MovementSize.Metric = 'False'
 	MovementSize.Price = '5'
@@ -7017,7 +7017,7 @@ The reserved words supported in Portfolio optimization:
 
 [Wsp\Window_2\ChartManager\Strategy\AlertObject\Property_7]
 	PropertyName = '_Email_Subject'
-	PropertyValue = 'MultiCharts64 Äµ¥Ü'
+	PropertyValue = 'MultiCharts64 Äµï¿½ï¿½'
 
 [Wsp\Window_2\ChartManager\Strategy\MCBroker\MCBrokerObject\PluginsProxies\MCPluginProxiesCollection]
 	Count = '2'
@@ -7026,7 +7026,7 @@ The reserved words supported in Portfolio optimization:
 	Name = 'Interactive Brokers'
 
 [Wsp\Window_2\ChartManager\Strategy\MCBroker\MCBrokerObject\PluginsProxies\MCPluginProxiesCollection\Item_1]
-	Name = '³Í½Ã¦ê±µ¤U³æ¾÷'
+	Name = 'ï¿½Í½Ã¦ê±µï¿½Uï¿½ï¿½ï¿½'
 
 [Wsp\Window_2\ChartManager\Strategy\MCBroker\MCBrokerObject\PluginsProxies\MCPluginProxiesCollection\Item_1\Proxy\MCPluginProxy\AdditionalInfo]
 	PluginData = {
@@ -7095,7 +7095,7 @@ The reserved words supported in Portfolio optimization:
 	ReculcOnOrderFill = '1'
 	ReculcOnOrderReject = '0'
 	ShowSyncMPDialogMode = '3'
-	SystemName = '³Í½Ã¦ê±µ¤U³æ¾÷'
+	SystemName = 'ï¿½Í½Ã¦ê±µï¿½Uï¿½ï¿½ï¿½'
 	isBrokerRT = '0'
 	isSincMode = '0'
 	isStatusWindowShow = '1'
@@ -7277,9 +7277,9 @@ The reserved words supported in Portfolio optimization:
 	ATOn = 'False'
 	Confirm = 'False'
 	NeedActivateAT = 'False'
-	Profile = '³Í½Ã¦ê±µ¤U³æ¾÷'
+	Profile = 'ï¿½Í½Ã¦ê±µï¿½Uï¿½ï¿½ï¿½'
 	StrategyName = 'strategy_f_short_v2_long_ma'
-	SymbolName = 'TXF1 - 43 ¤ÀÄÁ - KWAY64V2'
+	SymbolName = 'TXF1 - 43 ï¿½ï¿½ï¿½ï¿½ - KWAY64V2'
 
 [Wsp\Window_2\ChartManager\Strategy\StrategyHelper\OptimizerProperties\Algorithm_0]
 	CFFScriptGenetic = '// TODO: Enter your formula to replace the samples below 
@@ -7590,7 +7590,7 @@ The reserved words supported in Portfolio optimization:
 	TIF = '4'
 
 [Wsp\Window_2\ChartManager\TradePanelPlaceholder\TradePanelObject\PerAccountSetting\Settings\Settings\Item_0\Second\TIFDate]
-	Ticks = '638570700048630000'
+	Ticks = '638587030461500000'
 
 [Wsp\Window_2\ChartManager\VolumeScale]
 	VolumeBarColor = '8421504'
@@ -7604,7 +7604,7 @@ The reserved words supported in Portfolio optimization:
 	ContainerWidth = '1746'
 	Flags = '0'
 	Height = '283'
-	Left = '865'
+	Left = '862'
 	MinX = '-1'
 	MinY = '-1'
 	State = '1'
@@ -7643,7 +7643,7 @@ The reserved words supported in Portfolio optimization:
 [Wsp\Window_3\ChartManager\Chart_0\Series_0\DataSeries\Request]
 	AnchorFinishDate = '0'
 	BackTypeId = '275'
-	BackTypeName = '®ÚK´Î¨Ï¥Î'
+	BackTypeName = 'ï¿½ï¿½Kï¿½Î¨Ï¥ï¿½'
 	BreakOnSession = '1'
 	BuildDayFromMinutes = '0'
 	CallPut = '0'
@@ -7651,22 +7651,22 @@ The reserved words supported in Portfolio optimization:
 	CapacityName = ''
 	Category = '0'
 	CategoryFilter = '0'
-	CategoryFilterName = '´Á³f'
+	CategoryFilterName = 'ï¿½ï¿½ï¿½f'
 	ChartTypeId = '0'
-	ChartTypeName = '¼Ð·Ç'
+	ChartTypeName = 'ï¿½Ð·ï¿½'
 	CumulativeDeltaChartType = '1'
-	CustomResolutionsInfo = '0;8;¼Ð·Ç;1;8;'
+	CustomResolutionsInfo = '0;8;ï¿½Ð·ï¿½;1;8;'
 	CustomResolutionsParams = ''
 	DataFeed = 'KWAY64V2'
 	DeltaType = '1'
-	Description = '»O«ü´Á³sÄò¤ë1'
+	Description = 'ï¿½Oï¿½ï¿½ï¿½ï¿½ï¿½sï¿½ï¿½ï¿½1'
 	Exchange = 'TAIFEX'
 	ExpirationDate = '0'
 	FieldId = '201'
-	FieldName = '¦¨¥æ»ù'
-	FinishDate2Id = '45496'
+	FieldName = 'ï¿½ï¿½ï¿½ï¿½ï¿½'
+	FinishDate2Id = '45512'
 	FinishDate2Name = ''
-	FinishDateId = '45496'
+	FinishDateId = '45512'
 	FinishDateName = ''
 	FootPrintChartType = '0'
 	KagiReversal = '10'
@@ -7689,7 +7689,7 @@ The reserved words supported in Portfolio optimization:
 	RenkoBoxSizeType = '0'
 	RequestOffline = '0'
 	ResolutionId = '2'
-	ResolutionName = '¤ÀÄÁ'
+	ResolutionName = 'ï¿½ï¿½ï¿½ï¿½'
 	ResolutionSizeId = '43'
 	ResolutionSizeName = ''
 	SessionsId = '6795'
@@ -7711,10 +7711,10 @@ The reserved words supported in Portfolio optimization:
 	TPOResolution = '6'
 	TPOResolutionSize = '1'
 	TimeZoneId = '2'
-	TimeZoneName = '¥æ©ö©Ò'
+	TimeZoneName = 'ï¿½ï¿½ï¿½ï¿½ï¿½'
 	Version = '2'
 	VolumeType = '249'
-	VolumeTypeName = '¦¨¥æªÑ(¤f)¼Æ'
+	VolumeTypeName = 'ï¿½ï¿½ï¿½ï¿½ï¿½(ï¿½f)ï¿½ï¿½'
 
 [Wsp\Window_3\ChartManager\Chart_0\Series_0\IntervalObject]
 	AxisType = '0'
@@ -7728,8 +7728,8 @@ The reserved words supported in Portfolio optimization:
 	ManualMode = '0'
 	MarginBottom = '5'
 	MarginTop = '5'
-	Maximum = '23054,8333333333'
-	Minimum = '22138,1666666667'
+	Maximum = '21680,5925925926'
+	Minimum = '19295,4074074074'
 	MovementSize.Long = '1'
 	MovementSize.Metric = 'False'
 	MovementSize.Price = '5'
@@ -9075,7 +9075,7 @@ The reserved words supported in Portfolio optimization:
 
 [Wsp\Window_3\ChartManager\Chart_1\Series_0\AlertObject\Property_7]
 	PropertyName = '_Email_Subject'
-	PropertyValue = 'MultiCharts64 Äµ¥Ü'
+	PropertyValue = 'MultiCharts64 Äµï¿½ï¿½'
 
 [Wsp\Window_3\ChartManager\Chart_1\Series_0\IndicatorHelper]
 	BaseDataNumber = '0'
@@ -9119,8 +9119,8 @@ The reserved words supported in Portfolio optimization:
 	ManualMode = '0'
 	MarginBottom = '5'
 	MarginTop = '5'
-	Maximum = '1'
-	Minimum = '-1'
+	Maximum = '1,11111111111111'
+	Minimum = '-1,11111111111111'
 	MovementSize.Long = '1'
 	MovementSize.Metric = 'False'
 	MovementSize.Price = '5'
@@ -9547,7 +9547,7 @@ The reserved words supported in Portfolio optimization:
 
 [Wsp\Window_3\ChartManager\Strategy\AlertObject\Property_7]
 	PropertyName = '_Email_Subject'
-	PropertyValue = 'MultiCharts64 Äµ¥Ü'
+	PropertyValue = 'MultiCharts64 Äµï¿½ï¿½'
 
 [Wsp\Window_3\ChartManager\Strategy\MCBroker\MCBrokerObject\PluginsProxies\MCPluginProxiesCollection]
 	Count = '2'
@@ -9556,7 +9556,7 @@ The reserved words supported in Portfolio optimization:
 	Name = 'Interactive Brokers'
 
 [Wsp\Window_3\ChartManager\Strategy\MCBroker\MCBrokerObject\PluginsProxies\MCPluginProxiesCollection\Item_1]
-	Name = '³Í½Ã¦ê±µ¤U³æ¾÷'
+	Name = 'ï¿½Í½Ã¦ê±µï¿½Uï¿½ï¿½ï¿½'
 
 [Wsp\Window_3\ChartManager\Strategy\MCBroker\MCBrokerObject\PluginsProxies\MCPluginProxiesCollection\Item_1\Proxy\MCPluginProxy\AdditionalInfo]
 	PluginData = {
@@ -9625,7 +9625,7 @@ The reserved words supported in Portfolio optimization:
 	ReculcOnOrderFill = '1'
 	ReculcOnOrderReject = '0'
 	ShowSyncMPDialogMode = '3'
-	SystemName = '³Í½Ã¦ê±µ¤U³æ¾÷'
+	SystemName = 'ï¿½Í½Ã¦ê±µï¿½Uï¿½ï¿½ï¿½'
 	isBrokerRT = '0'
 	isSincMode = '0'
 	isStatusWindowShow = '1'
@@ -9807,9 +9807,9 @@ The reserved words supported in Portfolio optimization:
 	ATOn = 'False'
 	Confirm = 'False'
 	NeedActivateAT = 'False'
-	Profile = '³Í½Ã¦ê±µ¤U³æ¾÷'
+	Profile = 'ï¿½Í½Ã¦ê±µï¿½Uï¿½ï¿½ï¿½'
 	StrategyName = 'strategy_f_short_v3_band'
-	SymbolName = 'TXF1 - 43 ¤ÀÄÁ - KWAY64V2'
+	SymbolName = 'TXF1 - 43 ï¿½ï¿½ï¿½ï¿½ - KWAY64V2'
 
 [Wsp\Window_3\ChartManager\Strategy\StrategyHelper\OptimizerProperties\Algorithm_0]
 	CFFScriptGenetic = '// TODO: Enter your formula to replace the samples below 
@@ -10120,7 +10120,7 @@ The reserved words supported in Portfolio optimization:
 	TIF = '4'
 
 [Wsp\Window_3\ChartManager\TradePanelPlaceholder\TradePanelObject\PerAccountSetting\Settings\Settings\Item_0\Second\TIFDate]
-	Ticks = '638570700049600000'
+	Ticks = '638587030462590000'
 
 [Wsp\Window_3\ChartManager\VolumeScale]
 	VolumeBarColor = '8421504'
@@ -10173,7 +10173,7 @@ The reserved words supported in Portfolio optimization:
 [Wsp\Window_4\ChartManager\Chart_0\Series_0\DataSeries\Request]
 	AnchorFinishDate = '0'
 	BackTypeId = '275'
-	BackTypeName = '®ÚK´Î¨Ï¥Î'
+	BackTypeName = 'ï¿½ï¿½Kï¿½Î¨Ï¥ï¿½'
 	BreakOnSession = '1'
 	BuildDayFromMinutes = '0'
 	CallPut = '0'
@@ -10181,22 +10181,22 @@ The reserved words supported in Portfolio optimization:
 	CapacityName = ''
 	Category = '0'
 	CategoryFilter = '0'
-	CategoryFilterName = '´Á³f'
+	CategoryFilterName = 'ï¿½ï¿½ï¿½f'
 	ChartTypeId = '0'
-	ChartTypeName = '¼Ð·Ç'
+	ChartTypeName = 'ï¿½Ð·ï¿½'
 	CumulativeDeltaChartType = '1'
-	CustomResolutionsInfo = '0;8;¼Ð·Ç;1;8;'
+	CustomResolutionsInfo = '0;8;ï¿½Ð·ï¿½;1;8;'
 	CustomResolutionsParams = ''
 	DataFeed = 'KWAY64V2'
 	DeltaType = '1'
-	Description = '»O«ü´Á³sÄò¤ë1'
+	Description = 'ï¿½Oï¿½ï¿½ï¿½ï¿½ï¿½sï¿½ï¿½ï¿½1'
 	Exchange = 'TAIFEX'
 	ExpirationDate = '0'
 	FieldId = '201'
-	FieldName = '¦¨¥æ»ù'
-	FinishDate2Id = '45496'
+	FieldName = 'ï¿½ï¿½ï¿½ï¿½ï¿½'
+	FinishDate2Id = '45512'
 	FinishDate2Name = ''
-	FinishDateId = '45496'
+	FinishDateId = '45512'
 	FinishDateName = ''
 	FootPrintChartType = '0'
 	KagiReversal = '10'
@@ -10219,7 +10219,7 @@ The reserved words supported in Portfolio optimization:
 	RenkoBoxSizeType = '0'
 	RequestOffline = '0'
 	ResolutionId = '2'
-	ResolutionName = '¤ÀÄÁ'
+	ResolutionName = 'ï¿½ï¿½ï¿½ï¿½'
 	ResolutionSizeId = '4'
 	ResolutionSizeName = ''
 	SessionsId = '6795'
@@ -10241,10 +10241,10 @@ The reserved words supported in Portfolio optimization:
 	TPOResolution = '6'
 	TPOResolutionSize = '1'
 	TimeZoneId = '2'
-	TimeZoneName = '¥æ©ö©Ò'
+	TimeZoneName = 'ï¿½ï¿½ï¿½ï¿½ï¿½'
 	Version = '2'
 	VolumeType = '249'
-	VolumeTypeName = '¦¨¥æªÑ(¤f)¼Æ'
+	VolumeTypeName = 'ï¿½ï¿½ï¿½ï¿½ï¿½(ï¿½f)ï¿½ï¿½'
 
 [Wsp\Window_4\ChartManager\Chart_0\Series_0\IntervalObject]
 	AxisType = '0'
@@ -10258,8 +10258,8 @@ The reserved words supported in Portfolio optimization:
 	ManualMode = '0'
 	MarginBottom = '5'
 	MarginTop = '5'
-	Maximum = '22848,7777777778'
-	Minimum = '22713,2222222222'
+	Maximum = '20978,962962963'
+	Minimum = '20653,037037037'
 	MovementSize.Long = '1'
 	MovementSize.Metric = 'False'
 	MovementSize.Price = '5'
@@ -11605,7 +11605,7 @@ The reserved words supported in Portfolio optimization:
 
 [Wsp\Window_4\ChartManager\Chart_1\Series_0\AlertObject\Property_7]
 	PropertyName = '_Email_Subject'
-	PropertyValue = 'MultiCharts64 Äµ¥Ü'
+	PropertyValue = 'MultiCharts64 Äµï¿½ï¿½'
 
 [Wsp\Window_4\ChartManager\Chart_1\Series_0\IndicatorHelper]
 	BaseDataNumber = '0'
@@ -11649,8 +11649,8 @@ The reserved words supported in Portfolio optimization:
 	ManualMode = '0'
 	MarginBottom = '5'
 	MarginTop = '5'
-	Maximum = '1'
-	Minimum = '-1'
+	Maximum = '1,11111111111111'
+	Minimum = '-1,11111111111111'
 	MovementSize.Long = '1'
 	MovementSize.Metric = 'False'
 	MovementSize.Price = '5'
@@ -12077,7 +12077,7 @@ The reserved words supported in Portfolio optimization:
 
 [Wsp\Window_4\ChartManager\Strategy\AlertObject\Property_7]
 	PropertyName = '_Email_Subject'
-	PropertyValue = 'MultiCharts64 Äµ¥Ü'
+	PropertyValue = 'MultiCharts64 Äµï¿½ï¿½'
 
 [Wsp\Window_4\ChartManager\Strategy\MCBroker\MCBrokerObject\PluginsProxies\MCPluginProxiesCollection]
 	Count = '2'
@@ -12086,7 +12086,7 @@ The reserved words supported in Portfolio optimization:
 	Name = 'Interactive Brokers'
 
 [Wsp\Window_4\ChartManager\Strategy\MCBroker\MCBrokerObject\PluginsProxies\MCPluginProxiesCollection\Item_1]
-	Name = '³Í½Ã¦ê±µ¤U³æ¾÷'
+	Name = 'ï¿½Í½Ã¦ê±µï¿½Uï¿½ï¿½ï¿½'
 
 [Wsp\Window_4\ChartManager\Strategy\MCBroker\MCBrokerObject\PluginsProxies\MCPluginProxiesCollection\Item_1\Proxy\MCPluginProxy\AdditionalInfo]
 	PluginData = {
@@ -12155,7 +12155,7 @@ The reserved words supported in Portfolio optimization:
 	ReculcOnOrderFill = '1'
 	ReculcOnOrderReject = '0'
 	ShowSyncMPDialogMode = '3'
-	SystemName = '³Í½Ã¦ê±µ¤U³æ¾÷'
+	SystemName = 'ï¿½Í½Ã¦ê±µï¿½Uï¿½ï¿½ï¿½'
 	isBrokerRT = '0'
 	isSincMode = '0'
 	isStatusWindowShow = '1'
@@ -12337,9 +12337,9 @@ The reserved words supported in Portfolio optimization:
 	ATOn = 'False'
 	Confirm = 'False'
 	NeedActivateAT = 'False'
-	Profile = '³Í½Ã¦ê±µ¤U³æ¾÷'
+	Profile = 'ï¿½Í½Ã¦ê±µï¿½Uï¿½ï¿½ï¿½'
 	StrategyName = 'strategy_f_long_v1_ma'
-	SymbolName = 'TXF1 - 4 ¤ÀÄÁ - KWAY64V2'
+	SymbolName = 'TXF1 - 4 ï¿½ï¿½ï¿½ï¿½ - KWAY64V2'
 
 [Wsp\Window_4\ChartManager\Strategy\StrategyHelper\OptimizerProperties\Algorithm_0]
 	CFFScriptGenetic = '// TODO: Enter your formula to replace the samples below 
@@ -12650,7 +12650,7 @@ The reserved words supported in Portfolio optimization:
 	TIF = '4'
 
 [Wsp\Window_4\ChartManager\TradePanelPlaceholder\TradePanelObject\PerAccountSetting\Settings\Settings\Item_0\Second\TIFDate]
-	Ticks = '638570700050590000'
+	Ticks = '638587030463610000'
 
 [Wsp\Window_4\ChartManager\VolumeScale]
 	VolumeBarColor = '8421504'
@@ -12703,7 +12703,7 @@ The reserved words supported in Portfolio optimization:
 [Wsp\Window_5\ChartManager\Chart_0\Series_0\DataSeries\Request]
 	AnchorFinishDate = '0'
 	BackTypeId = '275'
-	BackTypeName = '®ÚK´Î¨Ï¥Î'
+	BackTypeName = 'ï¿½ï¿½Kï¿½Î¨Ï¥ï¿½'
 	BreakOnSession = '1'
 	BuildDayFromMinutes = '0'
 	CallPut = '0'
@@ -12711,22 +12711,22 @@ The reserved words supported in Portfolio optimization:
 	CapacityName = ''
 	Category = '0'
 	CategoryFilter = '0'
-	CategoryFilterName = '´Á³f'
+	CategoryFilterName = 'ï¿½ï¿½ï¿½f'
 	ChartTypeId = '0'
-	ChartTypeName = '¼Ð·Ç'
+	ChartTypeName = 'ï¿½Ð·ï¿½'
 	CumulativeDeltaChartType = '1'
-	CustomResolutionsInfo = '0;8;¼Ð·Ç;1;8;'
+	CustomResolutionsInfo = '0;8;ï¿½Ð·ï¿½;1;8;'
 	CustomResolutionsParams = ''
 	DataFeed = 'KWAY64V2'
 	DeltaType = '1'
-	Description = '»O«ü´Á³sÄò¤ë1'
+	Description = 'ï¿½Oï¿½ï¿½ï¿½ï¿½ï¿½sï¿½ï¿½ï¿½1'
 	Exchange = 'TAIFEX'
 	ExpirationDate = '0'
 	FieldId = '201'
-	FieldName = '¦¨¥æ»ù'
-	FinishDate2Id = '45496'
+	FieldName = 'ï¿½ï¿½ï¿½ï¿½ï¿½'
+	FinishDate2Id = '45512'
 	FinishDate2Name = ''
-	FinishDateId = '45496'
+	FinishDateId = '45512'
 	FinishDateName = ''
 	FootPrintChartType = '0'
 	KagiReversal = '10'
@@ -12749,7 +12749,7 @@ The reserved words supported in Portfolio optimization:
 	RenkoBoxSizeType = '0'
 	RequestOffline = '0'
 	ResolutionId = '2'
-	ResolutionName = '¤ÀÄÁ'
+	ResolutionName = 'ï¿½ï¿½ï¿½ï¿½'
 	ResolutionSizeId = '4'
 	ResolutionSizeName = ''
 	SessionsId = '6795'
@@ -12771,10 +12771,10 @@ The reserved words supported in Portfolio optimization:
 	TPOResolution = '6'
 	TPOResolutionSize = '1'
 	TimeZoneId = '2'
-	TimeZoneName = '¥æ©ö©Ò'
+	TimeZoneName = 'ï¿½ï¿½ï¿½ï¿½ï¿½'
 	Version = '2'
 	VolumeType = '249'
-	VolumeTypeName = '¦¨¥æªÑ(¤f)¼Æ'
+	VolumeTypeName = 'ï¿½ï¿½ï¿½ï¿½ï¿½(ï¿½f)ï¿½ï¿½'
 
 [Wsp\Window_5\ChartManager\Chart_0\Series_0\IntervalObject]
 	AxisType = '0'
@@ -12788,8 +12788,8 @@ The reserved words supported in Portfolio optimization:
 	ManualMode = '0'
 	MarginBottom = '5'
 	MarginTop = '5'
-	Maximum = '22874,1111111111'
-	Minimum = '22711,8888888889'
+	Maximum = '21193,4814814814'
+	Minimum = '20630,5185185186'
 	MovementSize.Long = '1'
 	MovementSize.Metric = 'False'
 	MovementSize.Price = '5'
@@ -14135,7 +14135,7 @@ The reserved words supported in Portfolio optimization:
 
 [Wsp\Window_5\ChartManager\Chart_1\Series_0\AlertObject\Property_7]
 	PropertyName = '_Email_Subject'
-	PropertyValue = 'MultiCharts64 Äµ¥Ü'
+	PropertyValue = 'MultiCharts64 Äµï¿½ï¿½'
 
 [Wsp\Window_5\ChartManager\Chart_1\Series_0\IndicatorHelper]
 	BaseDataNumber = '0'
@@ -14179,8 +14179,8 @@ The reserved words supported in Portfolio optimization:
 	ManualMode = '0'
 	MarginBottom = '5'
 	MarginTop = '5'
-	Maximum = '1'
-	Minimum = '-1'
+	Maximum = '1,11111111111111'
+	Minimum = '-1,11111111111111'
 	MovementSize.Long = '1'
 	MovementSize.Metric = 'False'
 	MovementSize.Price = '5'
@@ -14607,7 +14607,7 @@ The reserved words supported in Portfolio optimization:
 
 [Wsp\Window_5\ChartManager\Strategy\AlertObject\Property_7]
 	PropertyName = '_Email_Subject'
-	PropertyValue = 'MultiCharts64 Äµ¥Ü'
+	PropertyValue = 'MultiCharts64 Äµï¿½ï¿½'
 
 [Wsp\Window_5\ChartManager\Strategy\MCBroker\MCBrokerObject\PluginsProxies\MCPluginProxiesCollection]
 	Count = '2'
@@ -14616,7 +14616,7 @@ The reserved words supported in Portfolio optimization:
 	Name = 'Interactive Brokers'
 
 [Wsp\Window_5\ChartManager\Strategy\MCBroker\MCBrokerObject\PluginsProxies\MCPluginProxiesCollection\Item_1]
-	Name = '³Í½Ã¦ê±µ¤U³æ¾÷'
+	Name = 'ï¿½Í½Ã¦ê±µï¿½Uï¿½ï¿½ï¿½'
 
 [Wsp\Window_5\ChartManager\Strategy\MCBroker\MCBrokerObject\PluginsProxies\MCPluginProxiesCollection\Item_1\Proxy\MCPluginProxy\AdditionalInfo]
 	PluginData = {
@@ -14685,7 +14685,7 @@ The reserved words supported in Portfolio optimization:
 	ReculcOnOrderFill = '1'
 	ReculcOnOrderReject = '0'
 	ShowSyncMPDialogMode = '3'
-	SystemName = '³Í½Ã¦ê±µ¤U³æ¾÷'
+	SystemName = 'ï¿½Í½Ã¦ê±µï¿½Uï¿½ï¿½ï¿½'
 	isBrokerRT = '0'
 	isSincMode = '0'
 	isStatusWindowShow = '1'
@@ -14867,9 +14867,9 @@ The reserved words supported in Portfolio optimization:
 	ATOn = 'False'
 	Confirm = 'False'
 	NeedActivateAT = 'False'
-	Profile = '³Í½Ã¦ê±µ¤U³æ¾÷'
+	Profile = 'ï¿½Í½Ã¦ê±µï¿½Uï¿½ï¿½ï¿½'
 	StrategyName = 'strategy_f_short_v1_ma'
-	SymbolName = 'TXF1 - 4 ¤ÀÄÁ - KWAY64V2'
+	SymbolName = 'TXF1 - 4 ï¿½ï¿½ï¿½ï¿½ - KWAY64V2'
 
 [Wsp\Window_5\ChartManager\Strategy\StrategyHelper\OptimizerProperties\Algorithm_0]
 	CFFScriptGenetic = '// TODO: Enter your formula to replace the samples below 
@@ -15180,7 +15180,7 @@ The reserved words supported in Portfolio optimization:
 	TIF = '4'
 
 [Wsp\Window_5\ChartManager\TradePanelPlaceholder\TradePanelObject\PerAccountSetting\Settings\Settings\Item_0\Second\TIFDate]
-	Ticks = '638570700051590000'
+	Ticks = '638587030464620000'
 
 [Wsp\Window_5\ChartManager\VolumeScale]
 	VolumeBarColor = '8421504'
