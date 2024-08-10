@@ -1,0 +1,59 @@
+//TXF 43 min
+inputs: Enabled(1), OrderSize(1);
+inputs: C1(1), C2(2), C3(3), C4(4);
+
+if Enabled = 0 then
+	#Return;
+
+
+var: KBar(220), BBandDown(0), ATR(0);
+KBar = C1;
+BBandDown = BollingerBand(Close, KBar, C2);
+ATR = AvgTrueRange(KBar);
+
+//Over day reset
+var:LL(0);
+if D > D[1] then begin
+	LL = OpenD(0) - ATR * C3;
+end;
+
+vars: MaxOpenPositionProfit(0);
+if MarketPosition <> 0 then begin
+	if MaxOpenPositionProfit < OpenPositionProfit then
+		MaxOpenPositionProfit = OpenPositionProfit;
+end else begin
+	MaxOpenPositionProfit = 0;
+end;
+
+var: EntryLow(99999);
+if MarketPosition = -1 then begin
+	if Low < EntryLow then
+		EntryLow = Low;
+end else begin
+	EntryLow = 99999;
+end;
+
+if MarketPosition = 0 then begin
+	vars: SellCond(True);
+	SellCond = not (OverMonth and 1200 < Time and Time < 1400);
+	SellCond = SellCond and not (0845 <= Time and Time <= 0847);
+	SellCond = SellCond and Low < BBandDown;
+	SellCond = SellCond and Close < Open;
+	SellCond = SellCond and Close < LL;
+	if SellCond then
+		SellShort ("SE") OrderSize contracts next bar market;
+
+end else begin
+	if OverMonth and 1200 < Time and Time < 1400 then begin
+		BuyToCover ("SX_Settle") all contracts next bar market;
+	end;
+
+	{if OpenPositionProfit > 0 and OpenPositionProfit < MaxOpenPositionProfit - 80 * BigPointValue * OrderSize then begin
+		BuyToCover ("SX_Pullback") all contracts next bar market;
+	end;}
+
+	if Close > EntryLow + ATR * C4 then
+		BuyToCover ("SX_Giveup") all contracts next bar market;
+end;
+
+
