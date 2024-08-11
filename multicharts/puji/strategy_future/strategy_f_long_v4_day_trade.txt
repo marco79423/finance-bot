@@ -15,12 +15,12 @@ end;
 
 vars:HH(999999);
 If D > D[1] then begin 
-	HH = 999999 ;
+	HH = 999999;
 end; 
 
 if Time = 0925 then begin 
-	HH = HighD(0) ;
-end ;  
+	HH = HighD(0);
+end;
 
 If MarketPosition = 0 then begin
 	vars: BuyCond(True);
@@ -33,9 +33,7 @@ If MarketPosition = 0 then begin
 	if BuyCond then begin
 		Buy ("LE") OrderSize contracts next bar market;
 	end;
-end;
-
-if MarketPosition = 1 then begin
+end else begin
 	vars: Base(0);
 	Base = AvgTrueRange(60);
 	
