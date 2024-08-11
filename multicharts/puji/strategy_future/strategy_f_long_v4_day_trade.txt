@@ -12,12 +12,7 @@ end else begin
 	MaxOpenPositionProfit = 0;
 end;
 
-
 vars:HH(999999);
-If D > D[1] then begin 
-	HH = 999999;
-end; 
-
 if Time = 0925 then begin 
 	HH = HighD(0);
 end;
