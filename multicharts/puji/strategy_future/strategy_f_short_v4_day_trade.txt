@@ -1,0 +1,46 @@
+//TXF 4 min
+inputs: Enabled(1), OrderSize(1);
+
+if Enabled = 0 then
+	#Return;
+
+vars: MaxOpenPositionProfit(0);
+if MarketPosition <> 0 then begin
+	if MaxOpenPositionProfit < OpenPositionProfit then
+		MaxOpenPositionProfit = OpenPositionProfit;
+end else begin
+	MaxOpenPositionProfit = 0;
+end;
+
+vars:HH(999999);
+if Time = 0925 then begin 
+	HH = HighD(0);
+end;
+
+If MarketPosition = 0 then begin
+	vars: BuyCond(True);
+	BuyCond = True;
+	BuyCond = BuyCond and Time >= 0925 and Time < 1300;
+	BuyCond = BuyCond and OpenD(0) - CloseD(1) > 15;
+	BuyCond = BuyCond and HighD(0) - CloseD(1) > 155;
+	BuyCond = BuyCond and EntriesToday(D) <= 0;
+	BuyCond = BuyCond and Close > HH;
+	if BuyCond then begin
+		Buy ("LE") OrderSize contracts next bar market;
+	end;
+end else begin
+	vars: Base(0);
+	Base = AvgTrueRange(60);
+	
+	if OpenPositionProfit > 0.72 * Base * BigPointValue * OrderSize and OpenPositionProfit < MaxOpenPositionProfit - 0.95 * Base * BigPointValue * OrderSize then begin
+		Sell ("LX_Pullback") all contracts next bar market;
+	end;
+
+	if OpenPositionProfit < -160 * BigPointValue * OrderSize then begin
+		Sell ("LX_StopLoss") all contracts next bar market;
+	end;
+
+	If Time >= 1320 then begin
+		sell ("LX_Timeout") next bar market; 
+	end;
+end;
