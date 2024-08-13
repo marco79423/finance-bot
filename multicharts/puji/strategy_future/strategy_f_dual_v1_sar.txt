@@ -1,0 +1,87 @@
+//TXF 53min
+inputs: Enabled(1), OrderSize(1);
+
+if Enabled = 0 then
+	#Return;
+
+vars: MaxOpenPositionProfit(0);
+if MarketPosition <> 0 then begin
+	if MaxOpenPositionProfit < OpenPositionProfit then
+		MaxOpenPositionProfit = OpenPositionProfit;
+end else begin
+	MaxOpenPositionProfit = 0;
+end;
+
+vars: AfStep(0.01), AfLimit(0.02), ParCl(0), ParOp(0), Position(0), Transition(0) , SAR(0);
+SAR = ParabolicSAR(AfStep, AfLimit, ParCl, ParOp, Position, Transition) ;
+
+vars: EnvCond(True);
+EnvCond = True;
+EnvCond = not (OverMonth and 1200 < Time and Time < 1400);
+EnvCond = EnvCond and not (0845 <= Time and Time <= 0847);
+
+vars: BuyCond(True);
+BuyCond = True;
+BuyCond = BuyCond and EnvCond;
+BuyCond = BuyCond and Position = 1;
+BuyCond = BuyCond and Close > AverageFC(Close, 63);
+BuyCond = BuyCond and Close > High[1];
+if BuyCond then
+	Buy ("LE") OrderSize contracts next bar market;
+
+vars: ShortCond(True);
+ShortCond = True;
+ShortCond = ShortCond and EnvCond;
+ShortCond = ShortCond and Position = -1;
+ShortCond = ShortCond and Close < AverageFC(Close, 186);
+ShortCond = ShortCond and Close < Low[1];
+if ShortCond then
+	SellShort ("SE") OrderSize contracts next bar market;
+
+if MarketPosition = 1 then begin
+	if OverMonth and 1200 < Time and Time < 1400 then begin
+		Sell ("LX_Settle") all contracts next bar market;
+	end;
+
+	if OpenPositionProfit > 550 * BigPointValue * OrderSize and OpenPositionProfit < MaxOpenPositionProfit then begin
+		Sell ("LX_Win") all contracts next bar market;
+	end;
+
+	if OpenPositionProfit > 175 * BigPointValue * OrderSize and OpenPositionProfit < MaxOpenPositionProfit * 0.75 then begin
+		Sell ("LX_Pullback") all contracts next bar market;
+	end;
+
+	if OpenPositionProfit > 70 * BigPointValue * OrderSize and OpenPositionProfit < MaxOpenPositionProfit * 0.1 then begin
+		Sell ("LX_Pullbac2") all contracts next bar market;
+	end;
+
+	if OpenPositionProfit < -190 * BigPointValue * OrderSize then begin
+		Sell ("LX_StopLoss") all contracts next bar market;
+	end;
+end;
+
+if MarketPosition = -1 then begin
+	if OverMonth and 1200 < Time and Time < 1400 then begin
+		BuyToCover ("SX_Settle") all contracts next bar market;
+	end;
+
+	if OpenPositionProfit > 680 * BigPointValue * OrderSize and OpenPositionProfit < MaxOpenPositionProfit * 0.95 then begin
+		BuyToCover ("SX_Pullback") all contracts next bar market;
+	end;
+
+	if OpenPositionProfit > 295 * BigPointValue * OrderSize and OpenPositionProfit < MaxOpenPositionProfit * 0.5 then begin
+		BuyToCover ("SX_Pullback2") all contracts next bar market;
+	end;
+
+	if OpenPositionProfit > 135 * BigPointValue * OrderSize and OpenPositionProfit < MaxOpenPositionProfit * 0.30 then begin
+		BuyToCover ("SX_Pullback3") all contracts next bar market;
+	end;
+
+	if OpenPositionProfit > 50 * BigPointValue * OrderSize and OpenPositionProfit < MaxOpenPositionProfit * 0.10 then begin
+		BuyToCover ("SX_Pullback4") all contracts next bar market;
+	end;
+
+	if OpenPositionProfit < -50 * BigPointValue * OrderSize then begin
+		BuyToCover ("SX_StopLoss") all contracts next bar market;
+	end;
+end;
