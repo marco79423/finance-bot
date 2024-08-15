@@ -1,17 +1,17 @@
-//TXF 43 min
+//TXF 47 min
 inputs: Enabled(1), OrderSize(1);
 
 if Enabled = 0 then
 	#Return;
 
-var: KBar(520), BBandDown(0), ATR(0);
-BBandDown = BollingerBand(Close, KBar, -1.9);
+var: KBar(540), BBandDown(0), ATR(0);
+BBandDown = BollingerBand(Close, KBar, -1);
 ATR = AvgTrueRange(KBar);
 
 //Over day reset
 var:LL(0);
 if D > D[1] then begin
-	LL = OpenD(0) - ATR * 0.9;
+	LL = OpenD(0) - ATR;
 end;
 
 vars: MaxOpenPositionProfit(0);
@@ -48,7 +48,10 @@ end else begin
 		BuyToCover ("SX_Settle") all contracts next bar market;
 	end;
 
-	if OpenPositionProfit > 10 and OpenPositionProfit < MaxOpenPositionProfit - 200 * BigPointValue * OrderSize then begin
+	vars: Base(0), BP(1);
+	Base = AvgTrueRange(60);
+	BP =  OpenPositionProfit / (Base * BigPointValue * OrderSize);
+	if OpenPositionProfit > 0 and OpenPositionProfit < MaxOpenPositionProfit - (3.95 - BP) * Base * BigPointValue * OrderSize then begin
 		BuyToCover ("SX_Pullback") all contracts next bar market;
 	end;
 
