@@ -1,18 +1,17 @@
-//TXF 43 min
+//TXF 47 min
 inputs: Enabled(1), OrderSize(1);
 
 if Enabled = 0 then
 	#Return;
 
-
-var: KBar(40), BBandUp(0), ATR(0);
-BBandUp = BollingerBand(Close, KBar, 2);
+var: KBar(37), BBandUp(0), ATR(0);
+BBandUp = BollingerBand(Close, KBar, 1.5);
 ATR = AvgTrueRange(KBar);
 
 //Over day reset
-var:HH(99999);
+var: HH(99999);
 if D > D[1] then begin
-	HH = OpenD(0) + ATR * 0.6;
+	HH = OpenD(0) + ATR * 0.3;
 end;
 
 vars: MaxOpenPositionProfit(0);
@@ -38,18 +37,24 @@ if MarketPosition = 0 then begin
 	BuyCond = BuyCond and High > BBandUp;
 	BuyCond = BuyCond and Close > Open;
 	BuyCond = BuyCond and Close > HH;
-	if BuyCond then
+	if BuyCond then begin
 		Buy ("LE") OrderSize contracts next bar market;
+    end;
 
 end else begin
 	if OverMonth and 1200 < Time and Time < 1400 then begin
 		Sell ("LX_Settle") all contracts next bar market;
 	end;
 
-	if OpenPositionProfit > 0 and OpenPositionProfit < MaxOpenPositionProfit - 80 * BigPointValue * OrderSize then begin
+	vars: Base(0), BP(1);
+	Base = AvgTrueRange(60);
+	BP =  OpenPositionProfit / (Base * BigPointValue * OrderSize);
+	if OpenPositionProfit > 0 and OpenPositionProfit < MaxOpenPositionProfit - (2.35 - BP * 0.35) * Base * BigPointValue * OrderSize then begin
 		Sell ("LX_Pullback") all contracts next bar market;
 	end;
 
-	if Close < EntryHigh - ATR * 4 then
+	if Close < EntryHigh - ATR * 7.5 then begin
 		Sell ("LX_Giveup") all contracts next bar market;
+	end;
+
 end;
