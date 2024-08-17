@@ -13,12 +13,12 @@
 	ContainerHeight = '860'
 	ContainerWidth = '1750'
 	Flags = '2'
-	Height = '318'
-	Left = '35'
+	Height = '317'
+	Left = '38'
 	MinX = '-1'
 	MinY = '-1'
 	State = '3'
-	Top = '39'
+	Top = '38'
 	ViewType = '0'
 	Width = '1940'
 
@@ -53,7 +53,7 @@
 [Wsp\Window_0\ChartManager\Chart_0\Series_0\DataSeries\Request]
 	AnchorFinishDate = '0'
 	BackTypeId = '275'
-	BackTypeName = 'ï¿½ï¿½Kï¿½Î¨Ï¥ï¿½'
+	BackTypeName = '®ÚK´Î¨Ï¥Î'
 	BreakOnSession = '1'
 	BuildDayFromMinutes = '0'
 	CallPut = '0'
@@ -61,22 +61,22 @@
 	CapacityName = ''
 	Category = '0'
 	CategoryFilter = '0'
-	CategoryFilterName = 'ï¿½ï¿½ï¿½f'
+	CategoryFilterName = '´Á³f'
 	ChartTypeId = '0'
-	ChartTypeName = 'ï¿½Ð·ï¿½'
+	ChartTypeName = '¼Ð·Ç'
 	CumulativeDeltaChartType = '1'
-	CustomResolutionsInfo = '0;8;ï¿½Ð·ï¿½;1;8;'
+	CustomResolutionsInfo = '0;8;¼Ð·Ç;1;8;'
 	CustomResolutionsParams = ''
 	DataFeed = 'KWAY64V2'
 	DeltaType = '1'
-	Description = 'ï¿½Oï¿½ï¿½ï¿½ï¿½ï¿½sï¿½ï¿½ï¿½1'
+	Description = '»O«ü´Á³sÄò¤ë1'
 	Exchange = 'TAIFEX'
 	ExpirationDate = '0'
 	FieldId = '201'
-	FieldName = 'ï¿½ï¿½ï¿½ï¿½ï¿½'
-	FinishDate2Id = '45512'
+	FieldName = '¦¨¥æ»ù'
+	FinishDate2Id = '45521'
 	FinishDate2Name = ''
-	FinishDateId = '45512'
+	FinishDateId = '45521'
 	FinishDateName = ''
 	FootPrintChartType = '0'
 	KagiReversal = '10'
@@ -99,8 +99,8 @@
 	RenkoBoxSizeType = '0'
 	RequestOffline = '0'
 	ResolutionId = '2'
-	ResolutionName = 'ï¿½ï¿½ï¿½ï¿½'
-	ResolutionSizeId = '43'
+	ResolutionName = '¤ÀÄÁ'
+	ResolutionSizeId = '13'
 	ResolutionSizeName = ''
 	SessionsId = '6795'
 	SessionsName = 'TXF.MXF.TXO.UDF.SPF|Session New'
@@ -121,10 +121,10 @@
 	TPOResolution = '6'
 	TPOResolutionSize = '1'
 	TimeZoneId = '2'
-	TimeZoneName = 'ï¿½ï¿½ï¿½ï¿½ï¿½'
+	TimeZoneName = '¥æ©ö©Ò'
 	Version = '2'
 	VolumeType = '249'
-	VolumeTypeName = 'ï¿½ï¿½ï¿½ï¿½ï¿½(ï¿½f)ï¿½ï¿½'
+	VolumeTypeName = '¦¨¥æªÑ(¤f)¼Æ'
 
 [Wsp\Window_0\ChartManager\Chart_0\Series_0\IntervalObject]
 	AxisType = '0'
@@ -138,8 +138,8 @@
 	ManualMode = '0'
 	MarginBottom = '5'
 	MarginTop = '5'
-	Maximum = '21767,7530864198'
-	Minimum = '18528,2469135802'
+	Maximum = '22482,6666666667'
+	Minimum = '21769,3333333333'
 	MovementSize.Long = '1'
 	MovementSize.Metric = 'False'
 	MovementSize.Price = '5'
@@ -1479,7 +1479,7 @@
 
 [Wsp\Window_0\ChartManager\Chart_0\Series_1\AlertObject\Property_7]
 	PropertyName = '_Email_Subject'
-	PropertyValue = 'MultiCharts64 Äµï¿½ï¿½'
+	PropertyValue = 'MultiCharts64 Äµ¥Ü'
 
 [Wsp\Window_0\ChartManager\Chart_0\Series_1\IndicatorHelper]
 	BaseDataNumber = '0'
@@ -1610,7 +1610,7 @@
 
 [Wsp\Window_0\ChartManager\Chart_0\Series_2\AlertObject\Property_7]
 	PropertyName = '_Email_Subject'
-	PropertyValue = 'MultiCharts64 Äµï¿½ï¿½'
+	PropertyValue = 'MultiCharts64 Äµ¥Ü'
 
 [Wsp\Window_0\ChartManager\Chart_0\Series_2\IndicatorHelper]
 	BaseDataNumber = '0'
@@ -1747,7 +1747,7 @@
 
 [Wsp\Window_0\ChartManager\Chart_1\Series_0\AlertObject\Property_7]
 	PropertyName = '_Email_Subject'
-	PropertyValue = 'MultiCharts64 Äµï¿½ï¿½'
+	PropertyValue = 'MultiCharts64 Äµ¥Ü'
 
 [Wsp\Window_0\ChartManager\Chart_1\Series_0\IndicatorHelper]
 	BaseDataNumber = '0'
@@ -1785,8 +1785,8 @@
 	ManualMode = '0'
 	MarginBottom = '5'
 	MarginTop = '5'
-	Maximum = '69217,7407407408'
-	Minimum = '-7263,74074074075'
+	Maximum = '8909,88888888889'
+	Minimum = '-467,888888888889'
 	MovementSize.Long = '1'
 	MovementSize.Metric = 'False'
 	MovementSize.Price = '5'
@@ -1850,9 +1850,9 @@
 	Type = '4'
 
 [Wsp\Window_0\ChartManager\IndexViewCalc]
-	BarSpacing = '12'
+	BarSpacing = '9'
 	BarsToRight = '20'
-	BarsToRightValue = '25'
+	BarsToRightValue = '33'
 	ChartShiftViewType = '0'
 	ShowEmptyPeriod = '0'
 
@@ -2078,13 +2078,13 @@
 	WFIntervalType = '0'
 
 [Wsp\Window_0\ChartManager\OptimizeManager\OptimizeManager\WFOptimizer\WFO]
-	IS_size = '10'
+	IS_size = '6723'
 	IntervalType = '0'
 	IsAnchored = '0'
-	IsDefaultInitNeeded = '1'
+	IsDefaultInitNeeded = '0'
 	Num_of_Runs = '5'
 	OOS_Size_Type = '0'
-	OOS_size = '10'
+	OOS_size = '672'
 	ReportFilePath = ''
 	Segment_type = '1'
 	WFReportExist = '0'
@@ -2213,7 +2213,7 @@
 
 [Wsp\Window_0\ChartManager\Strategy\AlertObject\Property_7]
 	PropertyName = '_Email_Subject'
-	PropertyValue = 'MultiCharts64 Äµï¿½ï¿½'
+	PropertyValue = 'MultiCharts64 Äµ¥Ü'
 
 [Wsp\Window_0\ChartManager\Strategy\MCBroker\MCBrokerObject\PluginsProxies\MCPluginProxiesCollection]
 	Count = '2'
@@ -2222,7 +2222,7 @@
 	Name = 'Interactive Brokers'
 
 [Wsp\Window_0\ChartManager\Strategy\MCBroker\MCBrokerObject\PluginsProxies\MCPluginProxiesCollection\Item_1]
-	Name = 'ï¿½Í½Ã¦ê±µï¿½Uï¿½ï¿½ï¿½'
+	Name = '³Í½Ã¦ê±µ¤U³æ¾÷'
 
 [Wsp\Window_0\ChartManager\Strategy\MCBroker\MCBrokerObject\PluginsProxies\MCPluginProxiesCollection\Item_1\Proxy\MCPluginProxy\AdditionalInfo]
 	PluginData = {
@@ -2291,7 +2291,7 @@
 	ReculcOnOrderFill = '1'
 	ReculcOnOrderReject = '0'
 	ShowSyncMPDialogMode = '0'
-	SystemName = 'ï¿½Í½Ã¦ê±µï¿½Uï¿½ï¿½ï¿½'
+	SystemName = '³Í½Ã¦ê±µ¤U³æ¾÷'
 	isBrokerRT = '0'
 	isSincMode = '0'
 	isStatusWindowShow = '1'
@@ -2308,38 +2308,6 @@
 	IOGTypeExit = '1'
 	TimesPerBar = '1'
 	UseFreshSnapOnAdditionalDS = '0'
-
-[Wsp\Window_0\ChartManager\Strategy\SignalObject_0\SignalHelper\InputHelper\Input_C1]
-	IsInputOptimizable = '0'
-	LocalCurrentValue2 = '11'
-	Start2 = '1'
-	Step2 = '10'
-	Stop2 = '100'
-	Value = '11'
-
-[Wsp\Window_0\ChartManager\Strategy\SignalObject_0\SignalHelper\InputHelper\Input_C2]
-	IsInputOptimizable = '0'
-	LocalCurrentValue2 = '7'
-	Start2 = '4'
-	Step2 = '1'
-	Stop2 = '10'
-	Value = '5'
-
-[Wsp\Window_0\ChartManager\Strategy\SignalObject_0\SignalHelper\InputHelper\Input_C3]
-	IsInputOptimizable = '1'
-	LocalCurrentValue2 = '2,1'
-	Start2 = '1'
-	Step2 = '0,1'
-	Stop2 = '5'
-	Value = '2.1'
-
-[Wsp\Window_0\ChartManager\Strategy\SignalObject_0\SignalHelper\InputHelper\Input_C4]
-	IsInputOptimizable = '0'
-	LocalCurrentValue2 = '3,6'
-	Start2 = '3,6'
-	Step2 = '0,1'
-	Stop2 = '5'
-	Value = '3.6'
 
 [Wsp\Window_0\ChartManager\Strategy\SignalObject_0\SignalHelper\InputHelper\Input_Enabled]
 	IsInputOptimizable = '0'
@@ -2678,9 +2646,9 @@
 	ATOn = 'False'
 	Confirm = 'False'
 	NeedActivateAT = 'False'
-	Profile = 'ï¿½Í½Ã¦ê±µï¿½Uï¿½ï¿½ï¿½'
-	StrategyName = ''
-	SymbolName = 'TXF1 - 43 ï¿½ï¿½ï¿½ï¿½ - KWAY64V2'
+	Profile = '³Í½Ã¦ê±µ¤U³æ¾÷'
+	StrategyName = 'strategy_fx_test'
+	SymbolName = 'TXF1 - 13 ¤ÀÄÁ - KWAY64V2'
 
 [Wsp\Window_0\ChartManager\Strategy\StrategyHelper\OptimizerProperties\Algorithm_0]
 	CFFScriptGenetic = '// TODO: Enter your formula to replace the samples below 
@@ -2911,7 +2879,7 @@ The reserved words supported in Portfolio optimization:
 	BTOFAMode = '0'
 	BTOFAPoints = '0'
 	BTOFA_TIF = '1'
-	BarReference = '1000'
+	BarReference = '100'
 	BidIndex = '0'
 	CalcPnLInSymbolCurrency = '1'
 	CommisionType = '0'
@@ -2991,7 +2959,7 @@ The reserved words supported in Portfolio optimization:
 	TIF = '1'
 
 [Wsp\Window_0\ChartManager\TradePanelPlaceholder\TradePanelObject\PerAccountSetting\Settings\Settings\Item_0\Second\TIFDate]
-	Ticks = '638587030476510000'
+	Ticks = '638587031439260000'
 
 [Wsp\Window_0\ChartManager\VolumeScale]
 	VolumeBarColor = '8421504'
