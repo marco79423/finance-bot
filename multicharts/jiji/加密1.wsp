@@ -1,6 +1,6 @@
 
 [Wsp]
-	(C2526AC1-535C-4a67-92B5-101E53EA9E4B) = '{3}{5}{4}{2}{1}{0}'
+	(C2526AC1-535C-4a67-92B5-101E53EA9E4B) = '{4}{3}{2}{5}{1}{0}'
 	ActiveIndex = '5'
 	MaximizedFlag = '0'
 	ProductVersion = '15.0.26624.400'
@@ -78,9 +78,9 @@
 	ExpirationDate = '0'
 	FieldId = '201'
 	FieldName = 'Trade'
-	FinishDate2Id = '45494'
+	FinishDate2Id = '45521'
 	FinishDate2Name = ''
-	FinishDateId = '45494'
+	FinishDateId = '45521'
 	FinishDateName = ''
 	FootPrintChartType = '0'
 	KagiReversal = '0,1'
@@ -143,8 +143,8 @@
 	ManualMode = '0'
 	MarginBottom = '5'
 	MarginTop = '5'
-	Maximum = '67462,5655555556'
-	Minimum = '66935,6544444444'
+	Maximum = '59422,7427777778'
+	Minimum = '58751,4872222222'
 	MovementSize.Long = '1'
 	MovementSize.Metric = 'False'
 	MovementSize.Price = '5'
@@ -2381,62 +2381,6 @@
 	TimesPerBar = '1'
 	UseFreshSnapOnAdditionalDS = '1'
 
-[Wsp\Window_0\ChartManager\Strategy\SignalObject_0\SignalHelper\CustomInputHelperDT\Input_C1]
-	IsInputOptimizable = '1'
-	LocalCurrentValue2 = '70'
-	Start2 = '70'
-	Step2 = '1'
-	Stop2 = '70'
-	Value = '70'
-
-[Wsp\Window_0\ChartManager\Strategy\SignalObject_0\SignalHelper\CustomInputHelperDT\Input_C2]
-	IsInputOptimizable = '1'
-	LocalCurrentValue2 = '430'
-	Start2 = '430'
-	Step2 = '1'
-	Stop2 = '430'
-	Value = '430'
-
-[Wsp\Window_0\ChartManager\Strategy\SignalObject_0\SignalHelper\CustomInputHelperDT\Input_C3]
-	IsInputOptimizable = '1'
-	LocalCurrentValue2 = '4'
-	Start2 = '4'
-	Step2 = '1'
-	Stop2 = '4'
-	Value = '4'
-
-[Wsp\Window_0\ChartManager\Strategy\SignalObject_0\SignalHelper\CustomInputHelperDT\Input_C4]
-	IsInputOptimizable = '1'
-	LocalCurrentValue2 = '13'
-	Start2 = '13'
-	Step2 = '1'
-	Stop2 = '13'
-	Value = '13'
-
-[Wsp\Window_0\ChartManager\Strategy\SignalObject_0\SignalHelper\CustomInputHelperDT\Input_C5]
-	IsInputOptimizable = '1'
-	LocalCurrentValue2 = '2'
-	Start2 = '2'
-	Step2 = '1'
-	Stop2 = '2'
-	Value = '2'
-
-[Wsp\Window_0\ChartManager\Strategy\SignalObject_0\SignalHelper\CustomInputHelperDT\Input_C6]
-	IsInputOptimizable = '1'
-	LocalCurrentValue2 = '30'
-	Start2 = '30'
-	Step2 = '1'
-	Stop2 = '30'
-	Value = '30'
-
-[Wsp\Window_0\ChartManager\Strategy\SignalObject_0\SignalHelper\CustomInputHelperDT\Input_C7]
-	IsInputOptimizable = '1'
-	LocalCurrentValue2 = '455'
-	Start2 = '455'
-	Step2 = '1'
-	Stop2 = '455'
-	Value = '455'
-
 [Wsp\Window_0\ChartManager\Strategy\SignalObject_0\SignalHelper\CustomInputHelperDT\Input_Enabled]
 	IsInputOptimizable = '1'
 	LocalCurrentValue2 = '1'
@@ -2453,70 +2397,6 @@
 	Stop2 = '1'
 	Value = '1'
 
-[Wsp\Window_0\ChartManager\Strategy\SignalObject_0\SignalHelper\CustomInputHelperDT\Input_WinPoint]
-	IsInputOptimizable = '1'
-	LocalCurrentValue2 = '50'
-	Start2 = '50'
-	Step2 = '1'
-	Stop2 = '50'
-	Value = '50'
-
-[Wsp\Window_0\ChartManager\Strategy\SignalObject_0\SignalHelper\InputHelper\Input_C1]
-	IsInputOptimizable = '1'
-	LocalCurrentValue2 = '59'
-	Start2 = '5'
-	Step2 = '5'
-	Stop2 = '945'
-	Value = '59'
-
-[Wsp\Window_0\ChartManager\Strategy\SignalObject_0\SignalHelper\InputHelper\Input_C2]
-	IsInputOptimizable = '0'
-	LocalCurrentValue2 = '75'
-	Start2 = '15'
-	Step2 = '15'
-	Stop2 = '75'
-	Value = '75'
-
-[Wsp\Window_0\ChartManager\Strategy\SignalObject_0\SignalHelper\InputHelper\Input_C3]
-	IsInputOptimizable = '0'
-	LocalCurrentValue2 = '2'
-	Start2 = '1'
-	Step2 = '1'
-	Stop2 = '20'
-	Value = '2'
-
-[Wsp\Window_0\ChartManager\Strategy\SignalObject_0\SignalHelper\InputHelper\Input_C4]
-	IsInputOptimizable = '0'
-	LocalCurrentValue2 = '75'
-	Start2 = '10'
-	Step2 = '1'
-	Stop2 = '100'
-	Value = '75'
-
-[Wsp\Window_0\ChartManager\Strategy\SignalObject_0\SignalHelper\InputHelper\Input_C5]
-	IsInputOptimizable = '0'
-	LocalCurrentValue2 = '1'
-	Start2 = '1'
-	Step2 = '1'
-	Stop2 = '10'
-	Value = '1'
-
-[Wsp\Window_0\ChartManager\Strategy\SignalObject_0\SignalHelper\InputHelper\Input_C6]
-	IsInputOptimizable = '0'
-	LocalCurrentValue2 = '945'
-	Start2 = '5'
-	Step2 = '5'
-	Stop2 = '1000'
-	Value = '945'
-
-[Wsp\Window_0\ChartManager\Strategy\SignalObject_0\SignalHelper\InputHelper\Input_C7]
-	IsInputOptimizable = '0'
-	LocalCurrentValue2 = '975'
-	Start2 = '100'
-	Step2 = '5'
-	Stop2 = '1000'
-	Value = '975'
-
 [Wsp\Window_0\ChartManager\Strategy\SignalObject_0\SignalHelper\InputHelper\Input_Enabled]
 	IsInputOptimizable = '0'
 	LocalCurrentValue2 = '1'
@@ -2532,14 +2412,6 @@
 	Step2 = '1'
 	Stop2 = '10'
 	Value = '10'
-
-[Wsp\Window_0\ChartManager\Strategy\SignalObject_0\SignalHelper\InputHelper\Input_WinPoint]
-	IsInputOptimizable = '1'
-	LocalCurrentValue2 = '50'
-	Start2 = '50'
-	Step2 = '1'
-	Stop2 = '50'
-	Value = '50'
 
 [Wsp\Window_0\ChartManager\Strategy\SignalObject_0\SignalHelper\Styles\OrderType: Buy Entry\ArrowProps]
 	Color = '16711680'
@@ -3173,7 +3045,7 @@ The reserved words supported in Portfolio optimization:
 	FixedContracts = '10'
 	IOGSendOrdersImmediatly = '0'
 	IgnoreTickCache_v2 = '1'
-	InitCapital = '6000000'
+	InitCapital = '2000000'
 	InterestRate = '0'
 	LIBEnabled = '0'
 	LIBSize = '1'
@@ -3294,9 +3166,9 @@ The reserved words supported in Portfolio optimization:
 	ExpirationDate = '0'
 	FieldId = '201'
 	FieldName = 'Trade'
-	FinishDate2Id = '45494'
+	FinishDate2Id = '45521'
 	FinishDate2Name = ''
-	FinishDateId = '45494'
+	FinishDateId = '45521'
 	FinishDateName = ''
 	FootPrintChartType = '0'
 	KagiReversal = '0,1'
@@ -3359,8 +3231,8 @@ The reserved words supported in Portfolio optimization:
 	ManualMode = '0'
 	MarginBottom = '5'
 	MarginTop = '5'
-	Maximum = '67674,4188888889'
-	Minimum = '66146,0411111111'
+	Maximum = '60025,4944444444'
+	Minimum = '55870,8055555556'
 	MovementSize.Long = '1'
 	MovementSize.Metric = 'False'
 	MovementSize.Price = '5'
@@ -5623,11 +5495,11 @@ The reserved words supported in Portfolio optimization:
 
 [Wsp\Window_1\ChartManager\Strategy\SignalObject_0\SignalHelper\InputHelper\Input_OrderSize]
 	IsInputOptimizable = '1'
-	LocalCurrentValue2 = '1'
+	LocalCurrentValue2 = '10'
 	Start2 = '1'
 	Step2 = '1'
 	Stop2 = '1'
-	Value = '1'
+	Value = '10'
 
 [Wsp\Window_1\ChartManager\Strategy\SignalObject_0\SignalHelper\Styles\OrderType: Buy Entry\ArrowProps]
 	Color = '16711680'
@@ -6261,7 +6133,7 @@ The reserved words supported in Portfolio optimization:
 	FixedContracts = '10'
 	IOGSendOrdersImmediatly = '0'
 	IgnoreTickCache_v2 = '1'
-	InitCapital = '6000000'
+	InitCapital = '2000000'
 	InterestRate = '0'
 	LIBEnabled = '0'
 	LIBSize = '1'
@@ -6382,9 +6254,9 @@ The reserved words supported in Portfolio optimization:
 	ExpirationDate = '0'
 	FieldId = '201'
 	FieldName = 'Trade'
-	FinishDate2Id = '45494'
+	FinishDate2Id = '45521'
 	FinishDate2Name = ''
-	FinishDateId = '45494'
+	FinishDateId = '45521'
 	FinishDateName = ''
 	FootPrintChartType = '0'
 	KagiReversal = '0,1'
@@ -6447,8 +6319,8 @@ The reserved words supported in Portfolio optimization:
 	ManualMode = '0'
 	MarginBottom = '5'
 	MarginTop = '5'
-	Maximum = '67674,4188888889'
-	Minimum = '66146,0411111111'
+	Maximum = '60025,4944444444'
+	Minimum = '55870,8055555556'
 	MovementSize.Long = '1'
 	MovementSize.Metric = 'False'
 	MovementSize.Price = '5'
@@ -8711,11 +8583,11 @@ The reserved words supported in Portfolio optimization:
 
 [Wsp\Window_2\ChartManager\Strategy\SignalObject_0\SignalHelper\InputHelper\Input_OrderSize]
 	IsInputOptimizable = '1'
-	LocalCurrentValue2 = '1'
-	Start2 = '1'
+	LocalCurrentValue2 = '10'
+	Start2 = '10'
 	Step2 = '1'
-	Stop2 = '1'
-	Value = '1'
+	Stop2 = '10'
+	Value = '10'
 
 [Wsp\Window_2\ChartManager\Strategy\SignalObject_0\SignalHelper\Styles\OrderType: Buy Entry\ArrowProps]
 	Color = '16711680'
@@ -9349,7 +9221,7 @@ The reserved words supported in Portfolio optimization:
 	FixedContracts = '10'
 	IOGSendOrdersImmediatly = '0'
 	IgnoreTickCache_v2 = '1'
-	InitCapital = '6000000'
+	InitCapital = '2000000'
 	InterestRate = '0'
 	LIBEnabled = '0'
 	LIBSize = '1'
@@ -9470,9 +9342,9 @@ The reserved words supported in Portfolio optimization:
 	ExpirationDate = '0'
 	FieldId = '201'
 	FieldName = 'Trade'
-	FinishDate2Id = '45494'
+	FinishDate2Id = '45521'
 	FinishDate2Name = ''
-	FinishDateId = '45494'
+	FinishDateId = '45521'
 	FinishDateName = ''
 	FootPrintChartType = '0'
 	KagiReversal = '0,1'
@@ -9535,8 +9407,8 @@ The reserved words supported in Portfolio optimization:
 	ManualMode = '0'
 	MarginBottom = '5'
 	MarginTop = '5'
-	Maximum = '67462,5655555556'
-	Minimum = '66935,6544444444'
+	Maximum = '59422,7427777778'
+	Minimum = '58751,4872222222'
 	MovementSize.Long = '1'
 	MovementSize.Metric = 'False'
 	MovementSize.Price = '5'
@@ -11799,11 +11671,11 @@ The reserved words supported in Portfolio optimization:
 
 [Wsp\Window_3\ChartManager\Strategy\SignalObject_0\SignalHelper\InputHelper\Input_OrderSize]
 	IsInputOptimizable = '1'
-	LocalCurrentValue2 = '1'
+	LocalCurrentValue2 = '10'
 	Start2 = '1'
 	Step2 = '1'
 	Stop2 = '1'
-	Value = '1'
+	Value = '10'
 
 [Wsp\Window_3\ChartManager\Strategy\SignalObject_0\SignalHelper\Styles\OrderType: Buy Entry\ArrowProps]
 	Color = '16711680'
@@ -12437,7 +12309,7 @@ The reserved words supported in Portfolio optimization:
 	FixedContracts = '10'
 	IOGSendOrdersImmediatly = '0'
 	IgnoreTickCache_v2 = '1'
-	InitCapital = '6000000'
+	InitCapital = '2000000'
 	InterestRate = '0'
 	LIBEnabled = '0'
 	LIBSize = '1'
@@ -12558,9 +12430,9 @@ The reserved words supported in Portfolio optimization:
 	ExpirationDate = '0'
 	FieldId = '201'
 	FieldName = 'Trade'
-	FinishDate2Id = '45494'
+	FinishDate2Id = '45521'
 	FinishDate2Name = ''
-	FinishDateId = '45494'
+	FinishDateId = '45521'
 	FinishDateName = ''
 	FootPrintChartType = '0'
 	KagiReversal = '0,1'
@@ -12623,8 +12495,8 @@ The reserved words supported in Portfolio optimization:
 	ManualMode = '0'
 	MarginBottom = '5'
 	MarginTop = '5'
-	Maximum = '67462,5655555556'
-	Minimum = '66935,6544444444'
+	Maximum = '59422,7427777778'
+	Minimum = '58751,4872222222'
 	MovementSize.Long = '1'
 	MovementSize.Metric = 'False'
 	MovementSize.Price = '5'
@@ -14887,11 +14759,11 @@ The reserved words supported in Portfolio optimization:
 
 [Wsp\Window_4\ChartManager\Strategy\SignalObject_0\SignalHelper\InputHelper\Input_OrderSize]
 	IsInputOptimizable = '1'
-	LocalCurrentValue2 = '1'
-	Start2 = '1'
+	LocalCurrentValue2 = '10'
+	Start2 = '10'
 	Step2 = '1'
-	Stop2 = '1'
-	Value = '1'
+	Stop2 = '10'
+	Value = '10'
 
 [Wsp\Window_4\ChartManager\Strategy\SignalObject_0\SignalHelper\Styles\OrderType: Buy Entry\ArrowProps]
 	Color = '16711680'
@@ -15525,7 +15397,7 @@ The reserved words supported in Portfolio optimization:
 	FixedContracts = '10'
 	IOGSendOrdersImmediatly = '0'
 	IgnoreTickCache_v2 = '1'
-	InitCapital = '6000000'
+	InitCapital = '2000000'
 	InterestRate = '0'
 	LIBEnabled = '0'
 	LIBSize = '1'
@@ -15646,9 +15518,9 @@ The reserved words supported in Portfolio optimization:
 	ExpirationDate = '0'
 	FieldId = '201'
 	FieldName = 'Trade'
-	FinishDate2Id = '45494'
+	FinishDate2Id = '45521'
 	FinishDate2Name = ''
-	FinishDateId = '45494'
+	FinishDateId = '45521'
 	FinishDateName = ''
 	FootPrintChartType = '0'
 	KagiReversal = '0,1'
@@ -15711,8 +15583,8 @@ The reserved words supported in Portfolio optimization:
 	ManualMode = '0'
 	MarginBottom = '5'
 	MarginTop = '5'
-	Maximum = '67462,5655555556'
-	Minimum = '66935,6544444444'
+	Maximum = '59422,7427777778'
+	Minimum = '58751,4872222222'
 	MovementSize.Long = '1'
 	MovementSize.Metric = 'False'
 	MovementSize.Price = '5'
@@ -17975,11 +17847,11 @@ The reserved words supported in Portfolio optimization:
 
 [Wsp\Window_5\ChartManager\Strategy\SignalObject_0\SignalHelper\InputHelper\Input_OrderSize]
 	IsInputOptimizable = '1'
-	LocalCurrentValue2 = '1'
-	Start2 = '1'
+	LocalCurrentValue2 = '10'
+	Start2 = '10'
 	Step2 = '1'
-	Stop2 = '1'
-	Value = '1'
+	Stop2 = '10'
+	Value = '10'
 
 [Wsp\Window_5\ChartManager\Strategy\SignalObject_0\SignalHelper\Styles\OrderType: Buy Entry\ArrowProps]
 	Color = '16711680'
@@ -18613,7 +18485,7 @@ The reserved words supported in Portfolio optimization:
 	FixedContracts = '10'
 	IOGSendOrdersImmediatly = '0'
 	IgnoreTickCache_v2 = '1'
-	InitCapital = '6000000'
+	InitCapital = '2000000'
 	InterestRate = '0'
 	LIBEnabled = '0'
 	LIBSize = '1'
