@@ -8,7 +8,6 @@ var: KBar(540), BBandDown(0), ATR(0);
 BBandDown = BollingerBand(Close, KBar, -1);
 ATR = AvgTrueRange(KBar);
 
-//Over day reset
 var:LL(0);
 if D > D[1] then begin
 	LL = OpenD(0) - ATR;
@@ -40,8 +39,9 @@ if MarketPosition = 0 then begin
 	ShortCond = ShortCond and Low < BBandDown;
 	ShortCond = ShortCond and Close < LL;
 	ShortCond = ShortCond and Ticks = Highest(Ticks, 2);
-	if ShortCond then
+	if ShortCond then begin
 		SellShort ("SE") OrderSize contracts next bar market;
+	end;
 
 end else begin
 	if OverMonth and 1200 < Time and Time < 1400 then begin
@@ -55,6 +55,7 @@ end else begin
 		BuyToCover ("SX_Pullback") all contracts next bar market;
 	end;
 
-	if Close > EntryLow + ATR * 3.2 then
+	if Close > EntryLow + ATR * 3.2 then begin
 		BuyToCover ("SX_Giveup") all contracts next bar market;
+	end;
 end;
