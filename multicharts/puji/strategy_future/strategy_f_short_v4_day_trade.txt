@@ -12,35 +12,41 @@ end else begin
 	MaxOpenPositionProfit = 0;
 end;
 
-vars:HH(999999);
-if Time = 0925 then begin 
-	HH = HighD(0);
+vars: LL(-999999);
+If D > D[1] then begin
+	LL = -999999;
+end;
+
+if Time = 0925 then begin
+	LL = LowD(0);
 end;
 
 If MarketPosition = 0 then begin
-	vars: BuyCond(True);
-	BuyCond = True;
-	BuyCond = BuyCond and Time >= 0925 and Time < 1300;
-	BuyCond = BuyCond and OpenD(0) - CloseD(1) > 15;
-	BuyCond = BuyCond and HighD(0) - CloseD(1) > 155;
-	BuyCond = BuyCond and EntriesToday(D) <= 0;
-	BuyCond = BuyCond and Close > HH;
-	if BuyCond then begin
-		Buy ("LE") OrderSize contracts next bar market;
+	vars: ShortCond(True);
+	ShortCond = True;
+	ShortCond = ShortCond and Time >= 0925 and Time < 1300;
+	ShortCond = ShortCond and OpenD(0) - CloseD(1) < -5;
+	ShortCond = ShortCond and LowD(0) - CloseD(1) < -125;
+	ShortCond = ShortCond and EntriesToday(D) <= 0;
+	ShortCond = ShortCond and Close < LL;
+	if ShortCond then begin
+		SellShort ("SE") OrderSize contracts next bar market;
 	end;
 end else begin
 	vars: Base(0);
 	Base = AvgTrueRange(60);
-	
-	if OpenPositionProfit > 0.72 * Base * BigPointValue * OrderSize and OpenPositionProfit < MaxOpenPositionProfit - 0.95 * Base * BigPointValue * OrderSize then begin
-		Sell ("LX_Pullback") all contracts next bar market;
+
+	vars: BP(1);
+	BP =  OpenPositionProfit / (Base * BigPointValue * OrderSize);
+	if OpenPositionProfit > 0 and OpenPositionProfit < MaxOpenPositionProfit - (7.4 - BP * 0.8) * Base * BigPointValue * OrderSize then begin
+		BuyToCover ("SX_Pullback") all contracts next bar market;
 	end;
 
-	if OpenPositionProfit < -160 * BigPointValue * OrderSize then begin
-		Sell ("LX_StopLoss") all contracts next bar market;
+	if OpenPositionProfit < -90 * BigPointValue * OrderSize then begin
+		BuyToCover ("SX_StopLoss") all contracts next bar market;
 	end;
 
 	If Time >= 1320 then begin
-		sell ("LX_Timeout") next bar market; 
+		BuyToCover ("SX_Timeout") next bar market;
 	end;
 end;
