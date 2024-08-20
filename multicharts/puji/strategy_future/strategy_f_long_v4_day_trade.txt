@@ -12,8 +12,8 @@ end else begin
 	MaxOpenPositionProfit = 0;
 end;
 
-vars:HH(999999);
-if Time = 0925 then begin 
+vars: HH(999999);
+if Time = 0925 then begin
 	HH = HighD(0);
 end;
 
@@ -31,8 +31,10 @@ If MarketPosition = 0 then begin
 end else begin
 	vars: Base(0);
 	Base = AvgTrueRange(60);
-	
-	if OpenPositionProfit > 0.72 * Base * BigPointValue * OrderSize and OpenPositionProfit < MaxOpenPositionProfit - 0.95 * Base * BigPointValue * OrderSize then begin
+
+	vars: BP(1);
+	BP =  OpenPositionProfit / (Base * BigPointValue * OrderSize);
+	if OpenPositionProfit > 0 and OpenPositionProfit < MaxOpenPositionProfit - (5.1 - BP * 0.5) * Base * BigPointValue * OrderSize then begin
 		Sell ("LX_Pullback") all contracts next bar market;
 	end;
 
@@ -41,6 +43,6 @@ end else begin
 	end;
 
 	If Time >= 1320 then begin
-		sell ("LX_Timeout") next bar market; 
+		sell ("LX_Timeout") next bar market;
 	end;
 end;
