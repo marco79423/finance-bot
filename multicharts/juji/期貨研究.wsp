@@ -14,14 +14,14 @@
 	ContainerHeight = '790'
 	ContainerWidth = '1750'
 	Flags = '2'
-	Height = '289'
-	Left = '35'
+	Height = '288'
+	Left = '38'
 	MinX = '-1'
 	MinY = '-1'
 	State = '3'
-	Top = '35'
+	Top = '34'
 	ViewType = '0'
-	Width = '2546'
+	Width = '2787'
 
 [Wsp\Window_0\ChartManager]
 	ChartCount = '2'
@@ -37,7 +37,7 @@
 	LSeriesNum = '0'
 	PencentHeight = '0,6'
 	RSeriesNum = '0'
-	SeriesCount = '4'
+	SeriesCount = '5'
 	invert Scale = '0'
 
 [Wsp\Window_0\ChartManager\Chart_0\Series_0]
@@ -78,9 +78,9 @@
 	ExpirationDate = '0'
 	FieldId = '201'
 	FieldName = 'Trade'
-	FinishDate2Id = '45514'
+	FinishDate2Id = '45518'
 	FinishDate2Name = ''
-	FinishDateId = '45514'
+	FinishDateId = '45518'
 	FinishDateName = ''
 	FootPrintChartType = '0'
 	KagiReversal = '10'
@@ -105,7 +105,7 @@
 	RequestOffline = '0'
 	ResolutionId = '2'
 	ResolutionName = 'Minute'
-	ResolutionSizeId = '43'
+	ResolutionSizeId = '13'
 	ResolutionSizeName = ''
 	SessionsId = '7342'
 	SessionsName = 'TXF.MXF.TXO.UDF.SPF|Session New'
@@ -143,8 +143,8 @@
 	ManualMode = '0'
 	MarginBottom = '5'
 	MarginTop = '5'
-	Maximum = '16276,1236337241'
-	Minimum = '13716,9166791157'
+	Maximum = '21540,5576888889'
+	Minimum = '19655,1666666667'
 	MovementSize.Long = '1'
 	MovementSize.Metric = 'False'
 	MovementSize.Price = '5'
@@ -1967,7 +1967,7 @@
 	DrawingsCount = '0'
 	InvisibleSubChart = '0'
 	SeriesType = '0'
-	Status = '1'
+	Status = '0'
 	UpdateOnEveryTick = '1'
 
 [Wsp\Window_0\ChartManager\Chart_0\Series_3\AlertObject]
@@ -2100,8 +2100,8 @@
 	ManualMode = '0'
 	MarginBottom = '5'
 	MarginTop = '5'
-	Maximum = '16276,1236337241'
-	Minimum = '13716,9166791157'
+	Maximum = '24527,9444444444'
+	Minimum = '21304,0874683567'
 	MovementSize.Long = '1'
 	MovementSize.Metric = 'False'
 	MovementSize.Price = '5'
@@ -2136,6 +2136,147 @@
 	IdName = 'ic_Bollingerc20Bands'
 
 [Wsp\Window_0\ChartManager\Chart_0\Series_3\VolumeObject]
+	VolumeBarWidth = '1'
+	VolumeBarsBackCount = '100'
+	VolumeBarsType = '0'
+	VolumeDataRangeType = '3'
+	VolumePlotNumber = '0'
+
+[Wsp\Window_0\ChartManager\Chart_0\Series_4]
+	CalcRealTimeAsHistory = '1'
+	DrawingsCount = '0'
+	InvisibleSubChart = '0'
+	SeriesType = '0'
+	Status = '1'
+	UpdateOnEveryTick = '1'
+
+[Wsp\Window_0\ChartManager\Chart_0\Series_4\AlertObject]
+	AlertEnable = '0'
+	AlertType = '1'
+	PropertyCount = '11'
+
+[Wsp\Window_0\ChartManager\Chart_0\Series_4\AlertObject\Property_0]
+	PropertyName = '_Audio_Enable'
+	PropertyValue = '1'
+
+[Wsp\Window_0\ChartManager\Chart_0\Series_4\AlertObject\Property_1]
+	PropertyName = '_Audio_Sound'
+	PropertyValue = '1'
+
+[Wsp\Window_0\ChartManager\Chart_0\Series_4\AlertObject\Property_10]
+	PropertyName = '_Email_Subject'
+	PropertyValue = 'MultiCharts64 Alert'
+
+[Wsp\Window_0\ChartManager\Chart_0\Series_4\AlertObject\Property_2]
+	PropertyName = '_Audio_Sound_File'
+	PropertyValue = 'ding.wav'
+
+[Wsp\Window_0\ChartManager\Chart_0\Series_4\AlertObject\Property_3]
+	PropertyName = '_Audio_Sound_Repeat'
+	PropertyValue = '0'
+
+[Wsp\Window_0\ChartManager\Chart_0\Series_4\AlertObject\Property_4]
+	PropertyName = '_Visual_Enable'
+	PropertyValue = '1'
+
+[Wsp\Window_0\ChartManager\Chart_0\Series_4\AlertObject\Property_5]
+	PropertyName = '_Visual_Timeout'
+	PropertyValue = '5'
+
+[Wsp\Window_0\ChartManager\Chart_0\Series_4\AlertObject\Property_6]
+	PropertyName = '_Email_Enable'
+	PropertyValue = '0'
+
+[Wsp\Window_0\ChartManager\Chart_0\Series_4\AlertObject\Property_7]
+	PropertyName = '_ExtEmail_Tag'
+	PropertyValue = ''
+
+[Wsp\Window_0\ChartManager\Chart_0\Series_4\AlertObject\Property_8]
+	PropertyName = '_WebHook_Tag'
+	PropertyValue = ''
+
+[Wsp\Window_0\ChartManager\Chart_0\Series_4\AlertObject\Property_9]
+	PropertyName = '_Telegram_Enable'
+	PropertyValue = '0'
+
+[Wsp\Window_0\ChartManager\Chart_0\Series_4\IndicatorHelper]
+	BaseDataNumber = '0'
+	CalcRealTimeAsHistory = '1'
+	GordonLamCalc = '0'
+	PersistentContent = ''
+	SkipIdenticalTicks = '1'
+	UpdateEveryTick = '1'
+	UpdateOnEveryTick = '1'
+	UseAddSeriesFreshSnap_v2 = '1'
+	UseFreshSnapOnAdditionalDS = '1'
+	UserBarMode = '0'
+	UserBarRef = '50'
+
+[Wsp\Window_0\ChartManager\Chart_0\Series_4\IndicatorHelper\InputHelper\Input_AfLimit]
+	Value = '0.2'
+
+[Wsp\Window_0\ChartManager\Chart_0\Series_4\IndicatorHelper\InputHelper\Input_AfStep]
+	Value = '0.02'
+
+[Wsp\Window_0\ChartManager\Chart_0\Series_4\IndicatorHelper\PlotHelper\Plot_1]
+	DefAlign = '2'
+	DefBKColor = '0'
+	DefColor = '255'
+	DefColor2 = '255'
+	DefDecimals = '5'
+	DefFormat = '1'
+	DefShowLastPriceMarker = '-1'
+	DefStyle = '0'
+	DefWidth = '1'
+	PlotType = '2'
+
+[Wsp\Window_0\ChartManager\Chart_0\Series_4\IntervalObject]
+	AxisType = '0'
+	Center = '0'
+	CustomNullsCount = '-1'
+	CustomNullsCountEnable = 'False'
+	Fixed Label Number = '10'
+	Fixed Step Size = '0,01'
+	Label Increment Mode = '1'
+	ManualMode = '0'
+	MarginBottom = '5'
+	MarginTop = '5'
+	Maximum = '21540,5576888889'
+	Minimum = '19655,1666666667'
+	MovementSize.Long = '1'
+	MovementSize.Metric = 'False'
+	MovementSize.Price = '5'
+	OverlayDataSeries = 'False'
+	PriceRange.Above = '1,79769313486232E+308'
+	PriceRange.Below = '1,79769313486232E+308'
+	ScaleType = '3'
+	UseMargins = '1'
+
+[Wsp\Window_0\ChartManager\Chart_0\Series_4\LabelProcessingObject]
+	AutoMode = '1'
+	EnableProcessing = '0'
+	PriceScaleType = '101'
+	SelectedId = '0'
+
+[Wsp\Window_0\ChartManager\Chart_0\Series_4\LabelProcessingObject\Item 0]
+	Suffix = 'x'
+
+[Wsp\Window_0\ChartManager\Chart_0\Series_4\LabelProcessingObject\Item 1]
+	Suffix = 'c'
+
+[Wsp\Window_0\ChartManager\Chart_0\Series_4\LabelProcessingObject\Item 2]
+	Suffix = 'k'
+
+[Wsp\Window_0\ChartManager\Chart_0\Series_4\LabelProcessingObject\Item 3]
+	Suffix = 'm'
+
+[Wsp\Window_0\ChartManager\Chart_0\Series_4\LabelProcessingObject\Item 4]
+	Suffix = 'b'
+
+[Wsp\Window_0\ChartManager\Chart_0\Series_4\ShortTechInfo]
+	IdName = 'id_Parabolicd20SAR'
+
+[Wsp\Window_0\ChartManager\Chart_0\Series_4\VolumeObject]
 	VolumeBarWidth = '1'
 	VolumeBarsBackCount = '100'
 	VolumeBarsType = '0'
@@ -2242,8 +2383,8 @@
 	ManualMode = '0'
 	MarginBottom = '5'
 	MarginTop = '5'
-	Maximum = '37116,4444444444'
-	Minimum = '-1752,44444444444'
+	Maximum = '26258,3333333333'
+	Minimum = '-1088,33333333333'
 	MovementSize.Long = '1'
 	MovementSize.Metric = 'False'
 	MovementSize.Price = '5'
@@ -2308,7 +2449,7 @@
 	Type = '4'
 
 [Wsp\Window_0\ChartManager\IndexViewCalc]
-	BarSpacing = '18'
+	BarSpacing = '17,5'
 	BarsToRight = '20'
 	BarsToRightValue = '17'
 	ChartShiftViewType = '0'
@@ -2642,7 +2783,7 @@
 	Left Manual = '0'
 	Left Scale = '0'
 	Precise Marker = '1'
-	Right Characters = '10'
+	Right Characters = '9'
 	Right Manual = '0'
 	Right Scale = '1'
 	Time To Close = '1'
@@ -2849,12 +2990,12 @@
 	IsRepeatSound = '0'
 	NeedCancelMarketOrders = '1'
 	OptimizeSendOrdersMode = '1'
-	OriginalSystemName = ''
+	OriginalSystemName = 'Interactive Brokers'
 	ReculcOnMPChange = '1'
 	ReculcOnOrderFill = '1'
 	ReculcOnOrderReject = '0'
 	ShowSyncMPDialogMode = '0'
-	SystemName = ''
+	SystemName = 'Interactive Brokers'
 	TIF_Limit = '0'
 	TIF_Limit_+_DAYs = '1'
 	TIF_Market = '0'
@@ -2885,7 +3026,7 @@
 	IOGTypeEntry = '1'
 	IOGTypeExit = '1'
 	TimesPerBar = '1'
-	UseFreshSnapOnAdditionalDS = '0'
+	UseFreshSnapOnAdditionalDS = '1'
 
 [Wsp\Window_0\ChartManager\Strategy\SignalObject_0\SignalHelper\CustomInputHelperDT\Input_C1]
 	IsInputOptimizable = '1'
@@ -2897,21 +3038,37 @@
 
 [Wsp\Window_0\ChartManager\Strategy\SignalObject_0\SignalHelper\CustomInputHelperDT\Input_C2]
 	IsInputOptimizable = '1'
-	LocalCurrentValue2 = '1'
-	Start2 = '1'
+	LocalCurrentValue2 = '2'
+	Start2 = '2'
 	Step2 = '1'
-	Stop2 = '1'
-	Value = '1'
+	Stop2 = '2'
+	Value = '2'
 
 [Wsp\Window_0\ChartManager\Strategy\SignalObject_0\SignalHelper\CustomInputHelperDT\Input_C3]
 	IsInputOptimizable = '1'
-	LocalCurrentValue2 = '1'
-	Start2 = '1'
+	LocalCurrentValue2 = '3'
+	Start2 = '3'
 	Step2 = '1'
-	Stop2 = '1'
-	Value = '1'
+	Stop2 = '3'
+	Value = '3'
 
 [Wsp\Window_0\ChartManager\Strategy\SignalObject_0\SignalHelper\CustomInputHelperDT\Input_C4]
+	IsInputOptimizable = '1'
+	LocalCurrentValue2 = '4'
+	Start2 = '4'
+	Step2 = '1'
+	Stop2 = '4'
+	Value = '4'
+
+[Wsp\Window_0\ChartManager\Strategy\SignalObject_0\SignalHelper\CustomInputHelperDT\Input_C5]
+	IsInputOptimizable = '1'
+	LocalCurrentValue2 = '5'
+	Start2 = '5'
+	Step2 = '1'
+	Stop2 = '5'
+	Value = '5'
+
+[Wsp\Window_0\ChartManager\Strategy\SignalObject_0\SignalHelper\CustomInputHelperDT\Input_Enabled]
 	IsInputOptimizable = '1'
 	LocalCurrentValue2 = '1'
 	Start2 = '1'
@@ -2919,7 +3076,15 @@
 	Stop2 = '1'
 	Value = '1'
 
-[Wsp\Window_0\ChartManager\Strategy\SignalObject_0\SignalHelper\CustomInputHelperDT\Input_Enabled]
+[Wsp\Window_0\ChartManager\Strategy\SignalObject_0\SignalHelper\CustomInputHelperDT\Input_F1]
+	IsInputOptimizable = '1'
+	LocalCurrentValue2 = '1'
+	Start2 = '1'
+	Step2 = '1'
+	Stop2 = '1'
+	Value = '1'
+
+[Wsp\Window_0\ChartManager\Strategy\SignalObject_0\SignalHelper\CustomInputHelperDT\Input_F2]
 	IsInputOptimizable = '1'
 	LocalCurrentValue2 = '1'
 	Start2 = '1'
@@ -2937,37 +3102,61 @@
 
 [Wsp\Window_0\ChartManager\Strategy\SignalObject_0\SignalHelper\InputHelper\Input_C1]
 	IsInputOptimizable = '1'
-	LocalCurrentValue2 = '2'
-	Start2 = '1'
-	Step2 = '1'
-	Stop2 = '100'
-	Value = '2'
+	LocalCurrentValue2 = '2,5'
+	Start2 = '5'
+	Step2 = '5'
+	Stop2 = '1000'
+	Value = '2.5'
 
 [Wsp\Window_0\ChartManager\Strategy\SignalObject_0\SignalHelper\InputHelper\Input_C2]
 	IsInputOptimizable = '0'
-	LocalCurrentValue2 = '40'
-	Start2 = '10'
-	Step2 = '10'
-	Stop2 = '1000'
-	Value = '40'
+	LocalCurrentValue2 = '2'
+	Start2 = '0,01'
+	Step2 = '0,01'
+	Stop2 = '20'
+	Value = '2'
 
 [Wsp\Window_0\ChartManager\Strategy\SignalObject_0\SignalHelper\InputHelper\Input_C3]
 	IsInputOptimizable = '0'
-	LocalCurrentValue2 = '0,9'
-	Start2 = '0,5'
-	Step2 = '0,1'
-	Stop2 = '1,5'
-	Value = '0.9'
+	LocalCurrentValue2 = '3'
+	Start2 = '3'
+	Step2 = '1'
+	Stop2 = '3'
+	Value = '3'
 
 [Wsp\Window_0\ChartManager\Strategy\SignalObject_0\SignalHelper\InputHelper\Input_C4]
 	IsInputOptimizable = '0'
-	LocalCurrentValue2 = '3,2'
-	Start2 = '2,5'
-	Step2 = '0,1'
-	Stop2 = '3,5'
-	Value = '3.2'
+	LocalCurrentValue2 = '4'
+	Start2 = '4'
+	Step2 = '1'
+	Stop2 = '4'
+	Value = '4'
+
+[Wsp\Window_0\ChartManager\Strategy\SignalObject_0\SignalHelper\InputHelper\Input_C5]
+	IsInputOptimizable = '0'
+	LocalCurrentValue2 = '5'
+	Start2 = '5'
+	Step2 = '1'
+	Stop2 = '5'
+	Value = '5'
 
 [Wsp\Window_0\ChartManager\Strategy\SignalObject_0\SignalHelper\InputHelper\Input_Enabled]
+	IsInputOptimizable = '0'
+	LocalCurrentValue2 = '1'
+	Start2 = '1'
+	Step2 = '1'
+	Stop2 = '1'
+	Value = '1'
+
+[Wsp\Window_0\ChartManager\Strategy\SignalObject_0\SignalHelper\InputHelper\Input_F1]
+	IsInputOptimizable = '0'
+	LocalCurrentValue2 = '1'
+	Start2 = '0'
+	Step2 = '1'
+	Stop2 = '1'
+	Value = '1'
+
+[Wsp\Window_0\ChartManager\Strategy\SignalObject_0\SignalHelper\InputHelper\Input_F2]
 	IsInputOptimizable = '0'
 	LocalCurrentValue2 = '1'
 	Start2 = '1'
@@ -3145,7 +3334,7 @@
 	IOGTypeEntry = '1'
 	IOGTypeExit = '1'
 	TimesPerBar = '1'
-	UseFreshSnapOnAdditionalDS = '0'
+	UseFreshSnapOnAdditionalDS = '1'
 
 [Wsp\Window_0\ChartManager\Strategy\SignalObject_1\SignalHelper\CustomInputHelperDT\Input_Enabled]
 	IsInputOptimizable = '1'
@@ -3328,9 +3517,9 @@
 	ATOnEventID = '0'
 	Confirm = 'False'
 	NeedActivateAT = 'False'
-	Profile = ''
+	Profile = 'Interactive Brokers'
 	StrategyName = 'strategy_fx_test'
-	SymbolName = 'TXF1-KWAY64V2-TAIFEX-FUTURES-M - 43 Minutes - ASCII Mapping'
+	SymbolName = 'TXF1-KWAY64V2-TAIFEX-FUTURES-M - 13 Minutes - ASCII Mapping'
 
 [Wsp\Window_0\ChartManager\Strategy\StrategyHelper\DynTradeOptimizeProps\Algorithm_0]
 	CFFScriptGenetic = '// TODO: Enter your formula to replace the samples below 
@@ -3799,7 +3988,7 @@ The reserved words supported in Portfolio optimization:
 	BTOFAMode = '0'
 	BTOFAPoints = '0'
 	BTOFA_TIF = '1'
-	BarReference = '1000'
+	BarReference = '100'
 	BidIndex = '0'
 	CalcPnLInSymbolCurrency = '1'
 	CalcRealTimeAsHistory = '1'
