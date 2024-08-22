@@ -46,7 +46,7 @@ end else begin
 		BuyToCover ("SX_StopLoss") all contracts next bar market;
 	end;
 
-	If Time >= 1320 then begin
+	If (IsSettlementDay and Time >= 1300) or (not IsSettlementDay and Time >= 1330) then begin
 		BuyToCover ("SX_Timeout") next bar market;
 	end;
 end;
