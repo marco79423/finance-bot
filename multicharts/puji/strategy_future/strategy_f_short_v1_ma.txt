@@ -35,7 +35,7 @@ if MarketPosition = 0 then begin
 	if ShortCond then
 		SellShort ( "SE" ) OrderSize contracts next bar market;
 end else begin
-    if OverMonth and 1200 < Time and Time < 1400 then begin
+    if IsSettlementDay and 1200 < Time and Time < 1400 then begin
     	BuyToCover ("SX_Settle") all contracts next bar market;
     end;
 

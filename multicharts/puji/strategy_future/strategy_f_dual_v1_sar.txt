@@ -62,7 +62,7 @@ if MarketPosition = 1 then begin
 end;
 
 if MarketPosition = -1 then begin
-	if OverMonth and 1200 < Time and Time < 1400 then begin
+	if IsSettlementDay and 1200 < Time and Time < 1400 then begin
 		BuyToCover ("SX_Settle") all contracts next bar market;
 	end;
 
