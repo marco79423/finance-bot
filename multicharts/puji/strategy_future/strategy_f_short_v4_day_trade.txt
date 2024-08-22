@@ -25,8 +25,8 @@ If MarketPosition = 0 then begin
 	vars: ShortCond(True);
 	ShortCond = True;
 	ShortCond = ShortCond and Time >= 0925 and Time < 1300;
-	ShortCond = ShortCond and OpenD(0) - CloseD(1) < -5;
-	ShortCond = ShortCond and LowD(0) - CloseD(1) < -125;
+	ShortCond = ShortCond and LowD(0) - CloseD(1) < -120;
+	ShortCond = ShortCond and Ticks = Highest(Ticks, 15);
 	ShortCond = ShortCond and EntriesToday(D) <= 0;
 	ShortCond = ShortCond and Close < LL;
 	if ShortCond then begin
@@ -42,7 +42,7 @@ end else begin
 		BuyToCover ("SX_Pullback") all contracts next bar market;
 	end;
 
-	if OpenPositionProfit < -90 * BigPointValue * OrderSize then begin
+	if OpenPositionProfit < -160 * BigPointValue * OrderSize then begin
 		BuyToCover ("SX_StopLoss") all contracts next bar market;
 	end;
 
