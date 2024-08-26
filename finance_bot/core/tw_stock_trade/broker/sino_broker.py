@@ -66,6 +66,11 @@ class SinoBroker(BrokerBase):
             position_details = self._shioaji_api.list_position_detail(self._shioaji_api.stock_account, position.id)
             if len(position_details) < 1 or len(position_details) > 2:
                 raise ValueError('發生不合理的事情')
+
+            # 庫存小於 1 不理它
+            if position.quantity < 1:
+                continue
+
             result.append(Position(
                 stock_id=position.code,
                 shares=position.quantity * 1000,
