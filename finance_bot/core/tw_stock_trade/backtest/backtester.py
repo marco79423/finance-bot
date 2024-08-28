@@ -215,15 +215,17 @@ class Backtester:
                         start_time=start.to_pydatetime(),
                         end_time=end.to_pydatetime(),
                     )
-                    self._tw_stock_backtest_trade_log_repo.sync_add_logs(
-                        session,
-                        [
-                            dict(
-                                **trade_log,
-                                signature=signature,
-                            ) for trade_log in broker.trade_logs
-                        ]
-                    )
+
+                    if broker.trade_logs:
+                        self._tw_stock_backtest_trade_log_repo.sync_add_logs(
+                            session,
+                            [
+                                dict(
+                                    **trade_log,
+                                    signature=signature,
+                                ) for trade_log in broker.trade_logs
+                            ]
+                        )
                     session.commit()
 
             message_conn.send(dict(
