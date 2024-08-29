@@ -43,6 +43,10 @@ end else begin
 		Sell ("LX_Settle") all contracts next bar market;
 	end;
 
+	if DayOfWeek(D) = 6 and Time > 0400 and OpenPositionProfit > 190 * BigPointValue * OrderSize then begin
+		Sell ("LX_WeekendOut") all contracts next bar market;
+	end;
+
 	if OpenPositionProfit > 660 * BigPointValue * OrderSize then begin
 		Sell("LX_Win") all contracts next bar market;
 	end;
