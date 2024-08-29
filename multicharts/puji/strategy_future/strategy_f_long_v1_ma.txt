@@ -29,7 +29,6 @@ if MarketPosition = 0 then begin
 		vars: BuyCond(False);
 		BuyCond = not (OverMonth and 1200 < Time and Time < 1400);
 		BuyCond = BuyCond and not (0845 <= Time and Time <= 0847);
-		BuyCond = BuyCond and not (DayOfWeek(D) = 6 and Time > 0400);
 		BuyCond = BuyCond and (Month(Date) <> 9 and Month(Date) <> 10);
 		BuyCond = BuyCond and Close > Open;
 		BuyCond = BuyCond and Close > AverageFC(Close, 4);
@@ -42,11 +41,6 @@ if MarketPosition = 0 then begin
 end else begin
 	if IsSettlementDay and 1200 < Time and Time < 1400 then begin
 		Sell ("LX_Settle") all contracts next bar market;
-	end;
-
-    // If there are profits before the weekend, close the position to reduce risk.
-	if DayOfWeek(D) = 6 and Time > 0400 and OpenPositionProfit > 190 * BigPointValue * OrderSize then begin
-		Sell ("LX_WeekendOut") all contracts next bar market;
 	end;
 
 	if OpenPositionProfit > 660 * BigPointValue * OrderSize then begin
