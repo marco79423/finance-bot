@@ -29,6 +29,7 @@ if MarketPosition = 0 then begin
 		vars: BuyCond(False);
 		BuyCond = not (OverMonth and 1200 < Time and Time < 1400);
 		BuyCond = BuyCond and not (0845 <= Time and Time <= 0847);
+		BuyCond = BuyCond and not (DayOfWeek(D) = 6 and Time > 0400);
 		BuyCond = BuyCond and (Month(Date) <> 9 and Month(Date) <> 10);
 		BuyCond = BuyCond and Close > Open;
 		BuyCond = BuyCond and Close > AverageFC(Close, 4);
