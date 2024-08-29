@@ -44,7 +44,7 @@ vars: Base(0);
 Base = AvgTrueRange(60);
 
 if MarketPosition = 1 then begin
-	if OverMonth and 1200 < Time and Time < 1400 then begin
+	if IsSettlementDay and 1200 < Time and Time < 1400 then begin
 		Sell ("LX_Settle") all contracts next bar market;
 	end;
 
