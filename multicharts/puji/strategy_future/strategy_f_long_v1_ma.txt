@@ -43,6 +43,7 @@ end else begin
 		Sell ("LX_Settle") all contracts next bar market;
 	end;
 
+    // If there are profits before the weekend, close the position to reduce risk.
 	if DayOfWeek(D) = 6 and Time > 0400 and OpenPositionProfit > 190 * BigPointValue * OrderSize then begin
 		Sell ("LX_WeekendOut") all contracts next bar market;
 	end;
