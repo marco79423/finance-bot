@@ -27,6 +27,7 @@ if MarketPosition = 0 then begin
 	ShortCond = ShortCond and (Month(Date) <> 1 and Month(Date) <> 2);
 	ShortCond = ShortCond and not (OverMonth and 1200 < Time and Time < 1400);
 	ShortCond = ShortCond and not (0845 <= Time and Time <= 0847);
+	ShortCond = ShortCond and not (DayOfWeek(D) = 6 and Time > 0400);
 	ShortCond = ShortCond and High < OpenPrice;
 	ShortCond = ShortCond and Close < AverageFC(Close, 990);
 	ShortCond = ShortCond and Close < AverageFC(Close, 50);
