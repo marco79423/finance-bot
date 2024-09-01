@@ -299,7 +299,8 @@ class TWStockUpdater:
     @staticmethod
     async def crawl_price(date: dt.datetime):
         r = await infra.api.post(
-            'https://www.twse.com.tw/exchangeReport/MI_INDEX',
+            # 'https://www.twse.com.tw/exchangeReport/MI_INDEX',
+            'https://www.twse.com.tw/rwd/zh/afterTrading/MI_INDEX',
             params={
                 'response': 'csv',
                 'date': date.strftime('%Y%m%d'),
