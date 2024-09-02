@@ -64,7 +64,7 @@ class StrategyBase(abc.ABC):
                                  self._balance)
         price = self.data.get_stock_close_price(stock_id)
         shares = int((single_entry_limit / (price * (1 + self.broker.commission_info.fee_rate)) // 1000) * 1000)
-        total = int(price * shares) + self.broker.commission_info.get_buy_commission(price, shares)
+        total = int(price * shares) + self.broker.commission_info.get_buy_commission(price * shares)
 
         if shares < 1000:
             return
@@ -89,7 +89,7 @@ class StrategyBase(abc.ABC):
 
         shares = self.broker.holding_stock_shares_s.loc[stock_id]
         price = self.data.get_stock_close_price(stock_id)
-        total = int(price * shares) - self.broker.commission_info.get_sell_commission(price, shares)
+        total = int(price * shares) - self.broker.commission_info.get_sell_commission(price * shares)
 
         self._actions.append({
             'operation': 'sell',

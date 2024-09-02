@@ -35,13 +35,13 @@ class CommissionInfo:
     def tax_rate(self):
         return 3 / 1000  # 政府固定收 0.3 %
 
-    def get_buy_commission(self, price, shares) -> int:
-        commission = max(math.floor(shares * price * self.fee_rate), 1)  # 無條件捨去小數點，但最低是 1 元
+    def get_buy_commission(self, total_price) -> int:
+        commission = max(math.floor(total_price * self.fee_rate), 1)  # 無條件捨去小數點，但最低是 1 元
         return commission
 
-    def get_sell_commission(self, price, shares) -> int:
-        commission = max(math.floor(shares * price * self.fee_rate), 1)  # 無條件捨去小數點，但最低是 1 元
-        commission += math.floor(shares * price * self.tax_rate)  # 無條件捨去小數點
+    def get_sell_commission(self, total_price) -> int:
+        commission = max(math.floor(total_price * self.fee_rate), 1)  # 無條件捨去小數點，但最低是 1 元
+        commission += math.floor(total_price * self.tax_rate)  # 無條件捨去小數點
         return commission
 
 

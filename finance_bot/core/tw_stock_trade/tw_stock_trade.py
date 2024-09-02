@@ -254,16 +254,10 @@ class TWStockTrade(CoreBase):
             await asyncio.sleep(1)
 
         total = decimal.Decimal(0)
-        avg_price = decimal.Decimal(0)
-        total_fee = decimal.Decimal(0)
         for deal in trade.status.deals:
-            fee = self._broker.commission_info.get_sell_commission(
-                deal.price,
-                deal.quantity * 1000,
-            )
-            total += int(deal.price * deal.quantity * 1000) - fee
-            avg_price += decimal.Decimal(int(deal.price * (deal.quantity * 1000))) / shares
-            total_fee += fee
+            total += int(deal.price * deal.quantity * 1000)
+        avg_price = round(total / shares, 2)
+        total_fee = self._broker.commission_info.get_sell_commission(total)
 
         message = '賣 {stock_id} {shares} 股 價格 {avg_price} 元 完全成交\n總費用：{total}(手續費：{total_fee})\n'.format(
             stock_id=stock_id,
@@ -302,17 +296,10 @@ class TWStockTrade(CoreBase):
             await asyncio.sleep(1)
 
         total = decimal.Decimal(0)
-        avg_price = decimal.Decimal(0)
-        total_fee = decimal.Decimal(0)
-
         for deal in trade.status.deals:
-            fee = self._broker.commission_info.get_buy_commission(
-                deal.price,
-                deal.quantity * 1000,
-            )
-            total += int(deal.price * deal.quantity * 1000) + fee
-            avg_price += decimal.Decimal(int(deal.price * (deal.quantity * 1000))) / shares
-            total_fee += fee
+            total += int(deal.price * deal.quantity * 1000)
+        avg_price = round(total / shares, 2)
+        total_fee = self._broker.commission_info.get_buy_commission(total)
 
         message = '買 {stock_id} {shares} 股 價格 {avg_price} 元 完全成交\n費用：{total}(手續費：{total_fee})'.format(
             stock_id=trade.contract.code,
@@ -334,8 +321,5 @@ class TWStockTrade(CoreBase):
 
     def _get_possible_highest_cost(self, stock_id, shares):
         highest_price = self._broker.get_today_high_price(stock_id)
-        possible_highest_fee = self._broker.commission_info.get_buy_commission(
-            price=highest_price,
-            shares=shares
-        )
+        possible_highest_fee = self._broker.commission_info.get_buy_commission(highest_price * shares)
         return (shares * highest_price) + possible_highest_fee

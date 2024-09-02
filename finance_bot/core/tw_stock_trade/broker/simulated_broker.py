@@ -20,7 +20,7 @@ class SimulatedBroker(BrokerBase):
         entry_price = self._data.get_stock_open_price(stock_id)
 
         before = self.current_balance
-        fee = self.commission_info.get_buy_commission(entry_price, shares)
+        fee = self.commission_info.get_buy_commission(entry_price * shares)
         amount = int(shares * entry_price) + fee
         after = before - amount
 
@@ -75,7 +75,7 @@ class SimulatedBroker(BrokerBase):
 
         for position in self._positions_cache[stock_id].values():
             before = self.current_balance
-            fee = self.commission_info.get_sell_commission(price, position['shares'])
+            fee = self.commission_info.get_sell_commission(price * position['shares'])
             amount = int(position['shares'] * price) - fee
             after = before + amount
 
