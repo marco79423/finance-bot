@@ -1,4 +1,7 @@
 // TXF 4min
+// Use bar 1000
+// Focus on win rate and smooth out the curve
+
 inputs: Enabled(1), OrderSize(1);
 
 if Enabled = 0 then
@@ -17,14 +20,9 @@ end else begin
 	MaxOpenPositionProfit = 0;
 end;
 
-vars: EnvCond(False);
-EnvCond = True;
-
-
 if MarketPosition = 0 then begin
 	vars: ShortCond(True);
 	ShortCond = True;
-	ShortCond = ShortCond and (Month(Date) <> 1 and Month(Date) <> 2);
 	ShortCond = ShortCond and not (OverMonth and 1200 < Time and Time < 1400);
 	ShortCond = ShortCond and not (0845 <= Time and Time <= 0847);
 	ShortCond = ShortCond and High < OpenPrice;
@@ -39,23 +37,16 @@ end else begin
     	BuyToCover ("SX_Settle") all contracts next bar market;
     end;
 
-	if OpenPositionProfit > 170 * BigPointValue * OrderSize and OpenPositionProfit < MaxOpenPositionProfit - 19 * BigPointValue * OrderSize then begin
-		BuyToCover ("SX_Pullback") all contracts next bar market;
+	if OpenPositionProfit > 0 and OpenPositionProfit < MaxOpenPositionProfit - 40 * BigPointValue * OrderSize then begin
+			BuyToCover ("SX_Win") all contracts next bar market;
+		end;
+
+	if BarsSinceEntry > 15 * 45 then begin
+		BuyToCover ("LX_Giveup") all contracts next bar market;
 	end;
 
-	if OpenPositionProfit > 260 * BigPointValue * OrderSize and OpenPositionProfit < MaxOpenPositionProfit - 3 * BigPointValue * OrderSize then begin
-		BuyToCover ("SX_Pullback2") all contracts next bar market;
-	end;
-
-	if OpenPositionProfit > 0 and OpenPositionProfit < MaxOpenPositionProfit - 35 * BigPointValue * OrderSize then begin
-		BuyToCover ("SX_Pullback3") all contracts next bar market;
-	end;
-
-	if BarsSinceEntry > 660 then begin
-		BuyToCover ("SX_Run") all contracts next bar market;
-	end;
-
-	if OpenPositionProfit < -280 * BigPointValue * OrderSize then begin
+	if OpenPositionProfit < -445 * BigPointValue * OrderSize then begin
 		BuyToCover ("SX_StopLoss") all contracts next bar market;
 	end;
+
 end;
