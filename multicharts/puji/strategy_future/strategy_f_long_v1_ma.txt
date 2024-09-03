@@ -21,10 +21,10 @@ end else begin
 end;
 
 vars: EnvCond(False);
-	EnvCond = True;
-	EnvCond = EnvCond and Close > OpenPrice;
-	EnvCond = EnvCond and Close > AverageFC(Close, 70);
-	EnvCond = EnvCond and Close > AverageFC(Close, 430);
+EnvCond = True;
+EnvCond = EnvCond and Close > OpenPrice;
+EnvCond = EnvCond and Close > AverageFC(Close, 70);
+EnvCond = EnvCond and Close > AverageFC(Close, 430);
 
 
 if MarketPosition = 0 then begin
