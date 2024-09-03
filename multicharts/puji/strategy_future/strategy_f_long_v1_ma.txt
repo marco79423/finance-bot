@@ -1,4 +1,7 @@
 // TXF 4min
+// Use bar 500
+// Focus on win rate and smooth out the curve
+
 inputs: Enabled(1), OrderSize(1);
 
 if Enabled = 0 then
@@ -29,7 +32,6 @@ if MarketPosition = 0 then begin
 		vars: BuyCond(False);
 		BuyCond = not (OverMonth and 1200 < Time and Time < 1400);
 		BuyCond = BuyCond and not (0845 <= Time and Time <= 0847);
-		BuyCond = BuyCond and (Month(Date) <> 9 and Month(Date) <> 10);
 		BuyCond = BuyCond and Close > Open;
 		BuyCond = BuyCond and Close > AverageFC(Close, 4);
 		BuyCond = BuyCond and Close > AverageFC(Close, 13);
@@ -43,24 +45,15 @@ end else begin
 		Sell ("LX_Settle") all contracts next bar market;
 	end;
 
-	if OpenPositionProfit > 660 * BigPointValue * OrderSize then begin
-		Sell("LX_Win") all contracts next bar market;
+	if OpenPositionProfit > 0 and OpenPositionProfit < MaxOpenPositionProfit - 75 * BigPointValue * OrderSize then begin
+		Sell ("LX_Win") all contracts next bar market;
 	end;
-
-	if OpenPositionProfit > 580 * BigPointValue * OrderSize and OpenPositionProfit < MaxOpenPositionProfit then begin
-		Sell("LX_Pullback") all contracts next bar market;
+	
+	if BarsSinceEntry > 15 * 75 and OpenPositionProfit > 0 then begin
+		Sell ("LX_Giveup") all contracts next bar market;
 	end;
-
-	if OpenPositionProfit > 370 * BigPointValue * OrderSize and OpenPositionProfit < MaxOpenPositionProfit * 0.8 then begin
-		Sell("LX_Pullback2") all contracts next bar market;
-	end;
-
-	if OpenPositionProfit > 200 * BigPointValue * OrderSize and OpenPositionProfit < MaxOpenPositionProfit * 0.6 then begin
-		Sell("LX_Pullback3") all contracts next bar market;
-	end;
-
+	
 	if OpenPositionProfit < -890 * BigPointValue * OrderSize then begin
 		Sell("LX_StopLoss") all contracts next bar market;
 	end;
-
 end;
