@@ -1,4 +1,7 @@
-//TXF 47 min
+// TXF 47 min
+// Use bar 60
+// Focus on balancing profits and losses.
+
 inputs: Enabled(1), OrderSize(1);
 
 if Enabled = 0 then
@@ -32,7 +35,7 @@ end;
 
 if MarketPosition = 0 then begin
 	vars: BuyCond(True);
-	BuyCond = not (OverMonth and 1200 < Time and Time < 1400);
+	BuyCond = not (IsSettlementDay and 1200 < Time and Time < 1400);
 	BuyCond = BuyCond and not (0845 <= Time and Time <= 0847);
 	BuyCond = BuyCond and High > BBandUp;
 	BuyCond = BuyCond and Close > Open;
