@@ -1,5 +1,9 @@
 // TXF 43min
+// Use bar 70
+// Focus on balancing profits and losses.
+
 inputs: Enabled(1), OrderSize(1);
+inputs: F1(1), F2(1), C1(1), C2(1);
 
 if Enabled = 0 then
 	#Return;
@@ -35,27 +39,15 @@ end else begin
 		BuyToCover ("SX_Settle") all contracts next bar market;
 	end;
 
-	if OpenPositionProfit > 270 * BigPointValue * OrderSize then begin
-		BuyToCover ("SX_MaxWin") all contracts next bar market;
-	end;
-
-	if OpenPositionProfit > 200 * BigPointValue * OrderSize and OpenPositionProfit < MaxOpenPositionProfit * 0.98 then begin
+	if OpenPositionProfit > 0 and OpenPositionProfit < MaxOpenPositionProfit - 35 * BigPointValue * OrderSize then begin
 		BuyToCover ("SX_Pullback") all contracts next bar market;
 	end;
 
-	if OpenPositionProfit > 110 * BigPointValue * OrderSize and OpenPositionProfit < MaxOpenPositionProfit * 0.88 then begin
-		BuyToCover ("SX_Pullback2") all contracts next bar market;
-	end;
-
-	if OpenPositionProfit > 90 * BigPointValue * OrderSize and OpenPositionProfit < MaxOpenPositionProfit * 0.86 then begin
-		BuyToCover ("SX_Pullback3") all contracts next bar market;
-	end;
-
-	if OpenPositionProfit > 10 * BigPointValue * OrderSize and OpenPositionProfit < MaxOpenPositionProfit * 0.18 then begin
-		BuyToCover ("SX_Pullback4") all contracts next bar market;
-	end;
-
 	if BarsSinceEntry > 10 then begin
+		BuyToCover ("SX_Timeout") all contracts next bar market;
+	end;
+
+	if OpenPositionProfit < 0 and BarsSinceEntry > 4 then begin
 		BuyToCover ("SX_Giveup") all contracts next bar market;
 	end;
 
