@@ -24,7 +24,7 @@ end;
 if MarketPosition = 0 then begin
 	vars: ShortCond(True);
 	ShortCond = True;
-	ShortCond = ShortCond and not (OverMonth and 1200 < Time and Time < 1400);
+	ShortCond = ShortCond and not (IsSettlementDay and 1200 < Time and Time < 1400);
 	ShortCond = ShortCond and not (0845 <= Time and Time <= 0847);
 	ShortCond = ShortCond and Close < Open;
 	ShortCond = ShortCond and Close < AverageFC(Close, 70);
