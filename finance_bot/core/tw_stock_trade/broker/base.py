@@ -1,6 +1,7 @@
 import abc
 import dataclasses
 import math
+import decimal
 
 import pandas as pd
 
@@ -25,21 +26,21 @@ class Position:
 
 @dataclasses.dataclass
 class CommissionInfo:
-    fee_discount: float = 1  # 永豐是月退，當沒打折
+    fee_discount: decimal.Decimal = decimal.Decimal(1)  # 永豐是月退，當沒打折
 
     @property
     def fee_rate(self):
-        return 1.425 / 1000 * self.fee_discount  # 0.1425％
+        return decimal.Decimal(1.425) / 1000 * self.fee_discount  # 0.1425％
 
     @property
     def tax_rate(self):
-        return 3 / 1000  # 政府固定收 0.3 %
+        return decimal.Decimal(3) / 1000  # 政府固定收 0.3 %
 
-    def get_buy_commission(self, total_price) -> int:
+    def get_buy_commission(self, total_price) -> decimal.Decimal:
         commission = max(math.floor(total_price * self.fee_rate), 1)  # 無條件捨去小數點，但最低是 1 元
         return commission
 
-    def get_sell_commission(self, total_price) -> int:
+    def get_sell_commission(self, total_price) -> decimal.Decimal:
         commission = max(math.floor(total_price * self.fee_rate), 1)  # 無條件捨去小數點，但最低是 1 元
         commission += math.floor(total_price * self.tax_rate)  # 無條件捨去小數點
         return commission
@@ -48,7 +49,7 @@ class CommissionInfo:
 class BrokerBase(abc.ABC):
     name = 'broker_base'
 
-    commission_info = CommissionInfo(fee_discount=1)
+    commission_info = CommissionInfo(fee_discount=decimal.Decimal(1))
 
     def __init__(self):
         self.logger = infra.logger.bind(name=self.name)
