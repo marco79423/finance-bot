@@ -253,7 +253,7 @@ class TWStockTrade(CoreBase):
                 raise ExecuteError()
             await asyncio.sleep(1)
 
-        total = decimal.Decimal(0)
+        total = 0
         for deal in trade.status.deals:
             total += int(deal.price * deal.quantity * 1000)
         avg_price = round(total / shares, 2)
@@ -295,7 +295,7 @@ class TWStockTrade(CoreBase):
                 raise ExecuteError()
             await asyncio.sleep(1)
 
-        total = decimal.Decimal(0)
+        total = 0
         for deal in trade.status.deals:
             total += int(deal.price * deal.quantity * 1000)
         avg_price = round(total / shares, 2)
