@@ -1,4 +1,7 @@
-//TXF 47 min
+// TXF 47 min
+// Use bar 540
+// Focus on balancing profits and losses.
+
 inputs: Enabled(1), OrderSize(1);
 
 if Enabled = 0 then
@@ -31,7 +34,7 @@ end;
 
 if MarketPosition = 0 then begin
 	vars: ShortCond (True);
-	ShortCond = not (OverMonth and 1200 < Time and Time < 1400);
+	ShortCond = not (IsSettlementDay and 1200 < Time and Time < 1400);
 	ShortCond = ShortCond and not (0845 <= Time and Time <= 0847);
 	ShortCond = ShortCond and Close < AverageFC(Close, 4);
 	ShortCond = ShortCond and Close < AverageFC(Close, 32);
