@@ -1,4 +1,7 @@
-//TXF 13min
+// TXF 13min
+// Use 50 bar
+// Focus on balancing profits and losses.
+
 inputs: Enabled(1), OrderSize(1);
 
 if Enabled = 0 then
@@ -26,7 +29,7 @@ end else begin
 end;
 
 vars: EnvCond(True);
-EnvCond = not (OverMonth and 1200 < Time and Time < 1400);
+EnvCond = not (IsSettlementDay and 1200 < Time and Time < 1400);
 EnvCond = EnvCond and not (0845 <= Time and Time <= 0847);
 
 vars: BuyCond(True);
@@ -100,7 +103,7 @@ if MarketPosition = 1 then begin
 end;
 
 if MarketPosition = -1 then begin
-	if OverMonth and 1200 < Time and Time < 1400 then begin
+	if IsSettlementDay and 1200 < Time and Time < 1400 then begin
 		BuyToCover ("SX_Settle") all contracts next bar market;
 	end;
 
