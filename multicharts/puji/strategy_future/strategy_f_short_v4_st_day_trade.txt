@@ -1,5 +1,7 @@
 // TXF 4 min
+// Use bar 60
 // For swing trading
+// Focus on balancing profits and losses.
 
 inputs: Enabled(1), OrderSize(1);
 
