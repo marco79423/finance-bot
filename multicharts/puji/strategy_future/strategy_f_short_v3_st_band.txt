@@ -1,11 +1,26 @@
 // TXF 47 min
 // Use bar 540
+// For swing trading
 // Focus on balancing profits and losses.
 
 inputs: Enabled(1), OrderSize(1);
 
 if Enabled = 0 then
 	#Return;
+
+vars: MaxOpenPositionProfit(0);
+if MarketPosition <> 0 then begin
+	if MaxOpenPositionProfit < OpenPositionProfit then
+		MaxOpenPositionProfit = OpenPositionProfit;
+end else begin
+	MaxOpenPositionProfit = 0;
+end;
+
+vars: OpenCond(True);
+OpenCond = True;
+OpenCond = not (IsSettlementDay and 1200 < Time and Time < 1400);
+OpenCond = OpenCond and not (0845 <= Time and Time <= 0847);
+OpenCond = OpenCond and not (1500 <= Time and Time <= 1502);
 
 var: KBar(540), BBandDown(0), ATR(0);
 BBandDown = BollingerBand(Close, KBar, -1);
@@ -14,14 +29,6 @@ ATR = AvgTrueRange(KBar);
 var:LL(0);
 if D > D[1] then begin
 	LL = OpenD(0) - ATR;
-end;
-
-vars: MaxOpenPositionProfit(0);
-if MarketPosition <> 0 then begin
-	if MaxOpenPositionProfit < OpenPositionProfit then
-		MaxOpenPositionProfit = OpenPositionProfit;
-end else begin
-	MaxOpenPositionProfit = 0;
 end;
 
 var: EntryLow(99999);
@@ -34,8 +41,7 @@ end;
 
 if MarketPosition = 0 then begin
 	vars: ShortCond (True);
-	ShortCond = not (IsSettlementDay and 1200 < Time and Time < 1400);
-	ShortCond = ShortCond and not (0845 <= Time and Time <= 0847);
+	ShortCond = OpenCond;
 	ShortCond = ShortCond and Close < AverageFC(Close, 4);
 	ShortCond = ShortCond and Close < AverageFC(Close, 32);
 	ShortCond = ShortCond and RSI(Close, 100) > 40;

@@ -1,5 +1,6 @@
 // TXF 47 min
 // Use bar 60
+// For swing trading
 // Focus on balancing profits and losses.
 
 inputs: Enabled(1), OrderSize(1);
@@ -33,10 +34,15 @@ end else begin
 	EntryHigh = 0;
 end;
 
+vars: OpenCond(True);
+OpenCond = True;
+OpenCond = not (IsSettlementDay and 1200 < Time and Time < 1400);
+OpenCond = OpenCond and not (0845 <= Time and Time <= 0847);
+OpenCond = OpenCond and not (1500 <= Time and Time <= 1502);
+
 if MarketPosition = 0 then begin
 	vars: BuyCond(True);
-	BuyCond = not (IsSettlementDay and 1200 < Time and Time < 1400);
-	BuyCond = BuyCond and not (0845 <= Time and Time <= 0847);
+	BuyCond = OpenCond;
 	BuyCond = BuyCond and High > BBandUp;
 	BuyCond = BuyCond and Close > Open;
 	BuyCond = BuyCond and Close > HH;

@@ -1,5 +1,6 @@
-// TXF 53min
-// Use 480 bar
+// TXF 53 min
+// Use bar 480
+// For swing trading
 // Focus on balancing profits and losses.
 
 inputs: Enabled(1), OrderSize(1);
@@ -18,14 +19,14 @@ end;
 vars: AfStep(0.01), AfLimit(0.02), ParCl(0), ParOp(0), Position(0), Transition(0) , SAR(0);
 SAR = ParabolicSAR(AfStep, AfLimit, ParCl, ParOp, Position, Transition) ;
 
-vars: EnvCond(True);
-EnvCond = True;
-EnvCond = not (IsSettlementDay and 1200 < Time and Time < 1400);
-EnvCond = EnvCond and not (0845 <= Time and Time <= 0847);
+vars: OpenCond(True);
+OpenCond = True;
+OpenCond = not (IsSettlementDay and 1200 < Time and Time < 1400);
+OpenCond = OpenCond and not (0845 <= Time and Time <= 0847);
+OpenCond = OpenCond and not (1500 <= Time and Time <= 1502);
 
 vars: BuyCond(True);
-BuyCond = True;
-BuyCond = BuyCond and EnvCond;
+BuyCond = OpenCond;
 BuyCond = BuyCond and Position = 1;
 BuyCond = BuyCond and Close > High[1];
 if BuyCond then begin
@@ -33,8 +34,7 @@ if BuyCond then begin
 end;
 
 vars: ShortCond(True);
-ShortCond = True;
-ShortCond = ShortCond and EnvCond;
+ShortCond = OpenCond;
 ShortCond = ShortCond and Position = -1;
 ShortCond = ShortCond and Close < AverageFC(Close, 180);
 ShortCond = ShortCond and Close < AverageFC(Close, 480);

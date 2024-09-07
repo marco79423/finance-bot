@@ -1,5 +1,6 @@
-// TXF 4min
+// TXF 4 min
 // Use bar 500
+// For swing trading
 // Focus on win rate and smooth out the curve
 
 inputs: Enabled(1), OrderSize(1);
@@ -20,26 +21,25 @@ end else begin
 	MaxOpenPositionProfit = 0;
 end;
 
-vars: EnvCond(False);
-EnvCond = True;
-EnvCond = EnvCond and Close > OpenPrice;
-EnvCond = EnvCond and Close > AverageFC(Close, 70);
-EnvCond = EnvCond and Close > AverageFC(Close, 430);
-
+vars: OpenCond(True);
+OpenCond = True;
+OpenCond = not (IsSettlementDay and 1200 < Time and Time < 1400);
+OpenCond = OpenCond and not (0845 <= Time and Time <= 0847);
+OpenCond = OpenCond and not (1500 <= Time and Time <= 1502);
 
 if MarketPosition = 0 then begin
-	if EnvCond then begin
-		vars: BuyCond(False);
-		BuyCond = not (IsSettlementDay and 1200 < Time and Time < 1400);
-		BuyCond = BuyCond and not (0845 <= Time and Time <= 0847);
-		BuyCond = BuyCond and Close > Open;
-		BuyCond = BuyCond and Close > AverageFC(Close, 4);
-		BuyCond = BuyCond and Close > AverageFC(Close, 13);
-		BuyCond = BuyCond and Ticks = Highest(Ticks, 2);
-		if BuyCond then begin
-			Buy ("LE") OrderSize contracts next bar market;
-		end;
-	end;
+	vars: BuyCond(False);
+    BuyCond = OpenCond;
+    BuyCond = BuyCond and Close > AverageFC(Close, 70);
+    BuyCond = BuyCond and Close > AverageFC(Close, 430);
+    BuyCond = BuyCond and Close > AverageFC(Close, 4);
+    BuyCond = BuyCond and Close > AverageFC(Close, 13);
+    BuyCond = BuyCond and Close > OpenPrice;
+    BuyCond = BuyCond and Close > Open;
+    BuyCond = BuyCond and Ticks = Highest(Ticks, 2);
+    if BuyCond then begin
+        Buy ("LE") OrderSize contracts next bar market;
+    end;
 end else begin
 	if IsSettlementDay and 1200 < Time and Time < 1400 then begin
 		Sell ("LX_Settle") all contracts next bar market;
@@ -48,11 +48,11 @@ end else begin
 	if OpenPositionProfit > 0 and OpenPositionProfit < MaxOpenPositionProfit - 75 * BigPointValue * OrderSize then begin
 		Sell ("LX_Win") all contracts next bar market;
 	end;
-	
+
 	if BarsSinceEntry > 15 * 75 and OpenPositionProfit > 0 then begin
 		Sell ("LX_Giveup") all contracts next bar market;
 	end;
-	
+
 	if OpenPositionProfit < -890 * BigPointValue * OrderSize then begin
 		Sell("LX_StopLoss") all contracts next bar market;
 	end;
