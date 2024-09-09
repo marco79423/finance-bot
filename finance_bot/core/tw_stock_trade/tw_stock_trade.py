@@ -170,27 +170,28 @@ class TWStockTrade(CoreBase):
 
         for stock_id, shares, note in [(action.stock_id, action.shares, action.note) for action in sell_actions]:
             # 委託賣股直到成交
-            result = await self.sell_market(stock_id=stock_id, shares=shares, note=note)
-            balance += result['total']
+            results = await self.sell_market(stock_id=stock_id, shares=shares, note=note)
+            for result in results:
+                balance += result['total']
 
-            await self._wallet_repo.set_balance(
-                session=session,
-                code=self.wallet_code,
-                balance=balance,
-                description=result['description']
-            )
-            await self._tw_stock_trade_log_repo.add_log(
-                session=session,
-                wallet_code=self.wallet_code,
-                strategy_name=self.strategy.name,
-                action='sell',
-                stock_id=stock_id,
-                shares=shares,
-                price=result['avg_price'],
-                fee=result['total_fee'],
-                amount=result['total'],
-                note=note
-            )
+                await self._wallet_repo.set_balance(
+                    session=session,
+                    code=self.wallet_code,
+                    balance=balance,
+                    description=result['description']
+                )
+                await self._tw_stock_trade_log_repo.add_log(
+                    session=session,
+                    wallet_code=self.wallet_code,
+                    strategy_name=self.strategy.name,
+                    action='sell',
+                    stock_id=stock_id,
+                    shares=shares,
+                    price=result['avg_price'],
+                    fee=result['total_fee'],
+                    amount=result['total'],
+                    note=note
+                )
             await session.commit()
 
         await infra.notifier.send(f'賣股成交完成 [餘額 {int(balance)} 元]')
@@ -211,27 +212,28 @@ class TWStockTrade(CoreBase):
                 break
 
             # 委託買股直到成交
-            result = await self.buy_market(stock_id=stock_id, shares=shares, note=note)
-            balance -= result['total']
+            results = await self.buy_market(stock_id=stock_id, shares=shares, note=note)
+            for result in results:
+                balance -= result['total']
 
-            await self._wallet_repo.set_balance(
-                session=session,
-                code=self.wallet_code,
-                balance=balance,
-                description=result['description']
-            )
-            await self._tw_stock_trade_log_repo.add_log(
-                session=session,
-                wallet_code=self.wallet_code,
-                strategy_name=self.strategy.name,
-                action='buy',
-                stock_id=stock_id,
-                shares=shares,
-                price=result['avg_price'],
-                fee=result['total_fee'],
-                amount=-result['total'],
-                note=note
-            )
+                await self._wallet_repo.set_balance(
+                    session=session,
+                    code=self.wallet_code,
+                    balance=balance,
+                    description=result['description']
+                )
+                await self._tw_stock_trade_log_repo.add_log(
+                    session=session,
+                    wallet_code=self.wallet_code,
+                    strategy_name=self.strategy.name,
+                    action='buy',
+                    stock_id=stock_id,
+                    shares=shares,
+                    price=result['avg_price'],
+                    fee=result['total_fee'],
+                    amount=-result['total'],
+                    note=note
+                )
             await session.commit()
         await infra.notifier.send(f'買股成交完成 [餘額 {int(balance)} 元]')
 
@@ -253,30 +255,33 @@ class TWStockTrade(CoreBase):
                 raise ExecuteError()
             await asyncio.sleep(1)
 
-        total = 0
+        trades = []
         for deal in trade.status.deals:
-            total += int(deal.price * deal.quantity * 1000)
-        avg_price = round(total / shares, 2)
-        total_fee = self._broker.commission_info.get_sell_commission(total)
-        total -= total_fee
+            deal_shares = deal.quantity * 1000
+            deal_total = int(deal.price * deal_shares)
+            deal_avg_price = round(deal_total / deal_shares)
+            deal_fee = self._broker.commission_info.get_sell_commission(deal_total)
+            deal_total -= deal_fee
 
-        message = '賣 {stock_id} {shares} 股 價格 {avg_price} 元 完全成交\n總費用：{total}(手續費：{total_fee})\n'.format(
-            stock_id=stock_id,
-            avg_price=avg_price,
-            shares=shares,
-            total=total,
-            total_fee=total_fee,
-        )
-        await infra.notifier.send(message)
+            message = '賣 {stock_id} {shares} 股 價格 {avg_price} 元 完全成交\n總費用：{total}(手續費：{total_fee})\n'.format(
+                stock_id=stock_id,
+                avg_price=deal_avg_price,
+                shares=deal_shares,
+                total=deal_total,
+                total_fee=deal_fee,
+            )
+            await infra.notifier.send(message)
 
-        return dict(
-            stock_id=stock_id,
-            avg_price=avg_price,
-            shares=shares,
-            total=total,
-            total_fee=total_fee,
-            description=message,
-        )
+            trades.append(dict(
+                stock_id=stock_id,
+                avg_price=deal_avg_price,
+                shares=deal_shares,
+                total=deal_total,
+                total_fee=deal_fee,
+                description=message,
+            ))
+
+        return trades
 
     async def buy_market(self, stock_id, shares, note):
         message = f'買 {stock_id} {shares} 股'
@@ -296,30 +301,31 @@ class TWStockTrade(CoreBase):
                 raise ExecuteError()
             await asyncio.sleep(1)
 
-        total = 0
+        trades = []
         for deal in trade.status.deals:
-            total += int(deal.price * deal.quantity * 1000)
-        avg_price = round(total / shares, 2)
-        total_fee = self._broker.commission_info.get_buy_commission(total)
-        total -= total_fee
+            deal_shares = deal.quantity * 1000
+            deal_total = int(deal.price * deal_shares)
+            deal_avg_price = round(deal_total / deal_shares, 2)
+            deal_fee = self._broker.commission_info.get_buy_commission(deal_total)
 
-        message = '買 {stock_id} {shares} 股 價格 {avg_price} 元 完全成交\n費用：{total}(手續費：{total_fee})'.format(
-            stock_id=trade.contract.code,
-            avg_price=avg_price,
-            shares=shares,
-            total=total,
-            total_fee=total_fee,
-        )
-        await infra.notifier.send(message)
+            message = '買 {stock_id} {shares} 股 價格 {avg_price} 元 完全成交\n費用：{total}(手續費：{total_fee})'.format(
+                stock_id=trade.contract.code,
+                avg_price=deal_avg_price,
+                shares=deal_shares,
+                total=deal_total,
+                total_fee=deal_avg_price,
+            )
+            await infra.notifier.send(message)
 
-        return dict(
-            stock_id=trade.contract.code,
-            avg_price=avg_price,
-            shares=shares,
-            total=total,
-            total_fee=total_fee,
-            description=message,
-        )
+            trades.append(dict(
+                stock_id=trade.contract.code,
+                avg_price=deal_avg_price,
+                shares=deal_shares,
+                total=deal_avg_price,
+                total_fee=deal_fee,
+                description=message,
+            ))
+        return trades
 
     def _get_possible_highest_cost(self, stock_id, shares):
         highest_price = self._broker.get_today_high_price(stock_id)
