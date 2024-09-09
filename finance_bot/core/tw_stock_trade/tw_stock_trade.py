@@ -258,6 +258,7 @@ class TWStockTrade(CoreBase):
             total += int(deal.price * deal.quantity * 1000)
         avg_price = round(total / shares, 2)
         total_fee = self._broker.commission_info.get_sell_commission(total)
+        total -= total_fee
 
         message = '賣 {stock_id} {shares} 股 價格 {avg_price} 元 完全成交\n總費用：{total}(手續費：{total_fee})\n'.format(
             stock_id=stock_id,
@@ -300,6 +301,7 @@ class TWStockTrade(CoreBase):
             total += int(deal.price * deal.quantity * 1000)
         avg_price = round(total / shares, 2)
         total_fee = self._broker.commission_info.get_buy_commission(total)
+        total -= total_fee
 
         message = '買 {stock_id} {shares} 股 價格 {avg_price} 元 完全成交\n費用：{total}(手續費：{total_fee})'.format(
             stock_id=trade.contract.code,
