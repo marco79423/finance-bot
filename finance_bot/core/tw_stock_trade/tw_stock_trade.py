@@ -259,7 +259,7 @@ class TWStockTrade(CoreBase):
         for deal in trade.status.deals:
             deal_shares = deal.quantity * 1000
             deal_total = int(deal.price * deal_shares)
-            deal_avg_price = round(deal_total / deal_shares)
+            deal_avg_price = round(deal_total / deal_shares, 2)
             deal_fee = self._broker.commission_info.get_sell_commission(deal_total)
             deal_total -= deal_fee
 
