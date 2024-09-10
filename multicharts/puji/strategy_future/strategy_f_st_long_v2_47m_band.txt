@@ -12,7 +12,6 @@ var: KBar(37), BBandUp(0), ATR(0);
 BBandUp = BollingerBand(Close, KBar, 1.5);
 ATR = AvgTrueRange(KBar);
 
-//Over day reset
 var: HH(99999);
 if D > D[1] then begin
 	HH = OpenD(0) + ATR * 0.3;
@@ -63,7 +62,6 @@ end else begin
 	end;
 
 	if Close < EntryHigh - ATR * 7.5 then begin
-		Sell ("LX_Giveup") all contracts next bar market;
+		Sell ("LX_GiveUp") all contracts next bar market;
 	end;
-
 end;
