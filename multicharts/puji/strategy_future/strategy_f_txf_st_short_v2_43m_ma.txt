@@ -4,7 +4,6 @@
 // Focus on balancing profits and losses.
 
 inputs: Enabled(1), OrderSize(1);
-inputs: F1(1), F2(1), C1(1), C2(1);
 
 if Enabled = 0 then
 	#Return;
