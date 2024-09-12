@@ -2,7 +2,7 @@
 [Wsp]
 	(C2526AC1-535C-4a67-92B5-101E53EA9E4B) = '{1}{0}'
 	ActiveIndex = '1'
-	MaximizedFlag = '0'
+	MaximizedFlag = '1911'
 	Version = '1'
 	WindowCount = '2'
 
@@ -10,17 +10,17 @@
 	WindowCount = '0'
 
 [Wsp\Window_0]
-	ContainerHeight = '856'
-	ContainerWidth = '1746'
+	ContainerHeight = '860'
+	ContainerWidth = '1750'
 	Flags = '0'
-	Height = '428'
+	Height = '430'
 	Left = '0'
 	MinX = '-1'
 	MinY = '-1'
 	State = '1'
 	Top = '0'
 	ViewType = '0'
-	Width = '1746'
+	Width = '1750'
 
 [Wsp\Window_0\ChartManager]
 	ChartCount = '2'
@@ -74,9 +74,9 @@
 	ExpirationDate = '0'
 	FieldId = '201'
 	FieldName = '成交價'
-	FinishDate2Id = '45545'
+	FinishDate2Id = '45547'
 	FinishDate2Name = ''
-	FinishDateId = '45545'
+	FinishDateId = '45547'
 	FinishDateName = ''
 	FootPrintChartType = '0'
 	KagiReversal = '10'
@@ -1852,7 +1852,7 @@
 [Wsp\Window_0\ChartManager\IndexViewCalc]
 	BarSpacing = '1'
 	BarsToRight = '20'
-	BarsToRightValue = '296'
+	BarsToRightValue = '297'
 	ChartShiftViewType = '0'
 	ShowEmptyPeriod = '0'
 
@@ -2959,7 +2959,7 @@ The reserved words supported in Portfolio optimization:
 	TIF = '1'
 
 [Wsp\Window_0\ChartManager\TradePanelPlaceholder\TradePanelObject\PerAccountSetting\Settings\Settings\Item_0\Second\TIFDate]
-	Ticks = '638613051469850000'
+	Ticks = '638617301051230000'
 
 [Wsp\Window_0\ChartManager\VolumeScale]
 	VolumeBarColor = '8421504'
@@ -2969,17 +2969,17 @@ The reserved words supported in Portfolio optimization:
 	VolumeRightScaleWidth = '50'
 
 [Wsp\Window_1]
-	ContainerHeight = '856'
-	ContainerWidth = '1746'
-	Flags = '0'
-	Height = '428'
+	ContainerHeight = '860'
+	ContainerWidth = '1750'
+	Flags = '2'
+	Height = '426'
 	Left = '0'
 	MinX = '-1'
 	MinY = '-1'
-	State = '1'
-	Top = '428'
+	State = '3'
+	Top = '426'
 	ViewType = '0'
-	Width = '1746'
+	Width = '1911'
 
 [Wsp\Window_1\ChartManager]
 	ChartCount = '2'
@@ -3033,9 +3033,9 @@ The reserved words supported in Portfolio optimization:
 	ExpirationDate = '0'
 	FieldId = '201'
 	FieldName = '成交價'
-	FinishDate2Id = '45545'
+	FinishDate2Id = '45547'
 	FinishDate2Name = ''
-	FinishDateId = '45545'
+	FinishDateId = '45547'
 	FinishDateName = ''
 	FootPrintChartType = '0'
 	KagiReversal = '10'
@@ -3047,8 +3047,8 @@ The reserved words supported in Portfolio optimization:
 	PFigureBoxSize = '10'
 	PFigureReversal = '3'
 	PriceScale = '101'
-	RangeId = '0'
-	RangeName = 'BACK'
+	RangeId = '1'
+	RangeName = 'PERIOD'
 	RealTimeCategory = '0'
 	RealTimeDataFeed = 'TOUCHANCE'
 	RealTimeExchange = 'TWF'
@@ -3059,7 +3059,7 @@ The reserved words supported in Portfolio optimization:
 	RequestOffline = '0'
 	ResolutionId = '2'
 	ResolutionName = '分鐘'
-	ResolutionSizeId = '53'
+	ResolutionSizeId = '47'
 	ResolutionSizeName = ''
 	SessionsId = '6795'
 	SessionsName = 'TXF.MXF.TXO.UDF.SPF|Session New'
@@ -3097,8 +3097,8 @@ The reserved words supported in Portfolio optimization:
 	ManualMode = '0'
 	MarginBottom = '5'
 	MarginTop = '5'
-	Maximum = '24760,8333333333'
-	Minimum = '18524,1666666667'
+	Maximum = '21711,1111111111'
+	Minimum = '20488,8888888889'
 	MovementSize.Long = '1'
 	MovementSize.Metric = 'False'
 	MovementSize.Price = '5'
@@ -4744,8 +4744,8 @@ The reserved words supported in Portfolio optimization:
 	ManualMode = '0'
 	MarginBottom = '5'
 	MarginTop = '5'
-	Maximum = '74843,1111111111'
-	Minimum = '-3599,11111111111'
+	Maximum = '39135,5555555556'
+	Minimum = '-1535,55555555556'
 	MovementSize.Long = '1'
 	MovementSize.Metric = 'False'
 	MovementSize.Price = '5'
@@ -4809,9 +4809,9 @@ The reserved words supported in Portfolio optimization:
 	Type = '4'
 
 [Wsp\Window_1\ChartManager\IndexViewCalc]
-	BarSpacing = '1'
+	BarSpacing = '8'
 	BarsToRight = '20'
-	BarsToRightValue = '296'
+	BarsToRightValue = '37'
 	ChartShiftViewType = '0'
 	ShowEmptyPeriod = '0'
 
@@ -5037,13 +5037,13 @@ The reserved words supported in Portfolio optimization:
 	WFIntervalType = '0'
 
 [Wsp\Window_1\ChartManager\OptimizeManager\OptimizeManager\WFOptimizer\WFO]
-	IS_size = '10'
+	IS_size = '4376'
 	IntervalType = '0'
 	IsAnchored = '0'
-	IsDefaultInitNeeded = '1'
+	IsDefaultInitNeeded = '0'
 	Num_of_Runs = '5'
 	OOS_Size_Type = '0'
-	OOS_size = '10'
+	OOS_size = '437'
 	ReportFilePath = ''
 	Segment_type = '1'
 	WFReportExist = '0'
@@ -5135,7 +5135,7 @@ The reserved words supported in Portfolio optimization:
 	Underline = '0'
 
 [Wsp\Window_1\ChartManager\Strategy]
-	SignalObjectCount = '2'
+	SignalObjectCount = '1'
 
 [Wsp\Window_1\ChartManager\Strategy\AlertObject]
 	AlertEnable = '0'
@@ -5256,7 +5256,7 @@ The reserved words supported in Portfolio optimization:
 	isStatusWindowShow = '1'
 
 [Wsp\Window_1\ChartManager\Strategy\SignalObject_0]
-	IdName = 's_strategy_fx_test'
+	IdName = 's_strategy_f_txf_test'
 	Status = '1'
 
 [Wsp\Window_1\ChartManager\Strategy\SignalObject_0\SignalHelper]
@@ -5269,7 +5269,7 @@ The reserved words supported in Portfolio optimization:
 	UseFreshSnapOnAdditionalDS = '0'
 
 [Wsp\Window_1\ChartManager\Strategy\SignalObject_0\SignalHelper\InputHelper\Input_Enabled]
-	IsInputOptimizable = '0'
+	IsInputOptimizable = '1'
 	LocalCurrentValue2 = '1'
 	Start2 = '1'
 	Step2 = '1'
@@ -5277,7 +5277,7 @@ The reserved words supported in Portfolio optimization:
 	Value = '1'
 
 [Wsp\Window_1\ChartManager\Strategy\SignalObject_0\SignalHelper\InputHelper\Input_OrderSize]
-	IsInputOptimizable = '0'
+	IsInputOptimizable = '1'
 	LocalCurrentValue2 = '1'
 	Start2 = '1'
 	Step2 = '1'
@@ -5428,186 +5428,13 @@ The reserved words supported in Portfolio optimization:
 	Visible = '1'
 	Width = '2'
 
-[Wsp\Window_1\ChartManager\Strategy\SignalObject_1]
-	IdName = 's_strategy_f_dual_v1_sar'
-	Status = '0'
-
-[Wsp\Window_1\ChartManager\Strategy\SignalObject_1\SignalHelper]
-	CalcRTAsHistory = '1'
-	GordonLamCalc = '0'
-	IOGEnabled = '0'
-	IOGTypeEntry = '1'
-	IOGTypeExit = '1'
-	TimesPerBar = '1'
-	UseFreshSnapOnAdditionalDS = '0'
-
-[Wsp\Window_1\ChartManager\Strategy\SignalObject_1\SignalHelper\InputHelper\Input_Enabled]
-	IsInputOptimizable = '1'
-	LocalCurrentValue2 = '1'
-	Start2 = '1'
-	Step2 = '1'
-	Stop2 = '1'
-	Value = '1'
-
-[Wsp\Window_1\ChartManager\Strategy\SignalObject_1\SignalHelper\InputHelper\Input_OrderSize]
-	IsInputOptimizable = '1'
-	LocalCurrentValue2 = '1'
-	Start2 = '1'
-	Step2 = '1'
-	Stop2 = '1'
-	Value = '1'
-
-[Wsp\Window_1\ChartManager\Strategy\SignalObject_1\SignalHelper\Styles\OrderType: Buy Entry\ArrowProps]
-	Color = '16711680'
-	OrderType = '257'
-	Style = '10'
-	Width = '0'
-
-[Wsp\Window_1\ChartManager\Strategy\SignalObject_1\SignalHelper\Styles\OrderType: Buy Entry\ProfitLineProps]
-	OrderType = '257'
-	ProfitColor = '3329330'
-	Style = '2'
-	UnprofitColor = '0'
-	Visible = '1'
-	Width = '2'
-
-[Wsp\Window_1\ChartManager\Strategy\SignalObject_1\SignalHelper\Styles\OrderType: Buy Entry\SignalContractsProps]
-	ContractsColor = '16777215'
-	ContractsVisible = '1'
-
-[Wsp\Window_1\ChartManager\Strategy\SignalObject_1\SignalHelper\Styles\OrderType: Buy Entry\SignalNameProps]
-	NameColor = '16777215'
-	NameVisible = '1'
-
-[Wsp\Window_1\ChartManager\Strategy\SignalObject_1\SignalHelper\Styles\OrderType: Buy Entry\TickProps]
-	Color = '16711680'
-	OrderType = '257'
-	Style = '5'
-	Width = '0'
-
-[Wsp\Window_1\ChartManager\Strategy\SignalObject_1\SignalHelper\Styles\OrderType: Buy Entry\UnprofitLineProps]
-	OrderType = '257'
-	ProfitColor = '0'
-	Style = '2'
-	UnprofitColor = '255'
-	Visible = '1'
-	Width = '2'
-
-[Wsp\Window_1\ChartManager\Strategy\SignalObject_1\SignalHelper\Styles\OrderType: Buy Exit\ArrowProps]
-	Color = '16777215'
-	OrderType = '258'
-	Style = '10'
-	Width = '0'
-
-[Wsp\Window_1\ChartManager\Strategy\SignalObject_1\SignalHelper\Styles\OrderType: Buy Exit\ProfitLineProps]
-	OrderType = '257'
-	ProfitColor = '3329330'
-	Style = '2'
-	UnprofitColor = '0'
-	Visible = '1'
-	Width = '2'
-
-[Wsp\Window_1\ChartManager\Strategy\SignalObject_1\SignalHelper\Styles\OrderType: Buy Exit\SignalContractsProps]
-	ContractsColor = '16777215'
-	ContractsVisible = '1'
-
-[Wsp\Window_1\ChartManager\Strategy\SignalObject_1\SignalHelper\Styles\OrderType: Buy Exit\SignalNameProps]
-	NameColor = '16777215'
-	NameVisible = '1'
-
-[Wsp\Window_1\ChartManager\Strategy\SignalObject_1\SignalHelper\Styles\OrderType: Buy Exit\TickProps]
-	Color = '16777215'
-	OrderType = '258'
-	Style = '5'
-	Width = '0'
-
-[Wsp\Window_1\ChartManager\Strategy\SignalObject_1\SignalHelper\Styles\OrderType: Buy Exit\UnprofitLineProps]
-	OrderType = '257'
-	ProfitColor = '0'
-	Style = '2'
-	UnprofitColor = '255'
-	Visible = '1'
-	Width = '2'
-
-[Wsp\Window_1\ChartManager\Strategy\SignalObject_1\SignalHelper\Styles\OrderType: Sell Entry\ArrowProps]
-	Color = '255'
-	OrderType = '513'
-	Style = '10'
-	Width = '0'
-
-[Wsp\Window_1\ChartManager\Strategy\SignalObject_1\SignalHelper\Styles\OrderType: Sell Entry\ProfitLineProps]
-	OrderType = '257'
-	ProfitColor = '3329330'
-	Style = '2'
-	UnprofitColor = '0'
-	Visible = '1'
-	Width = '2'
-
-[Wsp\Window_1\ChartManager\Strategy\SignalObject_1\SignalHelper\Styles\OrderType: Sell Entry\SignalContractsProps]
-	ContractsColor = '16777215'
-	ContractsVisible = '1'
-
-[Wsp\Window_1\ChartManager\Strategy\SignalObject_1\SignalHelper\Styles\OrderType: Sell Entry\SignalNameProps]
-	NameColor = '16777215'
-	NameVisible = '1'
-
-[Wsp\Window_1\ChartManager\Strategy\SignalObject_1\SignalHelper\Styles\OrderType: Sell Entry\TickProps]
-	Color = '255'
-	OrderType = '513'
-	Style = '5'
-	Width = '0'
-
-[Wsp\Window_1\ChartManager\Strategy\SignalObject_1\SignalHelper\Styles\OrderType: Sell Entry\UnprofitLineProps]
-	OrderType = '257'
-	ProfitColor = '0'
-	Style = '2'
-	UnprofitColor = '255'
-	Visible = '1'
-	Width = '2'
-
-[Wsp\Window_1\ChartManager\Strategy\SignalObject_1\SignalHelper\Styles\OrderType: Sell Exit\ArrowProps]
-	Color = '16777215'
-	OrderType = '514'
-	Style = '10'
-	Width = '0'
-
-[Wsp\Window_1\ChartManager\Strategy\SignalObject_1\SignalHelper\Styles\OrderType: Sell Exit\ProfitLineProps]
-	OrderType = '257'
-	ProfitColor = '3329330'
-	Style = '2'
-	UnprofitColor = '0'
-	Visible = '1'
-	Width = '2'
-
-[Wsp\Window_1\ChartManager\Strategy\SignalObject_1\SignalHelper\Styles\OrderType: Sell Exit\SignalContractsProps]
-	ContractsColor = '16777215'
-	ContractsVisible = '1'
-
-[Wsp\Window_1\ChartManager\Strategy\SignalObject_1\SignalHelper\Styles\OrderType: Sell Exit\SignalNameProps]
-	NameColor = '16777215'
-	NameVisible = '1'
-
-[Wsp\Window_1\ChartManager\Strategy\SignalObject_1\SignalHelper\Styles\OrderType: Sell Exit\TickProps]
-	Color = '16777215'
-	OrderType = '514'
-	Style = '5'
-	Width = '0'
-
-[Wsp\Window_1\ChartManager\Strategy\SignalObject_1\SignalHelper\Styles\OrderType: Sell Exit\UnprofitLineProps]
-	OrderType = '257'
-	ProfitColor = '0'
-	Style = '2'
-	UnprofitColor = '255'
-	Visible = '1'
-	Width = '2'
-
 [Wsp\Window_1\ChartManager\Strategy\StrategyATPersistHelper]
 	ATOn = 'False'
 	Confirm = 'False'
 	NeedActivateAT = 'False'
 	Profile = 'Interactive Brokers'
-	StrategyName = 'strategy_fx_test'
-	SymbolName = 'TWF.TXF HOT - 53 分鐘 - TOUCHANCE'
+	StrategyName = 'strategy_f_txf_test'
+	SymbolName = 'TWF.TXF HOT - 47 分鐘 - TOUCHANCE'
 
 [Wsp\Window_1\ChartManager\Strategy\StrategyHelper\OptimizerProperties\Algorithm_0]
 	CFFScriptGenetic = '// TODO: Enter your formula to replace the samples below 
@@ -5918,7 +5745,7 @@ The reserved words supported in Portfolio optimization:
 	TIF = '1'
 
 [Wsp\Window_1\ChartManager\TradePanelPlaceholder\TradePanelObject\PerAccountSetting\Settings\Settings\Item_0\Second\TIFDate]
-	Ticks = '638613212758710000'
+	Ticks = '638617301053360000'
 
 [Wsp\Window_1\ChartManager\VolumeScale]
 	VolumeBarColor = '8421504'
