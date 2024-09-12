@@ -52,7 +52,7 @@ end else begin
 	end;
 
 	if OpenPositionProfit < 0 and BarsSinceEntry > 4 then begin
-		BuyToCover ("SX_Giveup") all contracts next bar market;
+		BuyToCover ("SX_GiveUp") all contracts next bar market;
 	end;
 
 	if OpenPositionProfit < -70 * BigPointValue * OrderSize then begin
