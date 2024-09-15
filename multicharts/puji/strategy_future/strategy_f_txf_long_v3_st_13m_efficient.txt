@@ -1,4 +1,4 @@
-// TXF 17 min
+// TXF 13 min
 // Use bar 25
 // Fore range trading
 // Focus on win rate and smooth out the curve.
