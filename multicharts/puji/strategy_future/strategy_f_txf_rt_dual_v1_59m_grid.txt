@@ -1,0 +1,80 @@
+// TXF 59 min
+// Use bar 60
+// For range trading
+// Focus on win rate and smooth out the curve.
+
+inputs: Enabled(1), OrderSize(1), MaxPosition(2);
+
+if Enabled = 0 then
+	#Return;
+
+// Adjust grid size and stop levels dynamically based on volatility
+vars: DynamicGridSize(0), DynamicStopLoss(0), DynamicTakeProfit(0);
+DynamicGridSize = AvgTrueRange(6) * 0.4;
+DynamicStopLoss = DynamicGridSize * 40;
+
+// Calculate short-term and long-term moving averages
+vars: ShortMA(0), LongMA(0);
+ShortMA = AverageFC(Close, 5);
+LongMA = AverageFC(Close, 60);
+
+// Initialize entry price and last grid level
+vars: EntryPrice(0), LastGrid(0);
+If MarketPosition = 0 and D > D[1] then begin
+    EntryPrice = Close;
+    LastGrid = Close;
+end;
+
+vars: OpenCond(True);
+OpenCond = True;
+OpenCond = not (IsSettlementDay and 1200 < Time and Time < 1400);
+OpenCond = OpenCond and not (0845 <= Time and Time <= 0847);
+OpenCond = OpenCond and not (1500 <= Time and Time <= 1502);
+
+// Enable grid trading only in a sideways market
+If AbsValue(ShortMA - LongMA) <= 180 then begin
+    vars: BuyPrice(0), SellPrice(0);
+
+    // Buy when price falls below the last grid level minus dynamic grid size
+	vars: BuyCond(True);
+	BuyCond = OpenCond;
+	BuyCond = BuyCond and MarketPosition <= 0;
+	BuyCond = BuyCond and Close <= LastGrid - DynamicGridSize;
+	BuyCond = BuyCond and CurrentContracts < MaxPosition;
+	if BuyCond then begin
+		Buy ("LE") OrderSize contracts next bar market;
+        BuyPrice = Close; // Record the last buy price
+        LastGrid = LastGrid - DynamicGridSize;
+	end;
+
+    // Sell short when price rises above the last grid level plus dynamic grid size
+    vars: ShortCond(True);
+    ShortCond = OpenCond;
+    ShortCond = ShortCond and MarketPosition >= 0;
+    ShortCond = ShortCond and Close >= LastGrid + DynamicGridSize;
+    ShortCond = ShortCond and CurrentContracts < MaxPosition;
+    if ShortCond then begin
+        SellShort ("SE") OrderSize contracts next bar market;
+        SellPrice = Close; // Record the last sell price
+        LastGrid = LastGrid + DynamicGridSize;
+    end;
+
+    // Exit position if price moves against entry price by dynamic stop loss amount
+    if MarketPosition > 0 and Close <= BuyPrice - DynamicGridSize * 24 then begin
+        Sell OrderSize contracts next bar market;
+    end;
+
+    If MarketPosition < 0 and Close >= SellPrice + DynamicGridSize * 72 then begin
+        BuyToCover OrderSize contracts next bar market;
+    end;
+
+end else begin
+    // Exit all positions when not in a sideways market
+    if MarketPosition > 0 then begin
+        Sell all contracts next bar Market;
+    end;
+
+    if MarketPosition < 0 then begin
+        BuyToCover all contracts next bar market;
+    end;
+end;
