@@ -1,5 +1,4 @@
 import asyncio
-import decimal
 
 import pandas as pd
 import uvicorn
@@ -188,7 +187,7 @@ class TWStockTrade(CoreBase):
                     stock_id=stock_id,
                     shares=shares,
                     price=result['avg_price'],
-                    fee=result['total_fee'],
+                    fee=result['fee'],
                     amount=result['total'],
                     note=note
                 )
@@ -230,7 +229,7 @@ class TWStockTrade(CoreBase):
                     stock_id=stock_id,
                     shares=shares,
                     price=result['avg_price'],
-                    fee=result['total_fee'],
+                    fee=result['fee'],
                     amount=-result['total'],
                     note=note
                 )
@@ -263,12 +262,12 @@ class TWStockTrade(CoreBase):
             deal_fee = self._broker.commission_info.get_sell_commission(deal_total)
             deal_total -= deal_fee
 
-            message = '賣 {stock_id} {shares} 股 價格 {avg_price} 元 完全成交\n總費用：{total}(手續費：{total_fee})\n'.format(
+            message = '賣 {stock_id} {shares} 股 價格 {avg_price} 元 完全成交\n總費用：{total}(手續費：{fee})\n'.format(
                 stock_id=stock_id,
                 avg_price=deal_avg_price,
                 shares=deal_shares,
                 total=deal_total,
-                total_fee=deal_fee,
+                fee=deal_fee,
             )
             await infra.notifier.send(message)
 
@@ -277,7 +276,7 @@ class TWStockTrade(CoreBase):
                 avg_price=deal_avg_price,
                 shares=deal_shares,
                 total=deal_total,
-                total_fee=deal_fee,
+                fee=deal_fee,
                 description=message,
             ))
 
@@ -307,13 +306,14 @@ class TWStockTrade(CoreBase):
             deal_total = int(deal.price * deal_shares)
             deal_avg_price = round(deal_total / deal_shares, 2)
             deal_fee = self._broker.commission_info.get_buy_commission(deal_total)
+            deal_total += deal_fee
 
-            message = '買 {stock_id} {shares} 股 價格 {avg_price} 元 完全成交\n費用：{total}(手續費：{total_fee})'.format(
+            message = '買 {stock_id} {shares} 股 價格 {avg_price} 元 完全成交\n費用：{total}(手續費：{fee})'.format(
                 stock_id=trade.contract.code,
                 avg_price=deal_avg_price,
                 shares=deal_shares,
                 total=deal_total,
-                total_fee=deal_avg_price,
+                fee=deal_fee,
             )
             await infra.notifier.send(message)
 
@@ -321,8 +321,8 @@ class TWStockTrade(CoreBase):
                 stock_id=trade.contract.code,
                 avg_price=deal_avg_price,
                 shares=deal_shares,
-                total=deal_avg_price,
-                total_fee=deal_fee,
+                total=deal_total,
+                fee=deal_fee,
                 description=message,
             ))
         return trades
