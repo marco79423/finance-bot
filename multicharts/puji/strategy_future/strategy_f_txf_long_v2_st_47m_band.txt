@@ -54,10 +54,9 @@ end else begin
 		Sell ("LX_Settle") all contracts next bar market;
 	end;
 
-	vars: Base(0), BP(1);
-	Base = AvgTrueRange(60);
-	BP =  OpenPositionProfit / (Base * BigPointValue * OrderSize);
-	if OpenPositionProfit > 0 and OpenPositionProfit < MaxOpenPositionProfit - (2.35 - BP * 0.35) * Base * BigPointValue * OrderSize then begin
+	vars: ProfitLevel(1);
+	ProfitLevel = OpenPositionProfit / (ATR * BigPointValue * OrderSize);
+	if OpenPositionProfit > 0 and OpenPositionProfit < MaxOpenPositionProfit - (2.1 - ProfitLevel * 0.2) * ATR * BigPointValue * OrderSize then begin
 		Sell ("LX_Pullback") all contracts next bar market;
 	end;
 
