@@ -9,7 +9,7 @@ if Enabled = 0 then
 	#Return;
 
 vars: OpenCond(True);
-OpenCond = not (IsSettlementDay and 1200 < Time and Time < 1400);
+OpenCond = not (IsTXFSettlementDay and 1200 < Time and Time < 1400);
 OpenCond = OpenCond and not (0845 <= Time and Time <= 0847);
 OpenCond = OpenCond and not (1500 <= Time and Time <= 1502);
 
@@ -32,7 +32,7 @@ if MarketPosition = 0 then begin
 	end;
 
 end else begin
-	if IsSettlementDay and 1200 < Time and Time < 1400 then begin
+	if IsTXFSettlementDay and 1200 < Time and Time < 1400 then begin
 		BuyToCover ("SX_Settle") all contracts next bar market;
 	end;
 

@@ -1,6 +1,6 @@
-IsSettlementDay = False;
+IsTXFSettlementDay = False;
 if DayOfWeek(D) = 3 and DayOfMonth(D) > 14 and DayOfMonth(D) < 22 then begin
-	IsSettlementDay = True;
+	IsTXFSettlementDay = True;
 end else begin
-	IsSettlementDay = False;
+	IsTXFSettlementDay = False;
 end;
