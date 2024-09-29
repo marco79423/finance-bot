@@ -16,6 +16,9 @@ end else begin
 	MaxOpenPositionProfit = 0;
 end;
 
+vars: ATR(0);
+ATR = AvgTrueRange(14);
+
 vars: AfStep(0.01), AfLimit(0.02), ParCl(0), ParOp(0), Position(0), Transition(0) , SAR(0);
 SAR = ParabolicSAR(AfStep, AfLimit, ParCl, ParOp, Position, Transition) ;
 
@@ -53,13 +56,14 @@ if MarketPosition = 1 then begin
 		Sell ("LX_Sar") all contracts next bar market;
 	end;
 
-	if OpenPositionProfit > 0 and OpenPositionProfit < MaxOpenPositionProfit - 190 * BigPointValue * OrderSize then begin
+	if OpenPositionProfit > 0 and OpenPositionProfit < MaxOpenPositionProfit - 8 * ATR * BigPointValue * OrderSize then begin
 		Sell ("LX_Pullback") all contracts next bar market;
 	end;
 
-	if OpenPositionProfit < -400 * BigPointValue * OrderSize then begin
+	if OpenPositionProfit < -6 * ATR * BigPointValue * OrderSize then begin
 		Sell ("LX_StopLoss") all contracts next bar market;
 	end;
+
 end;
 
 if MarketPosition = -1 then begin
@@ -75,15 +79,15 @@ if MarketPosition = -1 then begin
 		BuyToCover ("SX_Out") all contracts next bar market;
 	end;
 
-	if OpenPositionProfit > 0 and OpenPositionProfit < MaxOpenPositionProfit - 80 * BigPointValue * OrderSize then begin
+	if OpenPositionProfit > 0 and OpenPositionProfit < MaxOpenPositionProfit - 5 * ATR * BigPointValue * OrderSize then begin
 		BuyToCover ("SX_Pullback") all contracts next bar market;
 	end;
 
-	if BarsSinceEntry > 44 then begin
+	if BarsSinceEntry > 9 then begin
 		BuyToCover ("SX_GiveUp") all contracts next bar market;
 	end;
 
- 	if OpenPositionProfit < -215 * BigPointValue * OrderSize then begin
+	if OpenPositionProfit < -3 * ATR * BigPointValue * OrderSize then begin
 		BuyToCover ("SX_StopLoss") all contracts next bar market;
 	end;
 
