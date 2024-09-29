@@ -16,8 +16,8 @@ end else begin
 	MaxOpenPositionProfit = 0;
 end;
 
-vars: ATRValue(0);
-ATRValue = AvgTrueRange(14);
+vars: ATR(0);
+ATR = AvgTrueRange(14);
 
 vars: OpenCond(True);
 OpenCond = True;
@@ -40,11 +40,11 @@ end else begin
 		Sell ("LX_Settle") all contracts next bar market;
 	end;
 
-	if OpenPositionProfit > 4 * ATRValue * BigPointValue * OrderSize then begin
+	if OpenPositionProfit > 4 * ATR * BigPointValue * OrderSize then begin
 		Sell("LX_Win") all contracts next bar market;
 	end;
 
-	if OpenPositionProfit > 0 and OpenPositionProfit < MaxOpenPositionProfit - 1 * ATRValue * BigPointValue * OrderSize then begin
+	if OpenPositionProfit > 0 and OpenPositionProfit < MaxOpenPositionProfit - 1 * ATR * BigPointValue * OrderSize then begin
 		Sell ("LX_Pullback") all contracts next bar market;
 	end;
 
@@ -52,7 +52,7 @@ end else begin
 		Sell ("LX_GiveUp") all contracts next bar market;
 	end;
 
-	if OpenPositionProfit < -9 * ATRValue * BigPointValue * OrderSize then begin
+	if OpenPositionProfit < -9 * ATR * BigPointValue * OrderSize then begin
 		Sell("LX_StopLoss") all contracts next bar market;
 	end;
 
