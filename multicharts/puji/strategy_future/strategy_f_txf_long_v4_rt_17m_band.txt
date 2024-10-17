@@ -16,6 +16,9 @@ end else begin
 	MaxOpenPositionProfit = 0;
 end;
 
+vars: ATR(0);
+ATR = AvgTrueRange(14);
+
 vars: OpenCond(True);
 OpenCond = True;
 OpenCond = not (IsTXFSettlementDay and 1200 < Time and Time < 1400);
@@ -44,4 +47,13 @@ end else begin
 	if Close > OutPrice then begin
 		Sell ("LX_Out") all contracts next bar market;
 	end;
+
+	if BarsSinceEntry >= 425 then begin
+    	Sell ("LX_MaxTime") all contracts next bar market;
+	end;
+
+	if Close < EntryPrice - 27.5 * ATR then begin
+		Sell ("LX_StopLoss") all contracts next bar market;
+	end;
+
 end;
