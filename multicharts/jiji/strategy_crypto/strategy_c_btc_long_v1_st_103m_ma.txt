@@ -34,7 +34,7 @@ end;
 
 end else begin
 	if OpenPositionProfit > 5 * ATR * BigPointValue * OrderSize then begin
-		Sell("LX_Win") all contracts next bar market;
+		Sell ("LX_Win") all contracts next bar market;
 	end;
 
 	if OpenPositionProfit > 0 and OpenPositionProfit < MaxOpenPositionProfit - 1 * ATR * BigPointValue * OrderSize then begin
