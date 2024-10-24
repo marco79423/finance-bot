@@ -29,8 +29,8 @@ if MarketPosition = 0 then begin
 	BuyCond = BuyCond and Close > AverageFC(Close, 30);
 	BuyCond = BuyCond and Ticks = Highest(Ticks, 12);
 if BuyCond then begin
-		Buy ("LE") OrderSize contracts next bar market;
-	end;
+    Buy ("LE") OrderSize contracts next bar market;
+end;
 
 end else begin
 	if OpenPositionProfit > 5 * ATR * BigPointValue * OrderSize then begin
