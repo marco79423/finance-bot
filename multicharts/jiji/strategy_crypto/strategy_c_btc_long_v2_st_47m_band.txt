@@ -53,7 +53,6 @@ end else begin
 		Sell ("LX_Pullback") all contracts next bar market;
 	end;
 
-	// 7.5
 	if Close < EntryHigh - ATR * 8.5 then begin
 		Sell ("LX_GiveUp") all contracts next bar market;
 	end;
