@@ -1,5 +1,5 @@
 // BTC 13 min
-// Use bar 70
+// Use bar 50
 // For swing trading
 // Focus on balancing profits and losses.
 
@@ -12,7 +12,7 @@ vars: OpenCond(True);
 OpenCond = True;
 
 if MarketPosition = 0 then begin
-	vars: Len(70), PointSum(0), count(0);
+	vars: Len(50), PointSum(0), count(0);
 	count = Len - 1;
 	PointSum = Summation(AbsValue(Close - Close[1]), count) ;
 	vars: Efficient(0);
@@ -34,7 +34,7 @@ end else begin
 
 	vars: CoverCond(True);
 	CoverCond = True;
-	CoverCond = CoverCond and LowestBar(High, Len) > Len * 0.6;
+	CoverCond = CoverCond and LowestBar(High, Len) > Len * 0.9;
 	if CoverCond then begin
 		BuyToCover ("SX_Out") all contracts next bar market;
 	end;

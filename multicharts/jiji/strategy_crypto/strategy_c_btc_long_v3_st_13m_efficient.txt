@@ -22,9 +22,9 @@ ATR = AvgTrueRange(14);
 vars: OpenCond(True);
 OpenCond = True;
 
-var: KBar(8), BBandAverage(0), BBandDown(0);
+var: KBar(20), BBandAverage(0), BBandDown(0);
 BBandAverage = Average(Close, KBar);
-BBandDown = BBandAverage - 2.3 * StandardDev(Close, KBar, 1);
+BBandDown = BBandAverage - 3 * StandardDev(Close, KBar, 1);
 
 vars: OutPrice(0);
 if MarketPosition = 0 then begin
@@ -44,11 +44,11 @@ end else begin
 		Sell ("LX_Out") all contracts next bar market;
 	end;
 
-	if BarsSinceEntry > 90 and OpenPositionProfit > 0 then begin
+	if BarsSinceEntry > 100 and OpenPositionProfit > 0 then begin
 		Sell ("LX_GiveUp") all contracts next bar market;
 	end;
 
-	if OpenPositionProfit < -85 * ATR * BigPointValue * OrderSize then begin
+	if OpenPositionProfit < -30 * ATR * BigPointValue * OrderSize then begin
 		Sell ("LX_StopLoss") all contracts next bar market;
 	end;
 end;
