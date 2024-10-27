@@ -1,6 +1,6 @@
 // BTC 13 min
-// Use bar 20
-// For range trading
+// Use bar 50
+// For swing trading
 // Focus on balancing profits and losses.
 
 inputs: Enabled(1), OrderSize(1);
@@ -8,47 +8,35 @@ inputs: Enabled(1), OrderSize(1);
 if Enabled = 0 then
 	#Return;
 
-vars: MaxOpenPositionProfit(0);
-if MarketPosition <> 0 then begin
-	if MaxOpenPositionProfit < OpenPositionProfit then
-		MaxOpenPositionProfit = OpenPositionProfit;
-end else begin
-	MaxOpenPositionProfit = 0;
-end;
-
-vars: ATR(0);
-ATR = AvgTrueRange(14);
-
 vars: OpenCond(True);
 OpenCond = True;
 
-var: KBar(8), BBandAverage(0), BBandDown(0);
-BBandAverage = Average(Close, KBar);
-BBandDown = BBandAverage - 2.3 * StandardDev(Close, KBar, 1);
-
-vars: OutPrice(0);
 if MarketPosition = 0 then begin
+	vars: Len(70), PointSum(0), count(0);
+	count = Len - 1;
+	PointSum = Summation(AbsValue(Close - Close[1]), count) ;
+	vars: Efficient(0);
+	if PointSum <> 0 then begin
+		Efficient = (Close - Close[count]) / PointSum;
+	end else begin
+		Efficient = 0;
+	end;
 
-	vars: BuyCond(True);
-	BuyCond = OpenCond;
-	BuyCond = BuyCond and Close cross over BBandDown;
-	BuyCond = BuyCond and Close > Close[1];
-	if BuyCond then begin
-		Buy ("LE") OrderSize contracts next bar market;
-		OutPrice = BBandAverage;
-    end;
+	vars: ShortCond(True);
+	ShortCond = OpenCond;
+	ShortCond = ShortCond and crosses_below(Efficient, -0.3);
+
+	if ShortCond then begin
+		SellShort ( "SE" ) OrderSize contracts next bar market;
+	end;
 
 end else begin
 
-	if Close > OutPrice then begin
-		Sell ("LX_Out") all contracts next bar market;
+	vars: CoverCond(True);
+	CoverCond = True;
+	CoverCond = CoverCond and LowestBar(High, Len) > Len * 0.6;
+	if CoverCond then begin
+		BuyToCover ("SX_Out") all contracts next bar market;
 	end;
 
-	if BarsSinceEntry > 90 and OpenPositionProfit > 0 then begin
-		Sell ("LX_GiveUp") all contracts next bar market;
-	end;
-
-	if OpenPositionProfit < -85 * ATR * BigPointValue * OrderSize then begin
-		Sell ("LX_StopLoss") all contracts next bar market;
-	end;
 end;
