@@ -3,7 +3,7 @@
 // For swing trading
 // Focus on balancing profits and losses.
 
-inputs: Enabled(1), OrderSize(10);
+inputs: Enabled(1), OrderSize(1);
 
 if Enabled = 0 then
 	#Return;
