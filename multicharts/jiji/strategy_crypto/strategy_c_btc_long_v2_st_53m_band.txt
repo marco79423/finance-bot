@@ -1,20 +1,20 @@
-// BTC 47 min
+// BTC 53 min
 // Use bar 70
 // For swing trading
 // Focus on balancing profits and losses.
 
-inputs: Enabled(1), OrderSize(1);
+inputs: Enabled(1), OrderSize(10);
 
 if Enabled = 0 then
 	#Return;
 
-var: KBar(70), BBandUp(0), ATR(0);
+var: KBar(40), BBandUp(0), ATR(0);
 BBandUp = BollingerBand(Close, KBar, 1);
 ATR = AvgTrueRange(KBar);
 
 var: HH(99999);
 if D > D[1] then begin
-	HH = OpenD(0) + ATR * 4.2;
+	HH = OpenD(0) + ATR * 3.5;
 end;
 
 vars: MaxOpenPositionProfit(0);
@@ -49,11 +49,11 @@ if MarketPosition = 0 then begin
 end else begin
 	vars: ProfitLevel(1);
 	ProfitLevel = OpenPositionProfit / (ATR * BigPointValue * OrderSize);
-	if OpenPositionProfit > 0 and OpenPositionProfit < MaxOpenPositionProfit - (5 - ProfitLevel * 1.5) * ATR * BigPointValue * OrderSize then begin
+	if OpenPositionProfit > 0 and OpenPositionProfit < MaxOpenPositionProfit - (4 - ProfitLevel * 2) * ATR * BigPointValue * OrderSize then begin
 		Sell ("LX_Pullback") all contracts next bar market;
 	end;
 
-	if Close < EntryHigh - ATR * 8.5 then begin
+	if Close < EntryHigh - ATR * 10 then begin
 		Sell ("LX_GiveUp") all contracts next bar market;
 	end;
 end;
