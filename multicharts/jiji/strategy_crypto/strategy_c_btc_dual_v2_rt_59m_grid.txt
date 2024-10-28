@@ -1,5 +1,5 @@
 // BTC 59 min
-// Use bar 60
+// Use bar 15
 // For range trading
 // Focus on win rate and smooth out the curve.
 
