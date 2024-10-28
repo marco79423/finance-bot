@@ -1,5 +1,5 @@
 // BTC 59 min
-// Use bar 15
+// Use bar 90
 // For range trading
 // Focus on win rate and smooth out the curve.
 
@@ -10,12 +10,12 @@ if Enabled = 0 then
 
 // Adjust grid size dynamically based on volatility
 vars: DynamicGridSize(0);
-DynamicGridSize = AvgTrueRange(14) * 0.2;
+DynamicGridSize = AvgTrueRange(14) * 2;
 
 // Calculate short-term and long-term moving averages
 vars: ShortMA(0), LongMA(0);
-ShortMA = AverageFC(Close, 10);
-LongMA = AverageFC(Close, 15);
+ShortMA = AverageFC(Close, 80);
+LongMA = AverageFC(Close, 90);
 
 // Initialize entry price and last grid level
 vars: EntryPrice(0), LastGrid(0);
@@ -28,7 +28,7 @@ vars: OpenCond(True);
 OpenCond = True;
 
 // Enable grid trading only in a sideways market
-If AbsValue(ShortMA - LongMA) <= 480 then begin
+If AbsValue(ShortMA - LongMA) <= 600 then begin
     vars: BuyPrice(0), SellPrice(0);
 
     // Buy when price falls below the last grid level minus dynamic grid size
@@ -56,11 +56,11 @@ If AbsValue(ShortMA - LongMA) <= 480 then begin
     end;
 
     // Exit position if price moves against entry price by dynamic stop loss amount
-    if MarketPosition > 0 and Close <= BuyPrice - DynamicGridSize * 37 then begin
+    if MarketPosition > 0 and Close <= BuyPrice - DynamicGridSize * 30 then begin
         Sell OrderSize contracts next bar market;
     end;
 
-    If MarketPosition < 0 and Close >= SellPrice + DynamicGridSize * 30 then begin
+    If MarketPosition < 0 and Close >= SellPrice + DynamicGridSize * 25 then begin
         BuyToCover OrderSize contracts next bar market;
     end;
 
