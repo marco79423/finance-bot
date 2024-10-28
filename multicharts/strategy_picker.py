@@ -20,7 +20,7 @@ def pick_strategy(filepath):
     data['Adjusted Calmar Ratio'] = data.apply(adjusted_calmar_ratio, axis=1)
     sorted_data = data.sort_values(by='Adjusted Calmar Ratio', ascending=False)
 
-    exclude_columns = pd.Series(set(sorted_data.columns) & {
+    exclude_columns = {
         'Gross Profit',
         'Gross Loss',
         'Total Trades',
@@ -39,7 +39,8 @@ def pick_strategy(filepath):
         'Profit Factor',
         'Win Loss Ratio',
         'Custom Fitness Value',
-    })
+    }
+    exclude_columns = pd.Series([col for col in sorted_data.columns if col in exclude_columns])
 
     remaining_columns = sorted_data.drop(columns=exclude_columns).columns
     return sorted_data[remaining_columns]
