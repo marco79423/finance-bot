@@ -1,6 +1,6 @@
-// TXF 13 min
+// TXF 17 min
 // Use bar 25
-// For swing trading
+// For range trading
 // Focus on win rate and smooth out the curve.
 
 inputs: Enabled(1), OrderSize(1);
@@ -48,7 +48,13 @@ end else begin
 		Sell ("LX_Out") all contracts next bar market;
 	end;
 
-	if OpenPositionProfit < -60 * ATR * BigPointValue * OrderSize then begin
+	if BarsSinceEntry >= 425 then begin
+    	Sell ("LX_MaxTime") all contracts next bar market;
+	end;
+
+	if Close < EntryPrice - 27.5 * ATR then begin
 		Sell ("LX_StopLoss") all contracts next bar market;
 	end;
+
 end;
+
