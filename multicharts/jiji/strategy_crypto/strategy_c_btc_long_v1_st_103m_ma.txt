@@ -1,5 +1,5 @@
 // BTC 103min
-// Use bar 60
+// Use bar 70
 // For swing trading
 // Focus on win rate and smooth out the curve
 
