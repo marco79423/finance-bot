@@ -26,15 +26,15 @@ if MarketPosition = 0 then begin
 	vars: BuyCond(False);
 	BuyCond = OpenCond;
 	BuyCond = BuyCond and Close > Open;
-	BuyCond = BuyCond and Close > AverageFC(Close, 60);
-	BuyCond = BuyCond and Close > AverageFC(Close, 3);
+	BuyCond = BuyCond and Close > AverageFC(Close, 45);
+	BuyCond = BuyCond and Close > AverageFC(Close, 70);
 	if BuyCond then begin
 	    Buy ("LE") OrderSize contracts next bar market;
 	end;
 
 end else begin
 
-	if OpenPositionProfit > 8 * ATR * BigPointValue * OrderSize then begin
+	if OpenPositionProfit > 11 * ATR * BigPointValue * OrderSize then begin
 		Sell ("LX_Win") all contracts next bar market;
 	end;
 
@@ -42,8 +42,7 @@ end else begin
 		Sell ("LX_Pullback") all contracts next bar market;
 	end;
 
-	if OpenPositionProfit < -10 * ATR * BigPointValue * OrderSize then begin
+	if OpenPositionProfit < -15 * ATR * BigPointValue * OrderSize then begin
 		Sell("LX_StopLoss") all contracts next bar market;
 	end;
 end;
-
