@@ -1,5 +1,5 @@
 // BTC 103 min
-// Use bar 20
+// Use bar 15
 // For range trading
 // Focus on balancing profits and losses.
 
@@ -22,9 +22,9 @@ ATR = AvgTrueRange(14);
 vars: OpenCond(True);
 OpenCond = True;
 
-var: KBar(20), BBandAverage(0), BBandDown(0);
+var: KBar(15), BBandAverage(0), BBandDown(0);
 BBandAverage = Average(Close, KBar);
-BBandDown = BBandAverage - 3 * StandardDev(Close, KBar, 1);
+BBandDown = BBandAverage - 1.9 * StandardDev(Close, KBar, 1);
 
 vars: OutPrice(0);
 if MarketPosition = 0 then begin
@@ -44,11 +44,11 @@ end else begin
 		Sell ("LX_Out") all contracts next bar market;
 	end;
 
-	if BarsSinceEntry > 100 and OpenPositionProfit > 0 then begin
+	if BarsSinceEntry > 20 and OpenPositionProfit > 0 then begin
 		Sell ("LX_GiveUp") all contracts next bar market;
 	end;
 
-	if OpenPositionProfit < -30 * ATR * BigPointValue * OrderSize then begin
+	if OpenPositionProfit < -65 * ATR * BigPointValue * OrderSize then begin
 		Sell ("LX_StopLoss") all contracts next bar market;
 	end;
 end;
