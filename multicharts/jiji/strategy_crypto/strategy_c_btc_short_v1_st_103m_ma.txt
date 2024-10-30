@@ -43,7 +43,7 @@ end else begin
 		BuyToCover ("SX_Pullback") all contracts next bar market;
 	end;
 
-	if OpenPositionProfit < -7	 * ATR * BigPointValue * OrderSize then begin
+	if OpenPositionProfit < -7 * ATR * BigPointValue * OrderSize then begin
 		BuyToCover ("SX_StopLoss") all contracts next bar market;
 	end;
 end;
