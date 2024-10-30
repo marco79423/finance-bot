@@ -27,23 +27,23 @@ if MarketPosition = 0 then begin
 	ShortCond = OpenCond;
 	ShortCond = ShortCond and Close < Open;
 	ShortCond = ShortCond and Close < AverageFC(Close, 80);
-	ShortCond = ShortCond and Close = Lowest(Close, 6);
-	ShortCond = ShortCond and Ticks = Highest(Ticks, 16);
+	ShortCond = ShortCond and Close = Lowest(Close, 5);
+	ShortCond = ShortCond and Ticks = Highest(Ticks, 8);
 	if ShortCond then begin
 		SellShort ( "SE" ) OrderSize contracts next bar market;
 	end;
 
 end else begin
 
-	if OpenPositionProfit > 4 * ATR * BigPointValue * OrderSize then begin
+	if OpenPositionProfit > 3.5 * ATR * BigPointValue * OrderSize then begin
 		BuyToCover ("SX_Win") all contracts next bar market;
 	end;
 
-	if OpenPositionProfit > 0 and OpenPositionProfit < MaxOpenPositionProfit - 1.3 * ATR * BigPointValue * OrderSize then begin
+	if OpenPositionProfit > 0 and OpenPositionProfit < MaxOpenPositionProfit - 1 * ATR * BigPointValue * OrderSize then begin
 		BuyToCover ("SX_Pullback") all contracts next bar market;
 	end;
 
-	if OpenPositionProfit < -6 * ATR * BigPointValue * OrderSize then begin
+	if OpenPositionProfit < -7	 * ATR * BigPointValue * OrderSize then begin
 		BuyToCover ("SX_StopLoss") all contracts next bar market;
 	end;
 end;
