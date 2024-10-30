@@ -1,4 +1,4 @@
-// BTC 13 min
+// BTC 103 min
 // Use bar 20
 // For range trading
 // Focus on balancing profits and losses.
