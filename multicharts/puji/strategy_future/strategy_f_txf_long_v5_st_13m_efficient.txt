@@ -38,7 +38,7 @@ end else begin
 
 	vars: SellCond(True);
 	SellCond = True;
-	SellCond = SellCond and HighestBar(High, Len) > Len * 0.72;
+	SellCond = SellCond and HighestBar(Low, Len) > Len * 0.67;
 	if SellCond then begin
 		Sell ("LX_Out") all contracts next bar market;
 	end;
