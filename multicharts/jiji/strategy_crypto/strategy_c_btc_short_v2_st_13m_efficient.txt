@@ -1,4 +1,4 @@
-// TXF BTC min
+// BTC 13 min
 // Use bar 70
 // For swing trading
 // Focus on balancing profits and losses.
