@@ -1,0 +1,48 @@
+// ETH 103min
+// Use bar 115
+// For swing trading
+// Focus on win rate and smooth out the curve
+
+inputs: Enabled(1), OrderSize(1);
+
+if Enabled = 0 then
+	#Return;
+
+vars: MaxOpenPositionProfit(0);
+if MarketPosition <> 0 then begin
+	if MaxOpenPositionProfit < OpenPositionProfit then
+		MaxOpenPositionProfit = OpenPositionProfit;
+end else begin
+	MaxOpenPositionProfit = 0;
+end;
+
+vars: ATR(0);
+ATR = AvgTrueRange(14);
+
+vars: OpenCond(True);
+OpenCond = True;
+
+if MarketPosition = 0 then begin
+	vars: BuyCond(False);
+	BuyCond = OpenCond;
+	BuyCond = BuyCond and Close > Open;
+	BuyCond = BuyCond and Close > AverageFC(Close, 5);
+	BuyCond = BuyCond and Close > AverageFC(Close, 115);
+	if BuyCond then begin
+	    Buy ("LE") 30 * OrderSize contracts next bar market;
+	end;
+
+end else begin
+
+	if OpenPositionProfit > 16 * ATR * BigPointValue * OrderSize then begin
+		Sell ("LX_Win") all contracts next bar market;
+	end;
+
+	if OpenPositionProfit > 0 and OpenPositionProfit < MaxOpenPositionProfit - 5 * ATR * BigPointValue * OrderSize then begin
+		Sell ("LX_Pullback") all contracts next bar market;
+	end;
+
+	if OpenPositionProfit < -80 * ATR * BigPointValue * OrderSize then begin
+		Sell("LX_StopLoss") all contracts next bar market;
+	end;
+end;
