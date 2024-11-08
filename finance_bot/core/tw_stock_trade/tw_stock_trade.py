@@ -208,7 +208,7 @@ class TWStockTrade(CoreBase):
         for stock_id, shares, note in [(action.stock_id, action.shares, action.note) for action in buy_actions]:
             possible_highest_cost = self._get_possible_highest_cost(stock_id=stock_id, shares=shares)
             if balance < possible_highest_cost:
-                await infra.notifier.send(f'餘額無法能買到 ${stock_id} 因此放棄買入')
+                await infra.notifier.send(f'餘額無法確保買到 {stock_id} 因此放棄買入')
                 break
 
             # 委託買股直到成交
