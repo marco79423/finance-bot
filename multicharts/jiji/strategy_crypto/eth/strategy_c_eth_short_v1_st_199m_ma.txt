@@ -30,7 +30,7 @@ if MarketPosition = 0 then begin
 	ShortCond = ShortCond and Close = Lowest(Close, 7);
 	ShortCond = ShortCond and Ticks = Highest(Ticks, 5);
 	if ShortCond then begin
-		SellShort ( "SE" ) 30 * OrderSize contracts next bar market;
+		SellShort ( "SE" ) OrderSize contracts next bar market;
 	end;
 
 end else begin

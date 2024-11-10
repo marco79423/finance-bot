@@ -29,7 +29,7 @@ if MarketPosition = 0 then begin
 	BuyCond = BuyCond and Close > AverageFC(Close, 5);
 	BuyCond = BuyCond and Close > AverageFC(Close, 115);
 	if BuyCond then begin
-	    Buy ("LE") 30 * OrderSize contracts next bar market;
+	    Buy ("LE") OrderSize contracts next bar market;
 	end;
 
 end else begin
