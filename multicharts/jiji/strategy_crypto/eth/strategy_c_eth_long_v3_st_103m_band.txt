@@ -3,7 +3,7 @@
 // For range trading
 // Focus on balancing profits and losses.
 
-inputs: Enabled(1), OrderSize(1);
+inputs: Enabled(1), OrderSize(20);
 
 if Enabled = 0 then
 	#Return;
