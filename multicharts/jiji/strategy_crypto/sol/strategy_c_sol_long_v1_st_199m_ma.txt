@@ -1,4 +1,4 @@
-// ETH 199min
+// SOL 199min
 // Use bar 170
 // For swing trading
 // Focus on win rate and smooth out the curve
