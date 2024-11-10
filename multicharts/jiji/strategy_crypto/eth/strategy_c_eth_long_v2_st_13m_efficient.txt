@@ -3,7 +3,7 @@
 // For swing trading
 // Focus on balancing profits and losses.
 
-inputs: Enabled(1), OrderSize(20);
+inputs: Enabled(1), OrderSize(1);
 
 if Enabled = 0 then
 	#Return;
@@ -25,7 +25,7 @@ if MarketPosition = 0 then begin
 	BuyCond = OpenCond;
 	BuyCond = BuyCond and crosses_above(Efficient, 0.14);
 	if BuyCond then begin
-		Buy ( "LE" ) OrderSize contracts next bar market;
+		Buy ( "LE" ) 30 * OrderSize contracts next bar market;
 	end;
 
 end else begin

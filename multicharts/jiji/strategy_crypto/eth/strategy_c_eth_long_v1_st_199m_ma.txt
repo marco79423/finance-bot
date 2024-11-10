@@ -3,7 +3,7 @@
 // For swing trading
 // Focus on win rate and smooth out the curve
 
-inputs: Enabled(1), OrderSize(20);
+inputs: Enabled(1), OrderSize(1);
 
 if Enabled = 0 then
 	#Return;
@@ -29,7 +29,7 @@ if MarketPosition = 0 then begin
 	BuyCond = BuyCond and Close > AverageFC(Close, 5);
 	BuyCond = BuyCond and Close > AverageFC(Close, 115);
 	if BuyCond then begin
-	    Buy ("LE") OrderSize contracts next bar market;
+	    Buy ("LE") 30 * OrderSize contracts next bar market;
 	end;
 
 end else begin
