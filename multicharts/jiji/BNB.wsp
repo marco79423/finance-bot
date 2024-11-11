@@ -1,7 +1,7 @@
 
 [Wsp]
-	(C2526AC1-535C-4a67-92B5-101E53EA9E4B) = '{2}{1}{0}'
-	ActiveIndex = '2'
+	(C2526AC1-535C-4a67-92B5-101E53EA9E4B) = '{2}{0}{1}'
+	ActiveIndex = '0'
 	MaximizedFlag = '0'
 	ProductVersion = '15.0.26881.400'
 	Version = '1'
@@ -35,7 +35,7 @@
 
 [Wsp\Window_0\ChartManager\Chart_0]
 	LSeriesNum = '0'
-	PencentHeight = '0,809352517985612'
+	PencentHeight = '0,860103626943005'
 	RSeriesNum = '0'
 	SeriesCount = '1'
 	invert Scale = '0'
@@ -1920,7 +1920,7 @@
 
 [Wsp\Window_0\ChartManager\Chart_1]
 	LSeriesNum = '0'
-	PencentHeight = '0,190647482014389'
+	PencentHeight = '0,139896373056995'
 	RSeriesNum = '0'
 	SeriesCount = '1'
 	invert Scale = '0'
@@ -1990,25 +1990,31 @@
 	SkipIdenticalTicks = '1'
 	UpdateEveryTick = '1'
 	UpdateOnEveryTick = '1'
-	UseAddSeriesFreshSnap_v2 = '0'
-	UseFreshSnapOnAdditionalDS = '0'
+	UseAddSeriesFreshSnap_v2 = '1'
+	UseFreshSnapOnAdditionalDS = '1'
 	UserBarMode = '0'
 	UserBarRef = '50'
 
-[Wsp\Window_0\ChartManager\Chart_1\Series_0\IndicatorHelper\PlotHelper\Plot_1]
-	DefAlign = '2'
-	DefBKColor = '0'
-	DefColor = '255'
-	DefColor2 = '255'
-	DefDecimals = '5'
-	DefFormat = '1'
-	DefShowLastPriceMarker = '-1'
-	DefStyle = '0'
-	DefWidth = '0'
-	PlotType = '1'
+[Wsp\Window_0\ChartManager\Chart_1\Series_0\IndicatorHelper\InputHelper\Input_FileFontSize]
+	Value = '12'
+
+[Wsp\Window_0\ChartManager\Chart_1\Series_0\IndicatorHelper\InputHelper\Input_FilePath]
+	Value = '"Z:\strategy_c_bnb_long_v1.txt"'
+
+[Wsp\Window_0\ChartManager\Chart_1\Series_0\IndicatorHelper\InputHelper\Input_IsRecalc]
+	Value = '0'
+
+[Wsp\Window_0\ChartManager\Chart_1\Series_0\IndicatorHelper\InputHelper\Input_IsWriteLog]
+	Value = '1'
+
+[Wsp\Window_0\ChartManager\Chart_1\Series_0\IndicatorHelper\InputHelper\Input_PointNum]
+	Value = '0'
+
+[Wsp\Window_0\ChartManager\Chart_1\Series_0\IndicatorHelper\InputHelper\Input_PosFontSize]
+	Value = '32'
 
 [Wsp\Window_0\ChartManager\Chart_1\Series_0\IntervalObject]
-	AxisType = '0'
+	AxisType = '1'
 	Center = '0'
 	CustomNullsCount = '-1'
 	CustomNullsCountEnable = 'False'
@@ -2018,8 +2024,8 @@
 	ManualMode = '0'
 	MarginBottom = '5'
 	MarginTop = '5'
-	Maximum = '62129884,9444444'
-	Minimum = '-2517153,94444444'
+	Maximum = '1'
+	Minimum = '-1'
 	MovementSize.Long = '1'
 	MovementSize.Metric = 'False'
 	MovementSize.Price = '5'
@@ -2051,7 +2057,7 @@
 	Suffix = 'b'
 
 [Wsp\Window_0\ChartManager\Chart_1\Series_0\ShortTechInfo]
-	IdName = 'i_Volume'
+	IdName = 'ib_b2a_OrderMasterTXT'
 
 [Wsp\Window_0\ChartManager\Chart_1\Series_0\VolumeObject]
 	VolumeBarWidth = '1'
@@ -2084,9 +2090,9 @@
 	Type = '4'
 
 [Wsp\Window_0\ChartManager\IndexViewCalc]
-	BarSpacing = '23'
+	BarSpacing = '14'
 	BarsToRight = '10'
-	BarsToRightValue = '7'
+	BarsToRightValue = '12'
 	ChartShiftViewType = '0'
 	ShowEmptyPeriod = '0'
 
@@ -2429,7 +2435,7 @@
 	Left Manual = '0'
 	Left Scale = '0'
 	Precise Marker = '1'
-	Right Characters = '13'
+	Right Characters = '7'
 	Right Manual = '0'
 	Right Scale = '1'
 	Time To Close = '1'
@@ -2612,7 +2618,7 @@
 	isStatusWindowShow = '1'
 
 [Wsp\Window_0\ChartManager\Strategy\SignalObject_0]
-	IdName = 's_strategy_c_bnb_test'
+	IdName = 's_strategy_c_bnb_long_v1_st_199m_ma'
 	Status = '1'
 
 [Wsp\Window_0\ChartManager\Strategy\SignalObject_0\SignalHelper]
@@ -2813,7 +2819,7 @@
 	Confirm = 'False'
 	NeedActivateAT = 'False'
 	Profile = 'Interactive Brokers'
-	StrategyName = 'strategy_c_bnb_test'
+	StrategyName = 'strategy_c_bnb_long_v1_st_199m_ma'
 	SymbolName = 'BNBUSDT - 199 Minutes - Binance'
 
 [Wsp\Window_0\ChartManager\Strategy\StrategyHelper\DynTradeOptimizeProps\Algorithm_0]
@@ -3277,13 +3283,13 @@ The reserved words supported in Portfolio optimization:
 	UseLimits = '-1'
 
 [Wsp\Window_0\ChartManager\Strategy\StrategyHelper\StrategyProperties]
-	AllowEntryCount = '100'
+	AllowEntryCount = '10'
 	AskIndex = '0'
 	BTMode = '1'
 	BTOFAMode = '0'
 	BTOFAPoints = '0'
 	BTOFA_TIF = '1'
-	BarReference = '200'
+	BarReference = '170'
 	BidIndex = '0'
 	CalcPnLInSymbolCurrency = '1'
 	CalcRealTimeAsHistory = '1'
@@ -5339,7 +5345,7 @@ The reserved words supported in Portfolio optimization:
 	Value = '12'
 
 [Wsp\Window_1\ChartManager\Chart_1\Series_0\IndicatorHelper\InputHelper\Input_FilePath]
-	Value = '"Z:\strategy_c_bnb_long_v1.txt"'
+	Value = '"Z:\strategy_c_bnb_short_v1.txt"'
 
 [Wsp\Window_1\ChartManager\Chart_1\Series_0\IndicatorHelper\InputHelper\Input_IsRecalc]
 	Value = '0'
@@ -5958,7 +5964,7 @@ The reserved words supported in Portfolio optimization:
 	isStatusWindowShow = '1'
 
 [Wsp\Window_1\ChartManager\Strategy\SignalObject_0]
-	IdName = 's_strategy_c_bnb_long_v1_st_199m_ma'
+	IdName = 's_strategy_c_bnb_short_v1_st_199m_ma'
 	Status = '1'
 
 [Wsp\Window_1\ChartManager\Strategy\SignalObject_0\SignalHelper]
@@ -6159,7 +6165,7 @@ The reserved words supported in Portfolio optimization:
 	Confirm = 'False'
 	NeedActivateAT = 'False'
 	Profile = 'Interactive Brokers'
-	StrategyName = 'strategy_c_bnb_long_v1_st_199m_ma'
+	StrategyName = 'strategy_c_bnb_short_v1_st_199m_ma'
 	SymbolName = 'BNBUSDT - 199 Minutes - Binance'
 
 [Wsp\Window_1\ChartManager\Strategy\StrategyHelper\DynTradeOptimizeProps\Algorithm_0]
@@ -6629,7 +6635,7 @@ The reserved words supported in Portfolio optimization:
 	BTOFAMode = '0'
 	BTOFAPoints = '0'
 	BTOFA_TIF = '1'
-	BarReference = '170'
+	BarReference = '70'
 	BidIndex = '0'
 	CalcPnLInSymbolCurrency = '1'
 	CalcRealTimeAsHistory = '1'
@@ -6791,7 +6797,7 @@ The reserved words supported in Portfolio optimization:
 	RequestOffline = '0'
 	ResolutionId = '2'
 	ResolutionName = 'Minute'
-	ResolutionSizeId = '199'
+	ResolutionSizeId = '13'
 	ResolutionSizeName = ''
 	SessionsId = '0'
 	SessionsName = 'Default'
@@ -6829,8 +6835,8 @@ The reserved words supported in Portfolio optimization:
 	ManualMode = '0'
 	MarginBottom = '5'
 	MarginTop = '5'
-	Maximum = '650,643888888889'
-	Minimum = '537,566111111111'
+	Maximum = '646,378333333333'
+	Minimum = '610,211666666667'
 	MovementSize.Long = '1'
 	MovementSize.Metric = 'False'
 	MovementSize.Price = '5'
@@ -8685,7 +8691,7 @@ The reserved words supported in Portfolio optimization:
 	Value = '12'
 
 [Wsp\Window_2\ChartManager\Chart_1\Series_0\IndicatorHelper\InputHelper\Input_FilePath]
-	Value = '"Z:\strategy_c_bnb_short_v1.txt"'
+	Value = '"Z:\strategy_c_bnb_long_v2.txt"'
 
 [Wsp\Window_2\ChartManager\Chart_1\Series_0\IndicatorHelper\InputHelper\Input_IsRecalc]
 	Value = '0'
@@ -9304,7 +9310,7 @@ The reserved words supported in Portfolio optimization:
 	isStatusWindowShow = '1'
 
 [Wsp\Window_2\ChartManager\Strategy\SignalObject_0]
-	IdName = 's_strategy_c_bnb_short_v1_st_199m_ma'
+	IdName = 's_strategy_c_bnb_long_v2_st_13m_efficient'
 	Status = '1'
 
 [Wsp\Window_2\ChartManager\Strategy\SignalObject_0\SignalHelper]
@@ -9333,11 +9339,11 @@ The reserved words supported in Portfolio optimization:
 
 [Wsp\Window_2\ChartManager\Strategy\SignalObject_0\SignalHelper\CustomInputHelperDT\Input_OrderSize]
 	IsInputOptimizable = '1'
-	LocalCurrentValue2 = '10'
-	Start2 = '10'
+	LocalCurrentValue2 = '1'
+	Start2 = '1'
 	Step2 = '1'
-	Stop2 = '10'
-	Value = '10'
+	Stop2 = '1'
+	Value = '1'
 
 [Wsp\Window_2\ChartManager\Strategy\SignalObject_0\SignalHelper\InputHelper\Input_Enabled]
 	IsInputOptimizable = '1'
@@ -9505,8 +9511,8 @@ The reserved words supported in Portfolio optimization:
 	Confirm = 'False'
 	NeedActivateAT = 'False'
 	Profile = 'Interactive Brokers'
-	StrategyName = 'strategy_c_bnb_short_v1_st_199m_ma'
-	SymbolName = 'BNBUSDT - 199 Minutes - Binance'
+	StrategyName = 'strategy_c_bnb_long_v2_st_13m_efficient'
+	SymbolName = 'BNBUSDT - 13 Minutes - Binance'
 
 [Wsp\Window_2\ChartManager\Strategy\StrategyHelper\DynTradeOptimizeProps\Algorithm_0]
 	CFFScriptGenetic = '// TODO: Enter your formula to replace the samples below 
@@ -9975,7 +9981,7 @@ The reserved words supported in Portfolio optimization:
 	BTOFAMode = '0'
 	BTOFAPoints = '0'
 	BTOFA_TIF = '1'
-	BarReference = '70'
+	BarReference = '220'
 	BidIndex = '0'
 	CalcPnLInSymbolCurrency = '1'
 	CalcRealTimeAsHistory = '1'
