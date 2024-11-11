@@ -1,4 +1,4 @@
-// BTC 13 min
+// ETH 13 min
 // Use bar 80
 // For swing trading
 // Focus on balancing profits and losses.
