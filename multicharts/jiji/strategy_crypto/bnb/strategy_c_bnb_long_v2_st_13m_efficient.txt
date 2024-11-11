@@ -1,5 +1,5 @@
 // BNB 13 min
-// Use bar 175
+// Use bar 220
 // For swing trading
 // Focus on balancing profits and losses.
 
