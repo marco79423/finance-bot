@@ -22,18 +22,18 @@ ATR = AvgTrueRange(14);
 vars: OpenCond(True);
 OpenCond = True;
 
-var: KBar(75), BBandAverage(0), BBandDown(0);
-BBandAverage = Average(Close, KBar);
-BBandDown = BBandAverage - 1.9 * StandardDev(Close, KBar, 1);
-
-vars: OutPrice(0);
-
 vars: RevisedOrderSize(OrderSize);
 if Round(60000 / Close, 0) > 1 then begin
 	RevisedOrderSize = Round(60000 / Close, 0) * OrderSize;
 end else begin
 	RevisedOrderSize = OrderSize;
 end;
+
+var: KBar(75), BBandAverage(0), BBandDown(0);
+BBandAverage = Average(Close, KBar);
+BBandDown = BBandAverage - 1.9 * StandardDev(Close, KBar, 1);
+
+vars: OutPrice(0);
 
 if MarketPosition = 0 then begin
 
