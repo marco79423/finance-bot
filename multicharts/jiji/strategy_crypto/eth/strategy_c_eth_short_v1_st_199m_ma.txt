@@ -1,5 +1,5 @@
 // ETH 199 min
-// Use bar 80
+// Use bar 75
 // For swing trading
 // Focus on balancing profits and losses.
 
@@ -22,29 +22,35 @@ ATR = AvgTrueRange(14);
 vars: OpenCond(True);
 OpenCond = True;
 
+vars: RevisedOrderSize(OrderSize);
+if Round(60000 / Close, 0) > 1 then begin
+	RevisedOrderSize = Round(60000 / Close, 0) * OrderSize;
+end else begin
+	RevisedOrderSize = OrderSize;
+end;
+
 if MarketPosition = 0 then begin
 	vars: ShortCond(True);
 	ShortCond = OpenCond;
 	ShortCond = ShortCond and Close < Open;
-	ShortCond = ShortCond and Close < AverageFC(Close, 60);
-	ShortCond = ShortCond and Close = Lowest(Close, 7);
+	ShortCond = ShortCond and Close < AverageFC(Close, 75);
+	ShortCond = ShortCond and Close = Lowest(Close, 12);
 	ShortCond = ShortCond and Ticks = Highest(Ticks, 5);
 	if ShortCond then begin
-		SellShort ( "SE" ) 30 * OrderSize contracts next bar market;
+		SellShort ( "SE" ) RevisedOrderSize contracts next bar market;
 	end;
 
 end else begin
 
-	if OpenPositionProfit > 2 * ATR * BigPointValue * OrderSize then begin
+	if OpenPositionProfit > 3 * ATR * OrderSize then begin
 		BuyToCover ("SX_Win") all contracts next bar market;
 	end;
 
-	if OpenPositionProfit > 0 and OpenPositionProfit < MaxOpenPositionProfit - 3 * ATR * BigPointValue * OrderSize then begin
+	if OpenPositionProfit > 0 and OpenPositionProfit < MaxOpenPositionProfit - 5 * ATR * OrderSize then begin
 		BuyToCover ("SX_Pullback") all contracts next bar market;
 	end;
 
-	if OpenPositionProfit < -13 * ATR * BigPointValue * OrderSize then begin
+	if OpenPositionProfit < -8 * ATR * OrderSize then begin
 		BuyToCover ("SX_StopLoss") all contracts next bar market;
 	end;
 end;
-
