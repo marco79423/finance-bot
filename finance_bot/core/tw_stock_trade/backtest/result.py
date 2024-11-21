@@ -190,6 +190,8 @@ class Result:
 
     def _calculate_win_rate(self) -> float:
         """勝率"""
+        if len(self.positions_df) == 0:
+            return 0
         return (self.positions_df['total_return (fee)'] > 0).sum() / len(self.positions_df)
 
     def _calculate_total_return(self) -> int:
