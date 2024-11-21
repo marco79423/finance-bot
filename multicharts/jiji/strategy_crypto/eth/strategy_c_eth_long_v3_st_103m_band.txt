@@ -1,5 +1,5 @@
 // ETH 103 min
-// Use bar 20
+// Use bar 75
 // For range trading
 // Focus on balancing profits and losses.
 
@@ -22,11 +22,19 @@ ATR = AvgTrueRange(14);
 vars: OpenCond(True);
 OpenCond = True;
 
-var: KBar(20), BBandAverage(0), BBandDown(0);
+var: KBar(75), BBandAverage(0), BBandDown(0);
 BBandAverage = Average(Close, KBar);
 BBandDown = BBandAverage - 1.9 * StandardDev(Close, KBar, 1);
 
 vars: OutPrice(0);
+
+vars: RevisedOrderSize(OrderSize);
+if Round(60000 / Close, 0) > 1 then begin
+	RevisedOrderSize = Round(60000 / Close, 0) * OrderSize;
+end else begin
+	RevisedOrderSize = OrderSize;
+end;
+
 if MarketPosition = 0 then begin
 
 	vars: BuyCond(True);
@@ -34,7 +42,7 @@ if MarketPosition = 0 then begin
 	BuyCond = BuyCond and Close cross over BBandDown;
 	BuyCond = BuyCond and Close > Close[1];
 	if BuyCond then begin
-		Buy ("LE") 30 * OrderSize contracts next bar market;
+		Buy ("LE") RevisedOrderSize contracts next bar market;
 		OutPrice = BBandAverage;
     end;
 
@@ -44,11 +52,11 @@ end else begin
 		Sell ("LX_Out") all contracts next bar market;
 	end;
 
-	if BarsSinceEntry > 20 and OpenPositionProfit > 0 then begin
+	if BarsSinceEntry > 120 and OpenPositionProfit > 0 then begin
 		Sell ("LX_GiveUp") all contracts next bar market;
 	end;
 
-	if OpenPositionProfit < -100 * ATR * BigPointValue * OrderSize then begin
+	if OpenPositionProfit < -95 * ATR * BigPointValue * OrderSize then begin
 		Sell ("LX_StopLoss") all contracts next bar market;
 	end;
 end;
