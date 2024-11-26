@@ -1,5 +1,5 @@
 // BNB 13 min
-// Use bar 220
+// Use bar 280
 // For swing trading
 // Focus on balancing profits and losses.
 
@@ -10,8 +10,15 @@ if Enabled = 0 then
 
 vars: OpenCond(True);
 
+vars: RevisedOrderSize(OrderSize);
+if Round(6000 / Close, 0) > 1 then begin
+	RevisedOrderSize = Round(6000 / Close, 0) * OrderSize;
+end else begin
+	RevisedOrderSize = OrderSize;
+end;
+
 if MarketPosition = 0 then begin
-	vars: Len(220), PointSum(0), count(0);
+	vars: Len(280), PointSum(0), count(0);
 	count = Len - 1;
 	PointSum = Summation(AbsValue(Close - Close[1]), count) ;
 	vars: Efficient(0);
@@ -23,15 +30,15 @@ if MarketPosition = 0 then begin
 
 	vars: BuyCond(True);
 	BuyCond = OpenCond;
-	BuyCond = BuyCond and crosses_above(Efficient, 0.12);
+	BuyCond = BuyCond and crosses_above(Efficient, 0.02);
 	if BuyCond then begin
-		Buy ( "LE" ) 10 * OrderSize contracts next bar market;
+		Buy ( "LE" ) RevisedOrderSize contracts next bar market;
 	end;
 
 end else begin
 	vars: SellCond(True);
 	SellCond = True;
-	SellCond = SellCond and HighestBar(High, Len) > Len * 0.72;
+	SellCond = SellCond and HighestBar(High, Len) > Len * 0.94;
 	if SellCond then begin
 		Sell ("LX_Out") all contracts next bar market;
 	end;
