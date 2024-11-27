@@ -22,6 +22,14 @@ ATR = AvgTrueRange(14);
 vars: OpenCond(True);
 OpenCond = True;
 
+vars: RevisedOrderSize(OrderSize);
+if Round(6000 / Close, 0) > 1 then begin
+	RevisedOrderSize = Round(6000 / Close, 0) * OrderSize;
+end else begin
+	RevisedOrderSize = OrderSize;
+end;
+
+
 var: KBar(5), BBandAverage(0), BBandDown(0);
 BBandAverage = Average(Close, KBar);
 BBandDown = BBandAverage - 1.8 * StandardDev(Close, KBar, 1);
@@ -34,7 +42,7 @@ if MarketPosition = 0 then begin
 	BuyCond = BuyCond and Close cross over BBandDown;
 	BuyCond = BuyCond and Close > Close[1];
 	if BuyCond then begin
-		Buy ("LE") 10 * OrderSize contracts next bar market;
+		Buy ("LE") RevisedOrderSize contracts next bar market;
 		OutPrice = BBandAverage;
     end;
 
@@ -44,11 +52,11 @@ end else begin
 		Sell ("LX_Out") all contracts next bar market;
 	end;
 
-	if BarsSinceEntry > 15 and OpenPositionProfit > 0 then begin
+	if BarsSinceEntry > 20 and OpenPositionProfit > 0 then begin
 		Sell ("LX_GiveUp") all contracts next bar market;
 	end;
 
-	if OpenPositionProfit < -155 * ATR * BigPointValue * OrderSize then begin
+	if OpenPositionProfit < -115 * ATR * RevisedOrderSize then begin
 		Sell ("LX_StopLoss") all contracts next bar market;
 	end;
 end;
