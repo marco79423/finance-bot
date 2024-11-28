@@ -56,7 +56,7 @@ end else begin
 		Sell ("LX_GiveUp") all contracts next bar market;
 	end;
 
-	if OpenPositionProfit < -95 * ATR * BigPointValue * OrderSize then begin
+	if OpenPositionProfit < -2.75 * ATR * RevisedOrderSize then begin
 		Sell ("LX_StopLoss") all contracts next bar market;
 	end;
 end;
