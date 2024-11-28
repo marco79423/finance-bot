@@ -5,9 +5,6 @@
 	MaximizedFlag = '0'
 	ProductVersion = '15.0.26881.400'
 	Version = '1'
-	WinMinIndex = {
-		 00
-		}
 	WindowCount = '4'
 
 [Wsp\DetachedWindows]
@@ -17,14 +14,14 @@
 	ContainerHeight = '785'
 	ContainerWidth = '1746'
 	Flags = '0'
-	Height = '387'
+	Height = '392'
 	Left = '0'
-	MinX = '0'
-	MinY = '757'
-	State = '2'
+	MinX = '-1'
+	MinY = '-1'
+	State = '1'
 	Top = '0'
 	ViewType = '0'
-	Width = '1746'
+	Width = '873'
 
 [Wsp\Window_0\ChartManager]
 	ChartCount = '2'
@@ -81,9 +78,9 @@
 	ExpirationDate = '0'
 	FieldId = '201'
 	FieldName = 'Trade'
-	FinishDate2Id = '45608'
+	FinishDate2Id = '45621'
 	FinishDate2Name = ''
-	FinishDateId = '45608'
+	FinishDateId = '45621'
 	FinishDateName = ''
 	FootPrintChartType = '0'
 	KagiReversal = '0,1'
@@ -95,7 +92,7 @@
 	PFigureBasis = '1'
 	PFigureBoxSize = '0,1'
 	PFigureReversal = '3'
-	PriceScale = '124'
+	PriceScale = '109'
 	RangeId = '1'
 	RangeName = 'PERIOD'
 	RealTimeCategory = '0'
@@ -108,7 +105,7 @@
 	RequestOffline = '0'
 	ResolutionId = '2'
 	ResolutionName = 'Minute'
-	ResolutionSizeId = '199'
+	ResolutionSizeId = '13'
 	ResolutionSizeName = ''
 	SessionsId = '0'
 	SessionsName = 'Default'
@@ -146,8 +143,8 @@
 	ManualMode = '0'
 	MarginBottom = '5'
 	MarginTop = '5'
-	Maximum = '90425,0444444444'
-	Minimum = '77924,1555555556'
+	Maximum = '99225,4833333333'
+	Minimum = '94695,8166666667'
 	MovementSize.Long = '1'
 	MovementSize.Metric = 'False'
 	MovementSize.Price = '5'
@@ -160,7 +157,7 @@
 [Wsp\Window_0\ChartManager\Chart_0\Series_0\LabelProcessingObject]
 	AutoMode = '1'
 	EnableProcessing = '0'
-	PriceScaleType = '124'
+	PriceScaleType = '109'
 	SelectedId = '0'
 
 [Wsp\Window_0\ChartManager\Chart_0\Series_0\LabelProcessingObject\Item 0]
@@ -2021,8 +2018,8 @@
 	ManualMode = '0'
 	MarginBottom = '5'
 	MarginTop = '5'
-	Maximum = '164097262,333333'
-	Minimum = '-8636684,33333333'
+	Maximum = '20696809,8333333'
+	Minimum = '-1084466,83333333'
 	MovementSize.Long = '1'
 	MovementSize.Metric = 'False'
 	MovementSize.Price = '5'
@@ -2089,7 +2086,7 @@
 [Wsp\Window_0\ChartManager\IndexViewCalc]
 	BarSpacing = '4'
 	BarsToRight = '10'
-	BarsToRightValue = '1'
+	BarsToRightValue = '19'
 	ChartShiftViewType = '0'
 	ShowEmptyPeriod = '0'
 
@@ -2361,7 +2358,6 @@
 	Width = '1'
 
 [Wsp\Window_0\ChartManager\OptimizeManager\OptimizeManager]
-	GAPropExist = 'True'
 	OptimizeAlgorithm = '0'
 
 [Wsp\Window_0\ChartManager\OptimizeManager\OptimizeManager\AlgorithmGrouper\OptAlgorithmGrouper]
@@ -2370,33 +2366,6 @@
 [Wsp\Window_0\ChartManager\OptimizeManager\OptimizeManager\ClassicOptimizer\ClassicOtimizer]
 	OptReportExist = '0'
 	ReportFilePath = ''
-
-[Wsp\Window_0\ChartManager\OptimizeManager\OptimizeManager\GAProperties\GAPropContainer]
-	GABasicAlgoritmExist = 'True'
-	GAIncrementalAlgoritmExist = 'True'
-	IsCustomGAProp = '0'
-	SelectedAlgoritm = '1'
-
-[Wsp\Window_0\ChartManager\OptimizeManager\OptimizeManager\GAProperties\GAPropContainer\GABasicAlgoritm\SimpleGAProp]
-	bElitism = 'False'
-	convType = '0'
-	crossOverProb = '0,95'
-	mutationProb = '0,05'
-	proximalConv = '0,99'
-	ulGenCount = '100'
-	ulMinGenCount = '20'
-	ulPopSize = '2'
-
-[Wsp\Window_0\ChartManager\OptimizeManager\OptimizeManager\GAProperties\GAPropContainer\GAIncrementalAlgoritm\IncGAProp]
-	convType = '0'
-	crossOverProb = '0,95'
-	mutationProb = '0,05'
-	offspring_number = '12'
-	proximalConv = '0,99'
-	replScheme = '0'
-	ulGenCount = '45'
-	ulMinGenCount = '39'
-	ulPopSize = '39'
 
 [Wsp\Window_0\ChartManager\OptimizeManager\OptimizeManager\MOOptimizer\MO]
 	MOReportExist = '0'
@@ -2414,14 +2383,14 @@
 	WFIntervalType = '0'
 
 [Wsp\Window_0\ChartManager\OptimizeManager\OptimizeManager\WFOptimizer\WFO]
-	IS_size = '90480'
+	IS_size = '10'
 	IntervalType = '0'
 	IsAnchored = '0'
-	IsDefaultInitNeeded = '0'
+	IsDefaultInitNeeded = '1'
 	NeedForecast = '1'
 	Num_of_Runs = '5'
 	OOS_Size_Type = '0'
-	OOS_size = '9048'
+	OOS_size = '10'
 	ReportFilePath = ''
 	Segment_type = '1'
 	Version = '1'
@@ -2432,7 +2401,7 @@
 	Left Manual = '0'
 	Left Scale = '0'
 	Precise Marker = '1'
-	Right Characters = '15'
+	Right Characters = '14'
 	Right Manual = '0'
 	Right Scale = '1'
 	Time To Close = '1'
@@ -2816,8 +2785,8 @@
 	Confirm = 'False'
 	NeedActivateAT = 'False'
 	Profile = 'Interactive Brokers'
-	StrategyName = 'strategy_c_btc_test'
-	SymbolName = 'BTCUSDT - 199 Minutes - Binance'
+	StrategyName = ''
+	SymbolName = 'BTCUSDT - 13 Minutes - Binance'
 
 [Wsp\Window_0\ChartManager\Strategy\StrategyHelper\DynTradeOptimizeProps\Algorithm_0]
 	CFFScriptGenetic = '// TODO: Enter your formula to replace the samples below 
@@ -3286,7 +3255,7 @@ The reserved words supported in Portfolio optimization:
 	BTOFAMode = '0'
 	BTOFAPoints = '0'
 	BTOFA_TIF = '1'
-	BarReference = '135'
+	BarReference = '165'
 	BidIndex = '0'
 	CalcPnLInSymbolCurrency = '1'
 	CalcRealTimeAsHistory = '1'
@@ -3357,14 +3326,14 @@ The reserved words supported in Portfolio optimization:
 	ContainerHeight = '785'
 	ContainerWidth = '1746'
 	Flags = '0'
-	Height = '501'
+	Height = '393'
 	Left = '0'
 	MinX = '-1'
 	MinY = '-1'
 	State = '1'
-	Top = '283'
+	Top = '392'
 	ViewType = '0'
-	Width = '1746'
+	Width = '873'
 
 [Wsp\Window_1\ChartManager]
 	ChartCount = '2'
@@ -3421,9 +3390,9 @@ The reserved words supported in Portfolio optimization:
 	ExpirationDate = '0'
 	FieldId = '201'
 	FieldName = 'Trade'
-	FinishDate2Id = '45608'
+	FinishDate2Id = '45621'
 	FinishDate2Name = ''
-	FinishDateId = '45608'
+	FinishDateId = '45621'
 	FinishDateName = ''
 	FootPrintChartType = '0'
 	KagiReversal = '0,1'
@@ -3435,7 +3404,7 @@ The reserved words supported in Portfolio optimization:
 	PFigureBasis = '1'
 	PFigureBoxSize = '0,1'
 	PFigureReversal = '3'
-	PriceScale = '124'
+	PriceScale = '109'
 	RangeId = '1'
 	RangeName = 'PERIOD'
 	RealTimeCategory = '0'
@@ -3448,7 +3417,7 @@ The reserved words supported in Portfolio optimization:
 	RequestOffline = '0'
 	ResolutionId = '2'
 	ResolutionName = 'Minute'
-	ResolutionSizeId = '13'
+	ResolutionSizeId = '199'
 	ResolutionSizeName = ''
 	SessionsId = '0'
 	SessionsName = 'Default'
@@ -3486,8 +3455,8 @@ The reserved words supported in Portfolio optimization:
 	ManualMode = '0'
 	MarginBottom = '5'
 	MarginTop = '5'
-	Maximum = '3406,03111111111'
-	Minimum = '3126,60888888889'
+	Maximum = '3547,01388888889'
+	Minimum = '3245,33611111111'
 	MovementSize.Long = '1'
 	MovementSize.Metric = 'False'
 	MovementSize.Price = '5'
@@ -3500,7 +3469,7 @@ The reserved words supported in Portfolio optimization:
 [Wsp\Window_1\ChartManager\Chart_0\Series_0\LabelProcessingObject]
 	AutoMode = '1'
 	EnableProcessing = '0'
-	PriceScaleType = '124'
+	PriceScaleType = '109'
 	SelectedId = '0'
 
 [Wsp\Window_1\ChartManager\Chart_0\Series_0\LabelProcessingObject\Item 0]
@@ -5361,8 +5330,8 @@ The reserved words supported in Portfolio optimization:
 	ManualMode = '0'
 	MarginBottom = '5'
 	MarginTop = '5'
-	Maximum = '286451606,5'
-	Minimum = '-15075183,5'
+	Maximum = '1310359350,33333'
+	Minimum = '-68966136,3333333'
 	MovementSize.Long = '1'
 	MovementSize.Metric = 'False'
 	MovementSize.Price = '5'
@@ -5429,7 +5398,7 @@ The reserved words supported in Portfolio optimization:
 [Wsp\Window_1\ChartManager\IndexViewCalc]
 	BarSpacing = '23'
 	BarsToRight = '10'
-	BarsToRightValue = '7'
+	BarsToRightValue = '3'
 	ChartShiftViewType = '0'
 	ShowEmptyPeriod = '0'
 
@@ -6157,7 +6126,7 @@ The reserved words supported in Portfolio optimization:
 	NeedActivateAT = 'False'
 	Profile = 'Interactive Brokers'
 	StrategyName = 'strategy_c_eth_test'
-	SymbolName = 'ETHUSDT - 13 Minutes - Binance'
+	SymbolName = 'ETHUSDT - 199 Minutes - Binance'
 
 [Wsp\Window_1\ChartManager\Strategy\StrategyHelper\DynTradeOptimizeProps\Algorithm_0]
 	CFFScriptGenetic = '// TODO: Enter your formula to replace the samples below 
@@ -6697,14 +6666,14 @@ The reserved words supported in Portfolio optimization:
 	ContainerHeight = '785'
 	ContainerWidth = '1746'
 	Flags = '0'
-	Height = '367'
-	Left = '52'
+	Height = '392'
+	Left = '873'
 	MinX = '-1'
 	MinY = '-1'
 	State = '1'
-	Top = '24'
+	Top = '0'
 	ViewType = '0'
-	Width = '1694'
+	Width = '873'
 
 [Wsp\Window_2\ChartManager]
 	ChartCount = '2'
@@ -6761,9 +6730,9 @@ The reserved words supported in Portfolio optimization:
 	ExpirationDate = '0'
 	FieldId = '201'
 	FieldName = 'Trade'
-	FinishDate2Id = '45608'
+	FinishDate2Id = '45621'
 	FinishDate2Name = ''
-	FinishDateId = '45608'
+	FinishDateId = '45621'
 	FinishDateName = ''
 	FootPrintChartType = '0'
 	KagiReversal = '0,1'
@@ -6826,8 +6795,8 @@ The reserved words supported in Portfolio optimization:
 	ManualMode = '0'
 	MarginBottom = '5'
 	MarginTop = '5'
-	Maximum = '669,414444444444'
-	Minimum = '611,325555555556'
+	Maximum = '679,53'
+	Minimum = '632,73'
 	MovementSize.Long = '1'
 	MovementSize.Metric = 'False'
 	MovementSize.Price = '5'
@@ -8701,8 +8670,8 @@ The reserved words supported in Portfolio optimization:
 	ManualMode = '0'
 	MarginBottom = '5'
 	MarginTop = '5'
-	Maximum = '10534311,9444444'
-	Minimum = '-48246,9444444444'
+	Maximum = '6620566,72222222'
+	Minimum = '-346787,722222222'
 	MovementSize.Long = '1'
 	MovementSize.Metric = 'False'
 	MovementSize.Price = '5'
@@ -8769,7 +8738,7 @@ The reserved words supported in Portfolio optimization:
 [Wsp\Window_2\ChartManager\IndexViewCalc]
 	BarSpacing = '23'
 	BarsToRight = '10'
-	BarsToRightValue = '7'
+	BarsToRightValue = '3'
 	ChartShiftViewType = '0'
 	ShowEmptyPeriod = '0'
 
@@ -9112,7 +9081,7 @@ The reserved words supported in Portfolio optimization:
 	Left Manual = '0'
 	Left Scale = '0'
 	Precise Marker = '1'
-	Right Characters = '13'
+	Right Characters = '14'
 	Right Manual = '0'
 	Right Scale = '1'
 	Time To Close = '1'
@@ -10037,14 +10006,14 @@ The reserved words supported in Portfolio optimization:
 	ContainerHeight = '785'
 	ContainerWidth = '1746'
 	Flags = '0'
-	Height = '501'
-	Left = '78'
+	Height = '393'
+	Left = '873'
 	MinX = '-1'
 	MinY = '-1'
 	State = '1'
-	Top = '78'
+	Top = '392'
 	ViewType = '0'
-	Width = '1668'
+	Width = '873'
 
 [Wsp\Window_3\ChartManager]
 	ChartCount = '2'
@@ -10101,9 +10070,9 @@ The reserved words supported in Portfolio optimization:
 	ExpirationDate = '0'
 	FieldId = '201'
 	FieldName = 'Trade'
-	FinishDate2Id = '45608'
+	FinishDate2Id = '45621'
 	FinishDate2Name = ''
-	FinishDateId = '45608'
+	FinishDateId = '45621'
 	FinishDateName = ''
 	FootPrintChartType = '0'
 	KagiReversal = '0,1'
@@ -10166,8 +10135,8 @@ The reserved words supported in Portfolio optimization:
 	ManualMode = '0'
 	MarginBottom = '5'
 	MarginTop = '5'
-	Maximum = '0,358848333333333'
-	Minimum = '0,278681666666667'
+	Maximum = '0,440001666666667'
+	Minimum = '0,398768333333333'
 	MovementSize.Long = '1'
 	MovementSize.Metric = 'False'
 	MovementSize.Price = '5'
@@ -12041,8 +12010,8 @@ The reserved words supported in Portfolio optimization:
 	ManualMode = '0'
 	MarginBottom = '5'
 	MarginTop = '5'
-	Maximum = '1454183235,83333'
-	Minimum = '-76535640,8333333'
+	Maximum = '541997261,611111'
+	Minimum = '-28230150,6111111'
 	MovementSize.Long = '1'
 	MovementSize.Metric = 'False'
 	MovementSize.Price = '5'
@@ -12109,7 +12078,7 @@ The reserved words supported in Portfolio optimization:
 [Wsp\Window_3\ChartManager\IndexViewCalc]
 	BarSpacing = '23'
 	BarsToRight = '10'
-	BarsToRightValue = '7'
+	BarsToRightValue = '3'
 	ChartShiftViewType = '0'
 	ShowEmptyPeriod = '0'
 
