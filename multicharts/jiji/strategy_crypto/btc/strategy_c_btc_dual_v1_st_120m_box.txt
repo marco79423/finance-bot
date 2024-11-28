@@ -37,28 +37,23 @@ end;
 vars: HC(0), LC(0);
 if MarketPosition > 0 then begin
 	var: Base(0.2);
-	HC = EntryPrice + (Base * EntryPrice * 2);
-	LC = EntryPrice - (Base * EntryPrice * 1);
 
-	if Close > HC then begin
+	if Close > EntryPrice + (Base * EntryPrice * 2) then begin
 		Sell ("LX_PT") all contracts next bar market;
 	end;
 
-	if Low < LC then begin
+	if Low < EntryPrice - (Base * EntryPrice * 1) then begin
 		Sell ("LX_SL") all contracts next bar market;
 	end;
 end;
 
 if MarketPosition < 0 then begin
-	var: Base2(0.02);
-	HC = EntryPrice + (Base2 * EntryPrice * 1);
-	LC = EntryPrice - (Base2 * EntryPrice * 2);
-
-	if Close < LC then begin
+	var: Base2(0.004);
+	if Close < EntryPrice - (Base2 * EntryPrice * 2) then begin
 		BuyToCover ("SX_PT") all contracts next bar market;
 	end;
 
-	if High > HC then begin
-		Sell ("SX_SL") all contracts next bar market;
+	if High > EntryPrice + (Base2 * EntryPrice * 1) then begin
+		BuyToCover ("SX_SL") all contracts next bar market;
 	end;
 end;
