@@ -42,15 +42,15 @@ if MarketPosition = 0 then begin
 
 end else begin
 
-	if OpenPositionProfit > 9 * ATR * BigPointValue * OrderSize then begin
+	if OpenPositionProfit > 2 * ATR * RevisedOrderSize then begin
 		BuyToCover ("SX_Win") all contracts next bar market;
 	end;
 
-	if OpenPositionProfit > 0 and OpenPositionProfit < MaxOpenPositionProfit - 1 * ATR * BigPointValue * OrderSize then begin
+	if OpenPositionProfit > 0 and OpenPositionProfit < MaxOpenPositionProfit - 0.5 * ATR * RevisedOrderSize then begin
 		BuyToCover ("SX_Pullback") all contracts next bar market;
 	end;
 
-	if OpenPositionProfit < -15 * ATR * BigPointValue * OrderSize then begin
+	if OpenPositionProfit < -8 * ATR * RevisedOrderSize then begin
 		BuyToCover ("SX_StopLoss") all contracts next bar market;
 	end;
 end;
