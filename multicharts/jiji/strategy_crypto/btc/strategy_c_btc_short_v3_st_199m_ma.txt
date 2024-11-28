@@ -22,6 +22,13 @@ ATR = AvgTrueRange(14);
 vars: OpenCond(True);
 OpenCond = True;
 
+vars: RevisedOrderSize(OrderSize);
+if Round(60000 / Close, 0) > 1 then begin
+	RevisedOrderSize = Round(60000 / Close, 0) * OrderSize;
+end else begin
+	RevisedOrderSize = OrderSize;
+end;
+
 if MarketPosition = 0 then begin
 	vars: ShortCond(True);
 	ShortCond = OpenCond;
@@ -30,21 +37,17 @@ if MarketPosition = 0 then begin
 	ShortCond = ShortCond and Close = Lowest(Close, 6);
 	ShortCond = ShortCond and Ticks = Highest(Ticks, 14);
 	if ShortCond then begin
-		SellShort ( "SE" ) OrderSize contracts next bar market;
+		SellShort ( "SE" ) RevisedOrderSize contracts next bar market;
 	end;
 
 end else begin
-	vars: Base(1);
+	vars: Base(0.5);
 
-	if OpenPositionProfit > Base * ATR * BigPointValue * OrderSize then begin
+	if OpenPositionProfit > 2 * Base * ATR * RevisedOrderSize then begin
 		BuyToCover ("SX_Win") all contracts next bar market;
 	end;
 
-	if OpenPositionProfit > 0 and OpenPositionProfit < MaxOpenPositionProfit - 14 * ATR * BigPointValue * OrderSize then begin
-		BuyToCover ("SX_Pullback") all contracts next bar market;
-	end;
-
-	if OpenPositionProfit < -2 * Base * ATR * BigPointValue * OrderSize then begin
+	if OpenPositionProfit < -1 * Base * ATR * RevisedOrderSize then begin
 		BuyToCover ("SX_StopLoss") all contracts next bar market;
 	end;
 end;
