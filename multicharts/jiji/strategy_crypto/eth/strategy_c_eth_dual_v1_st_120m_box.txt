@@ -46,12 +46,12 @@ if MarketPosition > 0 then begin
 end;
 
 if MarketPosition < 0 then begin
-	var: Base2(0.006);
+	var: Base2(0.016);
 	if Close < EntryPrice - (Base2 * EntryPrice * 2) then begin
 		BuyToCover ("SX_PT") all contracts next bar market;
 	end;
 
 	if High > EntryPrice + (Base2 * EntryPrice * 1) then begin
-		Sell ("SX_SL") all contracts next bar market;
+		BuyToCover ("SX_SL") all contracts next bar market;
 	end;
 end;
