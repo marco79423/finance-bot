@@ -29,7 +29,6 @@ end else begin
 	RevisedOrderSize = OrderSize;
 end;
 
-
 if MarketPosition = 0 then begin
 	vars: BuyCond(False);
 	BuyCond = OpenCond;
