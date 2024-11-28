@@ -1,0 +1,64 @@
+// BNB 120 min
+// Use bar 35
+// For range trading
+// Focus on balancing profits and losses.
+
+inputs: Enabled(1), OrderSize(1);
+
+if Enabled = 0 then
+	#Return;
+
+vars: OpenCond(True);
+OpenCond = True;
+
+vars: RevisedOrderSize(OrderSize);
+if Round(6000 / Close, 0) > 1 then begin
+	RevisedOrderSize = Round(6000 / Close, 0) * OrderSize;
+end else begin
+	RevisedOrderSize = OrderSize;
+end;
+
+vars: Len(35), BoxH(0), BoxL(0);
+BoxH = Highest(High, Len);
+BoxL = Lowest(Low, Len);
+
+if MarketPosition <= 0 then begin
+	if High = BoxH then begin
+		Buy ("LE") RevisedOrderSize contracts next bar market;
+	end;
+end;
+
+if MarketPosition >= 0 then begin
+	if Low = BoxL then begin
+		SellShort ( "SE" ) RevisedOrderSize contracts next bar market;
+	end;
+end;
+
+vars: HC(0), LC(0);
+if MarketPosition > 0 then begin
+	var: Base(0.6);
+	HC = EntryPrice + (Base * EntryPrice * 2);
+	LC = EntryPrice - (Base * EntryPrice * 1);
+
+	if Close > HC then begin
+		Sell ("LX_PT") all contracts next bar market;
+	end;
+
+	if Low < LC then begin
+		Sell ("LX_SL") all contracts next bar market;
+	end;
+end;
+
+if MarketPosition < 0 then begin
+	var: Base2(0.035);
+	HC = EntryPrice + (Base2 * EntryPrice * 1);
+	LC = EntryPrice - (Base2 * EntryPrice * 2);
+
+	if Close < LC then begin
+		BuyToCover ("SX_PT") all contracts next bar market;
+	end;
+
+	if High > HC then begin
+		Sell ("SX_SL") all contracts next bar market;
+	end;
+end;
