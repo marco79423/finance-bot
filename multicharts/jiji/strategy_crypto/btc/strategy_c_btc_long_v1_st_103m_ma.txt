@@ -42,15 +42,15 @@ if MarketPosition = 0 then begin
 
 end else begin
 
-	if OpenPositionProfit > 6 * ATR * BigPointValue * OrderSize then begin
+	if OpenPositionProfit > 9 * ATR * RevisedOrderSize then begin
 		Sell ("LX_Win") all contracts next bar market;
 	end;
 
-	if OpenPositionProfit > 0 and OpenPositionProfit < MaxOpenPositionProfit - 3 * ATR * BigPointValue * OrderSize then begin
+	if OpenPositionProfit > 0 and OpenPositionProfit < MaxOpenPositionProfit - 3 * ATR * RevisedOrderSize then begin
 		Sell ("LX_Pullback") all contracts next bar market;
 	end;
 
-	if OpenPositionProfit < -50 * ATR * BigPointValue * OrderSize then begin
+	if OpenPositionProfit < -8.5 * ATR * RevisedOrderSize then begin
 		Sell("LX_StopLoss") all contracts next bar market;
 	end;
 end;
