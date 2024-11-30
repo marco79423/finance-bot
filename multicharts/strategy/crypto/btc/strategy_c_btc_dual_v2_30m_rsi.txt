@@ -3,6 +3,9 @@
 
 inputs: Enabled(1), OrderSize(1);
 
+if Enabled = 0 then
+	#Return;
+
 vars: RevisedOrderSize(OrderSize);
 if Round(60000 / Close, 0) > 1 then begin
 	RevisedOrderSize = Round(60000 / Close, 0) * OrderSize;
