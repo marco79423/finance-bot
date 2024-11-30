@@ -1,0 +1,51 @@
+// BTC 30min
+// Use bar 35
+
+inputs: Enabled(1), OrderSize(1);
+
+vars: RevisedOrderSize(OrderSize);
+if Round(60000 / Close, 0) > 1 then begin
+	RevisedOrderSize = Round(60000 / Close, 0) * OrderSize;
+end else begin
+	RevisedOrderSize = OrderSize;
+end;
+
+var:Len(35), RSI_Gap(35);
+if RSI(Close, Len) > 100 - RSI_Gap then begin
+	Buy ("LE") RevisedOrderSize contracts next bar market;
+end;
+
+if RSI(Close, Len) < RSI_Gap then begin
+	SellShort ( "SE" ) RevisedOrderSize contracts next bar market;
+end;
+
+vars: HighSinceEntry(-9999);
+if MarketPosition <> 0 then begin
+	if MarketPosition <> MarketPosition [1] or High > HighSinceEntry then
+		HighSinceEntry = High;
+end else begin
+	HighSinceEntry = -999999;
+end;
+
+
+var: PullBack_Percent(0.5), Stoploss_Percent(0.15);
+if MarketPosition > 0 then begin
+	if Close < HighSinceEntry - EntryPrice * PullBack_Percent then begin
+		Sell ("LX_PT") all contracts next bar market;
+	end;
+
+	if Low < EntryPrice - Stoploss_Percent * EntryPrice then begin
+		Sell ("LX_SL") all contracts next bar market;
+	end;
+end;
+
+if MarketPosition < 0 then begin
+	if Close > LowSinceEntry + EntryPrice * PullBack_Percent then begin
+		BuyToCover ("SX_PT") all contracts next bar market;
+	end;
+
+	if High > EntryPrice + Stoploss_Percent * EntryPrice then begin
+		BuyToCover ("SX_SL") all contracts next bar market;
+	end;
+end;
+
