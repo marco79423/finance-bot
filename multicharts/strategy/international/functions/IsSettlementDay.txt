@@ -1,41 +1,23 @@
 inputs: Symbol(StringSimple);
 
-IsSettlementDay=False ;
+vars: Cond(False);
+switch (Symbol) begin
+	case "MYM", "YM", "NQ", "DAX":
+		Cond = True;
+		Cond = Cond and Month(D) = 3 or Month(D) = 6 or Month(D) = 9 or Month(D) = 12;
+		Cond = Cond and DayOfWeek(D) = 5;
+		Cond = Cond and DayOfMonth(D) >= 15 and DayOfMonth(D) <= 21;
+	case "NKM":
+		Cond = True;
+		Cond = Cond and Month(D) = 3 or Month(D) = 6 or Month(D) = 9 or Month(D) = 12;
+		Cond = Cond and DayOfWeek(D) = 4;
+		Cond = Cond and DayOfMonth(D) >= 7 and DayOfMonth(D) <= 13;
+	default:
+		Cond = False;
+end;
 
-vars: Case(1);
-
-
-if Symbol = "MYM" or Symbol = "NQ" or Symbol = "DAX" then begin
-	if Month(D)=3 or Month(D)=6 or Month(D)=9 or Month(D)=12 then condition11=True
-	else condition11=False ;
-
-	if dayofweek(D)=5 and 21>=dayofmonth(D) and dayofmonth(D)>=15 then condition12=True
-	else condition12=False ;
-
-	if condition11 and condition12 then IsSettlementDay=True
-	else IsSettlementDay=False ;
-end ;
-
-if Symbol="NKM" then begin
-	if Month(D)=3 or Month(D)=6 or Month(D)=9 or Month(D)=12 then condition21=True
-	else condition21=False ;
-
-	if dayofweek(D)=4 and 13>=dayofmonth(D) and dayofmonth(D)>=7 then condition22=True
-	else condition22=False ;
-
-	if condition21 and condition22 then IsSettlementDay=True
-	else IsSettlementDay=False ;
-end ;
-
-
-
-
-///
-
-
-IsTXFSettlementDay = False;
-if DayOfWeek(D) = 3 and DayOfMonth(D) > 14 and DayOfMonth(D) < 22 then begin
-	IsTXFSettlementDay = True;
+if Cond then begin
+	IsSettlementDay = True;
 end else begin
-	IsTXFSettlementDay = False;
+	IsSettlementDay = False;
 end;
