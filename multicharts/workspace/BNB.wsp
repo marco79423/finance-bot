@@ -1,7 +1,7 @@
 
 [Wsp]
-	(C2526AC1-535C-4a67-92B5-101E53EA9E4B) = '{1}{5}{2}{4}{3}{0}'
-	ActiveIndex = '1'
+	(C2526AC1-535C-4a67-92B5-101E53EA9E4B) = '{5}{4}{1}{2}{3}{0}'
+	ActiveIndex = '5'
 	MaximizedFlag = '0'
 	ProductVersion = '15.0.27165.400'
 	Version = '1'
@@ -78,9 +78,9 @@
 	ExpirationDate = '0'
 	FieldId = '201'
 	FieldName = 'Trade'
-	FinishDate2Id = '45624'
+	FinishDate2Id = '45628'
 	FinishDate2Name = ''
-	FinishDateId = '45624'
+	FinishDateId = '45628'
 	FinishDateName = ''
 	FootPrintChartType = '0'
 	KagiReversal = '0,1'
@@ -143,8 +143,8 @@
 	ManualMode = '0'
 	MarginBottom = '5'
 	MarginTop = '5'
-	Maximum = '693,252222222222'
-	Minimum = '595,007777777778'
+	Maximum = '20,9123333333333'
+	Minimum = '17,2656666666667'
 	MovementSize.Long = '1'
 	MovementSize.Metric = 'False'
 	MovementSize.Price = '5'
@@ -3382,9 +3382,9 @@ The reserved words supported in Portfolio optimization:
 	ExpirationDate = '0'
 	FieldId = '201'
 	FieldName = 'Trade'
-	FinishDate2Id = '45624'
+	FinishDate2Id = '45628'
 	FinishDate2Name = ''
-	FinishDateId = '45624'
+	FinishDateId = '45628'
 	FinishDateName = ''
 	FootPrintChartType = '0'
 	KagiReversal = '0,1'
@@ -3447,8 +3447,8 @@ The reserved words supported in Portfolio optimization:
 	ManualMode = '0'
 	MarginBottom = '5'
 	MarginTop = '5'
-	Maximum = '693,252222222222'
-	Minimum = '595,007777777778'
+	Maximum = '682,221666666667'
+	Minimum = '595,588333333333'
 	MovementSize.Long = '1'
 	MovementSize.Metric = 'False'
 	MovementSize.Price = '5'
@@ -6686,9 +6686,9 @@ The reserved words supported in Portfolio optimization:
 	ExpirationDate = '0'
 	FieldId = '201'
 	FieldName = 'Trade'
-	FinishDate2Id = '45624'
+	FinishDate2Id = '45628'
 	FinishDate2Name = ''
-	FinishDateId = '45624'
+	FinishDateId = '45628'
 	FinishDateName = ''
 	FootPrintChartType = '0'
 	KagiReversal = '0,1'
@@ -6751,8 +6751,8 @@ The reserved words supported in Portfolio optimization:
 	ManualMode = '0'
 	MarginBottom = '5'
 	MarginTop = '5'
-	Maximum = '665,607222222222'
-	Minimum = '642,462777777778'
+	Maximum = '664,788888888889'
+	Minimum = '628,611111111111'
 	MovementSize.Long = '1'
 	MovementSize.Metric = 'False'
 	MovementSize.Price = '5'
@@ -9990,9 +9990,9 @@ The reserved words supported in Portfolio optimization:
 	ExpirationDate = '0'
 	FieldId = '201'
 	FieldName = 'Trade'
-	FinishDate2Id = '45624'
+	FinishDate2Id = '45628'
 	FinishDate2Name = ''
-	FinishDateId = '45624'
+	FinishDateId = '45628'
 	FinishDateName = ''
 	FootPrintChartType = '0'
 	KagiReversal = '0,1'
@@ -10055,8 +10055,8 @@ The reserved words supported in Portfolio optimization:
 	ManualMode = '0'
 	MarginBottom = '5'
 	MarginTop = '5'
-	Maximum = '681,482777777778'
-	Minimum = '595,627222222222'
+	Maximum = '680,527222222222'
+	Minimum = '627,782777777778'
 	MovementSize.Long = '1'
 	MovementSize.Metric = 'False'
 	MovementSize.Price = '5'
@@ -13294,9 +13294,9 @@ The reserved words supported in Portfolio optimization:
 	ExpirationDate = '0'
 	FieldId = '201'
 	FieldName = 'Trade'
-	FinishDate2Id = '45624'
+	FinishDate2Id = '45628'
 	FinishDate2Name = ''
-	FinishDateId = '45624'
+	FinishDateId = '45628'
 	FinishDateName = ''
 	FootPrintChartType = '0'
 	KagiReversal = '0,1'
@@ -13359,8 +13359,8 @@ The reserved words supported in Portfolio optimization:
 	ManualMode = '0'
 	MarginBottom = '5'
 	MarginTop = '5'
-	Maximum = '682,622777777778'
-	Minimum = '595,567222222222'
+	Maximum = '680,527222222222'
+	Minimum = '627,782777777778'
 	MovementSize.Long = '1'
 	MovementSize.Metric = 'False'
 	MovementSize.Price = '5'
@@ -16545,7 +16545,7 @@ The reserved words supported in Portfolio optimization:
 
 [Wsp\Window_5\ChartManager]
 	ChartCount = '1'
-	OFFSeriesCount = '0'
+	OFFSeriesCount = '1'
 
 [Wsp\Window_5\ChartManager\Background]
 	BackgroundColor = '0'
@@ -16598,9 +16598,9 @@ The reserved words supported in Portfolio optimization:
 	ExpirationDate = '0'
 	FieldId = '201'
 	FieldName = 'Trade'
-	FinishDate2Id = '45624'
+	FinishDate2Id = '45628'
 	FinishDate2Name = ''
-	FinishDateId = '45624'
+	FinishDateId = '45628'
 	FinishDateName = ''
 	FootPrintChartType = '0'
 	KagiReversal = '0,1'
@@ -16625,7 +16625,7 @@ The reserved words supported in Portfolio optimization:
 	RequestOffline = '0'
 	ResolutionId = '2'
 	ResolutionName = 'Minute'
-	ResolutionSizeId = '199'
+	ResolutionSizeId = '30'
 	ResolutionSizeName = ''
 	SessionsId = '0'
 	SessionsName = 'Default'
@@ -16663,8 +16663,8 @@ The reserved words supported in Portfolio optimization:
 	ManualMode = '0'
 	MarginBottom = '5'
 	MarginTop = '5'
-	Maximum = '604,231666666667'
-	Minimum = '386,398333333333'
+	Maximum = '670,024444444444'
+	Minimum = '628,335555555556'
 	MovementSize.Long = '1'
 	MovementSize.Metric = 'False'
 	MovementSize.Price = '5'
@@ -18728,6 +18728,147 @@ The reserved words supported in Portfolio optimization:
 	Style = '0'
 	Width = '1'
 
+[Wsp\Window_5\ChartManager\OFFSeries_0]
+	CalcRealTimeAsHistory = '1'
+	DrawingsCount = '0'
+	InvisibleSubChart = '0'
+	SeriesType = '0'
+	Status = '1'
+	UpdateOnEveryTick = '1'
+
+[Wsp\Window_5\ChartManager\OFFSeries_0\AlertObject]
+	AlertEnable = '0'
+	AlertType = '1'
+	PropertyCount = '11'
+
+[Wsp\Window_5\ChartManager\OFFSeries_0\AlertObject\Property_0]
+	PropertyName = '_Audio_Enable'
+	PropertyValue = '1'
+
+[Wsp\Window_5\ChartManager\OFFSeries_0\AlertObject\Property_1]
+	PropertyName = '_Audio_Sound'
+	PropertyValue = '1'
+
+[Wsp\Window_5\ChartManager\OFFSeries_0\AlertObject\Property_10]
+	PropertyName = '_Email_Subject'
+	PropertyValue = 'MultiCharts64 Alert'
+
+[Wsp\Window_5\ChartManager\OFFSeries_0\AlertObject\Property_2]
+	PropertyName = '_Audio_Sound_File'
+	PropertyValue = 'ding.wav'
+
+[Wsp\Window_5\ChartManager\OFFSeries_0\AlertObject\Property_3]
+	PropertyName = '_Audio_Sound_Repeat'
+	PropertyValue = '0'
+
+[Wsp\Window_5\ChartManager\OFFSeries_0\AlertObject\Property_4]
+	PropertyName = '_Visual_Enable'
+	PropertyValue = '1'
+
+[Wsp\Window_5\ChartManager\OFFSeries_0\AlertObject\Property_5]
+	PropertyName = '_Visual_Timeout'
+	PropertyValue = '5'
+
+[Wsp\Window_5\ChartManager\OFFSeries_0\AlertObject\Property_6]
+	PropertyName = '_Email_Enable'
+	PropertyValue = '0'
+
+[Wsp\Window_5\ChartManager\OFFSeries_0\AlertObject\Property_7]
+	PropertyName = '_ExtEmail_Tag'
+	PropertyValue = ''
+
+[Wsp\Window_5\ChartManager\OFFSeries_0\AlertObject\Property_8]
+	PropertyName = '_WebHook_Tag'
+	PropertyValue = ''
+
+[Wsp\Window_5\ChartManager\OFFSeries_0\AlertObject\Property_9]
+	PropertyName = '_Telegram_Enable'
+	PropertyValue = '0'
+
+[Wsp\Window_5\ChartManager\OFFSeries_0\IndicatorHelper]
+	BaseDataNumber = '0'
+	CalcRealTimeAsHistory = '1'
+	GordonLamCalc = '0'
+	PersistentContent = ''
+	SkipIdenticalTicks = '1'
+	UpdateEveryTick = '1'
+	UpdateOnEveryTick = '1'
+	UseAddSeriesFreshSnap_v2 = '1'
+	UseFreshSnapOnAdditionalDS = '1'
+	UserBarMode = '0'
+	UserBarRef = '50'
+
+[Wsp\Window_5\ChartManager\OFFSeries_0\IndicatorHelper\InputHelper\Input_FileFontSize]
+	Value = '12'
+
+[Wsp\Window_5\ChartManager\OFFSeries_0\IndicatorHelper\InputHelper\Input_FilePath]
+	Value = '"Z:\strategy_c_bnb_dual_v2.txt"'
+
+[Wsp\Window_5\ChartManager\OFFSeries_0\IndicatorHelper\InputHelper\Input_IsRecalc]
+	Value = '0'
+
+[Wsp\Window_5\ChartManager\OFFSeries_0\IndicatorHelper\InputHelper\Input_IsWriteLog]
+	Value = '1'
+
+[Wsp\Window_5\ChartManager\OFFSeries_0\IndicatorHelper\InputHelper\Input_PointNum]
+	Value = '0'
+
+[Wsp\Window_5\ChartManager\OFFSeries_0\IndicatorHelper\InputHelper\Input_PosFontSize]
+	Value = '32'
+
+[Wsp\Window_5\ChartManager\OFFSeries_0\IntervalObject]
+	AxisType = '1'
+	Center = '0'
+	CustomNullsCount = '-1'
+	CustomNullsCountEnable = 'False'
+	Fixed Label Number = '10'
+	Fixed Step Size = '0,01'
+	Label Increment Mode = '1'
+	ManualMode = '0'
+	MarginBottom = '5'
+	MarginTop = '5'
+	Maximum = '1,23456790123457'
+	Minimum = '-1,23456790123457'
+	MovementSize.Long = '1'
+	MovementSize.Metric = 'False'
+	MovementSize.Price = '5'
+	OverlayDataSeries = 'False'
+	PriceRange.Above = '1,79769313486232E+308'
+	PriceRange.Below = '1,79769313486232E+308'
+	ScaleType = '0'
+	UseMargins = '1'
+
+[Wsp\Window_5\ChartManager\OFFSeries_0\LabelProcessingObject]
+	AutoMode = '1'
+	EnableProcessing = '0'
+	PriceScaleType = '2'
+	SelectedId = '0'
+
+[Wsp\Window_5\ChartManager\OFFSeries_0\LabelProcessingObject\Item 0]
+	Suffix = 'x'
+
+[Wsp\Window_5\ChartManager\OFFSeries_0\LabelProcessingObject\Item 1]
+	Suffix = 'c'
+
+[Wsp\Window_5\ChartManager\OFFSeries_0\LabelProcessingObject\Item 2]
+	Suffix = 'k'
+
+[Wsp\Window_5\ChartManager\OFFSeries_0\LabelProcessingObject\Item 3]
+	Suffix = 'm'
+
+[Wsp\Window_5\ChartManager\OFFSeries_0\LabelProcessingObject\Item 4]
+	Suffix = 'b'
+
+[Wsp\Window_5\ChartManager\OFFSeries_0\ShortTechInfo]
+	IdName = 'ib_b2a_OrderMasterTXT'
+
+[Wsp\Window_5\ChartManager\OFFSeries_0\VolumeObject]
+	VolumeBarWidth = '1'
+	VolumeBarsBackCount = '100'
+	VolumeBarsType = '0'
+	VolumeDataRangeType = '3'
+	VolumePlotNumber = '0'
+
 [Wsp\Window_5\ChartManager\OptimizeManager\OptimizeManager]
 	OptimizeAlgorithm = '0'
 
@@ -18955,7 +19096,7 @@ The reserved words supported in Portfolio optimization:
 	isStatusWindowShow = '1'
 
 [Wsp\Window_5\ChartManager\Strategy\SignalObject_0]
-	IdName = 's_strategy_c_bnb_test'
+	IdName = 's_strategy_c_bnb_dual_v2_30m_rsi'
 	Status = '1'
 
 [Wsp\Window_5\ChartManager\Strategy\SignalObject_0\SignalHelper]
@@ -19156,8 +19297,8 @@ The reserved words supported in Portfolio optimization:
 	Confirm = 'False'
 	NeedActivateAT = 'False'
 	Profile = 'Interactive Brokers'
-	StrategyName = 'strategy_c_bnb_test'
-	SymbolName = 'BNBUSDT - 199 Minutes - Binance'
+	StrategyName = 'strategy_c_bnb_dual_v2_30m_rsi'
+	SymbolName = 'BNBUSDT - 30 Minutes - Binance'
 
 [Wsp\Window_5\ChartManager\Strategy\StrategyHelper\DynTradeOptimizeProps\Algorithm_0]
 	CFFScriptGenetic = '// TODO: Enter your formula to replace the samples below 
@@ -19626,7 +19767,7 @@ The reserved words supported in Portfolio optimization:
 	BTOFAMode = '0'
 	BTOFAPoints = '0'
 	BTOFA_TIF = '1'
-	BarReference = '85'
+	BarReference = '35'
 	BidIndex = '0'
 	CalcPnLInSymbolCurrency = '1'
 	CalcRealTimeAsHistory = '1'
