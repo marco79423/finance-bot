@@ -16,14 +16,6 @@ end else begin
 	MaxOpenPositionProfit = 0;
 end;
 
-var: EntryHigh(0);
-if MarketPosition = 1 then begin
-	if High > EntryHigh then
-		EntryHigh = High;
-end else begin
-	EntryHigh = 0;
-end;
-
 vars: ATR(0);
 ATR = AvgTrueRange(14);
 
@@ -35,12 +27,8 @@ var: KBar(40), BBandAverage(0), BBandDown(0);
 BBandAverage = Average(Close, KBar);
 BBandDown = BBandAverage - 1.4 * StandardDev(Close, KBar, 1);
 
-var: HH(99999);
-if D > D[1] then begin
-	HH = OpenD(0) + ATR * 0.3;
-end;
-
 vars: OutPrice(0);
+OpenCond = not IsSettlementDay("MYM");
 
 if MarketPosition = 0 then begin
 
