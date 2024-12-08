@@ -8,23 +8,23 @@ inputs: Enabled(1), OrderSize(1);
 if Enabled = 0 then
 	#Return;
 
+vars: Len(35), BoxH(0), BoxL(0);
+BoxH = Highest(High, Len) ;
+BoxL = Lowest(Low, Len) ;
+
 vars: OpenCond(True);
 OpenCond = not (IsTXFSettlementDay and 1200 < Time and Time < 1400);
 OpenCond = OpenCond and not (0845 <= Time and Time <= 0847);
 OpenCond = OpenCond and not (1500 <= Time and Time <= 1502);
 
-vars: Len(35), BoxH(0), BoxL(0);
-BoxH = Highest(High, Len) ;
-BoxL = Lowest(Low, Len) ;
-
 if MarketPosition <= 0 then begin
-	if High = BoxH then begin
+	if OpenCond and High = BoxH then begin
 		Buy ("LE") OrderSize contracts next bar market;
 	end;
 end;
 
 if MarketPosition >= 0 then begin
-	if Low = BoxL then begin
+	if OpenCond and Low = BoxL then begin
 		SellShort ( "SE" ) OrderSize contracts next bar market;
 	end;
 end;
