@@ -2,7 +2,7 @@ inputs: Symbol(StringSimple);
 
 vars: Cond(False);
 switch (Symbol) begin
-	case "MYM", "YM", "MES", "ES", "NQ", "DAX":
+	case "MYM", "YM", "MES", "ES", "MNQ", "NQ", "DAX":
 		Cond = True;
 		Cond = Cond and Month(D) = 3 or Month(D) = 6 or Month(D) = 9 or Month(D) = 12;
 		Cond = Cond and DayOfWeek(D) = 5;
