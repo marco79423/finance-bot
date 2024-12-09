@@ -8,14 +8,6 @@ inputs: Enabled(1), OrderSize(1);
 if Enabled = 0 then
 	#Return;
 
-vars: MaxOpenPositionProfit(0);
-if MarketPosition <> 0 then begin
-	if MaxOpenPositionProfit < OpenPositionProfit then
-		MaxOpenPositionProfit = OpenPositionProfit;
-end else begin
-	MaxOpenPositionProfit = 0;
-end;
-
 vars: ATR(0);
 ATR = AvgTrueRange(14);
 
