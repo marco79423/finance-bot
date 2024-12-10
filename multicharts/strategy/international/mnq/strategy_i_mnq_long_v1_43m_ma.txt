@@ -1,5 +1,5 @@
 // MNQ 43 min
-// Use bar 135
+// Use bar 100
 // For swing trading
 // Focus on win rate and smooth out the curve
 
@@ -17,7 +17,7 @@ end else begin
 end;
 
 vars: ATR(0);
-ATR = AvgTrueRange(14);
+ATR = AvgTrueRange(30);
 
 vars: OpenCond(True);
 OpenCond = True;
@@ -27,8 +27,8 @@ if MarketPosition = 0 then begin
 	vars: BuyCond(False);
 	BuyCond = OpenCond;
 	BuyCond = BuyCond and Close > Open;
-	BuyCond = BuyCond and Close > AverageFC(Close, 5);
-	BuyCond = BuyCond and Close > AverageFC(Close, 135);
+	BuyCond = BuyCond and Close > AverageFC(Close, 15);
+	BuyCond = BuyCond and Close > AverageFC(Close, 100);
 	if BuyCond then begin
 		Buy ("LE") OrderSize contracts next bar market;
 	end;
@@ -38,11 +38,11 @@ end else begin
 		Sell ("LX_Settle") all contracts next bar market;
 	end;
 
-	if OpenPositionProfit > 1.5 * ATR * BigPointValue * OrderSize then begin
+	if OpenPositionProfit > 5 * ATR * BigPointValue * OrderSize then begin
 		Sell("LX_Win") all contracts next bar market;
 	end;
 
-	if OpenPositionProfit > 0 and OpenPositionProfit < MaxOpenPositionProfit - 2 * ATR * BigPointValue * OrderSize then begin
+	if OpenPositionProfit > 0 and OpenPositionProfit < MaxOpenPositionProfit - 1.5 * ATR * BigPointValue * OrderSize then begin
 		Sell ("LX_Pullback") all contracts next bar market;
 	end;
 
