@@ -1,5 +1,5 @@
-// MES 60 min
-// Use bar 10
+// MES 30 min
+// Use bar 185
 
 inputs: Enabled(1), OrderSize(1);
 
@@ -7,32 +7,32 @@ if Enabled = 0 then
 	#Return;
 
 var: MA(0);
-MA = Average(Close, 10);
+MA = Average(Close, 185);
 
 vars: OpenCond(True);
 OpenCond = True;
-OpenCond = not IsSettlementDay("MES");
+OpenCond = not IsSettlementDay("MYM");
 
 if MarketPosition = 0 then begin
-	vars: BuyCond(True);
-	BuyCond = OpenCond;
-	BuyCond = BuyCond and CountIf(Close > MA, 4) >= 3;
-	BuyCond = BuyCond and CountIf(Close < MA, 4) > 0;
-	BuyCond = BuyCond and High > High[1];
-	if BuyCond then begin
-		Buy ("LE") OrderSize contracts next bar market;
+	vars: ShortCond(True);
+	ShortCond = OpenCond;
+	ShortCond = ShortCond and CountIf(Close < MA, 2) >= 1;
+	ShortCond = ShortCond and CountIf(Close > MA, 3) > 0;
+	ShortCond = ShortCond and Low < Low[1];
+	if ShortCond then begin
+		SellShort ( "SE" ) OrderSize contracts next bar market;
 	end;
 end else begin
-	if IsSettlementDay("MES") then begin
-		Sell ("LX_Settle") all contracts next bar market;
+	if IsSettlementDay("MYM") then begin
+		BuyToCover ("SX_Settle") all contracts next bar market;
 	end;
 
-	vars: SellCond(True);
-	SellCond = True;
-	SellCond = SellCond and CountIf(Close < MA, 6) >= 5;
-	SellCond = SellCond and CountIf(Close > MA, 3) > 0;
-	SellCond = SellCond and Low < Low[1];
-	if SellCond then begin
-		Sell ("LX_Out") all contracts next bar market;
+	vars: CoverCond(True);
+	CoverCond = True;
+	CoverCond = CoverCond and CountIf(Close < MA, 8) >= 4;
+	CoverCond = CoverCond and CountIf(Close > MA, 13) > 0;
+	CoverCond = CoverCond and High > High[1];
+	if CoverCond then begin
+		BuyToCover ("SX_Out") all contracts next bar market;
 	end;
 end;
