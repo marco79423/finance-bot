@@ -1,7 +1,7 @@
 
 [Wsp]
 	(C2526AC1-535C-4a67-92B5-101E53EA9E4B) = '{3}{2}{1}{0}'
-	ActiveIndex = '3'
+	ActiveIndex = '2'
 	MaximizedFlag = '0'
 	ProductVersion = '15.0.26881.400'
 	Version = '1'
@@ -12169,7 +12169,7 @@ The reserved words supported in Portfolio optimization:
 	Value = '12'
 
 [Wsp\Window_3\ChartManager\Chart_1\Series_0\IndicatorHelper\InputHelper\Input_FilePath]
-	Value = '"Z:\strategy_i_mes_long_v3.txt"'
+	Value = '"Z:\strategy_i_mes_long_v4.txt"'
 
 [Wsp\Window_3\ChartManager\Chart_1\Series_0\IndicatorHelper\InputHelper\Input_IsRecalc]
 	Value = '0'
