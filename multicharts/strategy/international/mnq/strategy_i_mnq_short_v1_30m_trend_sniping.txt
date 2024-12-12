@@ -1,0 +1,39 @@
+// MNQ 30 min
+// Use bar 170
+
+
+inputs: Enabled(1), OrderSize(1);
+
+if Enabled = 0 then
+	#Return;
+
+var: MA(0);
+MA = Average(Close, 170);
+
+vars: OpenCond(True);
+OpenCond = True;
+OpenCond = not IsSettlementDay("MNQ");
+
+if MarketPosition = 0 then begin
+	vars: ShortCond(True);
+	ShortCond = OpenCond;
+	ShortCond = ShortCond and CountIf(Close < MA, 3) >= 2;
+	ShortCond = ShortCond and CountIf(Close > MA, 7) > 0;
+	ShortCond = ShortCond and Low < Low[1];
+	if ShortCond then begin
+		SellShort ( "SE" ) OrderSize contracts next bar market;
+	end;
+end else begin
+	if IsSettlementDay("MNQ") then begin
+		BuyToCover ("SX_Settle") all contracts next bar market;
+	end;
+
+	vars: CoverCond(True);
+	CoverCond = True;
+	CoverCond = CoverCond and CountIf(Close < MA, 5) >= 3;
+	CoverCond = CoverCond and CountIf(Close > MA, 11) > 0;
+	CoverCond = CoverCond and High > High[1];
+	if CoverCond then begin
+		BuyToCover ("SX_Out") all contracts next bar market;
+	end;
+end;
