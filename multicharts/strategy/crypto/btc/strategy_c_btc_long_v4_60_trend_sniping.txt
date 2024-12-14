@@ -1,5 +1,5 @@
 // BTC 60 min
-// Use bar 150
+// Use bar 140
 
 inputs: Enabled(1), OrderSize(1);
 
@@ -7,25 +7,32 @@ if Enabled = 0 then
 	#Return;
 
 var: MA(0);
-MA = Average(Close, 150);
+MA = Average(Close, 140);
 
 vars: OpenCond(True);
 OpenCond = True;
 
+vars: RevisedOrderSize(OrderSize);
+if Round(60000 / Close, 0) > 1 then begin
+	RevisedOrderSize = Round(60000 / Close, 0) * OrderSize;
+end else begin
+	RevisedOrderSize = OrderSize;
+end;
+
 if MarketPosition = 0 then begin
 	vars: BuyCond(True);
 	BuyCond = OpenCond;
-	BuyCond = BuyCond and CountIf(Close > MA, 6) >= 4;
-	BuyCond = BuyCond and CountIf(Close < MA, 5) > 0;
+	BuyCond = BuyCond and CountIf(Close > MA, 4+4) >= 4;
+	BuyCond = BuyCond and CountIf(Close < MA, 6) > 0;
 	BuyCond = BuyCond and High > High[1];
 	if BuyCond then begin
-		Buy ("LE") OrderSize contracts next bar market;
+		Buy ("LE") RevisedOrderSize contracts next bar market;
 	end;
 end else begin
 	vars: SellCond(True);
 	SellCond = True;
-	SellCond = SellCond and CountIf(Close < MA, 8) >= 4;
-	SellCond = SellCond and CountIf(Close > MA, 2) > 0;
+	SellCond = SellCond and CountIf(Close < MA, 4 + 5) >= 5;
+	SellCond = SellCond and CountIf(Close > MA, 3) > 0;
 	SellCond = SellCond and Low < Low[1];
 	if SellCond then begin
 		Sell ("LX_Out") all contracts next bar market;
