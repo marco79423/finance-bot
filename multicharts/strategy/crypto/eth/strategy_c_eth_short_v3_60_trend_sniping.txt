@@ -1,0 +1,40 @@
+// ETH 60 min
+// Use bar 70
+
+inputs: Enabled(1), OrderSize(1);
+
+if Enabled = 0 then
+	#Return;
+
+var: MA(0);
+MA = Average(Close, 70);
+
+vars: OpenCond(True);
+OpenCond = True;
+
+vars: RevisedOrderSize(OrderSize);
+if Round(60000 / Close, 0) > 1 then begin
+	RevisedOrderSize = Round(60000 / Close, 0) * OrderSize;
+end else begin
+	RevisedOrderSize = OrderSize;
+end;
+
+if MarketPosition = 0 then begin
+	vars: ShortCond(True);
+	ShortCond = OpenCond;
+	ShortCond = ShortCond and CountIf(Close < MA, 3 + 3) >= 3;
+	ShortCond = ShortCond and CountIf(Close > MA, 1) > 0;
+	ShortCond = ShortCond and Low < Low[1];
+	if ShortCond then begin
+		SellShort ( "SE" ) RevisedOrderSize contracts next bar market;
+	end;
+end else begin
+	vars: CoverCond(True);
+	CoverCond = True;
+	CoverCond = CoverCond and CountIf(Close < MA, 3 + 4) >= 4;
+	CoverCond = CoverCond and CountIf(Close > MA, 3) > 0;
+	CoverCond = CoverCond and High > High[1];
+	if CoverCond then begin
+		BuyToCover ("SX_Out") all contracts next bar market;
+	end;
+end;
