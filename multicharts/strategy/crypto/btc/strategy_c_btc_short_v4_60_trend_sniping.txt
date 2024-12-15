@@ -1,4 +1,4 @@
-// BTC 30 min
+// BTC 60 min
 // Use bar 30
 
 
