@@ -23,7 +23,7 @@ if MarketPosition = 0 then begin
 	vars: ShortCond(True);
 	ShortCond = OpenCond;
 	ShortCond = ShortCond and CountIf(Close < MA, 3 + 3) >= 3;
-	ShortCond = ShortCond and CountIf(Close > MA, 2) > 0;
+	ShortCond = ShortCond and CountIf(Close > MA, 1) > 0;
 	ShortCond = ShortCond and Low < Low[1];
 	if ShortCond then begin
 		SellShort ( "SE" ) RevisedOrderSize contracts next bar market;
@@ -31,8 +31,8 @@ if MarketPosition = 0 then begin
 end else begin
 	vars: CoverCond(True);
 	CoverCond = True;
-	CoverCond = CoverCond and CountIf(Close < MA, 4 + 5) >= 5;
-	CoverCond = CoverCond and CountIf(Close > MA, 2) > 0;
+	CoverCond = CoverCond and CountIf(Close < MA, 4 + 9) >= 9;
+	CoverCond = CoverCond and CountIf(Close > MA, 3) > 0;
 	CoverCond = CoverCond and High > High[1];
 	if CoverCond then begin
 		BuyToCover ("SX_Out") all contracts next bar market;
