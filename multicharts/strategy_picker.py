@@ -15,10 +15,12 @@ def adjusted_calmar_ratio(row):
     return adjusted_calmar
 
 
-def pick_strategy(filepath):
+def pick_strategy(filepath, min_trades=None):
     data = pd.read_csv(filepath)
     data['Adjusted Calmar Ratio'] = data.apply(adjusted_calmar_ratio, axis=1)
     sorted_data = data.sort_values(by='Adjusted Calmar Ratio', ascending=False)
+    if min_trades:
+        sorted_data = sorted_data[sorted_data['Total Trades'] >= min_trades]
 
     exclude_columns = {
         'Gross Profit',
