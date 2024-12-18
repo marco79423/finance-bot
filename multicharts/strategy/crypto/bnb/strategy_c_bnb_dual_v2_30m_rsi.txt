@@ -22,7 +22,7 @@ if RSI(Close, Len) < RSI_Gap then begin
 	SellShort ( "SE" ) RevisedOrderSize contracts next bar market;
 end;
 
-vars: HighSinceEntry(-9999);
+vars: HighSinceEntry(-999999);
 if MarketPosition <> 0 then begin
 	if MarketPosition <> MarketPosition [1] or High > HighSinceEntry then
 		HighSinceEntry = High;
