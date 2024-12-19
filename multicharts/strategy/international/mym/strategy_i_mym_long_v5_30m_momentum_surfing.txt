@@ -23,7 +23,6 @@ end else begin
 	LowSinceEntry = -999999;
 end;
 
-
 vars: OpenCond(True);
 OpenCond = True;
 OpenCond = not IsSettlementDay("MYM");
