@@ -15,14 +15,6 @@ end else begin
 	HighSinceEntry = -999999;
 end;
 
-vars: LowSinceEntry(999999);
-if MarketPosition <> 0 then begin
-	if MarketPosition <> MarketPosition [1] or Low < LowSinceEntry then
-		LowSinceEntry = Low;
-end else begin
-	LowSinceEntry = -999999;
-end;
-
 vars: OpenCond(True);
 OpenCond = True;
 OpenCond = not IsSettlementDay("MYM");
