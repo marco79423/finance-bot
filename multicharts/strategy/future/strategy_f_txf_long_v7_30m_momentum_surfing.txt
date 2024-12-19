@@ -1,5 +1,5 @@
 // TXF 30 min
-// Use bar 300
+// Use bar 10
 // https://hiskio.com/courses/396/lectures/20618
 
 inputs: Enabled(1), OrderSize(1);
