@@ -15,12 +15,15 @@ def adjusted_calmar_ratio(row):
     return adjusted_calmar
 
 
-def pick_strategy(filepath, min_trades=None):
+def pick_strategy(filepath, init_fund=4000000, max_mdd=None, min_trades=None):
     data = pd.read_csv(filepath)
     data['Adjusted Calmar Ratio'] = data.apply(adjusted_calmar_ratio, axis=1)
+    data['MDD'] = data['Max Intraday Drawdown'].apply(lambda x: f'{-x / init_fund * 100:.2f}%')
     sorted_data = data.sort_values(by='Adjusted Calmar Ratio', ascending=False)
     if min_trades:
         sorted_data = sorted_data[sorted_data['Total Trades'] >= min_trades]
+    if max_mdd:
+        sorted_data = sorted_data[-sorted_data['Max Intraday Drawdown'] / init_fund * 100 <= max_mdd]
 
     exclude_columns = {
         'Gross Profit',
