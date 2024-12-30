@@ -1,0 +1,55 @@
+// MNQ 30 min
+// Use bar 100
+// https://hiskio.com/courses/396/lectures/20619
+
+inputs: Enabled(1), OrderSize(1);
+
+if Enabled = 0 then
+	#Return;
+
+vars: OpenCond(True);
+OpenCond = True;
+OpenCond = not IsSettlementDay("MNQ");
+
+var: XX(52);
+var: MA(0), RSIx(0);
+
+MA = Average(Close, 2);
+RSIx = RSI(Close, 100);
+
+if MarketPosition <= 0 then begin
+	vars: BuyCond(True);
+	BuyCond = OpenCond;
+	BuyCond = BuyCond and Close > MA;
+	BuyCond = BuyCond and crosses_above(RSIx, 100 - 52);
+	if BuyCond then begin
+		Buy ("LE") OrderSize contracts next bar market;
+	end;
+end;
+
+if MarketPosition >= 0 then begin
+	vars: ShortCond(True);
+	ShortCond = OpenCond;
+	ShortCond = ShortCond and Close < MA;
+	ShortCond = ShortCond and crosses_below(RSIx, 52);
+	if ShortCond then begin
+		SellShort ( "SE" ) OrderSize contracts next bar market;
+	end;
+end;
+
+
+if MarketPosition = 1 then begin
+	if IsSettlementDay("MNQ") then begin
+		Sell ("LX_Settle") all contracts next bar market;
+	end;
+end;
+
+if MarketPosition = -1 then begin
+	if IsSettlementDay("MNQ") then begin
+		BuyToCover ("SX_Settle") all contracts next bar market;
+	end;
+end;
+
+vars: ATR(0);
+ATR = AvgTrueRange(10);
+SetStopLoss(70 * BigPointValue);
