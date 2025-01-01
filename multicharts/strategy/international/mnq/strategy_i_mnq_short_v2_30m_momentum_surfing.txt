@@ -1,5 +1,5 @@
 // MNQ 30 min
-// Use bar 15
+// Use bar 30
 // https://hiskio.com/courses/396/lectures/20618
 
 inputs: Enabled(1), OrderSize(1);
