@@ -67,4 +67,6 @@ end else begin
 	if Close > EntryLow + ATR * 3.2 then begin
 		BuyToCover ("SX_GiveUp") all contracts next bar market;
 	end;
+
+	SetStopLoss(4 * Base * BigPointValue);
 end;
