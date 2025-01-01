@@ -1,7 +1,7 @@
 
 [Wsp]
-	(C2526AC1-535C-4a67-92B5-101E53EA9E4B) = '{10}{9}{1}{6}{2}{4}{5}{3}{7}{8}{0}'
-	ActiveIndex = '10'
+	(C2526AC1-535C-4a67-92B5-101E53EA9E4B) = '{9}{1}{3}{2}{4}{0}{5}{10}{6}{7}{8}'
+	ActiveIndex = '9'
 	MaximizedFlag = '0'
 	Version = '1'
 	WindowCount = '11'
@@ -10,17 +10,17 @@
 	WindowCount = '0'
 
 [Wsp\Window_0]
-	ContainerHeight = '1313'
-	ContainerWidth = '2706'
+	ContainerHeight = '856'
+	ContainerWidth = '1746'
 	Flags = '0'
-	Height = '328'
-	Left = '1804'
+	Height = '214'
+	Left = '1163'
 	MinX = '-1'
 	MinY = '-1'
 	State = '1'
-	Top = '984'
+	Top = '641'
 	ViewType = '0'
-	Width = '902'
+	Width = '582'
 
 [Wsp\Window_0\ChartManager]
 	ChartCount = '2'
@@ -74,9 +74,9 @@
 	ExpirationDate = '0'
 	FieldId = '201'
 	FieldName = 'Θユ基'
-	FinishDate2Id = '45647'
+	FinishDate2Id = '45658'
 	FinishDate2Name = ''
-	FinishDateId = '45647'
+	FinishDateId = '45658'
 	FinishDateName = ''
 	FootPrintChartType = '0'
 	KagiReversal = '10'
@@ -138,8 +138,8 @@
 	ManualMode = '0'
 	MarginBottom = '5'
 	MarginTop = '5'
-	Maximum = '22990,8333333333'
-	Minimum = '22494,1666666667'
+	Maximum = '23210,2777777778'
+	Minimum = '22904,7222222222'
 	MovementSize.Long = '1'
 	MovementSize.Metric = 'False'
 	MovementSize.Price = '5'
@@ -1594,9 +1594,9 @@
 	Type = '4'
 
 [Wsp\Window_0\ChartManager\IndexViewCalc]
-	BarSpacing = '30'
+	BarSpacing = '10'
 	BarsToRight = '20'
-	BarsToRightValue = '5'
+	BarsToRightValue = '10'
 	ChartShiftViewType = '0'
 	ShowEmptyPeriod = '0'
 
@@ -2530,7 +2530,7 @@ The reserved words supported in Portfolio optimization:
 	TIF = '4'
 
 [Wsp\Window_0\ChartManager\TradePanelPlaceholder\TradePanelObject\PerAccountSetting\Settings\Settings\Item_0\Second\TIFDate]
-	Ticks = '638701324747770000'
+	Ticks = '638703745792760000'
 
 [Wsp\Window_0\ChartManager\VolumeScale]
 	VolumeBarColor = '8421504'
@@ -2540,30 +2540,30 @@ The reserved words supported in Portfolio optimization:
 	VolumeRightScaleWidth = '50'
 
 [Wsp\Window_1]
-	ContainerHeight = '1313'
-	ContainerWidth = '2706'
+	ContainerHeight = '856'
+	ContainerWidth = '1746'
 	Flags = '0'
-	Height = '437'
+	Height = '285'
 	Left = '0'
 	MinX = '-1'
 	MinY = '-1'
 	State = '1'
-	Top = '874'
+	Top = '569'
 	ViewType = '0'
-	Width = '902'
+	Width = '581'
 
 [Wsp\Window_10]
-	ContainerHeight = '1313'
-	ContainerWidth = '2706'
+	ContainerHeight = '856'
+	ContainerWidth = '1746'
 	Flags = '0'
-	Height = '437'
+	Height = '284'
 	Left = '0'
 	MinX = '-1'
 	MinY = '-1'
 	State = '1'
 	Top = '0'
 	ViewType = '0'
-	Width = '902'
+	Width = '581'
 
 [Wsp\Window_10\ChartManager]
 	ChartCount = '2'
@@ -2617,9 +2617,9 @@ The reserved words supported in Portfolio optimization:
 	ExpirationDate = '0'
 	FieldId = '201'
 	FieldName = 'Θユ基'
-	FinishDate2Id = '45647'
+	FinishDate2Id = '45658'
 	FinishDate2Name = ''
-	FinishDateId = '45647'
+	FinishDateId = '45658'
 	FinishDateName = ''
 	FootPrintChartType = '0'
 	KagiReversal = '10'
@@ -2681,8 +2681,8 @@ The reserved words supported in Portfolio optimization:
 	ManualMode = '0'
 	MarginBottom = '5'
 	MarginTop = '5'
-	Maximum = '22990,8333333333'
-	Minimum = '22494,1666666667'
+	Maximum = '23181,1666666667'
+	Minimum = '22917,8333333333'
 	MovementSize.Long = '1'
 	MovementSize.Metric = 'False'
 	MovementSize.Price = '5'
@@ -4139,7 +4139,7 @@ The reserved words supported in Portfolio optimization:
 [Wsp\Window_10\ChartManager\IndexViewCalc]
 	BarSpacing = '30'
 	BarsToRight = '20'
-	BarsToRightValue = '5'
+	BarsToRightValue = '3'
 	ChartShiftViewType = '0'
 	ShowEmptyPeriod = '0'
 
@@ -5073,7 +5073,7 @@ The reserved words supported in Portfolio optimization:
 	TIF = '4'
 
 [Wsp\Window_10\ChartManager\TradePanelPlaceholder\TradePanelObject\PerAccountSetting\Settings\Settings\Item_0\Second\TIFDate]
-	Ticks = '638703718809420000'
+	Ticks = '638703745815670000'
 
 [Wsp\Window_10\ChartManager\VolumeScale]
 	VolumeBarColor = '8421504'
@@ -5134,9 +5134,9 @@ The reserved words supported in Portfolio optimization:
 	ExpirationDate = '0'
 	FieldId = '201'
 	FieldName = 'Θユ基'
-	FinishDate2Id = '45647'
+	FinishDate2Id = '45658'
 	FinishDate2Name = ''
-	FinishDateId = '45647'
+	FinishDateId = '45658'
 	FinishDateName = ''
 	FootPrintChartType = '0'
 	KagiReversal = '10'
@@ -5198,8 +5198,8 @@ The reserved words supported in Portfolio optimization:
 	ManualMode = '0'
 	MarginBottom = '5'
 	MarginTop = '5'
-	Maximum = '22990,8333333333'
-	Minimum = '22494,1666666667'
+	Maximum = '23181,1666666667'
+	Minimum = '22917,8333333333'
 	MovementSize.Long = '1'
 	MovementSize.Metric = 'False'
 	MovementSize.Price = '5'
@@ -6656,7 +6656,7 @@ The reserved words supported in Portfolio optimization:
 [Wsp\Window_1\ChartManager\IndexViewCalc]
 	BarSpacing = '23'
 	BarsToRight = '20'
-	BarsToRightValue = '7'
+	BarsToRightValue = '4'
 	ChartShiftViewType = '0'
 	ShowEmptyPeriod = '0'
 
@@ -7590,7 +7590,7 @@ The reserved words supported in Portfolio optimization:
 	TIF = '4'
 
 [Wsp\Window_1\ChartManager\TradePanelPlaceholder\TradePanelObject\PerAccountSetting\Settings\Settings\Item_0\Second\TIFDate]
-	Ticks = '638701324749400000'
+	Ticks = '638703745800540000'
 
 [Wsp\Window_1\ChartManager\VolumeScale]
 	VolumeBarColor = '8421504'
@@ -7600,17 +7600,17 @@ The reserved words supported in Portfolio optimization:
 	VolumeRightScaleWidth = '50'
 
 [Wsp\Window_2]
-	ContainerHeight = '1313'
-	ContainerWidth = '2706'
+	ContainerHeight = '856'
+	ContainerWidth = '1746'
 	Flags = '0'
-	Height = '328'
-	Left = '902'
+	Height = '214'
+	Left = '581'
 	MinX = '-1'
 	MinY = '-1'
 	State = '1'
-	Top = '328'
+	Top = '213'
 	ViewType = '0'
-	Width = '902'
+	Width = '582'
 
 [Wsp\Window_2\ChartManager]
 	ChartCount = '2'
@@ -7664,9 +7664,9 @@ The reserved words supported in Portfolio optimization:
 	ExpirationDate = '0'
 	FieldId = '201'
 	FieldName = 'Θユ基'
-	FinishDate2Id = '45647'
+	FinishDate2Id = '45658'
 	FinishDate2Name = ''
-	FinishDateId = '45647'
+	FinishDateId = '45658'
 	FinishDateName = ''
 	FootPrintChartType = '0'
 	KagiReversal = '10'
@@ -7728,8 +7728,8 @@ The reserved words supported in Portfolio optimization:
 	ManualMode = '0'
 	MarginBottom = '5'
 	MarginTop = '5'
-	Maximum = '22979,7777777778'
-	Minimum = '22704,2222222222'
+	Maximum = '23054,5'
+	Minimum = '22924,5'
 	MovementSize.Long = '1'
 	MovementSize.Metric = 'False'
 	MovementSize.Price = '5'
@@ -9186,7 +9186,7 @@ The reserved words supported in Portfolio optimization:
 [Wsp\Window_2\ChartManager\IndexViewCalc]
 	BarSpacing = '30'
 	BarsToRight = '20'
-	BarsToRightValue = '5'
+	BarsToRightValue = '3'
 	ChartShiftViewType = '0'
 	ShowEmptyPeriod = '0'
 
@@ -10120,7 +10120,7 @@ The reserved words supported in Portfolio optimization:
 	TIF = '4'
 
 [Wsp\Window_2\ChartManager\TradePanelPlaceholder\TradePanelObject\PerAccountSetting\Settings\Settings\Item_0\Second\TIFDate]
-	Ticks = '638701324750750000'
+	Ticks = '638703745807930000'
 
 [Wsp\Window_2\ChartManager\VolumeScale]
 	VolumeBarColor = '8421504'
@@ -10130,17 +10130,17 @@ The reserved words supported in Portfolio optimization:
 	VolumeRightScaleWidth = '50'
 
 [Wsp\Window_3]
-	ContainerHeight = '1313'
-	ContainerWidth = '2706'
+	ContainerHeight = '856'
+	ContainerWidth = '1746'
 	Flags = '0'
-	Height = '328'
-	Left = '1804'
+	Height = '212'
+	Left = '1162'
 	MinX = '-1'
 	MinY = '-1'
 	State = '1'
 	Top = '0'
 	ViewType = '0'
-	Width = '902'
+	Width = '581'
 
 [Wsp\Window_3\ChartManager]
 	ChartCount = '2'
@@ -10194,9 +10194,9 @@ The reserved words supported in Portfolio optimization:
 	ExpirationDate = '0'
 	FieldId = '201'
 	FieldName = 'Θユ基'
-	FinishDate2Id = '45647'
+	FinishDate2Id = '45658'
 	FinishDate2Name = ''
-	FinishDateId = '45647'
+	FinishDateId = '45658'
 	FinishDateName = ''
 	FootPrintChartType = '0'
 	KagiReversal = '10'
@@ -10258,8 +10258,8 @@ The reserved words supported in Portfolio optimization:
 	ManualMode = '0'
 	MarginBottom = '5'
 	MarginTop = '5'
-	Maximum = '22990,8333333333'
-	Minimum = '22494,1666666667'
+	Maximum = '23181,1666666667'
+	Minimum = '22917,8333333333'
 	MovementSize.Long = '1'
 	MovementSize.Metric = 'False'
 	MovementSize.Price = '5'
@@ -11716,7 +11716,7 @@ The reserved words supported in Portfolio optimization:
 [Wsp\Window_3\ChartManager\IndexViewCalc]
 	BarSpacing = '30'
 	BarsToRight = '20'
-	BarsToRightValue = '5'
+	BarsToRightValue = '3'
 	ChartShiftViewType = '0'
 	ShowEmptyPeriod = '0'
 
@@ -12650,7 +12650,7 @@ The reserved words supported in Portfolio optimization:
 	TIF = '4'
 
 [Wsp\Window_3\ChartManager\TradePanelPlaceholder\TradePanelObject\PerAccountSetting\Settings\Settings\Item_0\Second\TIFDate]
-	Ticks = '638701324752490000'
+	Ticks = '638703745808880000'
 
 [Wsp\Window_3\ChartManager\VolumeScale]
 	VolumeBarColor = '8421504'
@@ -12660,17 +12660,17 @@ The reserved words supported in Portfolio optimization:
 	VolumeRightScaleWidth = '50'
 
 [Wsp\Window_4]
-	ContainerHeight = '1313'
-	ContainerWidth = '2706'
+	ContainerHeight = '856'
+	ContainerWidth = '1746'
 	Flags = '0'
-	Height = '328'
-	Left = '902'
+	Height = '214'
+	Left = '581'
 	MinX = '-1'
 	MinY = '-1'
 	State = '1'
-	Top = '656'
+	Top = '427'
 	ViewType = '0'
-	Width = '902'
+	Width = '582'
 
 [Wsp\Window_4\ChartManager]
 	ChartCount = '2'
@@ -12724,9 +12724,9 @@ The reserved words supported in Portfolio optimization:
 	ExpirationDate = '0'
 	FieldId = '201'
 	FieldName = 'Θユ基'
-	FinishDate2Id = '45647'
+	FinishDate2Id = '45658'
 	FinishDate2Name = ''
-	FinishDateId = '45647'
+	FinishDateId = '45658'
 	FinishDateName = ''
 	FootPrintChartType = '0'
 	KagiReversal = '10'
@@ -12788,8 +12788,8 @@ The reserved words supported in Portfolio optimization:
 	ManualMode = '0'
 	MarginBottom = '5'
 	MarginTop = '5'
-	Maximum = '22972,6666666667'
-	Minimum = '22839,3333333333'
+	Maximum = '23037,6111111111'
+	Minimum = '22925,3888888889'
 	MovementSize.Long = '1'
 	MovementSize.Metric = 'False'
 	MovementSize.Price = '5'
@@ -14246,7 +14246,7 @@ The reserved words supported in Portfolio optimization:
 [Wsp\Window_4\ChartManager\IndexViewCalc]
 	BarSpacing = '30'
 	BarsToRight = '20'
-	BarsToRightValue = '5'
+	BarsToRightValue = '3'
 	ChartShiftViewType = '0'
 	ShowEmptyPeriod = '0'
 
@@ -15180,7 +15180,7 @@ The reserved words supported in Portfolio optimization:
 	TIF = '4'
 
 [Wsp\Window_4\ChartManager\TradePanelPlaceholder\TradePanelObject\PerAccountSetting\Settings\Settings\Item_0\Second\TIFDate]
-	Ticks = '638701324753680000'
+	Ticks = '638703745809820000'
 
 [Wsp\Window_4\ChartManager\VolumeScale]
 	VolumeBarColor = '8421504'
@@ -15190,17 +15190,17 @@ The reserved words supported in Portfolio optimization:
 	VolumeRightScaleWidth = '50'
 
 [Wsp\Window_5]
-	ContainerHeight = '1313'
-	ContainerWidth = '2706'
+	ContainerHeight = '856'
+	ContainerWidth = '1746'
 	Flags = '0'
-	Height = '328'
-	Left = '902'
+	Height = '214'
+	Left = '581'
 	MinX = '-1'
 	MinY = '-1'
 	State = '1'
-	Top = '984'
+	Top = '641'
 	ViewType = '0'
-	Width = '902'
+	Width = '582'
 
 [Wsp\Window_5\ChartManager]
 	ChartCount = '2'
@@ -15254,9 +15254,9 @@ The reserved words supported in Portfolio optimization:
 	ExpirationDate = '0'
 	FieldId = '201'
 	FieldName = 'Θユ基'
-	FinishDate2Id = '45647'
+	FinishDate2Id = '45658'
 	FinishDate2Name = ''
-	FinishDateId = '45647'
+	FinishDateId = '45658'
 	FinishDateName = ''
 	FootPrintChartType = '0'
 	KagiReversal = '10'
@@ -15318,8 +15318,8 @@ The reserved words supported in Portfolio optimization:
 	ManualMode = '0'
 	MarginBottom = '5'
 	MarginTop = '5'
-	Maximum = '22990,8333333333'
-	Minimum = '22494,1666666667'
+	Maximum = '23181,1666666667'
+	Minimum = '22917,8333333333'
 	MovementSize.Long = '1'
 	MovementSize.Metric = 'False'
 	MovementSize.Price = '5'
@@ -16776,7 +16776,7 @@ The reserved words supported in Portfolio optimization:
 [Wsp\Window_5\ChartManager\IndexViewCalc]
 	BarSpacing = '30'
 	BarsToRight = '20'
-	BarsToRightValue = '5'
+	BarsToRightValue = '3'
 	ChartShiftViewType = '0'
 	ShowEmptyPeriod = '0'
 
@@ -17718,7 +17718,7 @@ The reserved words supported in Portfolio optimization:
 	TIF = '4'
 
 [Wsp\Window_5\ChartManager\TradePanelPlaceholder\TradePanelObject\PerAccountSetting\Settings\Settings\Item_0\Second\TIFDate]
-	Ticks = '638701324754930000'
+	Ticks = '638703745810750000'
 
 [Wsp\Window_5\ChartManager\VolumeScale]
 	VolumeBarColor = '8421504'
@@ -17728,17 +17728,17 @@ The reserved words supported in Portfolio optimization:
 	VolumeRightScaleWidth = '50'
 
 [Wsp\Window_6]
-	ContainerHeight = '1313'
-	ContainerWidth = '2706'
+	ContainerHeight = '856'
+	ContainerWidth = '1746'
 	Flags = '0'
-	Height = '328'
-	Left = '902'
+	Height = '213'
+	Left = '581'
 	MinX = '-1'
 	MinY = '-1'
 	State = '1'
 	Top = '0'
 	ViewType = '0'
-	Width = '902'
+	Width = '582'
 
 [Wsp\Window_6\ChartManager]
 	ChartCount = '2'
@@ -17792,9 +17792,9 @@ The reserved words supported in Portfolio optimization:
 	ExpirationDate = '0'
 	FieldId = '201'
 	FieldName = 'Θユ基'
-	FinishDate2Id = '45647'
+	FinishDate2Id = '45658'
 	FinishDate2Name = ''
-	FinishDateId = '45647'
+	FinishDateId = '45658'
 	FinishDateName = ''
 	FootPrintChartType = '0'
 	KagiReversal = '10'
@@ -17856,8 +17856,8 @@ The reserved words supported in Portfolio optimization:
 	ManualMode = '0'
 	MarginBottom = '5'
 	MarginTop = '5'
-	Maximum = '22972,6666666667'
-	Minimum = '22839,3333333333'
+	Maximum = '23037,6111111111'
+	Minimum = '22925,3888888889'
 	MovementSize.Long = '1'
 	MovementSize.Metric = 'False'
 	MovementSize.Price = '5'
@@ -19314,7 +19314,7 @@ The reserved words supported in Portfolio optimization:
 [Wsp\Window_6\ChartManager\IndexViewCalc]
 	BarSpacing = '30'
 	BarsToRight = '20'
-	BarsToRightValue = '5'
+	BarsToRightValue = '3'
 	ChartShiftViewType = '0'
 	ShowEmptyPeriod = '0'
 
@@ -20248,7 +20248,7 @@ The reserved words supported in Portfolio optimization:
 	TIF = '4'
 
 [Wsp\Window_6\ChartManager\TradePanelPlaceholder\TradePanelObject\PerAccountSetting\Settings\Settings\Item_0\Second\TIFDate]
-	Ticks = '638701324756140000'
+	Ticks = '638703745811710000'
 
 [Wsp\Window_6\ChartManager\VolumeScale]
 	VolumeBarColor = '8421504'
@@ -20258,17 +20258,17 @@ The reserved words supported in Portfolio optimization:
 	VolumeRightScaleWidth = '50'
 
 [Wsp\Window_7]
-	ContainerHeight = '1313'
-	ContainerWidth = '2706'
+	ContainerHeight = '856'
+	ContainerWidth = '1746'
 	Flags = '0'
-	Height = '328'
-	Left = '1804'
+	Height = '214'
+	Left = '1163'
 	MinX = '-1'
 	MinY = '-1'
 	State = '1'
-	Top = '328'
+	Top = '213'
 	ViewType = '0'
-	Width = '902'
+	Width = '582'
 
 [Wsp\Window_7\ChartManager]
 	ChartCount = '2'
@@ -20322,9 +20322,9 @@ The reserved words supported in Portfolio optimization:
 	ExpirationDate = '0'
 	FieldId = '201'
 	FieldName = 'Θユ基'
-	FinishDate2Id = '45647'
+	FinishDate2Id = '45658'
 	FinishDate2Name = ''
-	FinishDateId = '45647'
+	FinishDateId = '45658'
 	FinishDateName = ''
 	FootPrintChartType = '0'
 	KagiReversal = '10'
@@ -20386,8 +20386,8 @@ The reserved words supported in Portfolio optimization:
 	ManualMode = '0'
 	MarginBottom = '5'
 	MarginTop = '5'
-	Maximum = '23384,5555555556'
-	Minimum = '22473,4444444444'
+	Maximum = '23181,7777777778'
+	Minimum = '22906,2222222222'
 	MovementSize.Long = '1'
 	MovementSize.Metric = 'False'
 	MovementSize.Price = '5'
@@ -21844,7 +21844,7 @@ The reserved words supported in Portfolio optimization:
 [Wsp\Window_7\ChartManager\IndexViewCalc]
 	BarSpacing = '30'
 	BarsToRight = '20'
-	BarsToRightValue = '5'
+	BarsToRightValue = '3'
 	ChartShiftViewType = '0'
 	ShowEmptyPeriod = '0'
 
@@ -22778,7 +22778,7 @@ The reserved words supported in Portfolio optimization:
 	TIF = '4'
 
 [Wsp\Window_7\ChartManager\TradePanelPlaceholder\TradePanelObject\PerAccountSetting\Settings\Settings\Item_0\Second\TIFDate]
-	Ticks = '638701324757400000'
+	Ticks = '638703745812690000'
 
 [Wsp\Window_7\ChartManager\VolumeScale]
 	VolumeBarColor = '8421504'
@@ -22788,17 +22788,17 @@ The reserved words supported in Portfolio optimization:
 	VolumeRightScaleWidth = '50'
 
 [Wsp\Window_8]
-	ContainerHeight = '1313'
-	ContainerWidth = '2706'
+	ContainerHeight = '856'
+	ContainerWidth = '1746'
 	Flags = '0'
-	Height = '328'
-	Left = '1804'
+	Height = '214'
+	Left = '1163'
 	MinX = '-1'
 	MinY = '-1'
 	State = '1'
-	Top = '656'
+	Top = '427'
 	ViewType = '0'
-	Width = '902'
+	Width = '582'
 
 [Wsp\Window_8\ChartManager]
 	ChartCount = '2'
@@ -22852,9 +22852,9 @@ The reserved words supported in Portfolio optimization:
 	ExpirationDate = '0'
 	FieldId = '201'
 	FieldName = 'Θユ基'
-	FinishDate2Id = '45647'
+	FinishDate2Id = '45658'
 	FinishDate2Name = ''
-	FinishDateId = '45647'
+	FinishDateId = '45658'
 	FinishDateName = ''
 	FootPrintChartType = '0'
 	KagiReversal = '10'
@@ -22916,8 +22916,8 @@ The reserved words supported in Portfolio optimization:
 	ManualMode = '0'
 	MarginBottom = '5'
 	MarginTop = '5'
-	Maximum = '22990,8333333333'
-	Minimum = '22494,1666666667'
+	Maximum = '23181,1666666667'
+	Minimum = '22917,8333333333'
 	MovementSize.Long = '1'
 	MovementSize.Metric = 'False'
 	MovementSize.Price = '5'
@@ -24374,7 +24374,7 @@ The reserved words supported in Portfolio optimization:
 [Wsp\Window_8\ChartManager\IndexViewCalc]
 	BarSpacing = '30'
 	BarsToRight = '20'
-	BarsToRightValue = '5'
+	BarsToRightValue = '3'
 	ChartShiftViewType = '0'
 	ShowEmptyPeriod = '0'
 
@@ -25308,7 +25308,7 @@ The reserved words supported in Portfolio optimization:
 	TIF = '4'
 
 [Wsp\Window_8\ChartManager\TradePanelPlaceholder\TradePanelObject\PerAccountSetting\Settings\Settings\Item_0\Second\TIFDate]
-	Ticks = '638701324758630000'
+	Ticks = '638703745813700000'
 
 [Wsp\Window_8\ChartManager\VolumeScale]
 	VolumeBarColor = '8421504'
@@ -25318,17 +25318,17 @@ The reserved words supported in Portfolio optimization:
 	VolumeRightScaleWidth = '50'
 
 [Wsp\Window_9]
-	ContainerHeight = '1313'
-	ContainerWidth = '2706'
+	ContainerHeight = '856'
+	ContainerWidth = '1746'
 	Flags = '0'
-	Height = '437'
+	Height = '285'
 	Left = '0'
 	MinX = '-1'
 	MinY = '-1'
 	State = '1'
-	Top = '437'
+	Top = '284'
 	ViewType = '0'
-	Width = '902'
+	Width = '581'
 
 [Wsp\Window_9\ChartManager]
 	ChartCount = '2'
@@ -25382,9 +25382,9 @@ The reserved words supported in Portfolio optimization:
 	ExpirationDate = '0'
 	FieldId = '201'
 	FieldName = 'Θユ基'
-	FinishDate2Id = '45647'
+	FinishDate2Id = '45658'
 	FinishDate2Name = ''
-	FinishDateId = '45647'
+	FinishDateId = '45658'
 	FinishDateName = ''
 	FootPrintChartType = '0'
 	KagiReversal = '10'
@@ -25446,8 +25446,8 @@ The reserved words supported in Portfolio optimization:
 	ManualMode = '0'
 	MarginBottom = '5'
 	MarginTop = '5'
-	Maximum = '22990,8333333333'
-	Minimum = '22494,1666666667'
+	Maximum = '23181,1666666667'
+	Minimum = '22917,8333333333'
 	MovementSize.Long = '1'
 	MovementSize.Metric = 'False'
 	MovementSize.Price = '5'
@@ -26904,7 +26904,7 @@ The reserved words supported in Portfolio optimization:
 [Wsp\Window_9\ChartManager\IndexViewCalc]
 	BarSpacing = '30'
 	BarsToRight = '20'
-	BarsToRightValue = '5'
+	BarsToRightValue = '3'
 	ChartShiftViewType = '0'
 	ShowEmptyPeriod = '0'
 
@@ -27758,7 +27758,7 @@ The reserved words supported in Portfolio optimization:
 	BTOFAMode = '0'
 	BTOFAPoints = '0'
 	BTOFA_TIF = '1'
-	BarReference = '10'
+	BarReference = '30'
 	BidIndex = '0'
 	CalcPnLInSymbolCurrency = '1'
 	CommisionType = '0'
@@ -27769,11 +27769,11 @@ The reserved words supported in Portfolio optimization:
 	FixedContracts = '1'
 	InitCapital = '720000'
 	InterestRate = '2'
-	LIBEnabled = '0'
+	LIBEnabled = '1'
 	LIBSize = '1'
 	LIBSkipIdenticalTicks = '1'
 	LIBTimeDetalization = '0'
-	LIBType = '1'
+	LIBType = '2'
 	LimitType = '2'
 	MaximumPerPosition = '1'
 	MinimumContracts = '0'
@@ -27838,7 +27838,7 @@ The reserved words supported in Portfolio optimization:
 	TIF = '4'
 
 [Wsp\Window_9\ChartManager\TradePanelPlaceholder\TradePanelObject\PerAccountSetting\Settings\Settings\Item_0\Second\TIFDate]
-	Ticks = '638701324759870000'
+	Ticks = '638703745814680000'
 
 [Wsp\Window_9\ChartManager\VolumeScale]
 	VolumeBarColor = '8421504'
