@@ -11,8 +11,7 @@ vars: OpenCond(True);
 OpenCond = True;
 OpenCond = not IsSettlementDay("MES");
 
-inputs: Len(85), NN(1);
-vars: BigK(0);
+vars: Len(85), NN(1), BigK(0);
 BigK = StandardDev(Close, Len, 1) * NN ;
 if BigK < 10 then begin
 	BigK = 10;
