@@ -51,5 +51,5 @@ if MarketPosition = -1 then begin
 end;
 
 vars: ATR(0);
-ATR = AvgTrueRange(10);
-SetStopLoss(70 * BigPointValue);
+ATR = AvgTrueRange(20);
+SetStopLoss(3 * ATR * BigPointValue);
