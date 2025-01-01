@@ -60,10 +60,7 @@ if MarketPosition = 1 then begin
 		Sell ("LX_Pullback") all contracts next bar market;
 	end;
 
-	if OpenPositionProfit < -6 * ATR * BigPointValue * OrderSize then begin
-		Sell ("LX_StopLoss") all contracts next bar market;
-	end;
-
+	SetStopLoss(5 * ATR * BigPointValue);
 end;
 
 if MarketPosition = -1 then begin
@@ -87,8 +84,5 @@ if MarketPosition = -1 then begin
 		BuyToCover ("SX_GiveUp") all contracts next bar market;
 	end;
 
-	if OpenPositionProfit < -3 * ATR * BigPointValue * OrderSize then begin
-		BuyToCover ("SX_StopLoss") all contracts next bar market;
-	end;
-
+	SetStopLoss(2 * ATR * BigPointValue);
 end;
