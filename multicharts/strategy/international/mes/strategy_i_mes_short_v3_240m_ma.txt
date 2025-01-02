@@ -1,4 +1,4 @@
-// MES 30 min
+// MES 240 min
 // Use bar 90
 // For swing trading
 // Focus on balancing profits and losses.
