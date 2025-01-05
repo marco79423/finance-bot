@@ -1,7 +1,5 @@
-// TXF 5 min
+// TXF 15 min
 // Use bar 45
-// For swing trading
-// Focus on win rate and smooth out the curve.
 
 inputs: Enabled(1), OrderSize(1);
 
