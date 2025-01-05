@@ -20,7 +20,7 @@ if OpenCond and RSI(Close, Len) < 25 then begin
 	SellShort ( "SE" ) OrderSize contracts next bar market;
 end;
 
-inputs: PullBack_Percent(0.13), StopLoss_Percent(0.1);
+vars: PullBack_Percent(0.13), StopLoss_Percent(0.1);
 if MarketPosition > 0 then begin
 	if IsTXFSettlementDay and 1200 < Time and Time < 1400 then begin
 		Sell ("LX_Settle") all contracts next bar market;
