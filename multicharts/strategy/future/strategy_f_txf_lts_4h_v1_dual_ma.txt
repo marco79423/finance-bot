@@ -1,5 +1,5 @@
 // TXF 4h
-// Use bar 70
+// Use bar 80
 
 inputs: Enabled(1), OrderSize(1);
 
