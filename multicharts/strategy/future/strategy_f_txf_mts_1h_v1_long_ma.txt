@@ -1,4 +1,4 @@
-// TXF 60 min
+// TXF 1h
 // Use bar 15
 
 inputs: Enabled(1), OrderSize(1);

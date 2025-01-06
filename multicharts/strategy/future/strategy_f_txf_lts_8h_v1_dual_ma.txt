@@ -1,4 +1,4 @@
-// TXF 480m
+// TXF 8h
 // Use bar 40
 
 inputs: Enabled(1), OrderSize(1);

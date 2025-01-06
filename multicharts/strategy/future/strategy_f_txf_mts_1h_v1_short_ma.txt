@@ -1,5 +1,5 @@
-// TXF 120 min
-// Use bar 60
+// TXF 1h
+// Use bar 240
 
 inputs: Enabled(1), OrderSize(1);
 
@@ -12,18 +12,19 @@ OpenCond = not (IsTXFSettlementDay and 1200 < Time and Time < 1400);
 OpenCond = OpenCond and not (0845 <= Time and Time <= 0847);
 OpenCond = OpenCond and not (1500 <= Time and Time <= 1502);
 
+
 if MarketPosition = 0 then begin
 	vars: ShortCond(True);
 	ShortCond = OpenCond;
-	ShortCond = ShortCond and Close < AverageFC(Close, 60);
+	ShortCond = ShortCond and Close < AverageFC(Close, 240);
 	ShortCond = ShortCond and Close = Lowest(Close, 4);
-	ShortCond = ShortCond and Ticks = Highest(Ticks, 3);
+	ShortCond = ShortCond and Ticks = Highest(Ticks, 7);
 	if ShortCond then begin
 		SellShort ( "SE" ) OrderSize contracts next bar market;
 	end;
 end else begin
 
-	vars: PullBack_Percent(0.004), StopLoss_Percent(0.02);
+	vars: PullBack_Percent(0.005), StopLoss_Percent(0.004);
 
 	if Close > LowSinceEntry + EntryPrice * PullBack_Percent then begin
 		BuyToCover ("SX_PT") all contracts next bar market;
