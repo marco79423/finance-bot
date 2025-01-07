@@ -1,34 +1,26 @@
-// TXF 30 min
-// Use bar 10
+// TXF 5min
+// Use bar 25
 
 inputs: Enabled(1), OrderSize(1);
 
 if Enabled = 0 then
 	#Return;
 
-vars: HighSinceEntry(-99999);
-if MarketPosition <> 0 then begin
-	if MarketPosition <> MarketPosition [1] or High > HighSinceEntry then
-		HighSinceEntry = High;
-end else begin
-	HighSinceEntry = -999999;
-end;
-
 vars: OpenCond(True);
 OpenCond = not (IsTXFSettlementDay and 1200 < Time and Time < 1400);
 OpenCond = OpenCond and not (0845 <= Time and Time <= 0847);
 OpenCond = OpenCond and not (1500 <= Time and Time <= 1502);
 
-var:Len(10), RSI_Gap(13);
-if OpenCond and RSI(Close, Len) > 100 - RSI_Gap then begin
+vars: Len(25);
+if OpenCond and RSI(Close, Len) > 50 then begin
 	Buy ("LE") OrderSize contracts next bar market;
 end;
 
-if OpenCond and RSI(Close, Len) < RSI_Gap then begin
+if OpenCond and RSI(Close, Len) < 25 then begin
 	SellShort ( "SE" ) OrderSize contracts next bar market;
 end;
 
-var: PullBack_Percent(0.1), StopLoss_Percent(0.1);
+vars: PullBack_Percent(0.13), StopLoss_Percent(0.1);
 if MarketPosition > 0 then begin
 	if IsTXFSettlementDay and 1200 < Time and Time < 1400 then begin
 		Sell ("LX_Settle") all contracts next bar market;
