@@ -1,0 +1,56 @@
+// TXF 5min
+// Use bar 20
+
+inputs: Enabled(1), OrderSize(1);
+
+if Enabled = 0 then
+	#Return;
+
+vars: OpenCond(True);
+OpenCond = not (IsTXFSettlementDay and 1200 < Time and Time < 1400);
+OpenCond = OpenCond and not (0845 <= Time and Time <= 0847);
+OpenCond = OpenCond and not (1500 <= Time and Time <= 1502);
+
+vars: Len(16), ATR(0);
+ATR = AvgTrueRange(Len);
+
+vars: LongMultiplier(3), ShortMultiplier(7.5);
+if MarketPosition <= 0 then begin
+	if OpenCond and Close > Close[1] + ATR[1] * LongMultiplier then begin
+		Buy ("LE") OrderSize contracts next bar market;
+	end;
+end;
+
+if MarketPosition >= 0 then begin
+	if OpenCond and Close < Close[1] - ATR[1] * ShortMultiplier then begin
+		SellShort ("SE") OrderSize contracts next bar market;
+	end;
+end;
+
+if MarketPosition = 1 then begin
+	if IsTXFSettlementDay and 1200 < Time and Time < 1400 then begin
+		Sell ("LX_Settle") all contracts next bar market;
+	end;
+
+	if OpenPositionProfit > 15 * ATR * BigPointValue * OrderSize then begin
+		Sell("LX_Win") all contracts next bar market;
+	end;
+
+	if OpenPositionProfit < -8 * ATR * BigPointValue * OrderSize then begin
+		Sell("LX_StopLoss") all contracts next bar market;
+	end;
+end;
+
+if MarketPosition = -1 then begin
+	if IsTXFSettlementDay and 1200 < Time and Time < 1400 then begin
+		BuyToCover ("SX_Settle") all contracts next bar market;
+	end;
+
+	if OpenPositionProfit > 12 * ATR * BigPointValue * OrderSize then begin
+		BuyToCover ("SX_Win") all contracts next bar market;
+	end;
+
+	if OpenPositionProfit < -8 * ATR * BigPointValue * OrderSize then begin
+		BuyToCover ("SX_StopLoss") all contracts next bar market;
+	end;
+end;
