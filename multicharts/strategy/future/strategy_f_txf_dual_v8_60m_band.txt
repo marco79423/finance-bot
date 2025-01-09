@@ -1,0 +1,62 @@
+// TXF 60 min
+// Use bar 60
+
+inputs: Enabled(1), OrderSize(1);
+
+if Enabled = 0 then
+	#Return;
+
+vars: KBar(60);
+vars: BBandUp(0), BBandUp2(0);
+BBandUp = BollingerBand(Close, KBar, 0.1);
+BBandUp2 = BollingerBand(Close, KBar, 0.3);
+
+vars: BBandDown(0), BBandDown2(0);
+BBandDown = BollingerBand(Close, KBar, -2.5);
+BBandDown2 = BollingerBand(Close, KBar, -2.7);
+
+vars: OpenCond(True);
+OpenCond = True;
+OpenCond = not (IsTXFSettlementDay and 1200 < Time and Time < 1400);
+OpenCond = OpenCond and not (0845 <= Time and Time <= 0847);
+OpenCond = OpenCond and not (1500 <= Time and Time <= 1502);
+
+if MarketPosition <= 0 then begin
+	vars: BuyCond (True);
+	BuyCond = OpenCond;
+	BuyCond = BuyCond and Close > BBandUp;
+	BuyCond = BuyCond and Close > BBandUp2;
+	if BuyCond then begin
+		Buy ("LE") OrderSize contracts next bar market;
+	end;
+end;
+
+if MarketPosition >= 0 then begin
+	vars: ShortCond (True);
+	ShortCond = OpenCond;
+	ShortCond = ShortCond and Close < BBandDown;
+	ShortCond = ShortCond and Close < BBandDown2;
+	if ShortCond then begin
+		SellShort ("SE") OrderSize contracts next bar market;
+	end;
+end;
+
+if MarketPosition = 1 then begin
+	if IsTXFSettlementDay and 1200 < Time and Time < 1400 then begin
+		Sell ("LX_Settle") all contracts next bar market;
+	end;
+
+	if Close < BBandUp then begin
+		Sell ("LX_Out") all contracts next bar market;
+	end;
+end;
+
+if MarketPosition = -1 then begin
+	if IsTXFSettlementDay and 1200 < Time and Time < 1400 then begin
+		BuyToCover ("SX_Settle") all contracts next bar market;
+	end;
+
+	if Close > BBandDown then begin
+		BuyToCover ("SX_Out") all contracts next bar market;
+	end;
+end;
