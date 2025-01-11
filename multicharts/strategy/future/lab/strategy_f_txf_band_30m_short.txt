@@ -1,0 +1,38 @@
+// TXF 30 min
+// Use bar 210
+
+inputs: Enabled(1), OrderSize(1);
+
+if Enabled = 0 then
+	#Return;
+
+vars: KBar(55);
+vars: BBandDown(0), BBandDown2(0);
+BBandDown = BollingerBand(Close, KBar, -1.6);
+
+vars: KBar2(210);
+BBandDown2 = BollingerBand(Close, KBar2, -0.8);
+
+vars: OpenCond(True);
+OpenCond = True;
+OpenCond = not (IsTXFSettlementDay and 1200 < Time and Time < 1400);
+OpenCond = OpenCond and not (0845 <= Time and Time <= 0847);
+OpenCond = OpenCond and not (1500 <= Time and Time <= 1502);
+
+if MarketPosition = 0 then begin
+	vars: ShortCond (True);
+	ShortCond = OpenCond;
+	ShortCond = ShortCond and Close < BBandDown;
+	ShortCond = ShortCond and Close < BBandDown2;
+	if ShortCond then begin
+		SellShort ("SE") OrderSize contracts next bar market;
+	end;
+end else begin
+	if IsTXFSettlementDay and 1200 < Time and Time < 1400 then begin
+		BuyToCover ("SX_Settle") all contracts next bar market;
+	end;
+
+	if Close > BBandDown then begin
+		BuyToCover ("SX_Out") all contracts next bar market;
+	end;
+end;
