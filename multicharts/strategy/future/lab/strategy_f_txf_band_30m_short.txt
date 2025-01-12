@@ -1,5 +1,6 @@
 // TXF 30 min
 // Use bar 210
+// better than band2 30m
 
 inputs: Enabled(1), OrderSize(1);
 
