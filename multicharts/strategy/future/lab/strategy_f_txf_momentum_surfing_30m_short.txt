@@ -1,4 +1,4 @@
-// TXF 15 min
+// TXF 30 min
 // Use bar 19
 // https://hiskio.com/courses/396/lectures/20618
 
