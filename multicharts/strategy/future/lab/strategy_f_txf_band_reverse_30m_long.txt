@@ -1,0 +1,42 @@
+// TXF 15 min
+// Use bar 100
+
+inputs: Enabled(1), OrderSize(1);
+
+if Enabled = 0 then
+	#Return;
+
+vars: OpenCond(True);
+OpenCond = True;
+OpenCond = not (IsTXFSettlementDay and 1200 < Time and Time < 1400);
+OpenCond = OpenCond and not (0845 <= Time and Time <= 0847);
+OpenCond = OpenCond and not (1500 <= Time and Time <= 1502);
+
+
+vars: KBar(100);
+vars: BBandAverage(0), BBandDown(0), BBandDown2(0);
+BBandAverage = Average(Close, KBar);
+BBandDown = BBandAverage - 1.6 * StandardDev(Close, KBar, 1);
+BBandDown2 = BBandAverage - 1.9 * StandardDev(Close, KBar, 1);
+
+
+if MarketPosition <= 0 then begin
+	vars: BuyCond (True);
+	BuyCond = OpenCond;
+	BuyCond = BuyCond and Close cross over BBandDown;
+	if BuyCond then begin
+		Buy ("LE") OrderSize contracts next bar market;
+	end;
+end else begin
+	if IsTXFSettlementDay and 1200 < Time and Time < 1400 then begin
+		Sell ("LX_Settle") all contracts next bar market;
+	end;
+
+	if Close > BBandAverage then begin
+		Sell ("LX_Out") all contracts next bar market;
+	end;
+
+	if Close < BBandDown2 then begin
+		Sell ("LX_StopLoss") all contracts next bar market;
+	end;
+end;
