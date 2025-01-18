@@ -32,7 +32,7 @@ if MarketPosition = -1 then begin
 		BuyToCover ("SX_Settle") all contracts next bar market;
 	end;
 
-	inputs: PullBack_Percent(0.003), StopLoss_Percent(0.002);
+	vars: PullBack_Percent(0.003), StopLoss_Percent(0.002);
 
 	if Close > LowSinceEntry + EntryPrice * PullBack_Percent then begin
 		BuyToCover ("SX_PT") all contracts next bar market;
