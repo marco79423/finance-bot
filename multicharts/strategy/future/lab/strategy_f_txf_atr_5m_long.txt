@@ -26,7 +26,7 @@ if MarketPosition = 1 then begin
 		Sell ("LX_Settle") all contracts next bar market;
 	end;
 
-	inputs: PullBack_Percent(0.008), StopLoss_Percent(0.004);
+	vars: PullBack_Percent(0.008), StopLoss_Percent(0.004);
 
 	if OpenPositionProfit > 0 and Close < HighSinceEntry - EntryPrice * PullBack_Percent then begin
 		Sell ("LX_PT") all contracts next bar market;
