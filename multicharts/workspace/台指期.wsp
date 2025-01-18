@@ -1,7 +1,7 @@
 
 [Wsp]
-	(C2526AC1-535C-4a67-92B5-101E53EA9E4B) = '{7}{6}{5}{4}{3}{2}{1}{0}'
-	ActiveIndex = '7'
+	(C2526AC1-535C-4a67-92B5-101E53EA9E4B) = '{0}{1}{2}{3}{4}{5}{6}{7}'
+	ActiveIndex = '0'
 	MaximizedFlag = '0'
 	Version = '1'
 	WindowCount = '8'
@@ -1504,7 +1504,7 @@
 	Value = '12'
 
 [Wsp\Window_0\ChartManager\Chart_1\Series_0\IndicatorHelper\InputHelper\Input_FilePath]
-	Value = '"Z:\strategy_f_txf_atr_15m_short.txt"'
+	Value = '"Z:\txf_atr_15m_short.txt"'
 
 [Wsp\Window_0\ChartManager\Chart_1\Series_0\IndicatorHelper\InputHelper\Input_IsRecalc]
 	Value = '0'
@@ -2041,7 +2041,7 @@
 	isStatusWindowShow = '1'
 
 [Wsp\Window_0\ChartManager\Strategy\SignalObject_0]
-	IdName = 's_strategy_f_txf_atr_15m_short'
+	IdName = 's_txf_atr_15m_short'
 	Status = '1'
 
 [Wsp\Window_0\ChartManager\Strategy\SignalObject_0\SignalHelper]
@@ -2218,7 +2218,7 @@
 	Confirm = 'False'
 	NeedActivateAT = 'False'
 	Profile = 'Interactive Brokers'
-	StrategyName = 'strategy_f_txf_atr_15m_short'
+	StrategyName = 'txf_atr_15m_short'
 	SymbolName = 'TWF.TXF HOT - 15 ㅐ컨 - TOUCHANCE'
 
 [Wsp\Window_0\ChartManager\Strategy\StrategyHelper\OptimizerProperties\Algorithm_0]
@@ -2530,7 +2530,7 @@ The reserved words supported in Portfolio optimization:
 	TIF = '4'
 
 [Wsp\Window_0\ChartManager\TradePanelPlaceholder\TradePanelObject\PerAccountSetting\Settings\Settings\Item_0\Second\TIFDate]
-	Ticks = '638728180264160000'
+	Ticks = '638728324965720000'
 
 [Wsp\Window_0\ChartManager\VolumeScale]
 	VolumeBarColor = '8421504'
@@ -4034,7 +4034,7 @@ The reserved words supported in Portfolio optimization:
 	Value = '12'
 
 [Wsp\Window_1\ChartManager\Chart_1\Series_0\IndicatorHelper\InputHelper\Input_FilePath]
-	Value = '"Z:\strategy_f_txf_band2_5m_long.txt"'
+	Value = '"Z:\txf_band2_5m_long.txt"'
 
 [Wsp\Window_1\ChartManager\Chart_1\Series_0\IndicatorHelper\InputHelper\Input_IsRecalc]
 	Value = '0'
@@ -4571,7 +4571,7 @@ The reserved words supported in Portfolio optimization:
 	isStatusWindowShow = '1'
 
 [Wsp\Window_1\ChartManager\Strategy\SignalObject_0]
-	IdName = 's_strategy_f_txf_band2_5m_long'
+	IdName = 's_txf_band2_5m_long'
 	Status = '1'
 
 [Wsp\Window_1\ChartManager\Strategy\SignalObject_0\SignalHelper]
@@ -4748,7 +4748,7 @@ The reserved words supported in Portfolio optimization:
 	Confirm = 'False'
 	NeedActivateAT = 'False'
 	Profile = 'Interactive Brokers'
-	StrategyName = 'strategy_f_txf_band2_5m_long'
+	StrategyName = 'txf_band2_5m_long'
 	SymbolName = 'TWF.TXF HOT - 5 ㅐ컨 - TOUCHANCE'
 
 [Wsp\Window_1\ChartManager\Strategy\StrategyHelper\OptimizerProperties\Algorithm_0]
@@ -5060,7 +5060,7 @@ The reserved words supported in Portfolio optimization:
 	TIF = '4'
 
 [Wsp\Window_1\ChartManager\TradePanelPlaceholder\TradePanelObject\PerAccountSetting\Settings\Settings\Item_0\Second\TIFDate]
-	Ticks = '638728284844160000'
+	Ticks = '638728324967520000'
 
 [Wsp\Window_1\ChartManager\VolumeScale]
 	VolumeBarColor = '8421504'
@@ -6564,7 +6564,7 @@ The reserved words supported in Portfolio optimization:
 	Value = '12'
 
 [Wsp\Window_2\ChartManager\Chart_1\Series_0\IndicatorHelper\InputHelper\Input_FilePath]
-	Value = '"Z:\strategy_f_txf_band2_30m_long.txt"'
+	Value = '"Z:\txf_band2_30m_long.txt"'
 
 [Wsp\Window_2\ChartManager\Chart_1\Series_0\IndicatorHelper\InputHelper\Input_IsRecalc]
 	Value = '0'
@@ -7101,7 +7101,7 @@ The reserved words supported in Portfolio optimization:
 	isStatusWindowShow = '1'
 
 [Wsp\Window_2\ChartManager\Strategy\SignalObject_0]
-	IdName = 's_strategy_f_txf_band2_30m_long'
+	IdName = 's_txf_band2_30m_long'
 	Status = '1'
 
 [Wsp\Window_2\ChartManager\Strategy\SignalObject_0\SignalHelper]
@@ -7278,7 +7278,7 @@ The reserved words supported in Portfolio optimization:
 	Confirm = 'False'
 	NeedActivateAT = 'False'
 	Profile = 'Interactive Brokers'
-	StrategyName = 'strategy_f_txf_band2_30m_long'
+	StrategyName = 'txf_band2_30m_long'
 	SymbolName = 'TWF.TXF HOT - 30 ㅐ컨 - TOUCHANCE'
 
 [Wsp\Window_2\ChartManager\Strategy\StrategyHelper\OptimizerProperties\Algorithm_0]
@@ -7590,7 +7590,7 @@ The reserved words supported in Portfolio optimization:
 	TIF = '4'
 
 [Wsp\Window_2\ChartManager\TradePanelPlaceholder\TradePanelObject\PerAccountSetting\Settings\Settings\Item_0\Second\TIFDate]
-	Ticks = '638728285407370000'
+	Ticks = '638728324968790000'
 
 [Wsp\Window_2\ChartManager\VolumeScale]
 	VolumeBarColor = '8421504'
@@ -9094,7 +9094,7 @@ The reserved words supported in Portfolio optimization:
 	Value = '12'
 
 [Wsp\Window_3\ChartManager\Chart_1\Series_0\IndicatorHelper\InputHelper\Input_FilePath]
-	Value = '"Z:\strategy_f_txf_ma_1h_long.txt"'
+	Value = '"Z:\txf_ma_60m_long.txt"'
 
 [Wsp\Window_3\ChartManager\Chart_1\Series_0\IndicatorHelper\InputHelper\Input_IsRecalc]
 	Value = '0'
@@ -9631,7 +9631,7 @@ The reserved words supported in Portfolio optimization:
 	isStatusWindowShow = '1'
 
 [Wsp\Window_3\ChartManager\Strategy\SignalObject_0]
-	IdName = 's_strategy_f_txf_ma_1h_long'
+	IdName = 's_txf_ma_60m_long'
 	Status = '1'
 
 [Wsp\Window_3\ChartManager\Strategy\SignalObject_0\SignalHelper]
@@ -9808,7 +9808,7 @@ The reserved words supported in Portfolio optimization:
 	Confirm = 'False'
 	NeedActivateAT = 'False'
 	Profile = 'Interactive Brokers'
-	StrategyName = 'strategy_f_txf_ma_1h_long'
+	StrategyName = 'txf_ma_60m_long'
 	SymbolName = 'TWF.TXF HOT - 60 ㅐ컨 - TOUCHANCE'
 
 [Wsp\Window_3\ChartManager\Strategy\StrategyHelper\OptimizerProperties\Algorithm_0]
@@ -10120,7 +10120,7 @@ The reserved words supported in Portfolio optimization:
 	TIF = '4'
 
 [Wsp\Window_3\ChartManager\TradePanelPlaceholder\TradePanelObject\PerAccountSetting\Settings\Settings\Item_0\Second\TIFDate]
-	Ticks = '638728286067930000'
+	Ticks = '638728324970110000'
 
 [Wsp\Window_3\ChartManager\VolumeScale]
 	VolumeBarColor = '8421504'
@@ -11624,7 +11624,7 @@ The reserved words supported in Portfolio optimization:
 	Value = '12'
 
 [Wsp\Window_4\ChartManager\Chart_1\Series_0\IndicatorHelper\InputHelper\Input_FilePath]
-	Value = '"Z:\strategy_f_txf_ma_1h_short.txt"'
+	Value = '"Z:\txf_ma_60m_short.txt"'
 
 [Wsp\Window_4\ChartManager\Chart_1\Series_0\IndicatorHelper\InputHelper\Input_IsRecalc]
 	Value = '0'
@@ -12161,7 +12161,7 @@ The reserved words supported in Portfolio optimization:
 	isStatusWindowShow = '1'
 
 [Wsp\Window_4\ChartManager\Strategy\SignalObject_0]
-	IdName = 's_strategy_f_txf_ma_1h_short'
+	IdName = 's_txf_ma_60m_short'
 	Status = '1'
 
 [Wsp\Window_4\ChartManager\Strategy\SignalObject_0\SignalHelper]
@@ -12338,7 +12338,7 @@ The reserved words supported in Portfolio optimization:
 	Confirm = 'False'
 	NeedActivateAT = 'False'
 	Profile = 'Interactive Brokers'
-	StrategyName = 'strategy_f_txf_ma_1h_short'
+	StrategyName = 'txf_ma_60m_short'
 	SymbolName = 'TWF.TXF HOT - 60 ㅐ컨 - TOUCHANCE'
 
 [Wsp\Window_4\ChartManager\Strategy\StrategyHelper\OptimizerProperties\Algorithm_0]
@@ -12650,7 +12650,7 @@ The reserved words supported in Portfolio optimization:
 	TIF = '4'
 
 [Wsp\Window_4\ChartManager\TradePanelPlaceholder\TradePanelObject\PerAccountSetting\Settings\Settings\Item_0\Second\TIFDate]
-	Ticks = '638728286554310000'
+	Ticks = '638728324971450000'
 
 [Wsp\Window_4\ChartManager\VolumeScale]
 	VolumeBarColor = '8421504'
@@ -14154,7 +14154,7 @@ The reserved words supported in Portfolio optimization:
 	Value = '12'
 
 [Wsp\Window_5\ChartManager\Chart_1\Series_0\IndicatorHelper\InputHelper\Input_FilePath]
-	Value = '"Z:\strategy_f_txf_momentum_surfing_15m_long.txt"'
+	Value = '"Z:\txf_momentum_surfing_15m_long.txt"'
 
 [Wsp\Window_5\ChartManager\Chart_1\Series_0\IndicatorHelper\InputHelper\Input_IsRecalc]
 	Value = '0'
@@ -14691,7 +14691,7 @@ The reserved words supported in Portfolio optimization:
 	isStatusWindowShow = '1'
 
 [Wsp\Window_5\ChartManager\Strategy\SignalObject_0]
-	IdName = 's_strategy_f_txf_momentum_surfing_15m_long'
+	IdName = 's_txf_momentum_surfing_15m_long'
 	Status = '1'
 
 [Wsp\Window_5\ChartManager\Strategy\SignalObject_0\SignalHelper]
@@ -14868,7 +14868,7 @@ The reserved words supported in Portfolio optimization:
 	Confirm = 'False'
 	NeedActivateAT = 'False'
 	Profile = 'Interactive Brokers'
-	StrategyName = 'strategy_f_txf_momentum_surfing_15m_long'
+	StrategyName = 'txf_momentum_surfing_15m_long'
 	SymbolName = 'TWF.TXF HOT - 15 ㅐ컨 - TOUCHANCE'
 
 [Wsp\Window_5\ChartManager\Strategy\StrategyHelper\OptimizerProperties\Algorithm_0]
@@ -15180,7 +15180,7 @@ The reserved words supported in Portfolio optimization:
 	TIF = '4'
 
 [Wsp\Window_5\ChartManager\TradePanelPlaceholder\TradePanelObject\PerAccountSetting\Settings\Settings\Item_0\Second\TIFDate]
-	Ticks = '638728286957510000'
+	Ticks = '638728324972820000'
 
 [Wsp\Window_5\ChartManager\VolumeScale]
 	VolumeBarColor = '8421504'
@@ -16684,7 +16684,7 @@ The reserved words supported in Portfolio optimization:
 	Value = '12'
 
 [Wsp\Window_6\ChartManager\Chart_1\Series_0\IndicatorHelper\InputHelper\Input_FilePath]
-	Value = '"Z:\strategy_f_txf_momentum_surfing_30m_long.txt"'
+	Value = '"Z:\txf_momentum_surfing_30m_long.txt"'
 
 [Wsp\Window_6\ChartManager\Chart_1\Series_0\IndicatorHelper\InputHelper\Input_IsRecalc]
 	Value = '0'
@@ -17221,7 +17221,7 @@ The reserved words supported in Portfolio optimization:
 	isStatusWindowShow = '1'
 
 [Wsp\Window_6\ChartManager\Strategy\SignalObject_0]
-	IdName = 's_strategy_f_txf_momentum_surfing_30m_long'
+	IdName = 's_txf_momentum_surfing_30m_long'
 	Status = '1'
 
 [Wsp\Window_6\ChartManager\Strategy\SignalObject_0\SignalHelper]
@@ -17398,7 +17398,7 @@ The reserved words supported in Portfolio optimization:
 	Confirm = 'False'
 	NeedActivateAT = 'False'
 	Profile = 'Interactive Brokers'
-	StrategyName = 'strategy_f_txf_momentum_surfing_30m_long'
+	StrategyName = 'txf_momentum_surfing_30m_long'
 	SymbolName = 'TWF.TXF HOT - 30 ㅐ컨 - TOUCHANCE'
 
 [Wsp\Window_6\ChartManager\Strategy\StrategyHelper\OptimizerProperties\Algorithm_0]
@@ -17710,7 +17710,7 @@ The reserved words supported in Portfolio optimization:
 	TIF = '4'
 
 [Wsp\Window_6\ChartManager\TradePanelPlaceholder\TradePanelObject\PerAccountSetting\Settings\Settings\Item_0\Second\TIFDate]
-	Ticks = '638728287363220000'
+	Ticks = '638728324974220000'
 
 [Wsp\Window_6\ChartManager\VolumeScale]
 	VolumeBarColor = '8421504'
@@ -19214,7 +19214,7 @@ The reserved words supported in Portfolio optimization:
 	Value = '12'
 
 [Wsp\Window_7\ChartManager\Chart_1\Series_0\IndicatorHelper\InputHelper\Input_FilePath]
-	Value = '"Z:\strategy_f_txf_momentum_surfing_30m_short.txt"'
+	Value = '"Z:\txf_momentum_surfing_30m_short.txt"'
 
 [Wsp\Window_7\ChartManager\Chart_1\Series_0\IndicatorHelper\InputHelper\Input_IsRecalc]
 	Value = '0'
@@ -19751,7 +19751,7 @@ The reserved words supported in Portfolio optimization:
 	isStatusWindowShow = '1'
 
 [Wsp\Window_7\ChartManager\Strategy\SignalObject_0]
-	IdName = 's_strategy_f_txf_momentum_surfing_30m_short'
+	IdName = 's_txf_momentum_surfing_30m_short'
 	Status = '1'
 
 [Wsp\Window_7\ChartManager\Strategy\SignalObject_0\SignalHelper]
@@ -19928,7 +19928,7 @@ The reserved words supported in Portfolio optimization:
 	Confirm = 'False'
 	NeedActivateAT = 'False'
 	Profile = 'Interactive Brokers'
-	StrategyName = 'strategy_f_txf_momentum_surfing_30m_short'
+	StrategyName = 'txf_momentum_surfing_30m_short'
 	SymbolName = 'TWF.TXF HOT - 30 ㅐ컨 - TOUCHANCE'
 
 [Wsp\Window_7\ChartManager\Strategy\StrategyHelper\OptimizerProperties\Algorithm_0]
@@ -20240,7 +20240,7 @@ The reserved words supported in Portfolio optimization:
 	TIF = '4'
 
 [Wsp\Window_7\ChartManager\TradePanelPlaceholder\TradePanelObject\PerAccountSetting\Settings\Settings\Item_0\Second\TIFDate]
-	Ticks = '638728287777430000'
+	Ticks = '638728324975610000'
 
 [Wsp\Window_7\ChartManager\VolumeScale]
 	VolumeBarColor = '8421504'
