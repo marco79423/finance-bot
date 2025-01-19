@@ -7,11 +7,10 @@ if Enabled = 0 then
 	#Return;
 
 vars: OpenCond(True);
-OpenCond = not (IsTXFSettlementDay and 1200 < Time and Time < 1400);
-OpenCond = OpenCond and not (0845 <= Time and Time <= 0847);
-OpenCond = OpenCond and not (1500 <= Time and Time <= 1502);
+OpenCond = True;
+OpenCond = not IsSettlementDay("MNQ");
 
-vars: Len(46);
+vars: Len(43);
 vars: ATR(0);
 ATR = AvgTrueRange(Len);
 
@@ -23,11 +22,11 @@ if MarketPosition <= 0 then begin
 end;
 
 if MarketPosition = 1 then begin
-	if IsTXFSettlementDay and 1200 < Time and Time < 1400 then begin
+	if IsSettlementDay("MNQ") then begin
 		Sell ("LX_Settle") all contracts next bar market;
 	end;
 
-	vars: PullBack_Percent(0.013), StopLoss_Percent(0.008);
+	vars: PullBack_Percent(0.010), StopLoss_Percent(0.010);
 
 	if OpenPositionProfit > 0 and Close < HighSinceEntry - EntryPrice * PullBack_Percent then begin
 		Sell ("LX_PT") all contracts next bar market;
