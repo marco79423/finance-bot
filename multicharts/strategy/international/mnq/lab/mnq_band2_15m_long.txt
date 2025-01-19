@@ -1,0 +1,34 @@
+// MNQ 15 min
+// Use bar 135
+
+inputs: Enabled(1), OrderSize(1);
+
+if Enabled = 0 then
+	#Return;
+
+vars: KBar(135);;
+vars: BBandUp(0), BBandUp2(0);
+BBandUp = BollingerBand(Close, KBar, 1.2);
+BBandUp2 = BollingerBand(Close, KBar, 2);
+
+vars: OpenCond(True);
+OpenCond = True;
+OpenCond = not IsSettlementDay("MNQ");
+
+if MarketPosition = 0 then begin
+	vars: BuyCond (True);
+	BuyCond = OpenCond;
+	BuyCond = BuyCond and Close > BBandUp;
+	BuyCond = BuyCond and Close > BBandUp2;
+	if BuyCond then begin
+		Buy ("LE") OrderSize contracts next bar market;
+	end;
+end else begin
+	if IsSettlementDay("MNQ") then begin
+		Sell ("LX_Settle") all contracts next bar market;
+	end;
+
+	if Close < BBandUp then begin
+		Sell ("LX_Out") all contracts next bar market;
+	end;
+end;
