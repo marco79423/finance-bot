@@ -10,7 +10,6 @@ vars: OpenCond(True);
 OpenCond = True;
 OpenCond = not IsSettlementDay("MNQ");
 
-inputs: C1(23), C2(70);
 if MarketPosition = 0 then begin
 	vars: ShortCond(True);
 	ShortCond = OpenCond;
