@@ -1,0 +1,35 @@
+// MNQ 60 min
+// Use bar 35
+
+inputs: Enabled(1), OrderSize(1);
+
+if Enabled = 0 then
+	#Return;
+
+vars: OpenCond(True);
+OpenCond = True;
+OpenCond = not IsSettlementDay("MNQ");
+
+if MarketPosition <= 0 then begin
+	vars: BuyCond(False);
+	BuyCond = OpenCond;
+	BuyCond = BuyCond and Close > AverageFC(Close, 11);
+	BuyCond = BuyCond and Close > AverageFC(Close, 35);
+	if BuyCond then begin
+		Buy ("LE") OrderSize contracts next bar market;
+	end;
+end else begin
+	if IsTXFSettlementDay and 1200 < Time and Time < 1400 then begin
+		Sell ("LX_Settle") all contracts next bar market;
+	end;
+
+	vars: PullBack_Percent(0.003), StopLoss_Percent(0.007);
+
+	if OpenPositionProfit > 0 and Close < HighSinceEntry - EntryPrice * PullBack_Percent then begin
+		Sell ("LX_PT") all contracts next bar market;
+	end;
+
+	if Low < EntryPrice - StopLoss_Percent * EntryPrice then begin
+		Sell ("LX_SL") all contracts next bar market;
+	end;
+end;
