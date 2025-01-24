@@ -1,5 +1,5 @@
 // MES 30 min
-// Use bar 5
+// Use bar 3
 // https://hiskio.com/courses/396/lectures/20618
 
 inputs: Enabled(1), OrderSize(1);
@@ -11,7 +11,7 @@ vars: OpenCond(True);
 OpenCond = True;
 OpenCond = not IsSettlementDay("MES");
 
-vars: Len(5), NN(2.2);
+vars: Len(3), NN(2.1);
 vars: BigK(0);
 BigK = StandardDev(Close, Len, 1) * NN ;
 if BigK < 10 then begin
@@ -31,7 +31,7 @@ if MarketPosition = 1 then begin
 		Sell ("LX_Settle") all contracts next bar market;
 	end;
 
-	vars: PullBack_Percent(0.008), StopLoss_Percent(0.004);
+	vars: PullBack_Percent(0.008), StopLoss_Percent(0.005);
 
 	if OpenPositionProfit > 0 and Close < HighSinceEntry - EntryPrice * PullBack_Percent then begin
 		Sell ("LX_PT") all contracts next bar market;
