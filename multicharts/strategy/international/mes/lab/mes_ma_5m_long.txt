@@ -8,7 +8,7 @@ if Enabled = 0 then
 
 vars: OpenCond(True);
 OpenCond = True;
-OpenCond = not IsSettlementDay("MNQ");
+OpenCond = not IsSettlementDay("MES");
 
 if MarketPosition <= 0 then begin
 	vars: BuyCond(False);
