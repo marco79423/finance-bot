@@ -10,17 +10,17 @@
 	WindowCount = '0'
 
 [Wsp\Window_0]
-	ContainerHeight = '1317'
-	ContainerWidth = '2710'
+	ContainerHeight = '860'
+	ContainerWidth = '1750'
 	Flags = '2'
-	Height = '81'
-	Left = '896'
+	Height = '49'
+	Left = '829'
 	MinX = '-1'
 	MinY = '-1'
 	State = '3'
 	Top = '0'
 	ViewType = '0'
-	Width = '449'
+	Width = '416'
 
 [Wsp\Window_0\ChartManager]
 	ChartCount = '1'
@@ -74,9 +74,9 @@
 	ExpirationDate = '0'
 	FieldId = '201'
 	FieldName = '¦¨¥æ»ù'
-	FinishDate2Id = '45647'
+	FinishDate2Id = '45675'
 	FinishDate2Name = ''
-	FinishDateId = '45647'
+	FinishDateId = '45675'
 	FinishDateName = ''
 	FootPrintChartType = '0'
 	KagiReversal = '10'
@@ -138,8 +138,8 @@
 	ManualMode = '0'
 	MarginBottom = '5'
 	MarginTop = '5'
-	Maximum = '22972,2777777778'
-	Minimum = '22846,7222222222'
+	Maximum = '23389,6666666667'
+	Minimum = '23196,3333333333'
 	MovementSize.Long = '1'
 	MovementSize.Metric = 'False'
 	MovementSize.Price = '5'
@@ -1460,9 +1460,9 @@
 	Type = '4'
 
 [Wsp\Window_0\ChartManager\IndexViewCalc]
-	BarSpacing = '10'
+	BarSpacing = '2'
 	BarsToRight = '20'
-	BarsToRightValue = '53'
+	BarsToRightValue = '170'
 	ChartShiftViewType = '0'
 	ShowEmptyPeriod = '0'
 
@@ -2223,7 +2223,7 @@ The reserved words supported in Portfolio optimization:
 	TIF = '4'
 
 [Wsp\Window_0\ChartManager\TradePanelPlaceholder\TradePanelObject\PerAccountSetting\Settings\Settings\Item_0\Second\TIFDate]
-	Ticks = '638701324774770000'
+	Ticks = '638728321135780000'
 
 [Wsp\Window_0\ChartManager\VolumeScale]
 	VolumeBarColor = '8421504'
