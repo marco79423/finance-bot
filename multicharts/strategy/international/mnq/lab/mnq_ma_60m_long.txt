@@ -19,9 +19,9 @@ if MarketPosition <= 0 then begin
 		Buy ("LE") OrderSize contracts next bar market;
 	end;
 end else begin
-	if IsTXFSettlementDay and 1200 < Time and Time < 1400 then begin
-		Sell ("LX_Settle") all contracts next bar market;
-	end;
+	if IsSettlementDay("MNQ") then begin
+        Sell ("LX_Settle") all contracts next bar market;
+    end;
 
 	vars: PullBack_Percent(0.003), StopLoss_Percent(0.007);
 
