@@ -6,7 +6,7 @@ inputs: Enabled(1), OrderSize(1);
 if Enabled = 0 then
 	#Return;
 
-vars: KBar(100), BBandUpLen(0.7), BBandUp2Len(1.0);
+vars: KBar(38), BBandUpLen(0.3), BBandUp2Len(1.4);
 vars: BBandUp(0), BBandUp2(0);
 BBandUp = BollingerBand(Close, KBar, BBandUpLen);
 BBandUp2 = BollingerBand(Close, KBar, BBandUp2Len);
