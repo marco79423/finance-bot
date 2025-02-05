@@ -45,9 +45,6 @@ switch (Symbol) begin
         Cond = True;
         Cond = Cond and DateToJulian(Date) >= SettlementDateTimeStart; // for possible holiday
         Cond = Cond and DateToJulian(Date) <= SettlementDateTimeEnd;
-
-        if Cond then
-        	print(Date);
 	default:
 		Cond = True;
 end;
