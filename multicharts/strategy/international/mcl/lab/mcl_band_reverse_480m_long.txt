@@ -16,7 +16,7 @@ BBandAverage = Average(Close, KBar);
 BBandDown = BBandAverage - BBandDownMultiplier * StandardDev(Close, KBar, 1);
 
 
-if MarketPosition <= 0 then begin
+if MarketPosition = 0 then begin
 	vars: BuyCond (True);
 	BuyCond = OpenCond;
 	BuyCond = BuyCond and Close cross over BBandDown;
