@@ -1,0 +1,36 @@
+// MCL 15 min
+// Use bar 80
+
+inputs: Enabled(1), OrderSize(1);
+
+if Enabled = 0 then
+	#Return;
+
+vars: OpenCond(True);
+OpenCond = True;
+OpenCond = not IsSettlementDay("MCL");
+
+vars: Len(80);
+vars: ATR(0);
+ATR = AvgTrueRange(Len);
+
+if MarketPosition = 0 then begin
+	vars: LongMultiplier(2.3);
+	if OpenCond and Close > Close[1] + ATR[1] * LongMultiplier then begin
+		Buy ("LE") OrderSize contracts next bar market;
+	end;
+end else begin
+	if IsSettlementDay("MCL") then begin
+		Sell ("LX_Settle") all contracts next bar market;
+	end;
+
+	vars: Profit_Percent(0.03), StopLoss_Percent(0.05);
+
+	if Close > EntryPrice + EntryPrice * Profit_Percent then begin
+		Sell ("LX_PT") all contracts next bar market;
+	end;
+
+	if Low < EntryPrice - EntryPrice * StopLoss_Percent then begin
+		Sell ("LX_SL") all contracts next bar market;
+	end;
+end;
