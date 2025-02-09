@@ -1,5 +1,5 @@
 // MCL 5 min
-// Use bar 65
+// Use bar 110
 
 inputs: Enabled(1), OrderSize(1);
 
@@ -10,28 +10,27 @@ vars: OpenCond(True);
 OpenCond = True;
 OpenCond = not IsSettlementDay("MCL");
 
-vars: Len(65);
+vars: Len(110);
 vars: ATR(0);
 ATR = AvgTrueRange(Len);
 
 if MarketPosition = 0 then begin
-	vars: ShortMultiplier(3.2);
-	if OpenCond and Close < Close[1] - ATR[1] * ShortMultiplier then begin
-		SellShort ("SE") OrderSize contracts next bar market;
+	vars: LongMultiplier(2.9);
+	if OpenCond and Close > Close[1] + ATR[1] * LongMultiplier then begin
+		Buy ("LE") OrderSize contracts next bar market;
 	end;
-
 end else begin
 	if IsSettlementDay("MCL") then begin
-		SellShort ("SX_Settle") all contracts next bar market;
+		Sell ("LX_Settle") all contracts next bar market;
 	end;
 
-	vars: Profit_Percent(0.04), StopLoss_Percent(0.03);
+	vars: Profit_Percent(0.07), StopLoss_Percent(0.02);
 
-	if Close < EntryPrice - EntryPrice * Profit_Percent then begin
-		BuyToCover ("SX_PT") all contracts next bar market;
+	if Close > EntryPrice + EntryPrice * Profit_Percent then begin
+		Sell ("LX_PT") all contracts next bar market;
 	end;
 
-	if High > EntryPrice + EntryPrice * StopLoss_Percent then begin
-		BuyToCover ("SX_SL") all contracts next bar market;
+	if Low < EntryPrice - EntryPrice * StopLoss_Percent then begin
+		Sell ("LX_SL") all contracts next bar market;
 	end;
 end;
