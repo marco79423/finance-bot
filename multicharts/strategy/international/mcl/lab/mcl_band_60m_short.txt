@@ -1,5 +1,5 @@
 // MCL 60 min
-// Use bar 10
+// Use bar 9
 
 inputs: Enabled(1), OrderSize(1);
 
