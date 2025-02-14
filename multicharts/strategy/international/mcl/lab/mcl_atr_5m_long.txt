@@ -1,22 +1,24 @@
 // MCL 5 min
-// Use bar 110
+// Use bar 150
 
 inputs: Enabled(1), OrderSize(1);
 
 if Enabled = 0 then
 	#Return;
 
+vars: KBar(150), BBandUpLen(3.6);
+vars: BBandUp(0);
+BBandUp = BollingerBand(Close, KBar, BBandUpLen);
+
 vars: OpenCond(True);
 OpenCond = True;
 OpenCond = not IsSettlementDay("MCL");
 
-vars: Len(110);
-vars: ATR(0);
-ATR = AvgTrueRange(Len);
-
 if MarketPosition = 0 then begin
-	vars: LongMultiplier(2.9);
-	if OpenCond and Close > Close[1] + ATR[1] * LongMultiplier then begin
+	vars: BuyCond (True);
+	BuyCond = OpenCond;
+	BuyCond = BuyCond and Close > BBandUp;
+	if BuyCond then begin
 		Buy ("LE") OrderSize contracts next bar market;
 	end;
 end else begin
@@ -24,13 +26,15 @@ end else begin
 		Sell ("LX_Settle") all contracts next bar market;
 	end;
 
-	vars: Profit_Percent(0.07), StopLoss_Percent(0.02);
+	vars: Base(0.012);
+	vars: Profit_Percent(2 * Base), StopLoss_Percent(1 * Base);
 
 	if Close > EntryPrice + EntryPrice * Profit_Percent then begin
 		Sell ("LX_PT") all contracts next bar market;
 	end;
 
-	if Low < EntryPrice - EntryPrice * StopLoss_Percent then begin
+	if Low < EntryPrice - StopLoss_Percent * EntryPrice then begin
 		Sell ("LX_SL") all contracts next bar market;
 	end;
+
 end;
