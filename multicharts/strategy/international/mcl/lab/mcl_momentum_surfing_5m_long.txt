@@ -28,13 +28,13 @@ if MarketPosition = 1 then begin
 		Sell ("LX_Settle") all contracts next bar market;
 	end;
 
-	vars: Profit_Percent(0.05), StopLoss_Percent(0.03);
+	vars: Profit_Percent(0.05), StopLoss_Percent(0.02);
 
-	if Close > EntryPrice + EntryPrice * Profit_Percent then begin
+	if OpenPositionProfit > 0 and Close > EntryPrice + EntryPrice * Profit_Percent then begin
 		Sell ("LX_PT") all contracts next bar market;
 	end;
 
-	if Low < EntryPrice - EntryPrice * StopLoss_Percent then begin
+	if Close < EntryPrice - EntryPrice * StopLoss_Percent then begin
 		Sell ("LX_SL") all contracts next bar market;
 	end;
 end;
