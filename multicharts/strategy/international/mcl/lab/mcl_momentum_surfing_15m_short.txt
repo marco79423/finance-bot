@@ -1,5 +1,5 @@
 // MCL 15 min
-// Use bar 14
+// Use bar 16
 // https://hiskio.com/courses/396/lectures/20618
 
 inputs: Enabled(1), OrderSize(1);
@@ -11,7 +11,7 @@ vars: OpenCond(True);
 OpenCond = True;
 OpenCond = not IsSettlementDay("MCL");
 
-vars: Len(14), NN(2.9);
+vars: Len(16), NN(3.1);
 vars: BigK(0);
 BigK = StandardDev(Close, Len, 1) * NN ;
 
@@ -27,7 +27,8 @@ if MarketPosition = -1 then begin
 		BuyToCover ("SX_Settle") all contracts next bar market;
 	end;
 
-	vars: Profit_Percent(0.06), StopLoss_Percent(0.02);
+	vars: Base(0.017);
+	vars: Profit_Percent(2 * Base), StopLoss_Percent(1 * Base);
 
 	if OpenPositionProfit > 0 and Close < EntryPrice - EntryPrice * Profit_Percent then begin
 		BuyToCover ("SX_PT") all contracts next bar market;
