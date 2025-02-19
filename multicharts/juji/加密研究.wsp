@@ -3,7 +3,7 @@
 	(C2526AC1-535C-4a67-92B5-101E53EA9E4B) = '{3}{1}{2}{0}'
 	ActiveIndex = '3'
 	MaximizedFlag = '1911'
-	ProductVersion = '15.0.26881.400'
+	ProductVersion = '15.0.27355.400'
 	Version = '1'
 	WindowCount = '4'
 
@@ -11,17 +11,17 @@
 	WindowCount = '0'
 
 [Wsp\Window_0]
-	ContainerHeight = '789'
-	ContainerWidth = '1750'
+	ContainerHeight = '718'
+	ContainerWidth = '1546'
 	Flags = '0'
-	Height = '393'
+	Height = '355'
 	Left = '0'
 	MinX = '-1'
 	MinY = '-1'
 	State = '1'
 	Top = '0'
 	ViewType = '0'
-	Width = '875'
+	Width = '773'
 
 [Wsp\Window_0\ChartManager]
 	ChartCount = '2'
@@ -42,6 +42,7 @@
 
 [Wsp\Window_0\ChartManager\Chart_0\Series_0]
 	DataNumber = '0'
+	DrawableSeriesID = '{C3C46FC4-0409-4B86-BC24-A86527B25FA8}'
 	DrawingsCount = '0'
 	ResolutionLinkId = '0'
 	ResolutionWsGlobal = '0'
@@ -78,9 +79,9 @@
 	ExpirationDate = '0'
 	FieldId = '201'
 	FieldName = 'Trade'
-	FinishDate2Id = '45634'
+	FinishDate2Id = '45703'
 	FinishDate2Name = ''
-	FinishDateId = '45634'
+	FinishDateId = '45703'
 	FinishDateName = ''
 	FootPrintChartType = '0'
 	KagiReversal = '0,1'
@@ -143,8 +144,8 @@
 	ManualMode = '0'
 	MarginBottom = '5'
 	MarginTop = '5'
-	Maximum = '0,471885555555556'
-	Minimum = '0,383574444444444'
+	Maximum = '0,423398888888889'
+	Minimum = '0,253821111111111'
 	MovementSize.Long = '1'
 	MovementSize.Metric = 'False'
 	MovementSize.Price = '5'
@@ -1920,6 +1921,7 @@
 
 [Wsp\Window_0\ChartManager\Chart_0\Series_1]
 	CalcRealTimeAsHistory = '1'
+	DrawableSeriesID = '{E2D06D15-D416-43C5-8263-E0EAE9A343A8}'
 	DrawingsCount = '0'
 	InvisibleSubChart = '0'
 	SeriesType = '0'
@@ -2064,6 +2066,7 @@
 
 [Wsp\Window_0\ChartManager\Chart_0\Series_2]
 	CalcRealTimeAsHistory = '1'
+	DrawableSeriesID = '{38546282-C119-4496-994D-0988C525E1B8}'
 	DrawingsCount = '0'
 	InvisibleSubChart = '0'
 	SeriesType = '0'
@@ -2208,6 +2211,7 @@
 
 [Wsp\Window_0\ChartManager\Chart_0\Series_3]
 	CalcRealTimeAsHistory = '1'
+	DrawableSeriesID = '{AE134546-4305-4B15-B868-9DB85C1F9F0D}'
 	DrawingsCount = '0'
 	InvisibleSubChart = '0'
 	SeriesType = '0'
@@ -2388,6 +2392,7 @@
 
 [Wsp\Window_0\ChartManager\Chart_0\Series_4]
 	CalcRealTimeAsHistory = '1'
+	DrawableSeriesID = '{5C18A175-4B40-47F7-A143-6608A8EB19E9}'
 	DrawingsCount = '0'
 	InvisibleSubChart = '0'
 	SeriesType = '0'
@@ -2536,6 +2541,7 @@
 
 [Wsp\Window_0\ChartManager\Chart_1\Series_0]
 	CalcRealTimeAsHistory = '1'
+	DrawableSeriesID = '{4C0D5723-A4E1-4AF5-93BE-273431EFE815}'
 	DrawingsCount = '0'
 	InvisibleSubChart = '0'
 	SeriesType = '0'
@@ -2627,8 +2633,8 @@
 	ManualMode = '0'
 	MarginBottom = '5'
 	MarginTop = '5'
-	Maximum = '11565521,0899253'
-	Minimum = '-2146099,08992532'
+	Maximum = '14114114,4155354'
+	Minimum = '-4694692,41553542'
 	MovementSize.Long = '1'
 	MovementSize.Metric = 'False'
 	MovementSize.Price = '5'
@@ -2695,7 +2701,7 @@
 [Wsp\Window_0\ChartManager\IndexViewCalc]
 	BarSpacing = '9'
 	BarsToRight = '20'
-	BarsToRightValue = '15'
+	BarsToRightValue = '12'
 	ChartShiftViewType = '0'
 	ShowEmptyPeriod = '0'
 
@@ -2737,13 +2743,6 @@
 	Segment_type = '1'
 	Version = '1'
 	WFReportExist = '0'
-
-[Wsp\Window_0\ChartManager\L2IndicatorBreak]
-	Alpha = '255'
-	Color = '3355443'
-	Enabled = '1'
-	Style = '3'
-	Width = '1'
 
 [Wsp\Window_0\ChartManager\MTSettings\Active_Orders_Style\0]
 	Alpha = '255'
@@ -2975,7 +2974,7 @@
 
 [Wsp\Window_0\ChartManager\OptimizeManager\OptimizeManager\ClassicOptimizer\ClassicOtimizer]
 	OptReportExist = '0'
-	ReportFilePath = 'C:\Users\marco\OneDrive\���\Optimization Binance Futures DOGEUSDT BINANCE 241 Minutes 20241114-210242.MCReport'
+	ReportFilePath = ''
 
 [Wsp\Window_0\ChartManager\OptimizeManager\OptimizeManager\GAProperties\GAPropContainer]
 	GABasicAlgoritmExist = 'True'
@@ -3180,7 +3179,7 @@
 	Name = 'Interactive Brokers'
 
 [Wsp\Window_0\ChartManager\Strategy\MCBroker\MCBrokerObject\PluginsProxies\MCPluginProxiesCollection\Item_1]
-	Name = '�ͽæ걵�U���'
+	Name = '�ͽæ걵�U���?'
 
 [Wsp\Window_0\ChartManager\Strategy\MCBroker\MCBrokerObject\PluginsProxies\MCPluginProxiesCollection\Item_1\Proxy\MCPluginProxy\AdditionalInfo]
 	PluginData = {
@@ -4128,17 +4127,17 @@ The reserved words supported in Portfolio optimization:
 	VolumeRightScaleWidth = '50'
 
 [Wsp\Window_1]
-	ContainerHeight = '789'
-	ContainerWidth = '1750'
+	ContainerHeight = '718'
+	ContainerWidth = '1546'
 	Flags = '0'
-	Height = '392'
+	Height = '355'
 	Left = '0'
 	MinX = '-1'
 	MinY = '-1'
 	State = '1'
-	Top = '391'
+	Top = '352'
 	ViewType = '0'
-	Width = '872'
+	Width = '767'
 
 [Wsp\Window_1\ChartManager]
 	ChartCount = '2'
@@ -4159,6 +4158,7 @@ The reserved words supported in Portfolio optimization:
 
 [Wsp\Window_1\ChartManager\Chart_0\Series_0]
 	DataNumber = '0'
+	DrawableSeriesID = '{8F3032A9-9483-475F-B0DA-08FF40F75DBD}'
 	DrawingsCount = '0'
 	ResolutionLinkId = '0'
 	ResolutionWsGlobal = '0'
@@ -4195,9 +4195,9 @@ The reserved words supported in Portfolio optimization:
 	ExpirationDate = '0'
 	FieldId = '201'
 	FieldName = 'Trade'
-	FinishDate2Id = '45634'
+	FinishDate2Id = '45703'
 	FinishDate2Name = ''
-	FinishDateId = '45634'
+	FinishDateId = '45703'
 	FinishDateName = ''
 	FootPrintChartType = '0'
 	KagiReversal = '0,1'
@@ -4260,8 +4260,8 @@ The reserved words supported in Portfolio optimization:
 	ManualMode = '0'
 	MarginBottom = '5'
 	MarginTop = '5'
-	Maximum = '105432,088888889'
-	Minimum = '89398,3111111111'
+	Maximum = '109260,922222222'
+	Minimum = '91378,4777777778'
 	MovementSize.Long = '1'
 	MovementSize.Metric = 'False'
 	MovementSize.Price = '5'
@@ -6044,6 +6044,7 @@ The reserved words supported in Portfolio optimization:
 
 [Wsp\Window_1\ChartManager\Chart_1\Series_0]
 	CalcRealTimeAsHistory = '1'
+	DrawableSeriesID = '{F82FA563-19D6-4B78-AA78-59B0734488E8}'
 	DrawingsCount = '0'
 	InvisibleSubChart = '0'
 	SeriesType = '0'
@@ -6135,8 +6136,8 @@ The reserved words supported in Portfolio optimization:
 	ManualMode = '0'
 	MarginBottom = '5'
 	MarginTop = '5'
-	Maximum = '35942570,9444444'
-	Minimum = '-1891707,94444444'
+	Maximum = '18624323,1111111'
+	Minimum = '-924299,111111111'
 	MovementSize.Long = '1'
 	MovementSize.Metric = 'False'
 	MovementSize.Price = '5'
@@ -6203,7 +6204,7 @@ The reserved words supported in Portfolio optimization:
 [Wsp\Window_1\ChartManager\IndexViewCalc]
 	BarSpacing = '0,333333333333333'
 	BarsToRight = '10'
-	BarsToRightValue = '230'
+	BarsToRightValue = '198'
 	ChartShiftViewType = '0'
 	ShowEmptyPeriod = '0'
 
@@ -6245,13 +6246,6 @@ The reserved words supported in Portfolio optimization:
 	Segment_type = '1'
 	Version = '1'
 	WFReportExist = '0'
-
-[Wsp\Window_1\ChartManager\L2IndicatorBreak]
-	Alpha = '255'
-	Color = '3355443'
-	Enabled = '1'
-	Style = '3'
-	Width = '1'
 
 [Wsp\Window_1\ChartManager\MTSettings\Active_Orders_Style\0]
 	Alpha = '255'
@@ -6483,7 +6477,7 @@ The reserved words supported in Portfolio optimization:
 
 [Wsp\Window_1\ChartManager\OptimizeManager\OptimizeManager\ClassicOptimizer\ClassicOtimizer]
 	OptReportExist = '0'
-	ReportFilePath = 'C:\Users\marco\OneDrive\���\Optimization Binance Futures BTCUSDT BINANCE 5 Minutes 20241207-211247.MCReport'
+	ReportFilePath = ''
 
 [Wsp\Window_1\ChartManager\OptimizeManager\OptimizeManager\GAProperties\GAPropContainer]
 	GABasicAlgoritmExist = 'True'
@@ -6772,15 +6766,23 @@ The reserved words supported in Portfolio optimization:
 	Stop2 = '0,15'
 	Value = '0.15'
 
-[Wsp\Window_1\ChartManager\Strategy\SignalObject_0\SignalHelper\CustomInputHelperDT\Input_C4]
-	IsInputOptimizable = '1'
-	LocalCurrentValue2 = '0,2'
-	Start2 = '0,2'
-	Step2 = '1'
-	Stop2 = '0,2'
-	Value = '0.2'
-
 [Wsp\Window_1\ChartManager\Strategy\SignalObject_0\SignalHelper\CustomInputHelperDT\Input_Enabled]
+	IsInputOptimizable = '1'
+	LocalCurrentValue2 = '1'
+	Start2 = '1'
+	Step2 = '1'
+	Stop2 = '1'
+	Value = '1'
+
+[Wsp\Window_1\ChartManager\Strategy\SignalObject_0\SignalHelper\CustomInputHelperDT\Input_Len]
+	IsInputOptimizable = '1'
+	LocalCurrentValue2 = '85'
+	Start2 = '85'
+	Step2 = '1'
+	Stop2 = '85'
+	Value = '85'
+
+[Wsp\Window_1\ChartManager\Strategy\SignalObject_0\SignalHelper\CustomInputHelperDT\Input_NN]
 	IsInputOptimizable = '1'
 	LocalCurrentValue2 = '1'
 	Start2 = '1'
@@ -6820,16 +6822,24 @@ The reserved words supported in Portfolio optimization:
 	Stop2 = '300'
 	Value = '220'
 
-[Wsp\Window_1\ChartManager\Strategy\SignalObject_0\SignalHelper\InputHelper\Input_C4]
-	IsInputOptimizable = '1'
-	LocalCurrentValue2 = '18'
-	Start2 = '10'
-	Step2 = '1'
-	Stop2 = '20'
-	Value = '18'
-
 [Wsp\Window_1\ChartManager\Strategy\SignalObject_0\SignalHelper\InputHelper\Input_Enabled]
 	IsInputOptimizable = '0'
+	LocalCurrentValue2 = '1'
+	Start2 = '1'
+	Step2 = '1'
+	Stop2 = '1'
+	Value = '1'
+
+[Wsp\Window_1\ChartManager\Strategy\SignalObject_0\SignalHelper\InputHelper\Input_Len]
+	IsInputOptimizable = '1'
+	LocalCurrentValue2 = '85'
+	Start2 = '85'
+	Step2 = '1'
+	Stop2 = '85'
+	Value = '85'
+
+[Wsp\Window_1\ChartManager\Strategy\SignalObject_0\SignalHelper\InputHelper\Input_NN]
+	IsInputOptimizable = '1'
 	LocalCurrentValue2 = '1'
 	Start2 = '1'
 	Step2 = '1'
@@ -7532,17 +7542,17 @@ The reserved words supported in Portfolio optimization:
 	VolumeRightScaleWidth = '50'
 
 [Wsp\Window_2]
-	ContainerHeight = '789'
-	ContainerWidth = '1750'
+	ContainerHeight = '718'
+	ContainerWidth = '1546'
 	Flags = '0'
-	Height = '393'
-	Left = '875'
+	Height = '355'
+	Left = '773'
 	MinX = '-1'
 	MinY = '-1'
 	State = '1'
 	Top = '0'
 	ViewType = '0'
-	Width = '875'
+	Width = '773'
 
 [Wsp\Window_2\ChartManager]
 	ChartCount = '2'
@@ -7563,6 +7573,7 @@ The reserved words supported in Portfolio optimization:
 
 [Wsp\Window_2\ChartManager\Chart_0\Series_0]
 	DataNumber = '0'
+	DrawableSeriesID = '{6CA4A574-CFA6-4804-A7DD-AAFBA7B3DCE1}'
 	DrawingsCount = '0'
 	ResolutionLinkId = '0'
 	ResolutionWsGlobal = '0'
@@ -7599,9 +7610,9 @@ The reserved words supported in Portfolio optimization:
 	ExpirationDate = '0'
 	FieldId = '201'
 	FieldName = 'Trade'
-	FinishDate2Id = '45634'
+	FinishDate2Id = '45703'
 	FinishDate2Name = ''
-	FinishDateId = '45634'
+	FinishDateId = '45703'
 	FinishDateName = ''
 	FootPrintChartType = '0'
 	KagiReversal = '0,1'
@@ -7664,8 +7675,8 @@ The reserved words supported in Portfolio optimization:
 	ManualMode = '0'
 	MarginBottom = '5'
 	MarginTop = '5'
-	Maximum = '4119,37611111111'
-	Minimum = '3588,45388888889'
+	Maximum = '3952,88888888889'
+	Minimum = '3055,11111111111'
 	MovementSize.Long = '1'
 	MovementSize.Metric = 'False'
 	MovementSize.Price = '5'
@@ -9448,6 +9459,7 @@ The reserved words supported in Portfolio optimization:
 
 [Wsp\Window_2\ChartManager\Chart_1\Series_0]
 	CalcRealTimeAsHistory = '1'
+	DrawableSeriesID = '{8D2AC95C-ACEF-4DC3-850E-1573C1E90013}'
 	DrawingsCount = '0'
 	InvisibleSubChart = '0'
 	SeriesType = '0'
@@ -9539,8 +9551,8 @@ The reserved words supported in Portfolio optimization:
 	ManualMode = '0'
 	MarginBottom = '5'
 	MarginTop = '5'
-	Maximum = '339362650,777778'
-	Minimum = '-17860724,7777778'
+	Maximum = '651976022,666667'
+	Minimum = '-31514250,6666667'
 	MovementSize.Long = '1'
 	MovementSize.Metric = 'False'
 	MovementSize.Price = '5'
@@ -9607,7 +9619,7 @@ The reserved words supported in Portfolio optimization:
 [Wsp\Window_2\ChartManager\IndexViewCalc]
 	BarSpacing = '2'
 	BarsToRight = '10'
-	BarsToRightValue = '39'
+	BarsToRightValue = '34'
 	ChartShiftViewType = '0'
 	ShowEmptyPeriod = '0'
 
@@ -9649,13 +9661,6 @@ The reserved words supported in Portfolio optimization:
 	Segment_type = '1'
 	Version = '1'
 	WFReportExist = '0'
-
-[Wsp\Window_2\ChartManager\L2IndicatorBreak]
-	Alpha = '255'
-	Color = '3355443'
-	Enabled = '1'
-	Style = '3'
-	Width = '1'
 
 [Wsp\Window_2\ChartManager\MTSettings\Active_Orders_Style\0]
 	Alpha = '255'
@@ -9950,7 +9955,7 @@ The reserved words supported in Portfolio optimization:
 	Left Manual = '0'
 	Left Scale = '0'
 	Precise Marker = '1'
-	Right Characters = '15'
+	Right Characters = '14'
 	Right Manual = '0'
 	Right Scale = '1'
 	Time To Close = '1'
@@ -10152,7 +10157,47 @@ The reserved words supported in Portfolio optimization:
 	TimesPerBar = '1'
 	UseFreshSnapOnAdditionalDS = '1'
 
+[Wsp\Window_2\ChartManager\Strategy\SignalObject_0\SignalHelper\CustomInputHelperDT\Input_C1]
+	IsInputOptimizable = '1'
+	LocalCurrentValue2 = '1'
+	Start2 = '1'
+	Step2 = '1'
+	Stop2 = '1'
+	Value = '1'
+
+[Wsp\Window_2\ChartManager\Strategy\SignalObject_0\SignalHelper\CustomInputHelperDT\Input_C2]
+	IsInputOptimizable = '1'
+	LocalCurrentValue2 = '10'
+	Start2 = '10'
+	Step2 = '1'
+	Stop2 = '10'
+	Value = '10'
+
+[Wsp\Window_2\ChartManager\Strategy\SignalObject_0\SignalHelper\CustomInputHelperDT\Input_C3]
+	IsInputOptimizable = '1'
+	LocalCurrentValue2 = '0,5'
+	Start2 = '0,5'
+	Step2 = '1'
+	Stop2 = '0,5'
+	Value = '0.5'
+
 [Wsp\Window_2\ChartManager\Strategy\SignalObject_0\SignalHelper\CustomInputHelperDT\Input_Enabled]
+	IsInputOptimizable = '1'
+	LocalCurrentValue2 = '1'
+	Start2 = '1'
+	Step2 = '1'
+	Stop2 = '1'
+	Value = '1'
+
+[Wsp\Window_2\ChartManager\Strategy\SignalObject_0\SignalHelper\CustomInputHelperDT\Input_Len]
+	IsInputOptimizable = '1'
+	LocalCurrentValue2 = '85'
+	Start2 = '85'
+	Step2 = '1'
+	Stop2 = '85'
+	Value = '85'
+
+[Wsp\Window_2\ChartManager\Strategy\SignalObject_0\SignalHelper\CustomInputHelperDT\Input_NN]
 	IsInputOptimizable = '1'
 	LocalCurrentValue2 = '1'
 	Start2 = '1'
@@ -10168,8 +10213,48 @@ The reserved words supported in Portfolio optimization:
 	Stop2 = '1'
 	Value = '1'
 
+[Wsp\Window_2\ChartManager\Strategy\SignalObject_0\SignalHelper\InputHelper\Input_C1]
+	IsInputOptimizable = '1'
+	LocalCurrentValue2 = '1'
+	Start2 = '1'
+	Step2 = '1'
+	Stop2 = '1'
+	Value = '1'
+
+[Wsp\Window_2\ChartManager\Strategy\SignalObject_0\SignalHelper\InputHelper\Input_C2]
+	IsInputOptimizable = '1'
+	LocalCurrentValue2 = '10'
+	Start2 = '10'
+	Step2 = '1'
+	Stop2 = '10'
+	Value = '10'
+
+[Wsp\Window_2\ChartManager\Strategy\SignalObject_0\SignalHelper\InputHelper\Input_C3]
+	IsInputOptimizable = '1'
+	LocalCurrentValue2 = '0,5'
+	Start2 = '0,5'
+	Step2 = '1'
+	Stop2 = '0,5'
+	Value = '0.5'
+
 [Wsp\Window_2\ChartManager\Strategy\SignalObject_0\SignalHelper\InputHelper\Input_Enabled]
 	IsInputOptimizable = '0'
+	LocalCurrentValue2 = '1'
+	Start2 = '1'
+	Step2 = '1'
+	Stop2 = '1'
+	Value = '1'
+
+[Wsp\Window_2\ChartManager\Strategy\SignalObject_0\SignalHelper\InputHelper\Input_Len]
+	IsInputOptimizable = '1'
+	LocalCurrentValue2 = '85'
+	Start2 = '85'
+	Step2 = '1'
+	Stop2 = '85'
+	Value = '85'
+
+[Wsp\Window_2\ChartManager\Strategy\SignalObject_0\SignalHelper\InputHelper\Input_NN]
+	IsInputOptimizable = '1'
 	LocalCurrentValue2 = '1'
 	Start2 = '1'
 	Step2 = '1'
@@ -10872,17 +10957,17 @@ The reserved words supported in Portfolio optimization:
 	VolumeRightScaleWidth = '50'
 
 [Wsp\Window_3]
-	ContainerHeight = '789'
-	ContainerWidth = '1750'
+	ContainerHeight = '718'
+	ContainerWidth = '1546'
 	Flags = '2'
-	Height = '393'
-	Left = '873'
+	Height = '338'
+	Left = '1002'
 	MinX = '-1'
 	MinY = '-1'
 	State = '3'
-	Top = '392'
+	Top = '336'
 	ViewType = '0'
-	Width = '873'
+	Width = '1003'
 
 [Wsp\Window_3\ChartManager]
 	ChartCount = '2'
@@ -10903,6 +10988,7 @@ The reserved words supported in Portfolio optimization:
 
 [Wsp\Window_3\ChartManager\Chart_0\Series_0]
 	DataNumber = '0'
+	DrawableSeriesID = '{B38BF5B8-97C5-4D63-B5B0-6991E2FD57F9}'
 	DrawingsCount = '0'
 	ResolutionLinkId = '0'
 	ResolutionWsGlobal = '0'
@@ -10939,9 +11025,9 @@ The reserved words supported in Portfolio optimization:
 	ExpirationDate = '0'
 	FieldId = '201'
 	FieldName = 'Trade'
-	FinishDate2Id = '45634'
+	FinishDate2Id = '45703'
 	FinishDate2Name = ''
-	FinishDateId = '45634'
+	FinishDateId = '45703'
 	FinishDateName = ''
 	FootPrintChartType = '0'
 	KagiReversal = '0,1'
@@ -11004,8 +11090,8 @@ The reserved words supported in Portfolio optimization:
 	ManualMode = '0'
 	MarginBottom = '5'
 	MarginTop = '5'
-	Maximum = '760,849444444444'
-	Minimum = '718,660555555556'
+	Maximum = '690,521111111111'
+	Minimum = '613,698888888889'
 	MovementSize.Long = '1'
 	MovementSize.Metric = 'False'
 	MovementSize.Price = '5'
@@ -12788,6 +12874,7 @@ The reserved words supported in Portfolio optimization:
 
 [Wsp\Window_3\ChartManager\Chart_1\Series_0]
 	CalcRealTimeAsHistory = '1'
+	DrawableSeriesID = '{A04A1D5A-4AD0-4A99-8635-F46C20893D87}'
 	DrawingsCount = '0'
 	InvisibleSubChart = '0'
 	SeriesType = '0'
@@ -12879,8 +12966,8 @@ The reserved words supported in Portfolio optimization:
 	ManualMode = '0'
 	MarginBottom = '5'
 	MarginTop = '5'
-	Maximum = '10736801,0555556'
-	Minimum = '-480160,055555556'
+	Maximum = '10045644,3888889'
+	Minimum = '-169683,388888889'
 	MovementSize.Long = '1'
 	MovementSize.Metric = 'False'
 	MovementSize.Price = '5'
@@ -12947,7 +13034,7 @@ The reserved words supported in Portfolio optimization:
 [Wsp\Window_3\ChartManager\IndexViewCalc]
 	BarSpacing = '15'
 	BarsToRight = '10'
-	BarsToRightValue = '11'
+	BarsToRightValue = '10'
 	ChartShiftViewType = '0'
 	ShowEmptyPeriod = '0'
 
@@ -12989,13 +13076,6 @@ The reserved words supported in Portfolio optimization:
 	Segment_type = '1'
 	Version = '1'
 	WFReportExist = '0'
-
-[Wsp\Window_3\ChartManager\L2IndicatorBreak]
-	Alpha = '255'
-	Color = '3355443'
-	Enabled = '1'
-	Style = '3'
-	Width = '1'
 
 [Wsp\Window_3\ChartManager\MTSettings\Active_Orders_Style\0]
 	Alpha = '255'
@@ -13227,7 +13307,7 @@ The reserved words supported in Portfolio optimization:
 
 [Wsp\Window_3\ChartManager\OptimizeManager\OptimizeManager\ClassicOptimizer\ClassicOtimizer]
 	OptReportExist = '0'
-	ReportFilePath = 'C:\Users\marco\OneDrive\���\Optimization Binance Futures BNBUSDT BINANCE 15 Minutes 20241208-001322.MCReport'
+	ReportFilePath = ''
 
 [Wsp\Window_3\ChartManager\OptimizeManager\OptimizeManager\GAProperties\GAPropContainer]
 	GABasicAlgoritmExist = 'True'
@@ -13524,6 +13604,30 @@ The reserved words supported in Portfolio optimization:
 	Stop2 = '0,02'
 	Value = '0.02'
 
+[Wsp\Window_3\ChartManager\Strategy\SignalObject_0\SignalHelper\CustomInputHelperDT\Input_C5]
+	IsInputOptimizable = '1'
+	LocalCurrentValue2 = '4'
+	Start2 = '4'
+	Step2 = '1'
+	Stop2 = '4'
+	Value = '4'
+
+[Wsp\Window_3\ChartManager\Strategy\SignalObject_0\SignalHelper\CustomInputHelperDT\Input_C6]
+	IsInputOptimizable = '1'
+	LocalCurrentValue2 = '1'
+	Start2 = '1'
+	Step2 = '1'
+	Stop2 = '1'
+	Value = '1'
+
+[Wsp\Window_3\ChartManager\Strategy\SignalObject_0\SignalHelper\CustomInputHelperDT\Input_C7]
+	IsInputOptimizable = '1'
+	LocalCurrentValue2 = '170'
+	Start2 = '170'
+	Step2 = '1'
+	Stop2 = '170'
+	Value = '170'
+
 [Wsp\Window_3\ChartManager\Strategy\SignalObject_0\SignalHelper\CustomInputHelperDT\Input_Enabled]
 	IsInputOptimizable = '1'
 	LocalCurrentValue2 = '1'
@@ -13571,6 +13675,30 @@ The reserved words supported in Portfolio optimization:
 	Step2 = '1'
 	Stop2 = '20'
 	Value = '9'
+
+[Wsp\Window_3\ChartManager\Strategy\SignalObject_0\SignalHelper\InputHelper\Input_C5]
+	IsInputOptimizable = '1'
+	LocalCurrentValue2 = '4'
+	Start2 = '4'
+	Step2 = '1'
+	Stop2 = '4'
+	Value = '4'
+
+[Wsp\Window_3\ChartManager\Strategy\SignalObject_0\SignalHelper\InputHelper\Input_C6]
+	IsInputOptimizable = '1'
+	LocalCurrentValue2 = '1'
+	Start2 = '1'
+	Step2 = '1'
+	Stop2 = '1'
+	Value = '1'
+
+[Wsp\Window_3\ChartManager\Strategy\SignalObject_0\SignalHelper\InputHelper\Input_C7]
+	IsInputOptimizable = '1'
+	LocalCurrentValue2 = '170'
+	Start2 = '170'
+	Step2 = '1'
+	Stop2 = '170'
+	Value = '170'
 
 [Wsp\Window_3\ChartManager\Strategy\SignalObject_0\SignalHelper\InputHelper\Input_Enabled]
 	IsInputOptimizable = '0'
