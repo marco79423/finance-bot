@@ -10,7 +10,7 @@ vars: OpenCond(True);
 OpenCond = True;
 OpenCond = not IsSettlementDay("MCL");
 
-inputs: Len(2);
+vars: Len(2);
 vars: ATR(0);
 ATR = AvgTrueRange(Len);
 
