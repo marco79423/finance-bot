@@ -1,0 +1,17 @@
+Inputs: YearNum(numericsimple), MonthNum(numericsimple);
+Vars: DaysInMonth(0);
+
+If MonthNum = 2 then begin
+    { 判斷是否為閏年 }
+    If ((YearNum mod 4 = 0) and (YearNum mod 100 <> 0)) or (YearNum mod 400 = 0) then
+        DaysInMonth = 29
+    Else
+        DaysInMonth = 28;
+end
+Else If (MonthNum = 1) or (MonthNum = 3) or (MonthNum = 5) or (MonthNum = 7) or
+        (MonthNum = 8) or (MonthNum = 10) or (MonthNum = 12) then
+    DaysInMonth = 31
+Else
+    DaysInMonth = 30;
+
+GetMonthDays = DaysInMonth;

@@ -1,6 +1,8 @@
 inputs: Symbol(StringSimple);
 
 vars: Cond(False);
+vars: SettlementDateTimeStart(0), SettlementDateTimeEnd(0), v1(0);
+
 switch (Symbol) begin
 	case "MYM", "YM", "MES", "ES", "MNQ", "NQ", "DAX":
 		Cond = True;
@@ -15,8 +17,7 @@ switch (Symbol) begin
 	case "MCL":
 		// https://www.cmegroup.com/cn-t/markets/energy/crude-oil/light-sweet-crude.contractSpecs.html
 		// https://www.cmegroup.com/cn-t/trading/energy/micro-wti-crude-oil-futures.html
-	    vars: SettlementDateTimeStart(0), SettlementDateTimeEnd(0), v1(0);
-		if DateToJulian(Date) > SettlementDateTimeEnd then begin
+	    if DateToJulian(Date) > SettlementDateTimeEnd then begin
 			SettlementDateTimeEnd = DateToJulian(Year(Date) * 10000 + Month(Date) * 100 + 25);
 
 		    if DayOfWeekFromDateTime(SettlementDateTimeEnd) <> 0 and DayOfWeekFromDateTime(SettlementDateTimeEnd) <> 6 Then begin
@@ -36,7 +37,7 @@ switch (Symbol) begin
 	        v1 = 2;
 	        while v1 > 0 begin
 	        	SettlementDateTimeStart = SettlementDateTimeStart - 1;
-	            if DayOfWeekFromDateTime(SettlementDateTimeStart) <> 0 and DayOfWeekFromDateTime(SettlementDateTimeStart) <> 6 Then begin
+	            if DayOfWeekFromDateTime(SettlementDateTimeStart) <> 0 and DayOfWeekFromDateTime(SettlementDateTimeStart) <> 6 then begin
 	                v1 = v1 - 1;
 	            end;
 	        end;
@@ -45,7 +46,36 @@ switch (Symbol) begin
         Cond = True;
         Cond = Cond and DateToJulian(Date) >= SettlementDateTimeStart; // for possible holiday
         Cond = Cond and DateToJulian(Date) <= SettlementDateTimeEnd;
-	default:
+	case "QG":
+        // https://www.cmegroup.com/cn-t/markets/energy/files/micro-nat-gas-fact-card.pdf
+        if DateToJulian(Date) > SettlementDateTimeEnd then begin
+            SettlementDateTimeEnd = DateToJulian(Year(Date) * 10000 + Month(Date) * 100 + GetMonthDays(1900 + Year(Date), Month(Date)));
+			while DayOfWeekFromDateTime(SettlementDateTimeEnd) = 0 or DayOfWeekFromDateTime(SettlementDateTimeEnd) = 6 begin
+                SettlementDateTimeEnd = SettlementDateTimeEnd - 1;
+            end;
+
+            v1 = 3;
+            while v1 > 0 begin
+                SettlementDateTimeEnd = SettlementDateTimeEnd - 1;
+                if DayOfWeekFromDateTime(SettlementDateTimeEnd) <> 0 and DayOfWeekFromDateTime(SettlementDateTimeEnd) <> 6 then begin
+                    v1 = v1 - 1;
+                end;
+            end;
+
+            SettlementDateTimeStart = SettlementDateTimeEnd;
+            v1 = 2;
+            while v1 > 0 begin
+                SettlementDateTimeStart = SettlementDateTimeStart - 1;
+                if DayOfWeekFromDateTime(SettlementDateTimeStart) <> 0 and DayOfWeekFromDateTime(SettlementDateTimeStart) <> 6 then begin
+                    v1 = v1 - 1;
+                end;
+            end;
+        end;
+
+        Cond = True;
+        Cond = Cond and DateToJulian(Date) >= SettlementDateTimeStart; // for possible holiday
+        Cond = Cond and DateToJulian(Date) <= SettlementDateTimeEnd;
+    default:
 		Cond = True;
 end;
 
