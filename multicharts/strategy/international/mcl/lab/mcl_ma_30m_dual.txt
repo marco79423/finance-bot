@@ -7,7 +7,7 @@ if Enabled = 0 then
 	#Return;
 
 
-inputs: MALen(7), Len(12), Count(11);
+vars: MALen(7), Len(12), Count(11);
 
 vars: MA(0);
 MA = Average(Close, MALen);
