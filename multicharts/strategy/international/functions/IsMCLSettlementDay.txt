@@ -3,7 +3,6 @@
 
 inputs: Symbol(StringSimple);
 
-vars: Cond(False);
 vars: SettlementDateTimeStart(0), SettlementDateTimeEnd(0);
 
 if DateToJulian(Date) > SettlementDateTimeEnd then begin
@@ -33,8 +32,9 @@ if DateToJulian(Date) > SettlementDateTimeEnd then begin
     end;
 end;
 
+vars: Cond(False);
 Cond = True;
 Cond = Cond and DateToJulian(Date) >= SettlementDateTimeStart; // for possible holiday
 Cond = Cond and DateToJulian(Date) <= SettlementDateTimeEnd;
 
-IsSettlementDay = Cond;
+IsMCLSettlementDay = Cond;
