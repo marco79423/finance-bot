@@ -1,7 +1,5 @@
 // https://www.cmegroup.com/cn-t/markets/energy/files/micro-nat-gas-fact-card.pdf
 
-inputs: Symbol(StringSimple);
-
 vars: SettlementDateTimeStart(0), SettlementDateTimeEnd(0), v1(0);
 
 if DateToJulian(Date) > SettlementDateTimeEnd then begin
