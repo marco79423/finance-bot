@@ -1,0 +1,28 @@
+// MCL 15 min
+// Use bar 7
+
+inputs: Enabled(1), OrderSize(1);
+
+if Enabled = 0 then
+	#Return;
+
+
+vars: MALen(5), Len(16), Count(13);
+
+vars: MA(0);
+MA = Average(Close, MALen);
+
+vars: BuyCond(True);
+BuyCond = True;
+BuyCond = BuyCond and CountIF(Close > MA, Len) > Count;
+if BuyCond then begin
+	Buy ("LE") OrderSize contracts next bar market;
+end;
+
+vars: ShortCond(True);
+ShortCond = True;
+ShortCond = ShortCond and CountIF(Close < MA, Len) > Count;
+if ShortCond then begin
+	SellShort ("SE") OrderSize contracts next bar market;
+end;
+
