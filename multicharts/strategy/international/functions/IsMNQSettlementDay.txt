@@ -1,7 +1,9 @@
 vars: Cond(False);
+
 Cond = True;
 Cond = Cond and Month(Date) = 3 or Month(Date) = 6 or Month(Date) = 9 or Month(Date) = 12;
 Cond = Cond and DayOfWeek(Date) = 5;
 Cond = Cond and DayOfMonth(Date) >= 15 and DayOfMonth(Date) <= 21;
 
 IsMNQSettlementDay = Cond;
+
