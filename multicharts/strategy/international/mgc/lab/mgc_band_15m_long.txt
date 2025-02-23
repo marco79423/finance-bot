@@ -1,5 +1,5 @@
 // MGC 15 min
-// Use bar 125
+// Use bar 50
 
 inputs: Enabled(1), OrderSize(1);
 
