@@ -11,7 +11,7 @@ vars: OpenCond(True);
 OpenCond = True;
 OpenCond = not IsQGSettlementDay;
 
-inputs: Len(15), NN(2);
+vars: Len(15), NN(2);
 vars: BigK(0);
 BigK = StandardDev(Close, Len, 1) * NN ;
 
