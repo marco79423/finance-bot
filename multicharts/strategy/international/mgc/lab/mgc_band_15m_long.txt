@@ -26,7 +26,7 @@ end else begin
 		Sell ("LX_Settle") all contracts next bar market;
 	end;
 
-	inputs: Base(0.01);
+	vars: Base(0.01);
 	vars: Profit_Percent(2 * Base), StopLoss_Percent(1 * Base);
 
 	if OpenPositionProfit > 0 and Close > EntryPrice + EntryPrice * Profit_Percent then begin
