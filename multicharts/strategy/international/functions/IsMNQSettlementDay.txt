@@ -6,4 +6,3 @@ Cond = Cond and DayOfWeek(Date) = 5;
 Cond = Cond and DayOfMonth(Date) >= 15 and DayOfMonth(Date) <= 21;
 
 IsMNQSettlementDay = Cond;
-
