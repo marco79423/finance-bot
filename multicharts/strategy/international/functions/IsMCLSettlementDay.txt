@@ -1,6 +1,8 @@
 // https://www.cmegroup.com/cn-t/markets/energy/crude-oil/light-sweet-crude.contractSpecs.html
 // https://www.cmegroup.com/cn-t/trading/energy/micro-wti-crude-oil-futures.html
 
+inputs: Symbol(StringSimple);
+
 vars: SettlementDateTimeStart(0), SettlementDateTimeEnd(0);
 
 if DateToJulian(Date) > SettlementDateTimeEnd then begin
