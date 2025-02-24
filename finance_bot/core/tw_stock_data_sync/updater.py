@@ -92,7 +92,7 @@ class TWStockUpdater:
         listing_status = 'sii'  # sii: 上市公司, otc: 上櫃公司, rotc: 興櫃公司, pub: 公開發行公司
         company_type = 0  # 0: 國內公司, 1: 國外 KY 公司
 
-        url = 'https://mops.twse.com.tw/server-java/FileDownLoad'
+        url = 'https://mopsov.twse.com.tw/server-java/FileDownLoad'
         res = await infra.api.post(
             url,
             data={
