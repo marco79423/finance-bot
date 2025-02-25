@@ -1,0 +1,35 @@
+// QG 60 min
+// Use bar 3
+
+inputs: Enabled(1), OrderSize(1);
+
+if Enabled = 0 then
+	#Return;
+
+
+vars: MALen(3), Len(7), Count(6);
+
+vars: MA(0);
+MA = Average(Close, MALen);
+
+vars: BuyCond(True);
+BuyCond = True;
+BuyCond = BuyCond and CountIF(Close > MA, Len) > Count;
+if BuyCond then begin
+	Buy ("LE") OrderSize contracts next bar market;
+end;
+
+vars: ShortCond(True);
+ShortCond = True;
+ShortCond = ShortCond and CountIF(Close < MA, Len) > Count;
+if ShortCond then begin
+	SellShort ("SE") OrderSize contracts next bar market;
+end;
+
+
+if MarketPosition <> 0 then begin
+	if IsQGSettlementDay then begin
+		Sell ("LX_Settle") all contracts next bar market;
+		BuyToCover ("SX_Settle") all contracts next bar market;
+	end;
+end;
