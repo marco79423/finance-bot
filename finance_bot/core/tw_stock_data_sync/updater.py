@@ -359,7 +359,7 @@ class TWStockUpdater:
 
         self.logger.info(f'下載 {stock_id} 報表中 ...')
         res = await infra.api.get(
-            'https://mops.twse.com.tw/server-java/t164sb01',
+            'https://mopsov.twse.com.tw/server-java/t164sb01',
             params={
                 'step': 1,  # 不知啥用的
                 'CO_ID': stock_id,
