@@ -371,12 +371,13 @@ class TWStockUpdater:
         )
         res.encoding = 'big5'
         body = res.text
-        async with dest_path.open('w', encoding='utf-8') as fp:
-            await fp.write(body)
 
         for pattern in ['查無資料', '檔案不存在']:
             if pattern in body:
                 return False
+
+        async with dest_path.open('w', encoding='utf-8') as fp:
+            await fp.write(body)
         return True
 
     async def _parse_financial_statements(self, year, source_path):
