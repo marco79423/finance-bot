@@ -1,5 +1,5 @@
-// MGC 120 min
-// Use bar 16
+// MGC 240 min
+// Use bar 3
 // https://hiskio.com/courses/396/lectures/20618
 
 inputs: Enabled(1), OrderSize(1);
@@ -11,7 +11,7 @@ vars: OpenCond(True);
 OpenCond = True;
 OpenCond = not IsMGCSettlementDay;
 
-vars: Len(16), NN(1.7);
+vars: Len(3), NN(2.1);
 vars: BigK(0);
 BigK = StandardDev(Close, Len, 1) * NN ;
 
@@ -28,7 +28,7 @@ if MarketPosition = 1 then begin
 		Sell ("LX_Settle") all contracts next bar market;
 	end;
 
-	vars: Base(0.006);
+	vars: Base(0.007);
 	vars: Profit_Percent(2 * Base), StopLoss_Percent(1 * Base);
 
 	if OpenPositionProfit > 0 and Close > EntryPrice + EntryPrice * Profit_Percent then begin
