@@ -11,7 +11,7 @@ vars: OpenCond(True);
 OpenCond = True;
 OpenCond = not IsMGCSettlementDay;
 
-vars: Len(15), NN(1.7);
+vars: Len(16), NN(1.7);
 vars: BigK(0);
 BigK = StandardDev(Close, Len, 1) * NN ;
 
