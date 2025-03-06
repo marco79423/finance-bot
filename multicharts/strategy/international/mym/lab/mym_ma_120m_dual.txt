@@ -7,13 +7,13 @@ if Enabled = 0 then
 	#Return;
 
 
-vars: MALen(150);
+vars: MALen(85);
 
 vars: MA(0);
 MA = Average(Close, MALen);
 
 
-vars: KBar(30), BBandLen(1.5);
+vars: KBar(16), BBandLen(1.5);
 vars: BBandUp(0), BBandDown(0);
 BBandUp = BollingerBand(Close, KBar, BBandLen);
 BBandDown = BollingerBand(Close, KBar, -BBandLen);
