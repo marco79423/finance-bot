@@ -27,7 +27,7 @@ end;
 
 
 if MarketPosition = 1 then begin
-	if IsSettlementDay("MNQ") then begin
+	if IsSettlementDay("MYM") then begin
 		Sell ("LX_Settle") all contracts next bar market;
 	end;
 
