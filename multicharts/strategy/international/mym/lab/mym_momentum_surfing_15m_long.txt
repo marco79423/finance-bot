@@ -9,7 +9,7 @@ if Enabled = 0 then
 
 vars: OpenCond(True);
 OpenCond = True;
-OpenCond = not IsSettlementDay("MYM");
+OpenCond = not IsMYMSettlementDay;
 
 vars: Len(8), NN(2.6);
 vars: BigK(0);
@@ -27,7 +27,7 @@ end;
 
 
 if MarketPosition = 1 then begin
-	if IsSettlementDay("MYM") then begin
+	if IsMYMSettlementDay then begin
 		Sell ("LX_Settle") all contracts next bar market;
 	end;
 
