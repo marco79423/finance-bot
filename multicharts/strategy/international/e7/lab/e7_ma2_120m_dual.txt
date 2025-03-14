@@ -10,7 +10,6 @@ vars: MA1Len(105), MA2Len(25), Len(9), Count(5);
 
 vars: OpenCond(True);
 OpenCond = True;
-OpenCond = not IsQGSettlementDay;
 
 vars: MA1(0), MA2(0);
 MA1 = Average(Close, MA1Len);
