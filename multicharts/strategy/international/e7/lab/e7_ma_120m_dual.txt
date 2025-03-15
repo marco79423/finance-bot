@@ -13,7 +13,7 @@ vars: MA(0);
 MA = Average(Close, MALen);
 
 
-vars: KBar(28), BBandLen(1.8);
+vars: KBar(23), BBandLen(1.8);
 vars: BBandUp(0), BBandDown(0);
 BBandUp = BollingerBand(Close, KBar, BBandLen);
 BBandDown = BollingerBand(Close, KBar, -BBandLen);
