@@ -31,6 +31,3 @@ ShortCond = ShortCond and MA < BBandDown;
 if ShortCond then begin
 	SellShort ("SE") OrderSize contracts next bar market;
 end;
-
-
-
