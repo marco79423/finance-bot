@@ -1,5 +1,5 @@
 // SB 15 min
-// Use bar 28
+// Use bar 215
 
 inputs: Enabled(1), OrderSize(1);
 
@@ -13,10 +13,10 @@ vars: MA(0);
 MA = Average(Close, MALen);
 
 
-vars: KBar(20), BBandLen(1.9);
+vars: KBar(215), BBandUpLen(1.4), BBandDownLen(1.6);
 vars: BBandUp(0), BBandDown(0);
-BBandUp = BollingerBand(Close, KBar, BBandLen);
-BBandDown = BollingerBand(Close, KBar, -BBandLen);
+BBandUp = BollingerBand(Close, KBar, BBandUpLen);
+BBandDown = BollingerBand(Close, KBar, -BBandDownLen);
 
 vars: BuyCond(True);
 BuyCond = True;
