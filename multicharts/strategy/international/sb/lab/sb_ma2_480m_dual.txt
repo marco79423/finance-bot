@@ -1,12 +1,12 @@
 // SB 480 min
-// Use bar 20
+// Use bar 36
 
 inputs: Enabled(1), OrderSize(1);
 
 if Enabled = 0 then
 	#Return;
 
-vars: MA1Len(20), MA2Len(15), Len(5), Count(1);
+vars: MA1Len(36), MA2Len(25), Len(19), Count(3);
 
 vars: OpenCond(True);
 OpenCond = True;
