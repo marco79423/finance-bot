@@ -1,5 +1,5 @@
 // SB 120 min
-// Use bar 13
+// Use bar 3
 
 inputs: Enabled(1), OrderSize(1);
 
@@ -7,16 +7,16 @@ if Enabled = 0 then
 	#Return;
 
 
-vars: MALen(13);
+vars: MALen(3);
 
 vars: MA(0);
 MA = Average(Close, MALen);
 
 
-vars: KBar(9), BBandLen(1.2);
+vars: KBar(21), BBandUpLen(1.8), BBandDownLen(1.8);
 vars: BBandUp(0), BBandDown(0);
-BBandUp = BollingerBand(Close, KBar, BBandLen);
-BBandDown = BollingerBand(Close, KBar, -BBandLen);
+BBandUp = BollingerBand(Close, KBar, BBandUpLen);
+BBandDown = BollingerBand(Close, KBar, -BBandDownLen);
 
 vars: BuyCond(True);
 BuyCond = True;
