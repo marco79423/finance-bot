@@ -1,4 +1,4 @@
-// SB 15 min
+// SB 30 min
 // Use bar 215
 
 inputs: Enabled(1), OrderSize(1);
