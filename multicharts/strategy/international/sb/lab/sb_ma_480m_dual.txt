@@ -1,4 +1,4 @@
-// SB 240 min
+// SB 480 min
 // Use bar 8
 
 inputs: Enabled(1), OrderSize(1);
