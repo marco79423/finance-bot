@@ -1,0 +1,33 @@
+// SB 240 min
+// Use bar 4
+
+inputs: Enabled(1), OrderSize(1);
+
+if Enabled = 0 then
+	#Return;
+
+
+vars: MALen(4);
+
+vars: MA(0);
+MA = Average(Close, MALen);
+
+
+vars: KBar(3), BBandUpLen(1.2), BBandDownLen(1.5);
+vars: BBandUp(0), BBandDown(0);
+BBandUp = BollingerBand(Close, KBar, BBandUpLen);
+BBandDown = BollingerBand(Close, KBar, -BBandDownLen);
+
+vars: BuyCond(True);
+BuyCond = True;
+BuyCond = BuyCond and MA > BBandUp;
+if BuyCond then begin
+	Buy ("LE") OrderSize contracts next bar market;
+end;
+
+vars: ShortCond(True);
+ShortCond = True;
+ShortCond = ShortCond and MA < BBandDown;
+if ShortCond then begin
+	SellShort ("SE") OrderSize contracts next bar market;
+end;
