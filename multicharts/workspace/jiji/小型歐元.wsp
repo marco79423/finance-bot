@@ -74,14 +74,14 @@
 	DataFeed = 'TOUCHANCE'
 	DeltaBaseOnResolution = '1'
 	DeltaType = '1'
-	Description = '11號糖HOT'
-	Exchange = 'NYBOT'
+	Description = '迷你歐元HOT'
+	Exchange = 'CME'
 	ExpirationDate = '0'
 	FieldId = '201'
 	FieldName = 'Trade'
-	FinishDate2Id = '45747'
+	FinishDate2Id = '45749'
 	FinishDate2Name = ''
-	FinishDateId = '45747'
+	FinishDateId = '45749'
 	FinishDateName = ''
 	FootPrintChartType = '0'
 	KagiReversal = '1'
@@ -93,20 +93,20 @@
 	PFigureBasis = '1'
 	PFigureBoxSize = '1'
 	PFigureReversal = '3'
-	PriceScale = '109'
+	PriceScale = '111'
 	RangeId = '1'
 	RangeName = 'PERIOD'
 	RealTimeCategory = '0'
 	RealTimeDataFeed = 'TOUCHANCE'
-	RealTimeExchange = 'NYBOT'
-	RealTimeSymbol = 'NYBOT.SB HOT'
+	RealTimeExchange = 'CME'
+	RealTimeSymbol = 'CME.E7 HOT'
 	RenkoBasis = '0'
 	RenkoBoxSize = '1'
 	RenkoBoxSizeType = '0'
 	RequestOffline = '0'
 	ResolutionId = '2'
 	ResolutionName = 'Minute'
-	ResolutionSizeId = '30'
+	ResolutionSizeId = '60'
 	ResolutionSizeName = ''
 	SessionsId = '0'
 	SessionsName = 'Default'
@@ -115,10 +115,10 @@
 	ShowPhantomBars = '1'
 	ShowRealOpen = '0'
 	ShowWick = '0'
-	StartDateId = '40955'
+	StartDateId = '43877'
 	StartDateName = ''
 	StrikePrice = ''
-	Symbol = 'NYBOT.SB HOT'
+	Symbol = 'CME.E7 HOT'
 	TPOBaseOnResolution = '0'
 	TPOBlockSize = '30'
 	TPOBlockSizeResolution = '4'
@@ -144,8 +144,8 @@
 	ManualMode = '0'
 	MarginBottom = '5'
 	MarginTop = '5'
-	Maximum = '23,9772222222222'
-	Minimum = '17,2327777777778'
+	Maximum = '1,10536666666667'
+	Minimum = '1,01603333333333'
 	MovementSize.Long = '1'
 	MovementSize.Metric = 'False'
 	MovementSize.Price = '5'
@@ -158,7 +158,7 @@
 [Wsp\Window_0\ChartManager\Chart_0\Series_0\LabelProcessingObject]
 	AutoMode = '1'
 	EnableProcessing = '0'
-	PriceScaleType = '109'
+	PriceScaleType = '111'
 	SelectedId = '0'
 
 [Wsp\Window_0\ChartManager\Chart_0\Series_0\LabelProcessingObject\Item 0]
@@ -2001,7 +2001,7 @@
 	Value = '12'
 
 [Wsp\Window_0\ChartManager\Chart_1\Series_0\IndicatorHelper\InputHelper\Input_FilePath]
-	Value = '"Z:\sb_ma2_30m_dual.txt"'
+	Value = '"Z:\e7_ma2_60m_dual.txt"'
 
 [Wsp\Window_0\ChartManager\Chart_1\Series_0\IndicatorHelper\InputHelper\Input_IsRecalc]
 	Value = '0'
@@ -2010,7 +2010,7 @@
 	Value = '1'
 
 [Wsp\Window_0\ChartManager\Chart_1\Series_0\IndicatorHelper\InputHelper\Input_PointNum]
-	Value = '2'
+	Value = '4'
 
 [Wsp\Window_0\ChartManager\Chart_1\Series_0\IndicatorHelper\InputHelper\Input_PosFontSize]
 	Value = '32'
@@ -2430,7 +2430,7 @@
 	Left Manual = '0'
 	Left Scale = '0'
 	Precise Marker = '1'
-	Right Characters = '5'
+	Right Characters = '6'
 	Right Manual = '0'
 	Right Scale = '1'
 	Time To Close = '1'
@@ -2613,7 +2613,7 @@
 	isStatusWindowShow = '1'
 
 [Wsp\Window_0\ChartManager\Strategy\SignalObject_0]
-	IdName = 's_sb_ma2_30m_dual'
+	IdName = 's_e7_ma2_60m_dual'
 	Status = '1'
 
 [Wsp\Window_0\ChartManager\Strategy\SignalObject_0\SignalHelper]
@@ -2814,8 +2814,8 @@
 	Confirm = 'False'
 	NeedActivateAT = 'False'
 	Profile = 'Interactive Brokers'
-	StrategyName = 'sb_ma2_30m_dual'
-	SymbolName = 'NYBOT.SB HOT - 30 Minutes - TOUCHANCE'
+	StrategyName = 'e7_ma2_60m_dual'
+	SymbolName = 'CME.E7 HOT - 60 Minutes - TOUCHANCE'
 
 [Wsp\Window_0\ChartManager\Strategy\StrategyHelper\DynTradeOptimizeProps\Algorithm_0]
 	CFFScriptGenetic = '// TODO: Enter your formula to replace the samples below 
@@ -3308,7 +3308,7 @@ The reserved words supported in Portfolio optimization:
 	MinimumContracts = '0'
 	PercentOfEquity = '5'
 	RoundDown = '1'
-	Slippage = '22,4'
+	Slippage = '13'
 	SlippageType = '1'
 	TradeSizeType = '1'
 
@@ -3316,11 +3316,11 @@ The reserved words supported in Portfolio optimization:
 	CommissionObjTXT = {
 		 32 32 20 73 65 72 69 61 6C 69 7A 61 74 69 6F 6E
 		 3A 3A 61 72 63 68 69 76 65 20 35 20 30 20 32 20
-		 31 32 20 F1 51 FA 57 20 00 53 00 42 00 20 00 28
-		 00 37 00 20 00 8E 7F 43 51 29 00 20 30 20 31 20
+		 31 32 20 F1 51 FA 57 20 00 45 00 37 00 20 00 28
+		 00 35 00 20 00 8E 7F 43 51 29 00 20 30 20 31 20
 		 30 20 30 20 31 20 30 20 30 20 30 20 31 20 30 20
 		 30 20 30 20 30 20 30 20 34 20 30 20 30 20 30 20
-		 31 20 37 20 31 20 31 20 30 20 30 20 30 20 30 0A
+		 31 20 35 20 31 20 31 20 30 20 30 20 30 20 30 0A
 		}
 
 [Wsp\Window_0\ChartManager\TimeScale]
@@ -3364,11 +3364,11 @@ The reserved words supported in Portfolio optimization:
 	Property_OrderType = '1'
 	Property_PrecisionPercent = '2'
 	Property_ProfitType = '0'
-	Property_ProfitValue = '15'
+	Property_ProfitValue = '39'
 	Property_QuantityType = '0'
 	Property_QuantityValue = '1'
 	Property_StopLossType = '0'
-	Property_StopLossValue = '15'
+	Property_StopLossValue = '39'
 
 [Wsp\Window_0\ChartManager\VolumeScale]
 	VolumeBarColor = '8421504'
@@ -3441,14 +3441,14 @@ The reserved words supported in Portfolio optimization:
 	DataFeed = 'TOUCHANCE'
 	DeltaBaseOnResolution = '1'
 	DeltaType = '1'
-	Description = '11號糖HOT'
-	Exchange = 'NYBOT'
+	Description = '迷你歐元HOT'
+	Exchange = 'CME'
 	ExpirationDate = '0'
 	FieldId = '201'
 	FieldName = 'Trade'
-	FinishDate2Id = '45747'
+	FinishDate2Id = '45749'
 	FinishDate2Name = ''
-	FinishDateId = '45747'
+	FinishDateId = '45749'
 	FinishDateName = ''
 	FootPrintChartType = '0'
 	KagiReversal = '1'
@@ -3460,20 +3460,20 @@ The reserved words supported in Portfolio optimization:
 	PFigureBasis = '1'
 	PFigureBoxSize = '1'
 	PFigureReversal = '3'
-	PriceScale = '109'
+	PriceScale = '111'
 	RangeId = '1'
 	RangeName = 'PERIOD'
 	RealTimeCategory = '0'
 	RealTimeDataFeed = 'TOUCHANCE'
-	RealTimeExchange = 'NYBOT'
-	RealTimeSymbol = 'NYBOT.SB HOT'
+	RealTimeExchange = 'CME'
+	RealTimeSymbol = 'CME.E7 HOT'
 	RenkoBasis = '0'
 	RenkoBoxSize = '1'
 	RenkoBoxSizeType = '0'
 	RequestOffline = '0'
 	ResolutionId = '2'
 	ResolutionName = 'Minute'
-	ResolutionSizeId = '30'
+	ResolutionSizeId = '15'
 	ResolutionSizeName = ''
 	SessionsId = '0'
 	SessionsName = 'Default'
@@ -3482,10 +3482,10 @@ The reserved words supported in Portfolio optimization:
 	ShowPhantomBars = '1'
 	ShowRealOpen = '0'
 	ShowWick = '0'
-	StartDateId = '40590'
+	StartDateId = '43877'
 	StartDateName = ''
 	StrikePrice = ''
-	Symbol = 'NYBOT.SB HOT'
+	Symbol = 'CME.E7 HOT'
 	TPOBaseOnResolution = '0'
 	TPOBlockSize = '30'
 	TPOBlockSizeResolution = '4'
@@ -3511,8 +3511,8 @@ The reserved words supported in Portfolio optimization:
 	ManualMode = '0'
 	MarginBottom = '5'
 	MarginTop = '5'
-	Maximum = '23,9772222222222'
-	Minimum = '17,2327777777778'
+	Maximum = '1,10446111111111'
+	Minimum = '1,03323888888889'
 	MovementSize.Long = '1'
 	MovementSize.Metric = 'False'
 	MovementSize.Price = '5'
@@ -3525,7 +3525,7 @@ The reserved words supported in Portfolio optimization:
 [Wsp\Window_1\ChartManager\Chart_0\Series_0\LabelProcessingObject]
 	AutoMode = '1'
 	EnableProcessing = '0'
-	PriceScaleType = '109'
+	PriceScaleType = '111'
 	SelectedId = '0'
 
 [Wsp\Window_1\ChartManager\Chart_0\Series_0\LabelProcessingObject\Item 0]
@@ -5368,7 +5368,7 @@ The reserved words supported in Portfolio optimization:
 	Value = '12'
 
 [Wsp\Window_1\ChartManager\Chart_1\Series_0\IndicatorHelper\InputHelper\Input_FilePath]
-	Value = '"Z:\sb_ma_30m_dual.txt"'
+	Value = '"Z:\e7_ma_15m_dual.txt"'
 
 [Wsp\Window_1\ChartManager\Chart_1\Series_0\IndicatorHelper\InputHelper\Input_IsRecalc]
 	Value = '0'
@@ -5377,7 +5377,7 @@ The reserved words supported in Portfolio optimization:
 	Value = '1'
 
 [Wsp\Window_1\ChartManager\Chart_1\Series_0\IndicatorHelper\InputHelper\Input_PointNum]
-	Value = '2'
+	Value = '4'
 
 [Wsp\Window_1\ChartManager\Chart_1\Series_0\IndicatorHelper\InputHelper\Input_PosFontSize]
 	Value = '32'
@@ -5797,7 +5797,7 @@ The reserved words supported in Portfolio optimization:
 	Left Manual = '0'
 	Left Scale = '0'
 	Precise Marker = '1'
-	Right Characters = '5'
+	Right Characters = '6'
 	Right Manual = '0'
 	Right Scale = '1'
 	Time To Close = '1'
@@ -5980,7 +5980,7 @@ The reserved words supported in Portfolio optimization:
 	isStatusWindowShow = '1'
 
 [Wsp\Window_1\ChartManager\Strategy\SignalObject_0]
-	IdName = 's_sb_ma_30m_dual'
+	IdName = 's_e7_ma_15m_dual'
 	Status = '1'
 
 [Wsp\Window_1\ChartManager\Strategy\SignalObject_0\SignalHelper]
@@ -6181,8 +6181,8 @@ The reserved words supported in Portfolio optimization:
 	Confirm = 'False'
 	NeedActivateAT = 'False'
 	Profile = 'Interactive Brokers'
-	StrategyName = 'sb_ma_30m_dual'
-	SymbolName = 'NYBOT.SB HOT - 30 Minutes - TOUCHANCE'
+	StrategyName = 'e7_ma_15m_dual'
+	SymbolName = 'CME.E7 HOT - 15 Minutes - TOUCHANCE'
 
 [Wsp\Window_1\ChartManager\Strategy\StrategyHelper\DynTradeOptimizeProps\Algorithm_0]
 	CFFScriptGenetic = '// TODO: Enter your formula to replace the samples below 
@@ -6675,7 +6675,7 @@ The reserved words supported in Portfolio optimization:
 	MinimumContracts = '0'
 	PercentOfEquity = '5'
 	RoundDown = '1'
-	Slippage = '22,4'
+	Slippage = '13'
 	SlippageType = '1'
 	TradeSizeType = '1'
 
@@ -6683,11 +6683,11 @@ The reserved words supported in Portfolio optimization:
 	CommissionObjTXT = {
 		 32 32 20 73 65 72 69 61 6C 69 7A 61 74 69 6F 6E
 		 3A 3A 61 72 63 68 69 76 65 20 35 20 30 20 32 20
-		 31 32 20 F1 51 FA 57 20 00 53 00 42 00 20 00 28
-		 00 37 00 20 00 8E 7F 43 51 29 00 20 30 20 31 20
+		 31 32 20 F1 51 FA 57 20 00 45 00 37 00 20 00 28
+		 00 35 00 20 00 8E 7F 43 51 29 00 20 30 20 31 20
 		 30 20 30 20 31 20 30 20 30 20 30 20 31 20 30 20
 		 30 20 30 20 30 20 30 20 34 20 30 20 30 20 30 20
-		 31 20 37 20 31 20 31 20 30 20 30 20 30 20 30 0A
+		 31 20 35 20 31 20 31 20 30 20 30 20 30 20 30 0A
 		}
 
 [Wsp\Window_1\ChartManager\TimeScale]
@@ -6731,11 +6731,11 @@ The reserved words supported in Portfolio optimization:
 	Property_OrderType = '1'
 	Property_PrecisionPercent = '2'
 	Property_ProfitType = '0'
-	Property_ProfitValue = '15'
+	Property_ProfitValue = '39'
 	Property_QuantityType = '0'
 	Property_QuantityValue = '1'
 	Property_StopLossType = '0'
-	Property_StopLossValue = '15'
+	Property_StopLossValue = '39'
 
 [Wsp\Window_1\ChartManager\VolumeScale]
 	VolumeBarColor = '8421504'
