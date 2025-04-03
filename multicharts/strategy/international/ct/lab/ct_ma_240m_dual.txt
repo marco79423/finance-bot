@@ -1,5 +1,5 @@
 // CT 240 min
-// Use bar 11
+// Use bar 6
 
 inputs: Enabled(1), OrderSize(1);
 
