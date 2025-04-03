@@ -1,5 +1,5 @@
 // CT 30 min
-// Use bar 75
+// Use bar 34
 
 inputs: Enabled(1), OrderSize(1);
 
@@ -12,7 +12,7 @@ vars: MALen(30);
 vars: MA(0);
 MA = Average(Close, MALen);
 
-vars: KBar(20), BBandUpLen(1.2), BBandDownLen(1.6);
+vars: KBar(22), BBandUpLen(1), BBandDownLen(1.6);
 vars: BBandUp(0), BBandDown(0);
 BBandUp = BollingerBand(Close, KBar, BBandUpLen);
 BBandDown = BollingerBand(Close, KBar, -BBandDownLen);
