@@ -1,7 +1,7 @@
 
 // BTC 240 min
 // start time: 2019/10/01 00:00 +00:00
-// Use bar 10
+// Use bar 30
 
 inputs: Enabled(1), OrderSize(1);
 
