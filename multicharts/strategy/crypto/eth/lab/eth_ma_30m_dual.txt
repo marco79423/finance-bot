@@ -14,12 +14,12 @@ end else begin
 	RevisedOrderSize = OrderSize;
 end;
 
-vars: MALen(15);
+vars: MALen(14);
 
 vars: MA(0);
 MA = Average(Close, MALen);
 
-vars: KBar(135), BBandUpLen(2), BBandDownLen(2.2);
+vars: KBar(130), BBandUpLen(2), BBandDownLen(2.3);
 vars: BBandUp(0), BBandDown(0);
 BBandUp = BollingerBand(Close, KBar, BBandUpLen);
 BBandDown = BollingerBand(Close, KBar, -BBandDownLen);
