@@ -1,0 +1,39 @@
+// ETH 360 min
+// start time: 2019/12/01 00:00 +00:00
+// Use bar 31
+
+inputs: Enabled(1), OrderSize(1);
+
+if Enabled = 0 then
+	#Return;
+
+vars: RevisedOrderSize(OrderSize);
+if Round(100000 / Close, 0) > 1 then begin
+	RevisedOrderSize = Round(100000 / Close, 0) * OrderSize;
+end else begin
+	RevisedOrderSize = OrderSize;
+end;
+
+vars: MALen(2);
+
+vars: MA(0);
+MA = Average(Close, MALen);
+
+vars: KBar(31), BBandUpLen(1.9), BBandDownLen(2.2);
+vars: BBandUp(0), BBandDown(0);
+BBandUp = BollingerBand(Close, KBar, BBandUpLen);
+BBandDown = BollingerBand(Close, KBar, -BBandDownLen);
+
+vars: BuyCond(True);
+BuyCond = True;
+BuyCond = BuyCond and MA > BBandUp;
+if BuyCond then begin
+	Buy ("LE") RevisedOrderSize contracts next bar market;
+end;
+
+vars: ShortCond(True);
+ShortCond = True;
+ShortCond = ShortCond and MA < BBandDown;
+if ShortCond then begin
+	SellShort ("SE") RevisedOrderSize contracts next bar market;
+end;
