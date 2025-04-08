@@ -1,6 +1,6 @@
 // ETH 360 min
 // start time: 2019/12/01 00:00 +00:00
-// Use bar 31
+// Use bar 7
 
 inputs: Enabled(1), OrderSize(1);
 
@@ -14,12 +14,12 @@ end else begin
 	RevisedOrderSize = OrderSize;
 end;
 
-vars: MALen(2);
+vars: MALen(7);
 
 vars: MA(0);
 MA = Average(Close, MALen);
 
-vars: KBar(31), BBandUpLen(1.9), BBandDownLen(2.2);
+vars: KBar(4), BBandUpLen(1.7), BBandDownLen(2.5);
 vars: BBandUp(0), BBandDown(0);
 BBandUp = BollingerBand(Close, KBar, BBandUpLen);
 BBandDown = BollingerBand(Close, KBar, -BBandDownLen);
