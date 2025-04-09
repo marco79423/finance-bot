@@ -14,7 +14,7 @@ end else begin
 	RevisedOrderSize = OrderSize;
 end;
 
-inputs: MA1Len(140), MA2Len(25), Len(17), Count(12);
+vars: MA1Len(140), MA2Len(25), Len(17), Count(12);
 
 vars: OpenCond(True);
 OpenCond = True;
