@@ -1,4 +1,5 @@
 // BTC 60 min
+// start time: 2019/10/01 00:00 +00:00
 // Use bar 140
 
 inputs: Enabled(1), OrderSize(1);
@@ -13,8 +14,8 @@ vars: OpenCond(True);
 OpenCond = True;
 
 vars: RevisedOrderSize(OrderSize);
-if Round(60000 / Close, 0) > 1 then begin
-	RevisedOrderSize = Round(60000 / Close, 0) * OrderSize;
+if Round(100000 / Close, 0) > 1 then begin
+	RevisedOrderSize = Round(100000 / Close, 0) * OrderSize;
 end else begin
 	RevisedOrderSize = OrderSize;
 end;
