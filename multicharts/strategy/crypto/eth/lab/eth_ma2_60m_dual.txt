@@ -1,4 +1,4 @@
-// ETH 30 min
+// ETH 60 min
 // start time: 2019/12/01 00:00 +00:00
 // Use bar 30
 
