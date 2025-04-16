@@ -1,17 +1,17 @@
-// TXF 30 min
-// Use bar 50
+// TXF 240 min
+// Use bar 35
 
 inputs: Enabled(1), OrderSize(1);
 
 if Enabled = 0 then
 	#Return;
 
-vars: MALen(6);
+vars: MALen(9);
 
 vars: MA(0);
 MA = Average(Close, MALen);
 
-vars: KBar(50), BBandUpLen(1.5), BBandDownLen(2.3);
+vars: KBar(35), BBandUpLen(1.1), BBandDownLen(1.4);
 vars: BBandUp(0), BBandDown(0);
 BBandUp = BollingerBand(Close, KBar, BBandUpLen);
 BBandDown = BollingerBand(Close, KBar, -BBandDownLen);

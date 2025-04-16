@@ -6,7 +6,7 @@ inputs: Enabled(1), OrderSize(1);
 if Enabled = 0 then
 	#Return;
 
-inputs: MALen(5);
+vars: MALen(5);
 
 vars: MA(0);
 MA = Average(Close, MALen);
