@@ -1,0 +1,53 @@
+// BTC 199 min
+// Use bar 25
+// For swing trading
+// Focus on balancing profits and losses.
+
+inputs: Enabled(1), OrderSize(1);
+
+if Enabled = 0 then
+	#Return;
+
+vars: MaxOpenPositionProfit(0);
+if MarketPosition <> 0 then begin
+	if MaxOpenPositionProfit < OpenPositionProfit then
+		MaxOpenPositionProfit = OpenPositionProfit;
+end else begin
+	MaxOpenPositionProfit = 0;
+end;
+
+vars: ATR(0);
+ATR = AvgTrueRange(14);
+
+vars: OpenCond(True);
+OpenCond = True;
+
+vars: RevisedOrderSize(OrderSize);
+if Round(60000 / Close, 0) > 1 then begin
+	RevisedOrderSize = Round(60000 / Close, 0) * OrderSize;
+end else begin
+	RevisedOrderSize = OrderSize;
+end;
+
+if MarketPosition = 0 then begin
+	vars: ShortCond(True);
+	ShortCond = OpenCond;
+	ShortCond = ShortCond and Close < Open;
+	ShortCond = ShortCond and Close < AverageFC(Close, 25);
+	ShortCond = ShortCond and Close = Lowest(Close, 6);
+	ShortCond = ShortCond and Ticks = Highest(Ticks, 14);
+	if ShortCond then begin
+		SellShort ( "SE" ) RevisedOrderSize contracts next bar market;
+	end;
+
+end else begin
+	vars: Base(0.5);
+
+	if OpenPositionProfit > 2 * Base * ATR * RevisedOrderSize then begin
+		BuyToCover ("SX_Win") all contracts next bar market;
+	end;
+
+	if OpenPositionProfit < -1 * Base * ATR * RevisedOrderSize then begin
+		BuyToCover ("SX_StopLoss") all contracts next bar market;
+	end;
+end;
