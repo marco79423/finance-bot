@@ -1,12 +1,12 @@
 // TXF 120 min
-// Use bar 10
+// Use bar 36
 
 inputs: Enabled(1), OrderSize(1);
 
 if Enabled = 0 then
 	#Return;
 
-vars: MA1Len(10), MA2Len(5), Len(3), Count(2);
+vars: MA1Len(36), MA2Len(7), Len(2), Count(1);
 
 vars: OpenCond(True);
 OpenCond = True;
