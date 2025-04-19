@@ -14,14 +14,14 @@
 	ContainerHeight = '718'
 	ContainerWidth = '1546'
 	Flags = '2'
-	Height = '229'
+	Height = '228'
 	Left = '0'
 	MinX = '-1'
 	MinY = '-1'
 	State = '3'
-	Top = '9'
+	Top = '8'
 	ViewType = '0'
-	Width = '11011'
+	Width = '12193'
 
 [Wsp\Window_0\ChartManager]
 	ChartCount = '2'
@@ -35,7 +35,7 @@
 
 [Wsp\Window_0\ChartManager\Chart_0]
 	LSeriesNum = '0'
-	PencentHeight = '0,75'
+	PencentHeight = '0,6'
 	RSeriesNum = '0'
 	SeriesCount = '2'
 	invert Scale = '0'
@@ -59,7 +59,7 @@
 	BackTypeId = '274'
 	BackTypeName = 'Days Back'
 	BreakOnSession = '1'
-	BuildDayFromMinutes = '0'
+	BuildDayFromMinutes = '1'
 	CallPut = '0'
 	CapacityId = '180'
 	CapacityName = ''
@@ -79,9 +79,9 @@
 	ExpirationDate = '0'
 	FieldId = '201'
 	FieldName = 'Trade'
-	FinishDate2Id = '45735'
+	FinishDate2Id = '45292'
 	FinishDate2Name = ''
-	FinishDateId = '45735'
+	FinishDateId = '45762'
 	FinishDateName = ''
 	FootPrintChartType = '0'
 	KagiReversal = '10'
@@ -104,9 +104,9 @@
 	RenkoBoxSize = '10'
 	RenkoBoxSizeType = '0'
 	RequestOffline = '0'
-	ResolutionId = '2'
-	ResolutionName = 'Minute'
-	ResolutionSizeId = '13'
+	ResolutionId = '4'
+	ResolutionName = 'Day'
+	ResolutionSizeId = '1'
 	ResolutionSizeName = ''
 	SessionsId = '7342'
 	SessionsName = 'TXF.MXF.TXO.UDF.SPF|Session New'
@@ -144,8 +144,8 @@
 	ManualMode = '0'
 	MarginBottom = '5'
 	MarginTop = '5'
-	Maximum = '23562,2222222222'
-	Minimum = '23037,7777777778'
+	Maximum = '18191,5555555556'
+	Minimum = '12196,2505991518'
 	MovementSize.Long = '1'
 	MovementSize.Metric = 'False'
 	MovementSize.Price = '5'
@@ -2058,8 +2058,8 @@
 	ManualMode = '0'
 	MarginBottom = '5'
 	MarginTop = '5'
-	Maximum = '23562,2222222222'
-	Minimum = '23037,7777777778'
+	Maximum = '18191,5555555556'
+	Minimum = '12196,2505991518'
 	MovementSize.Long = '1'
 	MovementSize.Metric = 'False'
 	MovementSize.Price = '5'
@@ -2102,7 +2102,7 @@
 
 [Wsp\Window_0\ChartManager\Chart_1]
 	LSeriesNum = '0'
-	PencentHeight = '0,25'
+	PencentHeight = '0,2'
 	RSeriesNum = '0'
 	SeriesCount = '1'
 	invert Scale = '0'
@@ -2201,8 +2201,8 @@
 	ManualMode = '0'
 	MarginBottom = '5'
 	MarginTop = '5'
-	Maximum = '8347,61111111111'
-	Minimum = '-364,611111111111'
+	Maximum = '254203,055555556'
+	Minimum = '-1938,05555555555'
 	MovementSize.Long = '1'
 	MovementSize.Metric = 'False'
 	MovementSize.Price = '5'
@@ -2269,7 +2269,7 @@
 [Wsp\Window_0\ChartManager\IndexViewCalc]
 	BarSpacing = '3'
 	BarsToRight = '20'
-	BarsToRightValue = '89'
+	BarsToRightValue = '88'
 	ChartShiftViewType = '0'
 	ShowEmptyPeriod = '0'
 
@@ -2542,7 +2542,7 @@
 
 [Wsp\Window_0\ChartManager\OptimizeManager\OptimizeManager\ClassicOptimizer\ClassicOtimizer]
 	OptReportExist = '0'
-	ReportFilePath = ''
+	ReportFilePath = 'C:\Users\marco\OneDrive\¤å¥ó\Optimization ASCII Mapping Futures TWF.TXF HOT-TOUCHANCE-TWF-FUTU TWF 1 Day 20250416-210331.MCReport'
 
 [Wsp\Window_0\ChartManager\OptimizeManager\OptimizeManager\GAProperties\GAPropContainer]
 	GABasicAlgoritmExist = 'True'
@@ -2605,7 +2605,7 @@
 	Left Manual = '0'
 	Left Scale = '0'
 	Precise Marker = '1'
-	Right Characters = '9'
+	Right Characters = '10'
 	Right Manual = '0'
 	Right Scale = '1'
 	Time To Close = '1'
@@ -2747,7 +2747,7 @@
 	Name = 'Interactive Brokers'
 
 [Wsp\Window_0\ChartManager\Strategy\MCBroker\MCBrokerObject\PluginsProxies\MCPluginProxiesCollection\Item_1]
-	Name = 'ï¿½Í½Ã¦ê±µï¿½Uï¿½ï¿½ï¿½?'
+	Name = 'ï¿½Í½Ã¦ê±µï¿½Uï¿½ï¿½ï¿?'
 
 [Wsp\Window_0\ChartManager\Strategy\MCBroker\MCBrokerObject\PluginsProxies\MCPluginProxiesCollection\Item_1\Proxy\MCPluginProxy\AdditionalInfo]
 	PluginData = {
@@ -2851,6 +2851,14 @@
 	TimesPerBar = '1'
 	UseFreshSnapOnAdditionalDS = '1'
 
+[Wsp\Window_0\ChartManager\Strategy\SignalObject_0\SignalHelper\CustomInputHelperDT\Input_Count]
+	IsInputOptimizable = '1'
+	LocalCurrentValue2 = '8'
+	Start2 = '8'
+	Step2 = '1'
+	Stop2 = '8'
+	Value = '8'
+
 [Wsp\Window_0\ChartManager\Strategy\SignalObject_0\SignalHelper\CustomInputHelperDT\Input_Enabled]
 	IsInputOptimizable = '1'
 	LocalCurrentValue2 = '1'
@@ -2858,6 +2866,30 @@
 	Step2 = '1'
 	Stop2 = '1'
 	Value = '1'
+
+[Wsp\Window_0\ChartManager\Strategy\SignalObject_0\SignalHelper\CustomInputHelperDT\Input_Len]
+	IsInputOptimizable = '1'
+	LocalCurrentValue2 = '12'
+	Start2 = '12'
+	Step2 = '1'
+	Stop2 = '12'
+	Value = '12'
+
+[Wsp\Window_0\ChartManager\Strategy\SignalObject_0\SignalHelper\CustomInputHelperDT\Input_MA1Len]
+	IsInputOptimizable = '1'
+	LocalCurrentValue2 = '150'
+	Start2 = '150'
+	Step2 = '1'
+	Stop2 = '150'
+	Value = '150'
+
+[Wsp\Window_0\ChartManager\Strategy\SignalObject_0\SignalHelper\CustomInputHelperDT\Input_MA2Len]
+	IsInputOptimizable = '1'
+	LocalCurrentValue2 = '5'
+	Start2 = '5'
+	Step2 = '1'
+	Stop2 = '5'
+	Value = '5'
 
 [Wsp\Window_0\ChartManager\Strategy\SignalObject_0\SignalHelper\CustomInputHelperDT\Input_OrderSize]
 	IsInputOptimizable = '1'
@@ -2867,6 +2899,14 @@
 	Stop2 = '1'
 	Value = '1'
 
+[Wsp\Window_0\ChartManager\Strategy\SignalObject_0\SignalHelper\InputHelper\Input_Count]
+	IsInputOptimizable = '1'
+	LocalCurrentValue2 = '1'
+	Start2 = '1'
+	Step2 = '1'
+	Stop2 = '10'
+	Value = '1'
+
 [Wsp\Window_0\ChartManager\Strategy\SignalObject_0\SignalHelper\InputHelper\Input_Enabled]
 	IsInputOptimizable = '0'
 	LocalCurrentValue2 = '1'
@@ -2874,6 +2914,30 @@
 	Step2 = '1'
 	Stop2 = '1'
 	Value = '1'
+
+[Wsp\Window_0\ChartManager\Strategy\SignalObject_0\SignalHelper\InputHelper\Input_Len]
+	IsInputOptimizable = '1'
+	LocalCurrentValue2 = '4'
+	Start2 = '1'
+	Step2 = '1'
+	Stop2 = '10'
+	Value = '4'
+
+[Wsp\Window_0\ChartManager\Strategy\SignalObject_0\SignalHelper\InputHelper\Input_MA1Len]
+	IsInputOptimizable = '1'
+	LocalCurrentValue2 = '5'
+	Start2 = '2'
+	Step2 = '1'
+	Stop2 = '30'
+	Value = '5'
+
+[Wsp\Window_0\ChartManager\Strategy\SignalObject_0\SignalHelper\InputHelper\Input_MA2Len]
+	IsInputOptimizable = '1'
+	LocalCurrentValue2 = '4'
+	Start2 = '2'
+	Step2 = '1'
+	Stop2 = '30'
+	Value = '4'
 
 [Wsp\Window_0\ChartManager\Strategy\SignalObject_0\SignalHelper\InputHelper\Input_OrderSize]
 	IsInputOptimizable = '0'
@@ -3034,7 +3098,7 @@
 	NeedActivateAT = 'False'
 	Profile = 'Interactive Brokers'
 	StrategyName = 'strategy_f_txf_test'
-	SymbolName = 'TWF.TXF HOT-TOUCHANCE-TWF-FUTU - 13 Minutes - ASCII Mapping'
+	SymbolName = 'TWF.TXF HOT-TOUCHANCE-TWF-FUTU - 1 Day - ASCII Mapping'
 
 [Wsp\Window_0\ChartManager\Strategy\StrategyHelper\DynTradeOptimizeProps\Algorithm_0]
 	CFFScriptGenetic = '// TODO: Enter your formula to replace the samples below 
@@ -3503,7 +3567,7 @@ The reserved words supported in Portfolio optimization:
 	BTOFAMode = '0'
 	BTOFAPoints = '0'
 	BTOFA_TIF = '1'
-	BarReference = '200'
+	BarReference = '500'
 	BidIndex = '0'
 	CalcPnLInSymbolCurrency = '1'
 	CalcRealTimeAsHistory = '1'

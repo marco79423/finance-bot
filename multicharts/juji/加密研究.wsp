@@ -2,7 +2,7 @@
 [Wsp]
 	(C2526AC1-535C-4a67-92B5-101E53EA9E4B) = '{4}{0}{2}{3}{1}'
 	ActiveIndex = '4'
-	MaximizedFlag = '1911'
+	MaximizedFlag = '0'
 	ProductVersion = '15.0.27355.400'
 	Version = '1'
 	WindowCount = '5'
@@ -11,17 +11,17 @@
 	WindowCount = '0'
 
 [Wsp\Window_0]
-	ContainerHeight = '628'
-	ContainerWidth = '1300'
+	ContainerHeight = '714'
+	ContainerWidth = '1542'
 	Flags = '0'
-	Height = '314'
+	Height = '357'
 	Left = '0'
 	MinX = '-1'
 	MinY = '-1'
 	State = '1'
 	Top = '0'
 	ViewType = '0'
-	Width = '650'
+	Width = '771'
 
 [Wsp\Window_0\ChartManager]
 	ChartCount = '2'
@@ -144,8 +144,8 @@
 	ManualMode = '0'
 	MarginBottom = '5'
 	MarginTop = '5'
-	Maximum = '9,96127777777778E-02'
-	Minimum = '8,47572222222222E-02'
+	Maximum = '0,108984444444444'
+	Minimum = '8,08955555555556E-02'
 	MovementSize.Long = '1'
 	MovementSize.Metric = 'False'
 	MovementSize.Price = '5'
@@ -2701,7 +2701,7 @@
 [Wsp\Window_0\ChartManager\IndexViewCalc]
 	BarSpacing = '8,8'
 	BarsToRight = '20'
-	BarsToRightValue = '10'
+	BarsToRightValue = '16'
 	ChartShiftViewType = '0'
 	ShowEmptyPeriod = '0'
 
@@ -2790,7 +2790,7 @@
 	Show_HistoricalOrders = 'True'
 	Show_OpenPosition = 'True'
 	Show_OrderConfirmation = 'True'
-	Show_TradeBarPanel = 'True'
+	Show_TradeBarPanel = 'False'
 	SpreadDisplayUnit = '0'
 	StopLimitOffset = '1'
 
@@ -4062,7 +4062,7 @@ The reserved words supported in Portfolio optimization:
 [Wsp\Window_0\ChartManager\TradePanelPlaceholder]
 	FullMode = '0'
 	InitPane = '1'
-	Visibility = '1'
+	Visibility = '0'
 
 [Wsp\Window_0\ChartManager\TradePanelPlaceholder\TradePanelObject\PerAccountSetting]
 	SettingsVersion = '1'
@@ -4095,17 +4095,17 @@ The reserved words supported in Portfolio optimization:
 	VolumeRightScaleWidth = '50'
 
 [Wsp\Window_1]
-	ContainerHeight = '628'
-	ContainerWidth = '1300'
+	ContainerHeight = '714'
+	ContainerWidth = '1542'
 	Flags = '0'
-	Height = '314'
+	Height = '357'
 	Left = '0'
 	MinX = '-1'
 	MinY = '-1'
 	State = '1'
-	Top = '314'
+	Top = '357'
 	ViewType = '0'
-	Width = '650'
+	Width = '771'
 
 [Wsp\Window_1\ChartManager]
 	ChartCount = '2'
@@ -4228,8 +4228,8 @@ The reserved words supported in Portfolio optimization:
 	ManualMode = '0'
 	MarginBottom = '5'
 	MarginTop = '5'
-	Maximum = '50415,6555555556'
-	Minimum = '13602,5444444444'
+	Maximum = '72185,1166666667'
+	Minimum = '12456,7833333333'
 	MovementSize.Long = '1'
 	MovementSize.Metric = 'False'
 	MovementSize.Price = '5'
@@ -6172,7 +6172,7 @@ The reserved words supported in Portfolio optimization:
 [Wsp\Window_1\ChartManager\IndexViewCalc]
 	BarSpacing = '0,333333333333333'
 	BarsToRight = '10'
-	BarsToRightValue = '163'
+	BarsToRightValue = '199'
 	ChartShiftViewType = '0'
 	ShowEmptyPeriod = '0'
 
@@ -7494,17 +7494,17 @@ The reserved words supported in Portfolio optimization:
 	VolumeRightScaleWidth = '50'
 
 [Wsp\Window_2]
-	ContainerHeight = '628'
-	ContainerWidth = '1300'
+	ContainerHeight = '714'
+	ContainerWidth = '1542'
 	Flags = '0'
-	Height = '314'
-	Left = '650'
+	Height = '238'
+	Left = '771'
 	MinX = '-1'
 	MinY = '-1'
 	State = '1'
 	Top = '0'
 	ViewType = '0'
-	Width = '650'
+	Width = '771'
 
 [Wsp\Window_2\ChartManager]
 	ChartCount = '2'
@@ -9503,8 +9503,8 @@ The reserved words supported in Portfolio optimization:
 	ManualMode = '0'
 	MarginBottom = '5'
 	MarginTop = '5'
-	Maximum = '18121185,8333333'
-	Minimum = '-5250,83333333326'
+	Maximum = '24803416,1666667'
+	Minimum = '-356947,166666667'
 	MovementSize.Long = '1'
 	MovementSize.Metric = 'False'
 	MovementSize.Price = '5'
@@ -9571,7 +9571,7 @@ The reserved words supported in Portfolio optimization:
 [Wsp\Window_2\ChartManager\IndexViewCalc]
 	BarSpacing = '12,5'
 	BarsToRight = '10'
-	BarsToRightValue = '4'
+	BarsToRightValue = '5'
 	ChartShiftViewType = '0'
 	ShowEmptyPeriod = '0'
 
@@ -10893,17 +10893,17 @@ The reserved words supported in Portfolio optimization:
 	VolumeRightScaleWidth = '50'
 
 [Wsp\Window_3]
-	ContainerHeight = '628'
-	ContainerWidth = '1300'
+	ContainerHeight = '714'
+	ContainerWidth = '1542'
 	Flags = '0'
-	Height = '314'
-	Left = '650'
+	Height = '238'
+	Left = '771'
 	MinX = '-1'
 	MinY = '-1'
 	State = '1'
-	Top = '314'
+	Top = '238'
 	ViewType = '0'
-	Width = '650'
+	Width = '771'
 
 [Wsp\Window_3\ChartManager]
 	ChartCount = '2'
@@ -11026,8 +11026,8 @@ The reserved words supported in Portfolio optimization:
 	ManualMode = '0'
 	MarginBottom = '5'
 	MarginTop = '5'
-	Maximum = '625,868888888889'
-	Minimum = '529,691111111111'
+	Maximum = '627,769444444445'
+	Minimum = '493,580555555556'
 	MovementSize.Long = '1'
 	MovementSize.Metric = 'False'
 	MovementSize.Price = '5'
@@ -14320,17 +14320,17 @@ The reserved words supported in Portfolio optimization:
 	VolumeRightScaleWidth = '50'
 
 [Wsp\Window_4]
-	ContainerHeight = '628'
-	ContainerWidth = '1300'
-	Flags = '2'
-	Height = '312'
-	Left = '104'
+	ContainerHeight = '714'
+	ContainerWidth = '1542'
+	Flags = '0'
+	Height = '238'
+	Left = '771'
 	MinX = '-1'
 	MinY = '-1'
-	State = '3'
-	Top = '104'
+	State = '1'
+	Top = '476'
 	ViewType = '0'
-	Width = '648'
+	Width = '771'
 
 [Wsp\Window_4\ChartManager]
 	ChartCount = '2'
@@ -14368,7 +14368,7 @@ The reserved words supported in Portfolio optimization:
 	BackTypeId = '274'
 	BackTypeName = 'Days Back'
 	BreakOnSession = '1'
-	BuildDayFromMinutes = '0'
+	BuildDayFromMinutes = '1'
 	CallPut = '0'
 	CapacityId = '180'
 	CapacityName = ''
@@ -14413,9 +14413,9 @@ The reserved words supported in Portfolio optimization:
 	RenkoBoxSize = '0,1'
 	RenkoBoxSizeType = '0'
 	RequestOffline = '0'
-	ResolutionId = '2'
-	ResolutionName = 'Minute'
-	ResolutionSizeId = '15'
+	ResolutionId = '4'
+	ResolutionName = 'Day'
+	ResolutionSizeId = '1'
 	ResolutionSizeName = ''
 	SessionsId = '0'
 	SessionsName = 'Default'
@@ -14424,7 +14424,7 @@ The reserved words supported in Portfolio optimization:
 	ShowPhantomBars = '1'
 	ShowRealOpen = '0'
 	ShowWick = '0'
-	StartDateId = '43831'
+	StartDateId = '44105'
 	StartDateName = ''
 	StrikePrice = ''
 	Symbol = 'SOLUSDT'
@@ -14453,8 +14453,8 @@ The reserved words supported in Portfolio optimization:
 	ManualMode = '0'
 	MarginBottom = '5'
 	MarginTop = '5'
-	Maximum = '110,602611111111'
-	Minimum = '100,110388888889'
+	Maximum = '132,198111111111'
+	Minimum = '26,9958888888889'
 	MovementSize.Long = '1'
 	MovementSize.Metric = 'False'
 	MovementSize.Price = '5'
@@ -17010,7 +17010,7 @@ The reserved words supported in Portfolio optimization:
 [Wsp\Window_4\ChartManager\IndexViewCalc]
 	BarSpacing = '8,8'
 	BarsToRight = '20'
-	BarsToRightValue = '25'
+	BarsToRightValue = '16'
 	ChartShiftViewType = '0'
 	ShowEmptyPeriod = '0'
 
@@ -17099,7 +17099,7 @@ The reserved words supported in Portfolio optimization:
 	Show_HistoricalOrders = 'True'
 	Show_OpenPosition = 'True'
 	Show_OrderConfirmation = 'True'
-	Show_TradeBarPanel = 'True'
+	Show_TradeBarPanel = 'False'
 	SpreadDisplayUnit = '0'
 	StopLimitOffset = '1'
 
@@ -17283,7 +17283,7 @@ The reserved words supported in Portfolio optimization:
 
 [Wsp\Window_4\ChartManager\OptimizeManager\OptimizeManager\ClassicOptimizer\ClassicOtimizer]
 	OptReportExist = '0'
-	ReportFilePath = ''
+	ReportFilePath = 'C:\Users\marco\OneDrive\¤å¥ó\Optimization Binance Futures SOLUSDT BINANCE 1 Day 20250415-094232.MCReport'
 
 [Wsp\Window_4\ChartManager\OptimizeManager\OptimizeManager\GAProperties\GAPropContainer]
 	GABasicAlgoritmExist = 'True'
@@ -17573,7 +17573,7 @@ The reserved words supported in Portfolio optimization:
 	isStatusWindowShow = '1'
 
 [Wsp\Window_4\ChartManager\Strategy\SignalObject_0]
-	IdName = 's_strategy_c_doge_test'
+	IdName = 's_strategy_c_sol_test'
 	Status = '1'
 
 [Wsp\Window_4\ChartManager\Strategy\SignalObject_0\SignalHelper]
@@ -17642,14 +17642,14 @@ The reserved words supported in Portfolio optimization:
 
 [Wsp\Window_4\ChartManager\Strategy\SignalObject_0\SignalHelper\InputHelper\Input_Count]
 	IsInputOptimizable = '1'
-	LocalCurrentValue2 = '1'
+	LocalCurrentValue2 = '4'
 	Start2 = '1'
 	Step2 = '1'
-	Stop2 = '20'
-	Value = '1'
+	Stop2 = '15'
+	Value = '4'
 
 [Wsp\Window_4\ChartManager\Strategy\SignalObject_0\SignalHelper\InputHelper\Input_Enabled]
-	IsInputOptimizable = '0'
+	IsInputOptimizable = '1'
 	LocalCurrentValue2 = '1'
 	Start2 = '1'
 	Step2 = '1'
@@ -17658,30 +17658,30 @@ The reserved words supported in Portfolio optimization:
 
 [Wsp\Window_4\ChartManager\Strategy\SignalObject_0\SignalHelper\InputHelper\Input_Len]
 	IsInputOptimizable = '1'
-	LocalCurrentValue2 = '4'
+	LocalCurrentValue2 = '15'
 	Start2 = '1'
 	Step2 = '1'
-	Stop2 = '20'
-	Value = '4'
+	Stop2 = '15'
+	Value = '15'
 
 [Wsp\Window_4\ChartManager\Strategy\SignalObject_0\SignalHelper\InputHelper\Input_MA1Len]
 	IsInputOptimizable = '1'
-	LocalCurrentValue2 = '9'
+	LocalCurrentValue2 = '2'
 	Start2 = '2'
 	Step2 = '1'
-	Stop2 = '50'
-	Value = '9'
+	Stop2 = '40'
+	Value = '2'
 
 [Wsp\Window_4\ChartManager\Strategy\SignalObject_0\SignalHelper\InputHelper\Input_MA2Len]
 	IsInputOptimizable = '1'
 	LocalCurrentValue2 = '7'
 	Start2 = '2'
 	Step2 = '1'
-	Stop2 = '20'
+	Stop2 = '40'
 	Value = '7'
 
 [Wsp\Window_4\ChartManager\Strategy\SignalObject_0\SignalHelper\InputHelper\Input_OrderSize]
-	IsInputOptimizable = '0'
+	IsInputOptimizable = '1'
 	LocalCurrentValue2 = '1'
 	Start2 = '1'
 	Step2 = '1'
@@ -17838,8 +17838,8 @@ The reserved words supported in Portfolio optimization:
 	Confirm = 'False'
 	NeedActivateAT = 'False'
 	Profile = 'Interactive Brokers'
-	StrategyName = 'strategy_c_doge_test'
-	SymbolName = 'SOLUSDT - 15 Minutes - Binance'
+	StrategyName = 'strategy_c_sol_test'
+	SymbolName = 'SOLUSDT - 1 Day - Binance'
 
 [Wsp\Window_4\ChartManager\Strategy\StrategyHelper\DynTradeOptimizeProps\Algorithm_0]
 	CFFScriptGenetic = '// TODO: Enter your formula to replace the samples below 
@@ -18320,7 +18320,7 @@ The reserved words supported in Portfolio optimization:
 	FixedContracts = '10'
 	IOGSendOrdersImmediatly = '0'
 	IgnoreTickCache_v2 = '1'
-	InitCapital = '100'
+	InitCapital = '1000'
 	InterestRate = '0'
 	LIBEnabled = '0'
 	LIBSize = '1'
@@ -18371,7 +18371,7 @@ The reserved words supported in Portfolio optimization:
 [Wsp\Window_4\ChartManager\TradePanelPlaceholder]
 	FullMode = '0'
 	InitPane = '1'
-	Visibility = '1'
+	Visibility = '0'
 
 [Wsp\Window_4\ChartManager\TradePanelPlaceholder\TradePanelObject\PerAccountSetting]
 	SettingsVersion = '1'
