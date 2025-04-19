@@ -12024,7 +12024,7 @@ The reserved words supported in Portfolio optimization:
 	Value = '12'
 
 [Wsp\Window_3\ChartManager\Chart_1\Series_0\IndicatorHelper\InputHelper\Input_FilePath]
-	Value = '"Z:\eth_ma2_60m_dual.txt"'
+	Value = '"Z:\eth_ma2_120m_dual.txt"'
 
 [Wsp\Window_3\ChartManager\Chart_1\Series_0\IndicatorHelper\InputHelper\Input_IsRecalc]
 	Value = '0'
