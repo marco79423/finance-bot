@@ -74,9 +74,9 @@
 	ExpirationDate = '0'
 	FieldId = '201'
 	FieldName = '成交價'
-	FinishDate2Id = '45749'
+	FinishDate2Id = '45766'
 	FinishDate2Name = ''
-	FinishDateId = '45749'
+	FinishDateId = '45766'
 	FinishDateName = ''
 	FootPrintChartType = '0'
 	KagiReversal = '10'
@@ -100,7 +100,7 @@
 	RequestOffline = '0'
 	ResolutionId = '2'
 	ResolutionName = '分鐘'
-	ResolutionSizeId = '1'
+	ResolutionSizeId = '5'
 	ResolutionSizeName = ''
 	SessionsId = '6795'
 	SessionsName = 'TXF.MXF.TXO.UDF.SPF|Session New'
@@ -138,8 +138,8 @@
 	ManualMode = '0'
 	MarginBottom = '5'
 	MarginTop = '5'
-	Maximum = '22540,4444444444'
-	Minimum = '20591,5555555556'
+	Maximum = '19404,3333333333'
+	Minimum = '19317,6666666667'
 	MovementSize.Long = '1'
 	MovementSize.Metric = 'False'
 	MovementSize.Price = '5'
@@ -1460,9 +1460,9 @@
 	Type = '4'
 
 [Wsp\Window_0\ChartManager\IndexViewCalc]
-	BarSpacing = '0,1'
+	BarSpacing = '8'
 	BarsToRight = '20'
-	BarsToRightValue = '2990'
+	BarsToRightValue = '37'
 	ChartShiftViewType = '0'
 	ShowEmptyPeriod = '0'
 
@@ -1912,7 +1912,7 @@
 	NeedActivateAT = 'False'
 	Profile = 'Interactive Brokers'
 	StrategyName = ''
-	SymbolName = 'TWF.TXF HOT - 1 分鐘 - TOUCHANCE'
+	SymbolName = 'TWF.TXF HOT - 5 分鐘 - TOUCHANCE'
 
 [Wsp\Window_0\ChartManager\Strategy\StrategyHelper\OptimizerProperties\Algorithm_0]
 	CFFScriptGenetic = '// TODO: Enter your formula to replace the samples below 
