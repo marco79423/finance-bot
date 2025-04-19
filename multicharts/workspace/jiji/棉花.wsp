@@ -1,7 +1,7 @@
 
 [Wsp]
-	(C2526AC1-535C-4a67-92B5-101E53EA9E4B) = '{2}{1}{0}'
-	ActiveIndex = '2'
+	(C2526AC1-535C-4a67-92B5-101E53EA9E4B) = '{2}{0}{1}'
+	ActiveIndex = '0'
 	MaximizedFlag = '0'
 	ProductVersion = '15.0.27355.400'
 	Version = '1'
@@ -11,17 +11,17 @@
 	WindowCount = '0'
 
 [Wsp\Window_0]
-	ContainerHeight = '624'
-	ContainerWidth = '1296'
+	ContainerHeight = '714'
+	ContainerWidth = '1542'
 	Flags = '0'
-	Height = '208'
+	Height = '238'
 	Left = '0'
 	MinX = '-1'
 	MinY = '-1'
 	State = '1'
 	Top = '0'
 	ViewType = '0'
-	Width = '1296'
+	Width = '1542'
 
 [Wsp\Window_0\ChartManager]
 	ChartCount = '2'
@@ -79,9 +79,9 @@
 	ExpirationDate = '0'
 	FieldId = '201'
 	FieldName = 'Trade'
-	FinishDate2Id = '45752'
+	FinishDate2Id = '45766'
 	FinishDate2Name = ''
-	FinishDateId = '45752'
+	FinishDateId = '45766'
 	FinishDateName = ''
 	FootPrintChartType = '0'
 	KagiReversal = '1'
@@ -144,8 +144,8 @@
 	ManualMode = '0'
 	MarginBottom = '5'
 	MarginTop = '5'
-	Maximum = '74,6594444444444'
-	Minimum = '60,0705555555556'
+	Maximum = '62,8055555555556'
+	Minimum = '54,0944444444444'
 	MovementSize.Long = '1'
 	MovementSize.Metric = 'False'
 	MovementSize.Price = '5'
@@ -2092,9 +2092,9 @@
 	Type = '4'
 
 [Wsp\Window_0\ChartManager\IndexViewCalc]
-	BarSpacing = '0,5'
+	BarSpacing = '3'
 	BarsToRight = '10'
-	BarsToRightValue = '248'
+	BarsToRightValue = '50'
 	ChartShiftViewType = '0'
 	ShowEmptyPeriod = '0'
 
@@ -3378,17 +3378,17 @@ The reserved words supported in Portfolio optimization:
 	VolumeRightScaleWidth = '50'
 
 [Wsp\Window_1]
-	ContainerHeight = '624'
-	ContainerWidth = '1296'
+	ContainerHeight = '714'
+	ContainerWidth = '1542'
 	Flags = '0'
-	Height = '208'
+	Height = '238'
 	Left = '0'
 	MinX = '-1'
 	MinY = '-1'
 	State = '1'
-	Top = '208'
+	Top = '238'
 	ViewType = '0'
-	Width = '1296'
+	Width = '1542'
 
 [Wsp\Window_1\ChartManager]
 	ChartCount = '2'
@@ -3446,9 +3446,9 @@ The reserved words supported in Portfolio optimization:
 	ExpirationDate = '0'
 	FieldId = '201'
 	FieldName = 'Trade'
-	FinishDate2Id = '45752'
+	FinishDate2Id = '45766'
 	FinishDate2Name = ''
-	FinishDateId = '45752'
+	FinishDateId = '45766'
 	FinishDateName = ''
 	FootPrintChartType = '0'
 	KagiReversal = '1'
@@ -3511,8 +3511,8 @@ The reserved words supported in Portfolio optimization:
 	ManualMode = '0'
 	MarginBottom = '5'
 	MarginTop = '5'
-	Maximum = '74,6594444444444'
-	Minimum = '60,0705555555556'
+	Maximum = '69,0122222222222'
+	Minimum = '60,3677777777778'
 	MovementSize.Long = '1'
 	MovementSize.Metric = 'False'
 	MovementSize.Price = '5'
@@ -5459,9 +5459,9 @@ The reserved words supported in Portfolio optimization:
 	Type = '4'
 
 [Wsp\Window_1\ChartManager\IndexViewCalc]
-	BarSpacing = '0,5'
+	BarSpacing = '6'
 	BarsToRight = '10'
-	BarsToRightValue = '248'
+	BarsToRightValue = '25'
 	ChartShiftViewType = '0'
 	ShowEmptyPeriod = '0'
 
@@ -6745,17 +6745,17 @@ The reserved words supported in Portfolio optimization:
 	VolumeRightScaleWidth = '50'
 
 [Wsp\Window_2]
-	ContainerHeight = '624'
-	ContainerWidth = '1296'
+	ContainerHeight = '714'
+	ContainerWidth = '1542'
 	Flags = '0'
-	Height = '208'
+	Height = '238'
 	Left = '0'
 	MinX = '-1'
 	MinY = '-1'
 	State = '1'
-	Top = '416'
+	Top = '476'
 	ViewType = '0'
-	Width = '1296'
+	Width = '1542'
 
 [Wsp\Window_2\ChartManager]
 	ChartCount = '2'
@@ -6813,9 +6813,9 @@ The reserved words supported in Portfolio optimization:
 	ExpirationDate = '0'
 	FieldId = '201'
 	FieldName = 'Trade'
-	FinishDate2Id = '45752'
+	FinishDate2Id = '45766'
 	FinishDate2Name = ''
-	FinishDateId = '45752'
+	FinishDateId = '45766'
 	FinishDateName = ''
 	FootPrintChartType = '0'
 	KagiReversal = '1'
@@ -6878,8 +6878,8 @@ The reserved words supported in Portfolio optimization:
 	ManualMode = '0'
 	MarginBottom = '5'
 	MarginTop = '5'
-	Maximum = '106,188888888889'
-	Minimum = '58,4111111111111'
+	Maximum = '72,7805555555556'
+	Minimum = '60,1694444444445'
 	MovementSize.Long = '1'
 	MovementSize.Metric = 'False'
 	MovementSize.Price = '5'
@@ -8826,9 +8826,9 @@ The reserved words supported in Portfolio optimization:
 	Type = '4'
 
 [Wsp\Window_2\ChartManager\IndexViewCalc]
-	BarSpacing = '0,5'
+	BarSpacing = '3'
 	BarsToRight = '10'
-	BarsToRightValue = '248'
+	BarsToRightValue = '50'
 	ChartShiftViewType = '0'
 	ShowEmptyPeriod = '0'
 
