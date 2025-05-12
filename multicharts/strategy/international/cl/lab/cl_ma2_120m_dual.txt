@@ -1,0 +1,34 @@
+// CL 120 min
+// start time: 2013/04/01 00:00 Exchange
+// Use bar 190
+
+inputs: Enabled(1), OrderSize(1);
+
+if Enabled = 0 then
+	#Return;
+
+inputs: MA1Len(190), MA2Len(25), Len(18), Count(5);
+
+vars: OpenCond(True);
+OpenCond = True;
+
+vars: MA1(0), MA2(0);
+MA1 = Average(Close, MA1Len);
+MA2 = Average(Close, MA2Len);
+
+vars: BuyCond(True);
+BuyCond = OpenCond;
+BuyCond = BuyCond and MA1 > MA2;
+BuyCond = BuyCond and CountIF(Close > MA1, Len) > Count;
+if BuyCond then begin
+	Buy ("LE") OrderSize contracts next bar market;
+end;
+
+vars: ShortCond(True);
+ShortCond = OpenCond;
+ShortCond = ShortCond and MA1 < MA2;
+ShortCond = ShortCond and CountIF(Close < MA1, Len) > Count;
+if ShortCond then begin
+	SellShort ("SE") OrderSize contracts next bar market;
+end;
+
