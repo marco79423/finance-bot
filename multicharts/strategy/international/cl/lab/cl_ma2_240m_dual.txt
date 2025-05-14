@@ -1,5 +1,5 @@
 // CL 240 min
-// start time: 2013/04/01 00:00 Exchange
+// Backtest time: 2013/04/01 - 2014/01/01 Exchange
 // Use bar 130
 
 inputs: Enabled(1), OrderSize(1);
