@@ -1,0 +1,30 @@
+// CL 30 min
+// Backtest time: 2014/01/01 - 2024/01/01 Exchange
+// Use bar 8
+
+inputs: Enabled(1), OrderSize(1);
+
+if Enabled = 0 then
+	#Return;
+
+vars: OpenCond(True);
+OpenCond = True;
+
+vars: RSILen(8), RSIValue(11);
+if OpenCond and RSI(Close, RSILen) < RSIValue then begin
+	SellShort ( "SE" ) OrderSize contracts next bar market;
+end;
+
+
+if MarketPosition < 0 then begin
+	vars: PullBack_Percent(0.03), StopLoss_Percent(0.04);
+
+	if OpenPositionProfit > 0 and Close > LowSinceEntry + EntryPrice * PullBack_Percent then begin
+		BuyToCover ("SX_PT") all contracts next bar market;
+	end;
+
+	if High > EntryPrice + StopLoss_Percent * EntryPrice then begin
+		BuyToCover ("SX_SL") all contracts next bar market;
+	end;
+end;
+
