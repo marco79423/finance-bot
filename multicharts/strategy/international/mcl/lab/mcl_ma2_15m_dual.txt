@@ -1,5 +1,5 @@
 // MCL 15 min
-// start time: 2022/01/20 00:00 Exchange
+// Backtest time: 2022/01/20 - 2024/06/01 Exchange
 // Use bar 200
 
 inputs: Enabled(1), OrderSize(1);
