@@ -1,13 +1,13 @@
 // MCL 15 min
 // start time: 2022/01/20 00:00 Exchange
-// Use bar 200
+// Use bar 95
 
 inputs: Enabled(1), OrderSize(1);
 
 if Enabled = 0 then
 	#Return;
 
-vars: MA1Len(200), MA2Len(60), Len(20), Count(2);
+vars: MA1Len(5), MA2Len(95), Len(16), Count(13);
 
 vars: OpenCond(True);
 OpenCond = True;
