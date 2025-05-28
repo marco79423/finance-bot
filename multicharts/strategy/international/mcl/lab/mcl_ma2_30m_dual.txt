@@ -1,13 +1,13 @@
 // MCL 30 min
-// start time: 2022/01/20 00:00 Exchange
-// Use bar 100
+// Backtest time: 2022/01/20 - 2024/06/01 Exchange
+// Use bar 85
 
 inputs: Enabled(1), OrderSize(1);
 
 if Enabled = 0 then
 	#Return;
 
-vars: MA1Len(100), MA2Len(30), Len(11), Count(1);
+vars: MA1Len(85), MA2Len(20), Len(20), Count(13);
 
 vars: OpenCond(True);
 OpenCond = True;
