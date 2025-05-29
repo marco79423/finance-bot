@@ -1,7 +1,7 @@
 // TXF 30 min
 // Backtest time: 2014/01/01 - 2014/01/01 Exchange
 // Fee (12 + 5) * 20
-// Use bar 140
+// Use bar 135
 
 inputs: Enabled(1), OrderSize(1);
 
