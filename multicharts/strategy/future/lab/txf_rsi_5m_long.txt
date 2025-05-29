@@ -1,6 +1,6 @@
 // TXF 5 min
 // Backtest time: 2014/01/01 - 2014/01/01 Exchange
-// Use bar 19
+// Use bar 15
 
 
 inputs: Enabled(1), OrderSize(1);
@@ -23,7 +23,7 @@ if MarketPosition = 1 then begin
 		Sell ("LX_Settle") all contracts next bar market;
 	end;
 
-	vars: PullBack_Percent(0.008), StopLoss_Percent(0.015);
+	vars: PullBack_Percent(0.018), StopLoss_Percent(0.012);
 
 	if OpenPositionProfit > 0 and Close < HighSinceEntry - EntryPrice * PullBack_Percent then begin
 		Sell ("LX_PT") all contracts next bar market;
