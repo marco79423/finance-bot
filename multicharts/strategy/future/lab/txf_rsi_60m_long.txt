@@ -1,6 +1,6 @@
 // TXF 60 min
 // Backtest time: 2014/01/01 - 2014/01/01 Exchange
-// Use bar 19
+// Use bar 38
 
 
 inputs: Enabled(1), OrderSize(1);
@@ -13,7 +13,7 @@ OpenCond = not (IsTXFSettlementDay and 1200 < Time and Time < 1400);
 OpenCond = OpenCond and not (0845 <= Time and Time <= 0847);
 OpenCond = OpenCond and not (1500 <= Time and Time <= 1502);
 
-vars: RSILen(41), RSIValue(60);
+vars: RSILen(38), RSIValue(60);
 if OpenCond and RSI(Close, RSILen) > RSIValue then begin
 	Buy ("LE") OrderSize contracts next bar market;
 end;
@@ -23,7 +23,7 @@ if MarketPosition = 1 then begin
 		Sell ("LX_Settle") all contracts next bar market;
 	end;
 
-	vars: PullBack_Percent(0.004), StopLoss_Percent(0.028);
+	vars: PullBack_Percent(0.008), StopLoss_Percent(0.036);
 
 	if OpenPositionProfit > 0 and Close < HighSinceEntry - EntryPrice * PullBack_Percent then begin
 		Sell ("LX_PT") all contracts next bar market;
