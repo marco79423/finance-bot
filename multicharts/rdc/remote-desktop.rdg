@@ -1,0 +1,74 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<RDCMan programVersion="2.93" schemaVersion="3">
+  <file>
+    <credentialsProfiles />
+    <properties>
+      <expanded>True</expanded>
+      <name>remote-desktop</name>
+    </properties>
+    <remoteDesktop inherit="None">
+      <sameSizeAsClientArea>True</sameSizeAsClientArea>
+      <fullScreen>False</fullScreen>
+      <colorDepth>24</colorDepth>
+    </remoteDesktop>
+    <group>
+      <properties>
+        <expanded>True</expanded>
+        <name>home</name>
+      </properties>
+      <group>
+        <properties>
+          <expanded>True</expanded>
+          <name>lab</name>
+        </properties>
+        <server>
+          <properties>
+            <name>juji</name>
+          </properties>
+        </server>
+        <server>
+          <properties>
+            <name>puji</name>
+          </properties>
+        </server>
+      </group>
+      <group>
+        <properties>
+          <expanded>True</expanded>
+          <name>prod</name>
+        </properties>
+        <server>
+          <properties>
+            <name>biji</name>
+          </properties>
+        </server>
+        <server>
+          <properties>
+            <name>jiji</name>
+          </properties>
+        </server>
+      </group>
+    </group>
+    <group>
+      <properties>
+        <expanded>True</expanded>
+        <name>work</name>
+      </properties>
+      <server>
+        <properties>
+          <displayName>paradise-pc</displayName>
+          <name>Marco-Li-PC2.paradise-soft.com.tw</name>
+        </properties>
+        <logonCredentials inherit="None">
+          <profileName scope="Local">Custom</profileName>
+          <userName>marco_li@shun-way.com</userName>
+          <password>AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAvAnLbPtoXkGEpzsLGyPHpAAAAAACAAAAAAAQZgAAAAEAACAAAAD4bYQWpXjTmBl02pAsQiiDB57wlMdA+VFyalswZol0xwAAAAAOgAAAAAIAACAAAAAnxAKvryHh4yaw96WX+QWWft9zeWw4NuJ4XVQvjgKu0iAAAABmbVJg9yeVZlgDoAUk8zqyjvJzfqsKcMwL53ta9itMBEAAAABzEojYM7nB9yCPDoY5ColZB/poQUpoR/PajRJEDoqFYoAsmfTYXeGrjV8P6mrohH5WdhS3PvwNlCJM27yEcrM4</password>
+          <domain>MARCO-PC</domain>
+        </logonCredentials>
+      </server>
+    </group>
+  </file>
+  <connected />
+  <favorites />
+  <recentlyUsed />
+</RDCMan>
