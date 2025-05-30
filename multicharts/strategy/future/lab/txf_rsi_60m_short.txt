@@ -1,6 +1,6 @@
 // TXF 60 min
 // Backtest time: 2014/01/01 - 2014/01/01 Exchange
-// Use bar 2
+// Use bar 10
 
 
 inputs: Enabled(1), OrderSize(1);
@@ -13,7 +13,7 @@ OpenCond = not (IsTXFSettlementDay and 1200 < Time and Time < 1400);
 OpenCond = OpenCond and not (0845 <= Time and Time <= 0847);
 OpenCond = OpenCond and not (1500 <= Time and Time <= 1502);
 
-vars: RSILen(2), RSIValue(7);
+vars: RSILen(10), RSIValue(15);
 if OpenCond and RSI(Close, RSILen) < RSIValue then begin
 	SellShort ( "SE" ) OrderSize contracts next bar market;
 end;
@@ -23,7 +23,7 @@ if MarketPosition < 0 then begin
 		BuyToCover ("SX_Settle") all contracts next bar market;
 	end;
 
-	vars: PullBack_Percent(0.005), StopLoss_Percent(0.004);
+	vars: PullBack_Percent(0.004), StopLoss_Percent(0.014);
 
 	if OpenPositionProfit > 0 and Close > LowSinceEntry + EntryPrice * PullBack_Percent then begin
 		BuyToCover ("SX_PT") all contracts next bar market;
