@@ -8,7 +8,7 @@ if Enabled = 0 then
 	#Return;
 
 
-vars: KBar(45), BBandMultiplier(1.5);
+vars: KBar(43), BBandMultiplier(1.8);
 vars: BBandUp(0), BBandDown(0);
 BBandUp = BollingerBand(Close, KBar, BBandMultiplier);
 BBandDown = BollingerBand(Close, KBar, -BBandMultiplier);
@@ -30,7 +30,7 @@ if ShortCond then begin
 end;
 
 
-vars: PullBack_Percent(0.028), StopLoss_Percent(0.040);
+vars: PullBack_Percent(0.033), StopLoss_Percent(0.044);
 
 if MarketPosition = 1 then begin
 
