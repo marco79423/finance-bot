@@ -1,5 +1,6 @@
 // TXF 30 min
 // Backtest time: 2014/01/01 - 2014/01/01 Exchange
+// Fee (12 + 5) * 20
 // Use bar 45
 
 
@@ -33,7 +34,7 @@ if ShortCond then begin
 end;
 
 
-vars: PullBack_Percent(0.010), StopLoss_Percent(0.011);
+vars: PullBack_Percent(0.011), StopLoss_Percent(0.011);
 
 if MarketPosition = 1 then begin
 	if IsTXFSettlementDay and 1200 < Time and Time < 1400 then begin
