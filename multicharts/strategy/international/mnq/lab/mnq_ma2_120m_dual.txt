@@ -1,13 +1,13 @@
-// MYM 30 min
+// MYM 120 min
 // Backtest time: 2020/03/01 - 2024/01/01 Exchange
-// Use bar 60
+// Use bar 70
 
 inputs: Enabled(1), OrderSize(1);
 
 if Enabled = 0 then
 	#Return;
 
-vars: MA1Len(60), MA2Len(30), Len(20), Count(15);
+vars: MA1Len(70), MA2Len(31), Len(20), Count(2);
 
 vars: OpenCond(True);
 OpenCond = True;

@@ -7,7 +7,7 @@ inputs: Enabled(1), OrderSize(1);
 if Enabled = 0 then
 	#Return;
 
-inputs: MA1Len(60), MA2Len(45), Len(10), Count(9);
+vars: MA1Len(60), MA2Len(45), Len(10), Count(9);
 
 vars: OpenCond(True);
 OpenCond = True;
