@@ -1,4 +1,4 @@
-// MYM 30 min
+// MNQ 30 min
 // Backtest time: 2020/03/01 - 2024/01/01 Exchange
 // Use bar 60
 
