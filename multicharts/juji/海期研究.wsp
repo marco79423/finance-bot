@@ -1,8 +1,8 @@
 
 [Wsp]
-	(C2526AC1-535C-4a67-92B5-101E53EA9E4B) = '{9}{3}{0}{8}{4}{5}{2}{1}{7}{6}'
-	ActiveIndex = '9'
-	MaximizedFlag = '1911'
+	(C2526AC1-535C-4a67-92B5-101E53EA9E4B) = '{0}{3}{9}{8}{4}{5}{2}{1}{7}{6}'
+	ActiveIndex = '0'
+	MaximizedFlag = '0'
 	ProductVersion = '15.0.27355.400'
 	Version = '1'
 	WindowCount = '10'
@@ -11,17 +11,17 @@
 	WindowCount = '0'
 
 [Wsp\Window_0]
-	ContainerHeight = '628'
-	ContainerWidth = '1294'
+	ContainerHeight = '624'
+	ContainerWidth = '1290'
 	Flags = '0'
-	Height = '209'
+	Height = '208'
 	Left = '0'
 	MinX = '-1'
 	MinY = '-1'
 	State = '1'
 	Top = '0'
 	ViewType = '0'
-	Width = '431'
+	Width = '430'
 
 [Wsp\Window_0\ChartManager]
 	ChartCount = '2'
@@ -35,7 +35,7 @@
 
 [Wsp\Window_0\ChartManager\Chart_0]
 	LSeriesNum = '0'
-	PencentHeight = '0,6'
+	PencentHeight = '0,75'
 	RSeriesNum = '0'
 	SeriesCount = '6'
 	invert Scale = '0'
@@ -55,7 +55,7 @@
 	MergeDataSources = '0'
 
 [Wsp\Window_0\ChartManager\Chart_0\Series_0\DataSeries\Request]
-	AnchorFinishDate = '0'
+	AnchorFinishDate = '1'
 	BackTypeId = '274'
 	BackTypeName = 'Days Back'
 	BreakOnSession = '1'
@@ -79,9 +79,9 @@
 	ExpirationDate = '0'
 	FieldId = '201'
 	FieldName = 'Trade'
-	FinishDate2Id = '45794'
+	FinishDate2Id = '45292'
 	FinishDate2Name = ''
-	FinishDateId = '45794'
+	FinishDateId = '45807'
 	FinishDateName = ''
 	FootPrintChartType = '0'
 	KagiReversal = '1'
@@ -106,7 +106,7 @@
 	RequestOffline = '0'
 	ResolutionId = '2'
 	ResolutionName = 'Minute'
-	ResolutionSizeId = '120'
+	ResolutionSizeId = '720'
 	ResolutionSizeName = ''
 	SessionsId = '0'
 	SessionsName = 'Default'
@@ -115,7 +115,7 @@
 	ShowPhantomBars = '1'
 	ShowRealOpen = '0'
 	ShowWick = '0'
-	StartDateId = '38620'
+	StartDateId = '43891'
 	StartDateName = ''
 	StrikePrice = ''
 	Symbol = 'CBOT.MYM HOT'
@@ -144,8 +144,8 @@
 	ManualMode = '0'
 	MarginBottom = '5'
 	MarginTop = '5'
-	Maximum = '45544,6666666667'
-	Minimum = '38171,3333333333'
+	Maximum = '38871,9696596023'
+	Minimum = '28113'
 	MovementSize.Long = '1'
 	MovementSize.Metric = 'False'
 	MovementSize.Price = '5'
@@ -2022,8 +2022,8 @@
 	ManualMode = '0'
 	MarginBottom = '5'
 	MarginTop = '5'
-	Maximum = '45544,6666666667'
-	Minimum = '38171,3333333333'
+	Maximum = '38871,9696596023'
+	Minimum = '28113'
 	MovementSize.Long = '1'
 	MovementSize.Metric = 'False'
 	MovementSize.Price = '5'
@@ -2348,8 +2348,8 @@
 	ManualMode = '0'
 	MarginBottom = '5'
 	MarginTop = '5'
-	Maximum = '45544,6666666667'
-	Minimum = '38171,3333333333'
+	Maximum = '38871,9696596023'
+	Minimum = '28113'
 	MovementSize.Long = '1'
 	MovementSize.Metric = 'False'
 	MovementSize.Price = '5'
@@ -2534,7 +2534,7 @@
 
 [Wsp\Window_0\ChartManager\Chart_1]
 	LSeriesNum = '0'
-	PencentHeight = '0,2'
+	PencentHeight = '0'
 	RSeriesNum = '0'
 	SeriesCount = '1'
 	invert Scale = '0'
@@ -2633,8 +2633,8 @@
 	ManualMode = '0'
 	MarginBottom = '5'
 	MarginTop = '5'
-	Maximum = '50386294,1527514'
-	Minimum = '-40966872,1527514'
+	Maximum = '74328036,1832822'
+	Minimum = '-64908614,1832822'
 	MovementSize.Long = '1'
 	MovementSize.Metric = 'False'
 	MovementSize.Price = '5'
@@ -2701,7 +2701,7 @@
 [Wsp\Window_0\ChartManager\IndexViewCalc]
 	BarSpacing = '0,25'
 	BarsToRight = '20'
-	BarsToRightValue = '301'
+	BarsToRightValue = '300'
 	ChartShiftViewType = '0'
 	ShowEmptyPeriod = '0'
 
@@ -2970,11 +2970,11 @@
 	OptimizeAlgorithm = '0'
 
 [Wsp\Window_0\ChartManager\OptimizeManager\OptimizeManager\AlgorithmGrouper\OptAlgorithmGrouper]
-	Group = '1'
+	Group = '0'
 
 [Wsp\Window_0\ChartManager\OptimizeManager\OptimizeManager\ClassicOptimizer\ClassicOtimizer]
 	OptReportExist = '0'
-	ReportFilePath = ''
+	ReportFilePath = 'C:\Users\marco\OneDrive\文件\Optimization TOUCHANCE Futures CBOT.MYM HOT CBOT 720 Minutes 20250531-140646.MCReport'
 
 [Wsp\Window_0\ChartManager\OptimizeManager\OptimizeManager\GAProperties\GAPropContainer]
 	GABasicAlgoritmExist = 'True'
@@ -2996,12 +2996,12 @@
 	convType = '0'
 	crossOverProb = '0,95'
 	mutationProb = '0,05'
-	offspring_number = '15'
+	offspring_number = '16'
 	proximalConv = '0,99'
 	replScheme = '0'
-	ulGenCount = '1263'
-	ulMinGenCount = '32'
-	ulPopSize = '32'
+	ulGenCount = '85'
+	ulMinGenCount = '85'
+	ulPopSize = '97'
 
 [Wsp\Window_0\ChartManager\OptimizeManager\OptimizeManager\MOOptimizer\MO]
 	MOReportExist = '0'
@@ -3283,13 +3283,13 @@
 	TimesPerBar = '1'
 	UseFreshSnapOnAdditionalDS = '1'
 
-[Wsp\Window_0\ChartManager\Strategy\SignalObject_0\SignalHelper\CustomInputHelperDT\Input_BBandLen]
+[Wsp\Window_0\ChartManager\Strategy\SignalObject_0\SignalHelper\CustomInputHelperDT\Input_Count]
 	IsInputOptimizable = '1'
-	LocalCurrentValue2 = '1,5'
-	Start2 = '1,5'
+	LocalCurrentValue2 = '16'
+	Start2 = '16'
 	Step2 = '1'
-	Stop2 = '1,5'
-	Value = '1.5'
+	Stop2 = '16'
+	Value = '16'
 
 [Wsp\Window_0\ChartManager\Strategy\SignalObject_0\SignalHelper\CustomInputHelperDT\Input_Enabled]
 	IsInputOptimizable = '1'
@@ -3299,21 +3299,29 @@
 	Stop2 = '1'
 	Value = '1'
 
-[Wsp\Window_0\ChartManager\Strategy\SignalObject_0\SignalHelper\CustomInputHelperDT\Input_KBar]
+[Wsp\Window_0\ChartManager\Strategy\SignalObject_0\SignalHelper\CustomInputHelperDT\Input_Len]
 	IsInputOptimizable = '1'
-	LocalCurrentValue2 = '30'
-	Start2 = '30'
+	LocalCurrentValue2 = '18'
+	Start2 = '18'
 	Step2 = '1'
-	Stop2 = '30'
-	Value = '30'
+	Stop2 = '18'
+	Value = '18'
 
-[Wsp\Window_0\ChartManager\Strategy\SignalObject_0\SignalHelper\CustomInputHelperDT\Input_MALen]
+[Wsp\Window_0\ChartManager\Strategy\SignalObject_0\SignalHelper\CustomInputHelperDT\Input_MA1Len]
 	IsInputOptimizable = '1'
-	LocalCurrentValue2 = '150'
-	Start2 = '150'
+	LocalCurrentValue2 = '87'
+	Start2 = '87'
 	Step2 = '1'
-	Stop2 = '150'
-	Value = '150'
+	Stop2 = '87'
+	Value = '87'
+
+[Wsp\Window_0\ChartManager\Strategy\SignalObject_0\SignalHelper\CustomInputHelperDT\Input_MA2Len]
+	IsInputOptimizable = '1'
+	LocalCurrentValue2 = '35'
+	Start2 = '35'
+	Step2 = '1'
+	Stop2 = '35'
+	Value = '35'
 
 [Wsp\Window_0\ChartManager\Strategy\SignalObject_0\SignalHelper\CustomInputHelperDT\Input_OrderSize]
 	IsInputOptimizable = '1'
@@ -3323,13 +3331,13 @@
 	Stop2 = '1'
 	Value = '1'
 
-[Wsp\Window_0\ChartManager\Strategy\SignalObject_0\SignalHelper\InputHelper\Input_BBandLen]
+[Wsp\Window_0\ChartManager\Strategy\SignalObject_0\SignalHelper\InputHelper\Input_Count]
 	IsInputOptimizable = '1'
-	LocalCurrentValue2 = '1,5'
+	LocalCurrentValue2 = '2'
 	Start2 = '1'
-	Step2 = '0,1'
-	Stop2 = '2'
-	Value = '1.5'
+	Step2 = '1'
+	Stop2 = '15'
+	Value = '2'
 
 [Wsp\Window_0\ChartManager\Strategy\SignalObject_0\SignalHelper\InputHelper\Input_Enabled]
 	IsInputOptimizable = '0'
@@ -3339,21 +3347,29 @@
 	Stop2 = '1'
 	Value = '1'
 
-[Wsp\Window_0\ChartManager\Strategy\SignalObject_0\SignalHelper\InputHelper\Input_KBar]
+[Wsp\Window_0\ChartManager\Strategy\SignalObject_0\SignalHelper\InputHelper\Input_Len]
 	IsInputOptimizable = '1'
-	LocalCurrentValue2 = '16'
+	LocalCurrentValue2 = '7'
+	Start2 = '1'
+	Step2 = '1'
+	Stop2 = '20'
+	Value = '7'
+
+[Wsp\Window_0\ChartManager\Strategy\SignalObject_0\SignalHelper\InputHelper\Input_MA1Len]
+	IsInputOptimizable = '1'
+	LocalCurrentValue2 = '19'
+	Start2 = '5'
+	Step2 = '1'
+	Stop2 = '100'
+	Value = '19'
+
+[Wsp\Window_0\ChartManager\Strategy\SignalObject_0\SignalHelper\InputHelper\Input_MA2Len]
+	IsInputOptimizable = '1'
+	LocalCurrentValue2 = '7'
 	Start2 = '5'
 	Step2 = '1'
 	Stop2 = '50'
-	Value = '16'
-
-[Wsp\Window_0\ChartManager\Strategy\SignalObject_0\SignalHelper\InputHelper\Input_MALen]
-	IsInputOptimizable = '1'
-	LocalCurrentValue2 = '85'
-	Start2 = '5'
-	Step2 = '5'
-	Stop2 = '200'
-	Value = '85'
+	Value = '7'
 
 [Wsp\Window_0\ChartManager\Strategy\SignalObject_0\SignalHelper\InputHelper\Input_OrderSize]
 	IsInputOptimizable = '0'
@@ -3514,7 +3530,7 @@
 	NeedActivateAT = 'False'
 	Profile = 'Interactive Brokers'
 	StrategyName = 'strategy_i_mym_test'
-	SymbolName = 'CBOT.MYM HOT - 120 Minutes - TOUCHANCE'
+	SymbolName = 'CBOT.MYM HOT - 720 Minutes - TOUCHANCE'
 
 [Wsp\Window_0\ChartManager\Strategy\StrategyHelper\DynTradeOptimizeProps\Algorithm_0]
 	CFFScriptGenetic = '// TODO: Enter your formula to replace the samples below 
@@ -3826,7 +3842,7 @@ The reserved words supported in Portfolio optimization:
 	CriteriaIndex = '0'
 	CriteriaType = '0'
 	Limits = '10000'
-	UseLimits = '0'
+	UseLimits = '-1'
 
 [Wsp\Window_0\ChartManager\Strategy\StrategyHelper\OptimizerProperties\Algorithm_1]
 	CFFScriptGenetic = '// TODO: Enter your formula to replace the samples below 
@@ -3900,7 +3916,7 @@ The reserved words supported in Portfolio optimization:
 	CriteriaIndex = '0'
 	CriteriaType = '0'
 	Limits = '10000'
-	UseLimits = '0'
+	UseLimits = '-1'
 
 [Wsp\Window_0\ChartManager\Strategy\StrategyHelper\OptimizerProperties\Algorithm_2]
 	CFFScriptGenetic = '// TODO: Enter your formula to replace the samples below 
@@ -3974,7 +3990,7 @@ The reserved words supported in Portfolio optimization:
 	CriteriaIndex = '0'
 	CriteriaType = '0'
 	Limits = '10000'
-	UseLimits = '0'
+	UseLimits = '-1'
 
 [Wsp\Window_0\ChartManager\Strategy\StrategyHelper\StrategyProperties]
 	AllowEntryCount = '10'
@@ -4078,17 +4094,17 @@ The reserved words supported in Portfolio optimization:
 	VolumeRightScaleWidth = '50'
 
 [Wsp\Window_1]
-	ContainerHeight = '628'
-	ContainerWidth = '1294'
+	ContainerHeight = '624'
+	ContainerWidth = '1290'
 	Flags = '0'
-	Height = '209'
+	Height = '208'
 	Left = '0'
 	MinX = '-1'
 	MinY = '-1'
 	State = '1'
-	Top = '209'
+	Top = '208'
 	ViewType = '0'
-	Width = '431'
+	Width = '430'
 
 [Wsp\Window_1\ChartManager]
 	ChartCount = '2'
@@ -4146,9 +4162,9 @@ The reserved words supported in Portfolio optimization:
 	ExpirationDate = '0'
 	FieldId = '201'
 	FieldName = 'Trade'
-	FinishDate2Id = '45794'
+	FinishDate2Id = '45808'
 	FinishDate2Name = ''
-	FinishDateId = '45794'
+	FinishDateId = '45808'
 	FinishDateName = ''
 	FootPrintChartType = '0'
 	KagiReversal = '1'
@@ -6700,8 +6716,8 @@ The reserved words supported in Portfolio optimization:
 	ManualMode = '0'
 	MarginBottom = '5'
 	MarginTop = '5'
-	Maximum = '55461470,0586127'
-	Minimum = '-46042048,0586127'
+	Maximum = '82063405,6480913'
+	Minimum = '-72643983,6480913'
 	MovementSize.Long = '1'
 	MovementSize.Metric = 'False'
 	MovementSize.Price = '5'
@@ -8134,17 +8150,17 @@ The reserved words supported in Portfolio optimization:
 	VolumeRightScaleWidth = '50'
 
 [Wsp\Window_2]
-	ContainerHeight = '628'
-	ContainerWidth = '1294'
+	ContainerHeight = '624'
+	ContainerWidth = '1290'
 	Flags = '0'
-	Height = '209'
+	Height = '208'
 	Left = '0'
 	MinX = '-1'
 	MinY = '-1'
 	State = '1'
-	Top = '418'
+	Top = '416'
 	ViewType = '0'
-	Width = '431'
+	Width = '430'
 
 [Wsp\Window_2\ChartManager]
 	ChartCount = '2'
@@ -8202,9 +8218,9 @@ The reserved words supported in Portfolio optimization:
 	ExpirationDate = '0'
 	FieldId = '201'
 	FieldName = 'Trade'
-	FinishDate2Id = '45794'
+	FinishDate2Id = '45808'
 	FinishDate2Name = ''
-	FinishDateId = '45794'
+	FinishDateId = '45808'
 	FinishDateName = ''
 	FootPrintChartType = '0'
 	KagiReversal = '1'
@@ -10756,8 +10772,8 @@ The reserved words supported in Portfolio optimization:
 	ManualMode = '0'
 	MarginBottom = '5'
 	MarginTop = '5'
-	Maximum = '61100554,3984586'
-	Minimum = '-51681132,3984586'
+	Maximum = '90658260,6089903'
+	Minimum = '-81238838,6089903'
 	MovementSize.Long = '1'
 	MovementSize.Metric = 'False'
 	MovementSize.Price = '5'
@@ -12201,8 +12217,8 @@ The reserved words supported in Portfolio optimization:
 	VolumeRightScaleWidth = '50'
 
 [Wsp\Window_3]
-	ContainerHeight = '628'
-	ContainerWidth = '1294'
+	ContainerHeight = '624'
+	ContainerWidth = '1290'
 	Flags = '0'
 	Height = '208'
 	Left = '430'
@@ -12245,7 +12261,7 @@ The reserved words supported in Portfolio optimization:
 	MergeDataSources = '0'
 
 [Wsp\Window_3\ChartManager\Chart_0\Series_0\DataSeries\Request]
-	AnchorFinishDate = '0'
+	AnchorFinishDate = '1'
 	BackTypeId = '274'
 	BackTypeName = 'Days Back'
 	BreakOnSession = '1'
@@ -12261,17 +12277,17 @@ The reserved words supported in Portfolio optimization:
 	CumulativeDeltaChartType = '1'
 	CustomResolutionsInfo = '0;8;Regular;1;8;'
 	CustomResolutionsParams = ''
-	DataFeed = 'ASCII Mapping'
+	DataFeed = 'TOUCHANCE'
 	DeltaBaseOnResolution = '1'
 	DeltaType = '1'
-	Description = 'CME.MCL HOT-TOUCHANCE-CME-Futures-Minute-Trade'
+	Description = '微型 輕原油HOT'
 	Exchange = 'CME'
 	ExpirationDate = '0'
 	FieldId = '201'
 	FieldName = 'Trade'
-	FinishDate2Id = '45292'
+	FinishDate2Id = '45444'
 	FinishDate2Name = ''
-	FinishDateId = '45776'
+	FinishDateId = '45808'
 	FinishDateName = ''
 	FootPrintChartType = '0'
 	KagiReversal = '1'
@@ -12287,16 +12303,16 @@ The reserved words supported in Portfolio optimization:
 	RangeId = '1'
 	RangeName = 'PERIOD'
 	RealTimeCategory = '0'
-	RealTimeDataFeed = 'ASCII Mapping'
+	RealTimeDataFeed = 'TOUCHANCE'
 	RealTimeExchange = 'CME'
-	RealTimeSymbol = 'CME.MCL HOT-TOUCHANCE-CME-FUTU'
+	RealTimeSymbol = 'CME.MCL HOT'
 	RenkoBasis = '0'
 	RenkoBoxSize = '1'
 	RenkoBoxSizeType = '0'
 	RequestOffline = '0'
 	ResolutionId = '2'
 	ResolutionName = 'Minute'
-	ResolutionSizeId = '720'
+	ResolutionSizeId = '120'
 	ResolutionSizeName = ''
 	SessionsId = '0'
 	SessionsName = 'Default'
@@ -12308,7 +12324,7 @@ The reserved words supported in Portfolio optimization:
 	StartDateId = '44581'
 	StartDateName = ''
 	StrikePrice = ''
-	Symbol = 'CME.MCL HOT-TOUCHANCE-CME-FUTU'
+	Symbol = 'CME.MCL HOT'
 	TPOBaseOnResolution = '0'
 	TPOBlockSize = '30'
 	TPOBlockSizeResolution = '4'
@@ -12334,8 +12350,8 @@ The reserved words supported in Portfolio optimization:
 	ManualMode = '0'
 	MarginBottom = '5'
 	MarginTop = '5'
-	Maximum = '91,0888888888889'
-	Minimum = '66,7111111111111'
+	Maximum = '88,2055555555556'
+	Minimum = '68,2944444444445'
 	MovementSize.Long = '1'
 	MovementSize.Metric = 'False'
 	MovementSize.Price = '5'
@@ -14133,9 +14149,9 @@ The reserved words supported in Portfolio optimization:
 	Type = '4'
 
 [Wsp\Window_3\ChartManager\IndexViewCalc]
-	BarSpacing = '3'
+	BarSpacing = '0,25'
 	BarsToRight = '20'
-	BarsToRightValue = '25'
+	BarsToRightValue = '300'
 	ChartShiftViewType = '0'
 	ShowEmptyPeriod = '0'
 
@@ -14408,7 +14424,7 @@ The reserved words supported in Portfolio optimization:
 
 [Wsp\Window_3\ChartManager\OptimizeManager\OptimizeManager\ClassicOptimizer\ClassicOtimizer]
 	OptReportExist = '0'
-	ReportFilePath = 'C:\Users\marco\OneDrive\文件\Optimization ASCII Mapping Futures CME.MCL HOT-TOUCHANCE-CME-FUTU CME 720 Minutes 20250507-194141.MCReport'
+	ReportFilePath = 'C:\Users\marco\OneDrive\文件\Optimization TOUCHANCE Futures CME.MCL HOT CME 120 Minutes 20250530-223608.MCReport'
 
 [Wsp\Window_3\ChartManager\OptimizeManager\OptimizeManager\GAProperties\GAPropContainer]
 	GABasicAlgoritmExist = 'True'
@@ -14433,9 +14449,9 @@ The reserved words supported in Portfolio optimization:
 	offspring_number = '16'
 	proximalConv = '0,99'
 	replScheme = '0'
-	ulGenCount = '43'
-	ulMinGenCount = '43'
-	ulPopSize = '49'
+	ulGenCount = '175'
+	ulMinGenCount = '175'
+	ulPopSize = '200'
 
 [Wsp\Window_3\ChartManager\OptimizeManager\OptimizeManager\MOOptimizer\MO]
 	MOReportExist = '0'
@@ -14665,7 +14681,7 @@ The reserved words supported in Portfolio optimization:
 	ConvertExitInterval = '0'
 	ConvertPartFillEntryInterval = '0'
 	ConvertPartFillExitInterval = '0'
-	CurDataFeed = 'ASCII Mapping'
+	CurDataFeed = 'TOUCHANCE'
 	EmulateLimit = '0'
 	EmulateStop = '0'
 	EmulateStopLimit = '0'
@@ -14717,13 +14733,13 @@ The reserved words supported in Portfolio optimization:
 	TimesPerBar = '1'
 	UseFreshSnapOnAdditionalDS = '1'
 
-[Wsp\Window_3\ChartManager\Strategy\SignalObject_0\SignalHelper\CustomInputHelperDT\Input_Count]
+[Wsp\Window_3\ChartManager\Strategy\SignalObject_0\SignalHelper\CustomInputHelperDT\Input_BBandMultiplier]
 	IsInputOptimizable = '1'
-	LocalCurrentValue2 = '16'
-	Start2 = '16'
+	LocalCurrentValue2 = '1,6'
+	Start2 = '1,6'
 	Step2 = '1'
-	Stop2 = '16'
-	Value = '16'
+	Stop2 = '1,6'
+	Value = '1.6'
 
 [Wsp\Window_3\ChartManager\Strategy\SignalObject_0\SignalHelper\CustomInputHelperDT\Input_Enabled]
 	IsInputOptimizable = '1'
@@ -14733,29 +14749,13 @@ The reserved words supported in Portfolio optimization:
 	Stop2 = '1'
 	Value = '1'
 
-[Wsp\Window_3\ChartManager\Strategy\SignalObject_0\SignalHelper\CustomInputHelperDT\Input_Len]
+[Wsp\Window_3\ChartManager\Strategy\SignalObject_0\SignalHelper\CustomInputHelperDT\Input_KBar]
 	IsInputOptimizable = '1'
-	LocalCurrentValue2 = '18'
-	Start2 = '18'
+	LocalCurrentValue2 = '100'
+	Start2 = '100'
 	Step2 = '1'
-	Stop2 = '18'
-	Value = '18'
-
-[Wsp\Window_3\ChartManager\Strategy\SignalObject_0\SignalHelper\CustomInputHelperDT\Input_MA1Len]
-	IsInputOptimizable = '1'
-	LocalCurrentValue2 = '87'
-	Start2 = '87'
-	Step2 = '1'
-	Stop2 = '87'
-	Value = '87'
-
-[Wsp\Window_3\ChartManager\Strategy\SignalObject_0\SignalHelper\CustomInputHelperDT\Input_MA2Len]
-	IsInputOptimizable = '1'
-	LocalCurrentValue2 = '35'
-	Start2 = '35'
-	Step2 = '1'
-	Stop2 = '35'
-	Value = '35'
+	Stop2 = '100'
+	Value = '100'
 
 [Wsp\Window_3\ChartManager\Strategy\SignalObject_0\SignalHelper\CustomInputHelperDT\Input_OrderSize]
 	IsInputOptimizable = '1'
@@ -14765,13 +14765,29 @@ The reserved words supported in Portfolio optimization:
 	Stop2 = '1'
 	Value = '1'
 
-[Wsp\Window_3\ChartManager\Strategy\SignalObject_0\SignalHelper\InputHelper\Input_Count]
+[Wsp\Window_3\ChartManager\Strategy\SignalObject_0\SignalHelper\CustomInputHelperDT\Input_PullBack_Percent]
 	IsInputOptimizable = '1'
-	LocalCurrentValue2 = '1'
-	Start2 = '1'
+	LocalCurrentValue2 = '0,007'
+	Start2 = '0,007'
 	Step2 = '1'
-	Stop2 = '10'
-	Value = '1'
+	Stop2 = '0,007'
+	Value = '0.007'
+
+[Wsp\Window_3\ChartManager\Strategy\SignalObject_0\SignalHelper\CustomInputHelperDT\Input_StopLoss_Percent]
+	IsInputOptimizable = '1'
+	LocalCurrentValue2 = '0,009'
+	Start2 = '0,009'
+	Step2 = '1'
+	Stop2 = '0,009'
+	Value = '0.009'
+
+[Wsp\Window_3\ChartManager\Strategy\SignalObject_0\SignalHelper\InputHelper\Input_BBandMultiplier]
+	IsInputOptimizable = '1'
+	LocalCurrentValue2 = '1,7'
+	Start2 = '1'
+	Step2 = '0,1'
+	Stop2 = '2'
+	Value = '1.7'
 
 [Wsp\Window_3\ChartManager\Strategy\SignalObject_0\SignalHelper\InputHelper\Input_Enabled]
 	IsInputOptimizable = '1'
@@ -14781,29 +14797,13 @@ The reserved words supported in Portfolio optimization:
 	Stop2 = '1'
 	Value = '1'
 
-[Wsp\Window_3\ChartManager\Strategy\SignalObject_0\SignalHelper\InputHelper\Input_Len]
+[Wsp\Window_3\ChartManager\Strategy\SignalObject_0\SignalHelper\InputHelper\Input_KBar]
 	IsInputOptimizable = '1'
-	LocalCurrentValue2 = '9'
-	Start2 = '1'
+	LocalCurrentValue2 = '21'
+	Start2 = '5'
 	Step2 = '1'
-	Stop2 = '15'
-	Value = '9'
-
-[Wsp\Window_3\ChartManager\Strategy\SignalObject_0\SignalHelper\InputHelper\Input_MA1Len]
-	IsInputOptimizable = '1'
-	LocalCurrentValue2 = '4'
-	Start2 = '2'
-	Step2 = '1'
-	Stop2 = '10'
-	Value = '4'
-
-[Wsp\Window_3\ChartManager\Strategy\SignalObject_0\SignalHelper\InputHelper\Input_MA2Len]
-	IsInputOptimizable = '1'
-	LocalCurrentValue2 = '3'
-	Start2 = '2'
-	Step2 = '1'
-	Stop2 = '10'
-	Value = '3'
+	Stop2 = '50'
+	Value = '21'
 
 [Wsp\Window_3\ChartManager\Strategy\SignalObject_0\SignalHelper\InputHelper\Input_OrderSize]
 	IsInputOptimizable = '1'
@@ -14812,6 +14812,22 @@ The reserved words supported in Portfolio optimization:
 	Step2 = '1'
 	Stop2 = '1'
 	Value = '1'
+
+[Wsp\Window_3\ChartManager\Strategy\SignalObject_0\SignalHelper\InputHelper\Input_PullBack_Percent]
+	IsInputOptimizable = '1'
+	LocalCurrentValue2 = '0,029'
+	Start2 = '0,01'
+	Step2 = '0,001'
+	Stop2 = '0,05'
+	Value = '0.029'
+
+[Wsp\Window_3\ChartManager\Strategy\SignalObject_0\SignalHelper\InputHelper\Input_StopLoss_Percent]
+	IsInputOptimizable = '1'
+	LocalCurrentValue2 = '0,045'
+	Start2 = '0,01'
+	Step2 = '0,001'
+	Stop2 = '0,05'
+	Value = '0.045'
 
 [Wsp\Window_3\ChartManager\Strategy\SignalObject_0\SignalHelper\Styles\OrderType: Buy Entry\ArrowProps]
 	Color = '16711680'
@@ -14964,7 +14980,7 @@ The reserved words supported in Portfolio optimization:
 	NeedActivateAT = 'False'
 	Profile = 'Interactive Brokers'
 	StrategyName = 'strategy_i_mcl_test'
-	SymbolName = 'CME.MCL HOT-TOUCHANCE-CME-FUTU - 720 Minutes - ASCII Mapping'
+	SymbolName = 'CME.MCL HOT - 120 Minutes - TOUCHANCE'
 
 [Wsp\Window_3\ChartManager\Strategy\StrategyHelper\DynTradeOptimizeProps\Algorithm_0]
 	CFFScriptGenetic = '// TODO: Enter your formula to replace the samples below 
@@ -15433,7 +15449,7 @@ The reserved words supported in Portfolio optimization:
 	BTOFAMode = '0'
 	BTOFAPoints = '0'
 	BTOFA_TIF = '1'
-	BarReference = '500'
+	BarReference = '200'
 	BidIndex = '0'
 	CalcPnLInSymbolCurrency = '1'
 	CalcRealTimeAsHistory = '1'
@@ -15447,11 +15463,11 @@ The reserved words supported in Portfolio optimization:
 	IgnoreTickCache_v2 = '1'
 	InitCapital = '4000'
 	InterestRate = '0'
-	LIBEnabled = '1'
+	LIBEnabled = '0'
 	LIBSize = '1'
 	LIBSkipIdenticalTicks = '1'
 	LIBTimeDetalization = '0'
-	LIBType = '2'
+	LIBType = '1'
 	LimitType = '2'
 	MaximumPerPosition = '100'
 	MinimumContracts = '0'
@@ -15514,11 +15530,11 @@ The reserved words supported in Portfolio optimization:
 	Property_OrderType = '1'
 	Property_PrecisionPercent = '2'
 	Property_ProfitType = '0'
-	Property_ProfitValue = '90'
+	Property_ProfitValue = '115'
 	Property_QuantityType = '0'
 	Property_QuantityValue = '1'
 	Property_StopLossType = '0'
-	Property_StopLossValue = '90'
+	Property_StopLossValue = '115'
 
 [Wsp\Window_3\ChartManager\VolumeScale]
 	VolumeBarColor = '8421504'
@@ -15528,17 +15544,17 @@ The reserved words supported in Portfolio optimization:
 	VolumeRightScaleWidth = '50'
 
 [Wsp\Window_4]
-	ContainerHeight = '628'
-	ContainerWidth = '1294'
+	ContainerHeight = '624'
+	ContainerWidth = '1290'
 	Flags = '0'
-	Height = '209'
-	Left = '431'
+	Height = '208'
+	Left = '430'
 	MinX = '-1'
 	MinY = '-1'
 	State = '1'
-	Top = '209'
+	Top = '208'
 	ViewType = '0'
-	Width = '431'
+	Width = '430'
 
 [Wsp\Window_4\ChartManager]
 	ChartCount = '3'
@@ -15596,9 +15612,9 @@ The reserved words supported in Portfolio optimization:
 	ExpirationDate = '0'
 	FieldId = '201'
 	FieldName = 'Trade'
-	FinishDate2Id = '45794'
+	FinishDate2Id = '45808'
 	FinishDate2Name = ''
-	FinishDateId = '45794'
+	FinishDateId = '45808'
 	FinishDateName = ''
 	FootPrintChartType = '0'
 	KagiReversal = '1'
@@ -15661,8 +15677,8 @@ The reserved words supported in Portfolio optimization:
 	ManualMode = '0'
 	MarginBottom = '5'
 	MarginTop = '5'
-	Maximum = '3043,53621399177'
-	Minimum = '2526,66378600823'
+	Maximum = '3178,99759791459'
+	Minimum = '2391,20240208541'
 	MovementSize.Long = '1'
 	MovementSize.Metric = 'False'
 	MovementSize.Price = '5'
@@ -18150,8 +18166,8 @@ The reserved words supported in Portfolio optimization:
 	ManualMode = '0'
 	MarginBottom = '5'
 	MarginTop = '5'
-	Maximum = '74328036,1832822'
-	Minimum = '-64908614,1832822'
+	Maximum = '110819031,504927'
+	Minimum = '-101399609,504926'
 	MovementSize.Long = '1'
 	MovementSize.Metric = 'False'
 	MovementSize.Price = '5'
@@ -18293,8 +18309,8 @@ The reserved words supported in Portfolio optimization:
 	ManualMode = '0'
 	MarginBottom = '5'
 	MarginTop = '5'
-	Maximum = '1,18587105624143'
-	Minimum = '-0,185871056241427'
+	Maximum = '1,54537579064385'
+	Minimum = '-0,545375790643846'
 	MovementSize.Long = '1'
 	MovementSize.Metric = 'False'
 	MovementSize.Price = '5'
@@ -19706,17 +19722,17 @@ The reserved words supported in Portfolio optimization:
 	VolumeRightScaleWidth = '50'
 
 [Wsp\Window_5]
-	ContainerHeight = '628'
-	ContainerWidth = '1294'
+	ContainerHeight = '624'
+	ContainerWidth = '1290'
 	Flags = '0'
-	Height = '209'
-	Left = '431'
+	Height = '208'
+	Left = '430'
 	MinX = '-1'
 	MinY = '-1'
 	State = '1'
-	Top = '418'
+	Top = '416'
 	ViewType = '0'
-	Width = '431'
+	Width = '430'
 
 [Wsp\Window_5\ChartManager]
 	ChartCount = '2'
@@ -19774,9 +19790,9 @@ The reserved words supported in Portfolio optimization:
 	ExpirationDate = '0'
 	FieldId = '201'
 	FieldName = 'Trade'
-	FinishDate2Id = '45794'
+	FinishDate2Id = '45808'
 	FinishDate2Name = ''
-	FinishDateId = '45794'
+	FinishDateId = '45808'
 	FinishDateName = ''
 	FootPrintChartType = '0'
 	KagiReversal = '1'
@@ -22328,8 +22344,8 @@ The reserved words supported in Portfolio optimization:
 	ManualMode = '0'
 	MarginBottom = '5'
 	MarginTop = '5'
-	Maximum = '55461470,0586127'
-	Minimum = '-46042048,0586127'
+	Maximum = '82063405,6480913'
+	Minimum = '-72643983,6480913'
 	MovementSize.Long = '1'
 	MovementSize.Metric = 'False'
 	MovementSize.Price = '5'
@@ -22396,7 +22412,7 @@ The reserved words supported in Portfolio optimization:
 [Wsp\Window_5\ChartManager\IndexViewCalc]
 	BarSpacing = '0,1'
 	BarsToRight = '20'
-	BarsToRightValue = '752'
+	BarsToRightValue = '750'
 	ChartShiftViewType = '0'
 	ShowEmptyPeriod = '0'
 
@@ -23772,17 +23788,17 @@ The reserved words supported in Portfolio optimization:
 	VolumeRightScaleWidth = '50'
 
 [Wsp\Window_6]
-	ContainerHeight = '628'
-	ContainerWidth = '1294'
+	ContainerHeight = '624'
+	ContainerWidth = '1290'
 	Flags = '0'
-	Height = '209'
-	Left = '862'
+	Height = '156'
+	Left = '860'
 	MinX = '-1'
 	MinY = '-1'
 	State = '1'
 	Top = '0'
 	ViewType = '0'
-	Width = '431'
+	Width = '430'
 
 [Wsp\Window_6\ChartManager]
 	ChartCount = '2'
@@ -23840,9 +23856,9 @@ The reserved words supported in Portfolio optimization:
 	ExpirationDate = '0'
 	FieldId = '201'
 	FieldName = 'Trade'
-	FinishDate2Id = '45794'
+	FinishDate2Id = '45808'
 	FinishDate2Name = ''
-	FinishDateId = '45794'
+	FinishDateId = '45808'
 	FinishDateName = ''
 	FootPrintChartType = '0'
 	KagiReversal = '1'
@@ -26394,8 +26410,8 @@ The reserved words supported in Portfolio optimization:
 	ManualMode = '0'
 	MarginBottom = '5'
 	MarginTop = '5'
-	Maximum = '55461470,0586127'
-	Minimum = '-46042048,0586127'
+	Maximum = '82063405,6480913'
+	Minimum = '-72643983,6480913'
 	MovementSize.Long = '1'
 	MovementSize.Metric = 'False'
 	MovementSize.Price = '5'
@@ -27006,7 +27022,7 @@ The reserved words supported in Portfolio optimization:
 	IsRepeatSound = '0'
 	NeedCancelMarketOrders = '1'
 	OptimizeSendOrdersMode = '1'
-	OriginalSystemName = ''
+	OriginalSystemName = 'Interactive Brokers'
 	ReculcOnMPChange = '1'
 	ReculcOnOrderFill = '1'
 	ReculcOnOrderReject = '0'
@@ -28050,17 +28066,17 @@ The reserved words supported in Portfolio optimization:
 	VolumeRightScaleWidth = '50'
 
 [Wsp\Window_7]
-	ContainerHeight = '628'
-	ContainerWidth = '1294'
+	ContainerHeight = '624'
+	ContainerWidth = '1290'
 	Flags = '0'
-	Height = '209'
-	Left = '862'
+	Height = '156'
+	Left = '860'
 	MinX = '-1'
 	MinY = '-1'
 	State = '1'
-	Top = '209'
+	Top = '156'
 	ViewType = '0'
-	Width = '431'
+	Width = '430'
 
 [Wsp\Window_7\ChartManager]
 	ChartCount = '2'
@@ -28118,9 +28134,9 @@ The reserved words supported in Portfolio optimization:
 	ExpirationDate = '0'
 	FieldId = '201'
 	FieldName = 'Trade'
-	FinishDate2Id = '45794'
+	FinishDate2Id = '45808'
 	FinishDate2Name = ''
-	FinishDateId = '45794'
+	FinishDateId = '45808'
 	FinishDateName = ''
 	FootPrintChartType = '0'
 	KagiReversal = '1'
@@ -28183,7 +28199,7 @@ The reserved words supported in Portfolio optimization:
 	ManualMode = '0'
 	MarginBottom = '5'
 	MarginTop = '5'
-	Maximum = '78,2291770833333'
+	Maximum = '78,0817291666666'
 	Minimum = '61,8727777777778'
 	MovementSize.Long = '1'
 	MovementSize.Metric = 'False'
@@ -30061,7 +30077,7 @@ The reserved words supported in Portfolio optimization:
 	ManualMode = '0'
 	MarginBottom = '5'
 	MarginTop = '5'
-	Maximum = '78,2291770833333'
+	Maximum = '78,0817291666666'
 	Minimum = '61,8727777777778'
 	MovementSize.Long = '1'
 	MovementSize.Metric = 'False'
@@ -30387,7 +30403,7 @@ The reserved words supported in Portfolio optimization:
 	ManualMode = '0'
 	MarginBottom = '5'
 	MarginTop = '5'
-	Maximum = '78,2291770833333'
+	Maximum = '78,0817291666666'
 	Minimum = '61,8727777777778'
 	MovementSize.Long = '1'
 	MovementSize.Metric = 'False'
@@ -30672,8 +30688,8 @@ The reserved words supported in Portfolio optimization:
 	ManualMode = '0'
 	MarginBottom = '5'
 	MarginTop = '5'
-	Maximum = '61100554,3984586'
-	Minimum = '-51681132,3984586'
+	Maximum = '90658260,6089903'
+	Minimum = '-81238838,6089903'
 	MovementSize.Long = '1'
 	MovementSize.Metric = 'False'
 	MovementSize.Price = '5'
@@ -31076,7 +31092,7 @@ The reserved words supported in Portfolio optimization:
 	Left Manual = '0'
 	Left Scale = '0'
 	Precise Marker = '1'
-	Right Characters = '6'
+	Right Characters = '5'
 	Right Manual = '0'
 	Right Scale = '1'
 	Time To Close = '1'
@@ -32328,17 +32344,17 @@ The reserved words supported in Portfolio optimization:
 	VolumeRightScaleWidth = '50'
 
 [Wsp\Window_8]
-	ContainerHeight = '628'
-	ContainerWidth = '1294'
+	ContainerHeight = '624'
+	ContainerWidth = '1290'
 	Flags = '0'
-	Height = '209'
-	Left = '862'
+	Height = '156'
+	Left = '860'
 	MinX = '-1'
 	MinY = '-1'
 	State = '1'
-	Top = '418'
+	Top = '312'
 	ViewType = '0'
-	Width = '431'
+	Width = '430'
 
 [Wsp\Window_8\ChartManager]
 	ChartCount = '2'
@@ -32396,9 +32412,9 @@ The reserved words supported in Portfolio optimization:
 	ExpirationDate = '0'
 	FieldId = '201'
 	FieldName = 'Trade'
-	FinishDate2Id = '45292'
+	FinishDate2Id = '45808'
 	FinishDate2Name = ''
-	FinishDateId = '45771'
+	FinishDateId = '45808'
 	FinishDateName = ''
 	FootPrintChartType = '0'
 	KagiReversal = '1'
@@ -32461,8 +32477,8 @@ The reserved words supported in Portfolio optimization:
 	ManualMode = '0'
 	MarginBottom = '5'
 	MarginTop = '5'
-	Maximum = '107,313055555556'
-	Minimum = '99,9519444444445'
+	Maximum = '109,289797786534'
+	Minimum = '97,13'
 	MovementSize.Long = '1'
 	MovementSize.Metric = 'False'
 	MovementSize.Price = '5'
@@ -34339,8 +34355,8 @@ The reserved words supported in Portfolio optimization:
 	ManualMode = '0'
 	MarginBottom = '5'
 	MarginTop = '5'
-	Maximum = '107,313055555556'
-	Minimum = '99,9519444444445'
+	Maximum = '109,289797786534'
+	Minimum = '97,13'
 	MovementSize.Long = '1'
 	MovementSize.Metric = 'False'
 	MovementSize.Price = '5'
@@ -34665,8 +34681,8 @@ The reserved words supported in Portfolio optimization:
 	ManualMode = '0'
 	MarginBottom = '5'
 	MarginTop = '5'
-	Maximum = '107,313055555556'
-	Minimum = '99,9519444444445'
+	Maximum = '109,289797786534'
+	Minimum = '97,13'
 	MovementSize.Long = '1'
 	MovementSize.Metric = 'False'
 	MovementSize.Price = '5'
@@ -34950,8 +34966,8 @@ The reserved words supported in Portfolio optimization:
 	ManualMode = '0'
 	MarginBottom = '5'
 	MarginTop = '5'
-	Maximum = '61100554,3984586'
-	Minimum = '-51681132,3984586'
+	Maximum = '90658260,6089903'
+	Minimum = '-81238838,6089903'
 	MovementSize.Long = '1'
 	MovementSize.Metric = 'False'
 	MovementSize.Price = '5'
@@ -36410,17 +36426,17 @@ The reserved words supported in Portfolio optimization:
 	VolumeRightScaleWidth = '50'
 
 [Wsp\Window_9]
-	ContainerHeight = '628'
-	ContainerWidth = '1294'
-	Flags = '2'
-	Height = '250'
-	Left = '234'
+	ContainerHeight = '624'
+	ContainerWidth = '1290'
+	Flags = '0'
+	Height = '156'
+	Left = '860'
 	MinX = '-1'
 	MinY = '-1'
-	State = '3'
-	Top = '234'
+	State = '1'
+	Top = '468'
 	ViewType = '0'
-	Width = '516'
+	Width = '430'
 
 [Wsp\Window_9\ChartManager]
 	ChartCount = '1'
@@ -36436,7 +36452,7 @@ The reserved words supported in Portfolio optimization:
 	LSeriesNum = '0'
 	PencentHeight = '0,75'
 	RSeriesNum = '0'
-	SeriesCount = '1'
+	SeriesCount = '2'
 	invert Scale = '0'
 
 [Wsp\Window_9\ChartManager\Chart_0\Series_0]
@@ -36478,9 +36494,9 @@ The reserved words supported in Portfolio optimization:
 	ExpirationDate = '0'
 	FieldId = '201'
 	FieldName = 'Trade'
-	FinishDate2Id = '45292'
+	FinishDate2Id = '45808'
 	FinishDate2Name = ''
-	FinishDateId = '45776'
+	FinishDateId = '45808'
 	FinishDateName = ''
 	FootPrintChartType = '0'
 	KagiReversal = '1'
@@ -36505,7 +36521,7 @@ The reserved words supported in Portfolio optimization:
 	RequestOffline = '0'
 	ResolutionId = '2'
 	ResolutionName = 'Minute'
-	ResolutionSizeId = '240'
+	ResolutionSizeId = '60'
 	ResolutionSizeName = ''
 	SessionsId = '0'
 	SessionsName = 'Default'
@@ -36514,7 +36530,7 @@ The reserved words supported in Portfolio optimization:
 	ShowPhantomBars = '1'
 	ShowRealOpen = '0'
 	ShowWick = '0'
-	StartDateId = '41365'
+	StartDateId = '41640'
 	StartDateName = ''
 	StrikePrice = ''
 	Symbol = 'CME.CL HOT'
@@ -36543,8 +36559,8 @@ The reserved words supported in Portfolio optimization:
 	ManualMode = '0'
 	MarginBottom = '5'
 	MarginTop = '5'
-	Maximum = '91,0694444444444'
-	Minimum = '66,4805555555556'
+	Maximum = '63,6066290613705'
+	Minimum = '55,2046709386294'
 	MovementSize.Long = '1'
 	MovementSize.Metric = 'False'
 	MovementSize.Price = '5'
@@ -38318,6 +38334,187 @@ The reserved words supported in Portfolio optimization:
 	VolumeDataRangeType = '3'
 	VolumePlotNumber = '1'
 
+[Wsp\Window_9\ChartManager\Chart_0\Series_1]
+	CalcRealTimeAsHistory = '1'
+	DrawableSeriesID = '{98477850-51BA-4319-88BA-569DEFEBBE63}'
+	DrawingsCount = '0'
+	InvisibleSubChart = '0'
+	SeriesType = '0'
+	Status = '1'
+	UpdateOnEveryTick = '1'
+
+[Wsp\Window_9\ChartManager\Chart_0\Series_1\AlertObject]
+	AlertEnable = '0'
+	AlertType = '1'
+	PropertyCount = '11'
+
+[Wsp\Window_9\ChartManager\Chart_0\Series_1\AlertObject\Property_0]
+	PropertyName = '_Audio_Enable'
+	PropertyValue = '1'
+
+[Wsp\Window_9\ChartManager\Chart_0\Series_1\AlertObject\Property_1]
+	PropertyName = '_Audio_Sound'
+	PropertyValue = '1'
+
+[Wsp\Window_9\ChartManager\Chart_0\Series_1\AlertObject\Property_10]
+	PropertyName = '_Email_Subject'
+	PropertyValue = 'MultiCharts64 Alert'
+
+[Wsp\Window_9\ChartManager\Chart_0\Series_1\AlertObject\Property_2]
+	PropertyName = '_Audio_Sound_File'
+	PropertyValue = 'ding.wav'
+
+[Wsp\Window_9\ChartManager\Chart_0\Series_1\AlertObject\Property_3]
+	PropertyName = '_Audio_Sound_Repeat'
+	PropertyValue = '0'
+
+[Wsp\Window_9\ChartManager\Chart_0\Series_1\AlertObject\Property_4]
+	PropertyName = '_Visual_Enable'
+	PropertyValue = '1'
+
+[Wsp\Window_9\ChartManager\Chart_0\Series_1\AlertObject\Property_5]
+	PropertyName = '_Visual_Timeout'
+	PropertyValue = '5'
+
+[Wsp\Window_9\ChartManager\Chart_0\Series_1\AlertObject\Property_6]
+	PropertyName = '_Email_Enable'
+	PropertyValue = '0'
+
+[Wsp\Window_9\ChartManager\Chart_0\Series_1\AlertObject\Property_7]
+	PropertyName = '_ExtEmail_Tag'
+	PropertyValue = ''
+
+[Wsp\Window_9\ChartManager\Chart_0\Series_1\AlertObject\Property_8]
+	PropertyName = '_WebHook_Tag'
+	PropertyValue = ''
+
+[Wsp\Window_9\ChartManager\Chart_0\Series_1\AlertObject\Property_9]
+	PropertyName = '_Telegram_Enable'
+	PropertyValue = '0'
+
+[Wsp\Window_9\ChartManager\Chart_0\Series_1\IndicatorHelper]
+	BaseDataNumber = '0'
+	CalcRealTimeAsHistory = '1'
+	GordonLamCalc = '0'
+	PersistentContent = ''
+	SkipIdenticalTicks = '1'
+	UpdateEveryTick = '1'
+	UpdateOnEveryTick = '1'
+	UseAddSeriesFreshSnap_v2 = '1'
+	UseFreshSnapOnAdditionalDS = '1'
+	UserBarMode = '0'
+	UserBarRef = '50'
+
+[Wsp\Window_9\ChartManager\Chart_0\Series_1\IndicatorHelper\InputHelper\Input_BollingerPrice]
+	Value = 'close'
+
+[Wsp\Window_9\ChartManager\Chart_0\Series_1\IndicatorHelper\InputHelper\Input_Displace]
+	Value = '0'
+
+[Wsp\Window_9\ChartManager\Chart_0\Series_1\IndicatorHelper\InputHelper\Input_Length]
+	Value = '200'
+
+[Wsp\Window_9\ChartManager\Chart_0\Series_1\IndicatorHelper\InputHelper\Input_NumDevsDn]
+	Value = '-2'
+
+[Wsp\Window_9\ChartManager\Chart_0\Series_1\IndicatorHelper\InputHelper\Input_NumDevsUp]
+	Value = '2'
+
+[Wsp\Window_9\ChartManager\Chart_0\Series_1\IndicatorHelper\InputHelper\Input_TestPriceLBand]
+	Value = 'close'
+
+[Wsp\Window_9\ChartManager\Chart_0\Series_1\IndicatorHelper\InputHelper\Input_TestPriceUBand]
+	Value = 'close'
+
+[Wsp\Window_9\ChartManager\Chart_0\Series_1\IndicatorHelper\PlotHelper\Plot_1]
+	DefAlign = '2'
+	DefBKColor = '0'
+	DefColor = '16776960'
+	DefColor2 = '16776960'
+	DefDecimals = '5'
+	DefFormat = '1'
+	DefShowLastPriceMarker = '-1'
+	DefStyle = '0'
+	DefWidth = '0'
+	PlotType = '0'
+
+[Wsp\Window_9\ChartManager\Chart_0\Series_1\IndicatorHelper\PlotHelper\Plot_2]
+	DefAlign = '2'
+	DefBKColor = '0'
+	DefColor = '255'
+	DefColor2 = '255'
+	DefDecimals = '5'
+	DefFormat = '1'
+	DefShowLastPriceMarker = '-1'
+	DefStyle = '0'
+	DefWidth = '0'
+	PlotType = '0'
+
+[Wsp\Window_9\ChartManager\Chart_0\Series_1\IndicatorHelper\PlotHelper\Plot_3]
+	DefAlign = '2'
+	DefBKColor = '0'
+	DefColor = '8421504'
+	DefColor2 = '8421504'
+	DefDecimals = '5'
+	DefFormat = '1'
+	DefShowLastPriceMarker = '-1'
+	DefStyle = '0'
+	DefWidth = '0'
+	PlotType = '0'
+
+[Wsp\Window_9\ChartManager\Chart_0\Series_1\IntervalObject]
+	AxisType = '0'
+	Center = '0'
+	CustomNullsCount = '-1'
+	CustomNullsCountEnable = 'False'
+	Fixed Label Number = '10'
+	Fixed Step Size = '0,01'
+	Label Increment Mode = '1'
+	ManualMode = '0'
+	MarginBottom = '5'
+	MarginTop = '5'
+	Maximum = '63,6066290613705'
+	Minimum = '55,2046709386294'
+	MovementSize.Long = '1'
+	MovementSize.Metric = 'False'
+	MovementSize.Price = '5'
+	OverlayDataSeries = 'False'
+	PriceRange.Above = '1,79769313486232E+308'
+	PriceRange.Below = '1,79769313486232E+308'
+	ScaleType = '3'
+	UseMargins = '1'
+
+[Wsp\Window_9\ChartManager\Chart_0\Series_1\LabelProcessingObject]
+	AutoMode = '1'
+	EnableProcessing = '0'
+	PriceScaleType = '109'
+	SelectedId = '0'
+
+[Wsp\Window_9\ChartManager\Chart_0\Series_1\LabelProcessingObject\Item 0]
+	Suffix = 'x'
+
+[Wsp\Window_9\ChartManager\Chart_0\Series_1\LabelProcessingObject\Item 1]
+	Suffix = 'c'
+
+[Wsp\Window_9\ChartManager\Chart_0\Series_1\LabelProcessingObject\Item 2]
+	Suffix = 'k'
+
+[Wsp\Window_9\ChartManager\Chart_0\Series_1\LabelProcessingObject\Item 3]
+	Suffix = 'm'
+
+[Wsp\Window_9\ChartManager\Chart_0\Series_1\LabelProcessingObject\Item 4]
+	Suffix = 'b'
+
+[Wsp\Window_9\ChartManager\Chart_0\Series_1\ShortTechInfo]
+	IdName = 'ic_Bollingerc20Bands'
+
+[Wsp\Window_9\ChartManager\Chart_0\Series_1\VolumeObject]
+	VolumeBarWidth = '1'
+	VolumeBarsBackCount = '100'
+	VolumeBarsType = '0'
+	VolumeDataRangeType = '3'
+	VolumePlotNumber = '0'
+
 [Wsp\Window_9\ChartManager\ChartingPlugin]
 	Content = 'AAEAAAD/////AQAAAAAAAAAMAgAAAERWb2x1bWVQcm9maWxlLCBWZXJzaW9uPTEuMC4wLjAsIEN1bHR1cmU9bmV1dHJhbCwgUHVibGljS2V5VG9rZW49bnVsbAUBAAAAKUNoYXJ0aW5nUGx1Z2luLlNlcmlhbGl6ZVNldHRpbmdzSGVscGVyTmV3AgAAABY8SXRlbXM+a19fQmFja2luZ0ZpZWxkHTxEcmF3aW5nSXRlbXM+a19fQmFja2luZ0ZpZWxkAwPhAVN5c3RlbS5Db2xsZWN0aW9ucy5HZW5lcmljLkRpY3Rpb25hcnlgMltbU3lzdGVtLkludDMyLCBtc2NvcmxpYiwgVmVyc2lvbj00LjAuMC4wLCBDdWx0dXJlPW5ldXRyYWwsIFB1YmxpY0tleVRva2VuPWI3N2E1YzU2MTkzNGUwODldLFtTeXN0ZW0uU3RyaW5nLCBtc2NvcmxpYiwgVmVyc2lvbj00LjAuMC4wLCBDdWx0dXJlPW5ldXRyYWwsIFB1YmxpY0tleVRva2VuPWI3N2E1YzU2MTkzNGUwODldXbUDU3lzdGVtLkNvbGxlY3Rpb25zLkdlbmVyaWMuRGljdGlvbmFyeWAyW1tTeXN0ZW0uSW50MzIsIG1zY29ybGliLCBWZXJzaW9uPTQuMC4wLjAsIEN1bHR1cmU9bmV1dHJhbCwgUHVibGljS2V5VG9rZW49Yjc3YTVjNTYxOTM0ZTA4OV0sW1N5c3RlbS5Db2xsZWN0aW9ucy5HZW5lcmljLkRpY3Rpb25hcnlgMltbU3lzdGVtLkludDY0LCBtc2NvcmxpYiwgVmVyc2lvbj00LjAuMC4wLCBDdWx0dXJlPW5ldXRyYWwsIFB1YmxpY0tleVRva2VuPWI3N2E1YzU2MTkzNGUwODldLFtTeXN0ZW0uU3RyaW5nLCBtc2NvcmxpYiwgVmVyc2lvbj00LjAuMC4wLCBDdWx0dXJlPW5ldXRyYWwsIFB1YmxpY0tleVRva2VuPWI3N2E1YzU2MTkzNGUwODldXSwgbXNjb3JsaWIsIFZlcnNpb249NC4wLjAuMCwgQ3VsdHVyZT1uZXV0cmFsLCBQdWJsaWNLZXlUb2tlbj1iNzdhNWM1NjE5MzRlMDg5XV0CAAAACQMAAAAJBAAAAAQDAAAA4QFTeXN0ZW0uQ29sbGVjdGlvbnMuR2VuZXJpYy5EaWN0aW9uYXJ5YDJbW1N5c3RlbS5JbnQzMiwgbXNjb3JsaWIsIFZlcnNpb249NC4wLjAuMCwgQ3VsdHVyZT1uZXV0cmFsLCBQdWJsaWNLZXlUb2tlbj1iNzdhNWM1NjE5MzRlMDg5XSxbU3lzdGVtLlN0cmluZywgbXNjb3JsaWIsIFZlcnNpb249NC4wLjAuMCwgQ3VsdHVyZT1uZXV0cmFsLCBQdWJsaWNLZXlUb2tlbj1iNzdhNWM1NjE5MzRlMDg5XV0EAAAAB1ZlcnNpb24IQ29tcGFyZXIISGFzaFNpemUNS2V5VmFsdWVQYWlycwADAAMIkQFTeXN0ZW0uQ29sbGVjdGlvbnMuR2VuZXJpYy5HZW5lcmljRXF1YWxpdHlDb21wYXJlcmAxW1tTeXN0ZW0uSW50MzIsIG1zY29ybGliLCBWZXJzaW9uPTQuMC4wLjAsIEN1bHR1cmU9bmV1dHJhbCwgUHVibGljS2V5VG9rZW49Yjc3YTVjNTYxOTM0ZTA4OV1dCOUBU3lzdGVtLkNvbGxlY3Rpb25zLkdlbmVyaWMuS2V5VmFsdWVQYWlyYDJbW1N5c3RlbS5JbnQzMiwgbXNjb3JsaWIsIFZlcnNpb249NC4wLjAuMCwgQ3VsdHVyZT1uZXV0cmFsLCBQdWJsaWNLZXlUb2tlbj1iNzdhNWM1NjE5MzRlMDg5XSxbU3lzdGVtLlN0cmluZywgbXNjb3JsaWIsIFZlcnNpb249NC4wLjAuMCwgQ3VsdHVyZT1uZXV0cmFsLCBQdWJsaWNLZXlUb2tlbj1iNzdhNWM1NjE5MzRlMDg5XV1bXQEAAAAJBQAAAAMAAAAJBgAAAAQEAAAAtQNTeXN0ZW0uQ29sbGVjdGlvbnMuR2VuZXJpYy5EaWN0aW9uYXJ5YDJbW1N5c3RlbS5JbnQzMiwgbXNjb3JsaWIsIFZlcnNpb249NC4wLjAuMCwgQ3VsdHVyZT1uZXV0cmFsLCBQdWJsaWNLZXlUb2tlbj1iNzdhNWM1NjE5MzRlMDg5XSxbU3lzdGVtLkNvbGxlY3Rpb25zLkdlbmVyaWMuRGljdGlvbmFyeWAyW1tTeXN0ZW0uSW50NjQsIG1zY29ybGliLCBWZXJzaW9uPTQuMC4wLjAsIEN1bHR1cmU9bmV1dHJhbCwgUHVibGljS2V5VG9rZW49Yjc3YTVjNTYxOTM0ZTA4OV0sW1N5c3RlbS5TdHJpbmcsIG1zY29ybGliLCBWZXJzaW9uPTQuMC4wLjAsIEN1bHR1cmU9bmV1dHJhbCwgUHVibGljS2V5VG9rZW49Yjc3YTVjNTYxOTM0ZTA4OV1dLCBtc2NvcmxpYiwgVmVyc2lvbj00LjAuMC4wLCBDdWx0dXJlPW5ldXRyYWwsIFB1YmxpY0tleVRva2VuPWI3N2E1YzU2MTkzNGUwODldXQMAAAAHVmVyc2lvbghDb21wYXJlcghIYXNoU2l6ZQADAAiRAVN5c3RlbS5Db2xsZWN0aW9ucy5HZW5lcmljLkdlbmVyaWNFcXVhbGl0eUNvbXBhcmVyYDFbW1N5c3RlbS5JbnQzMiwgbXNjb3JsaWIsIFZlcnNpb249NC4wLjAuMCwgQ3VsdHVyZT1uZXV0cmFsLCBQdWJsaWNLZXlUb2tlbj1iNzdhNWM1NjE5MzRlMDg5XV0IAAAAAAkFAAAAAAAAAAQFAAAAkQFTeXN0ZW0uQ29sbGVjdGlvbnMuR2VuZXJpYy5HZW5lcmljRXF1YWxpdHlDb21wYXJlcmAxW1tTeXN0ZW0uSW50MzIsIG1zY29ybGliLCBWZXJzaW9uPTQuMC4wLjAsIEN1bHR1cmU9bmV1dHJhbCwgUHVibGljS2V5VG9rZW49Yjc3YTVjNTYxOTM0ZTA4OV1dAAAAAAcGAAAAAAEAAAABAAAAA+MBU3lzdGVtLkNvbGxlY3Rpb25zLkdlbmVyaWMuS2V5VmFsdWVQYWlyYDJbW1N5c3RlbS5JbnQzMiwgbXNjb3JsaWIsIFZlcnNpb249NC4wLjAuMCwgQ3VsdHVyZT1uZXV0cmFsLCBQdWJsaWNLZXlUb2tlbj1iNzdhNWM1NjE5MzRlMDg5XSxbU3lzdGVtLlN0cmluZywgbXNjb3JsaWIsIFZlcnNpb249NC4wLjAuMCwgQ3VsdHVyZT1uZXV0cmFsLCBQdWJsaWNLZXlUb2tlbj1iNzdhNWM1NjE5MzRlMDg5XV0E+P///+MBU3lzdGVtLkNvbGxlY3Rpb25zLkdlbmVyaWMuS2V5VmFsdWVQYWlyYDJbW1N5c3RlbS5JbnQzMiwgbXNjb3JsaWIsIFZlcnNpb249NC4wLjAuMCwgQ3VsdHVyZT1uZXV0cmFsLCBQdWJsaWNLZXlUb2tlbj1iNzdhNWM1NjE5MzRlMDg5XSxbU3lzdGVtLlN0cmluZywgbXNjb3JsaWIsIFZlcnNpb249NC4wLjAuMCwgQ3VsdHVyZT1uZXV0cmFsLCBQdWJsaWNLZXlUb2tlbj1iNzdhNWM1NjE5MzRlMDg5XV0CAAAAA2tleQV2YWx1ZQABCAAAAAAGCQAAALyiAUFBRUFBQUQvLy8vL0FRQUFBQUFBQUFBTUFnQUFBRVJXYjJ4MWJXVlFjbTltYVd4bExDQldaWEp6YVc5dVBURXVNQzR3TGpBc0lFTjFiSFIxY21VOWJtVjFkSEpoYkN3Z1VIVmliR2xqUzJWNVZHOXJaVzQ5Ym5Wc2JBVUJBQUFBTFVOb1lYSjBhVzVuVUd4MVoybHVMbE5sZEhScGJtZHpMbFp2YkhWdFpWQnliMlpwYkdWVFpYUjBhVzVuY3hjQUFBQU9WbWx6ZFdGc1UyVjBkR2x1WjNNUVNXNTBaWEoyWVd4VFpYUjBhVzVuY3d4VWNtRnVjM0JoY21WdVkza0tWa0ZUYVhwbFVHTnVkQWhCYkdsbmJXVnVkQXBDY21WaGEwUnZkMjVXREZCdmFXNTBjMUJsY2xKdmR3aFFjbTltVkhsd1pRVlhhV1IwYUFkV2FYTnBZbXhsRFVSeVlYZEJablJsY2tKaGNuTVdRV3gzWVhselUyaHZkMFZ1ZEdseVpVNTFiV0psY2hWUWNtOW1hV3hsUW5sQ1lYSkJiR2xuYm0xbGJuUVBRblZwYkdSU1pYTnZiSFYwYVc5dUQwbHpSWGh3WVc1a1ZsQlRkSGxzWlJCSmMwVjRjR0Z1WkZaUVVtVnpkVzFsRTBselJYaHdZVzVrVmxCQmNIQmxjbUZ1WTJVUlNYTkZlSEJoYm1SVGJXOXZkR2hwYm1jUVVISnZabWxzWlZOdGIyOTBhR2x1WnhaVGJXOXZkR2hwYm1kZldreEZUVUZmVUdWeWFXOWtEMDFoY210bGNuTlFiM05wZEdsdmJnZFdaWEp6YVc5dURsTjBZWFJwWTBadmJuUlRhWHBsQkFRQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQW1RMmhoY25ScGJtZFFiSFZuYVc0dVUyVjBkR2x1WjNNdVZtbHpkV0ZzVTJWMGRHbHVaM01DQUFBQUtFTm9ZWEowYVc1blVHeDFaMmx1TGxObGRIUnBibWR6TGtsdWRHVnlkbUZzVTJWMGRHbHVaM01DQUFBQUNBZ0lDQWdJQ0FFQkFRZ0lBUUVCQVFnSUNBZ0lBZ0FBQUFrREFBQUFDUVFBQUFBQUFBQUFSZ0FBQUFBQUFBQUFBQUFBQVFBQUFBQUFBQUJrQUFBQUFBQUFBQUFBQUFRQUFBQUFBQUVBQUFBQUFBb0FBQUFBQUFBQUFRQUFBQWdBQUFBRkF3QUFBQ1pEYUdGeWRHbHVaMUJzZFdkcGJpNVRaWFIwYVc1bmN5NVdhWE4xWVd4VFpYUjBhVzVuY3dFQUFBQUVVRzl2YkFPSEFsTjVjM1JsYlM1RGIyeHNaV04wYVc5dWN5NUhaVzVsY21sakxrUnBZM1JwYjI1aGNubGdNbHRiUTJoaGNuUnBibWRRYkhWbmFXNHVVMlYwZEdsdVozTXVVSEp2Wm1sc1pWUjVjR1VzSUZadmJIVnRaVkJ5YjJacGJHVXNJRlpsY25OcGIyNDlNUzR3TGpBdU1Dd2dRM1ZzZEhWeVpUMXVaWFYwY21Gc0xDQlFkV0pzYVdOTFpYbFViMnRsYmoxdWRXeHNYU3hiUTJoaGNuUnBibWRRYkhWbmFXNHVVMlYwZEdsdVozTXVRbUZ6WlZacGMzVmhiRk5sZEhScGJtZHpMQ0JXYjJ4MWJXVlFjbTltYVd4bExDQldaWEp6YVc5dVBURXVNQzR3TGpBc0lFTjFiSFIxY21VOWJtVjFkSEpoYkN3Z1VIVmliR2xqUzJWNVZHOXJaVzQ5Ym5Wc2JGMWRBZ0FBQUFrRkFBQUFCUVFBQUFBb1EyaGhjblJwYm1kUWJIVm5hVzR1VTJWMGRHbHVaM011U1c1MFpYSjJZV3hUWlhSMGFXNW5jd0lBQUFBRlNYUmxiWE1FUzJsdVpBTUVpQUpUZVhOMFpXMHVRMjlzYkdWamRHbHZibk11UjJWdVpYSnBZeTVFYVdOMGFXOXVZWEo1WURKYlcwTm9ZWEowYVc1blVHeDFaMmx1TGxObGRIUnBibWR6TGtsdWRHVnlkbUZzVTJWMGRHbHVaM01yUlV0cGJtUXNJRlp2YkhWdFpWQnliMlpwYkdVc0lGWmxjbk5wYjI0OU1TNHdMakF1TUN3Z1EzVnNkSFZ5WlQxdVpYVjBjbUZzTENCUWRXSnNhV05MWlhsVWIydGxiajF1ZFd4c1hTeGJRMmhoY25ScGJtZFFiSFZuYVc0dVUyVjBkR2x1WjNNdVNXNTBaWEoyWVd3c0lGWnZiSFZ0WlZCeWIyWnBiR1VzSUZabGNuTnBiMjQ5TVM0d0xqQXVNQ3dnUTNWc2RIVnlaVDF1WlhWMGNtRnNMQ0JRZFdKc2FXTkxaWGxVYjJ0bGJqMXVkV3hzWFYwdVEyaGhjblJwYm1kUWJIVm5hVzR1VTJWMGRHbHVaM011U1c1MFpYSjJZV3hUWlhSMGFXNW5jeXRGUzJsdVpBSUFBQUFDQUFBQUNRWUFBQUFGK2YvLy95NURhR0Z5ZEdsdVoxQnNkV2RwYmk1VFpYUjBhVzVuY3k1SmJuUmxjblpoYkZObGRIUnBibWR6SzBWTGFXNWtBUUFBQUFkMllXeDFaVjlmQUFnQ0FBQUFBUUFBQUFRRkFBQUFod0pUZVhOMFpXMHVRMjlzYkdWamRHbHZibk11UjJWdVpYSnBZeTVFYVdOMGFXOXVZWEo1WURKYlcwTm9ZWEowYVc1blVHeDFaMmx1TGxObGRIUnBibWR6TGxCeWIyWnBiR1ZVZVhCbExDQldiMngxYldWUWNtOW1hV3hsTENCV1pYSnphVzl1UFRFdU1DNHdMakFzSUVOMWJIUjFjbVU5Ym1WMWRISmhiQ3dnVUhWaWJHbGpTMlY1Vkc5clpXNDliblZzYkYwc1cwTm9ZWEowYVc1blVHeDFaMmx1TGxObGRIUnBibWR6TGtKaGMyVldhWE4xWVd4VFpYUjBhVzVuY3l3Z1ZtOXNkVzFsVUhKdlptbHNaU3dnVm1WeWMybHZiajB4TGpBdU1DNHdMQ0JEZFd4MGRYSmxQVzVsZFhSeVlXd3NJRkIxWW14cFkwdGxlVlJ2YTJWdVBXNTFiR3hkWFFRQUFBQUhWbVZ5YzJsdmJnaERiMjF3WVhKbGNnaElZWE5vVTJsNlpRMUxaWGxXWVd4MVpWQmhhWEp6QUFNQUF3aWVBVk41YzNSbGJTNURiMnhzWldOMGFXOXVjeTVIWlc1bGNtbGpMa1Z1ZFcxRmNYVmhiR2wwZVVOdmJYQmhjbVZ5WURGYlcwTm9ZWEowYVc1blVHeDFaMmx1TGxObGRIUnBibWR6TGxCeWIyWnBiR1ZVZVhCbExDQldiMngxYldWUWNtOW1hV3hsTENCV1pYSnphVzl1UFRFdU1DNHdMakFzSUVOMWJIUjFjbVU5Ym1WMWRISmhiQ3dnVUhWaWJHbGpTMlY1Vkc5clpXNDliblZzYkYxZENJc0NVM2x6ZEdWdExrTnZiR3hsWTNScGIyNXpMa2RsYm1WeWFXTXVTMlY1Vm1Gc2RXVlFZV2x5WURKYlcwTm9ZWEowYVc1blVHeDFaMmx1TGxObGRIUnBibWR6TGxCeWIyWnBiR1ZVZVhCbExDQldiMngxYldWUWNtOW1hV3hsTENCV1pYSnphVzl1UFRFdU1DNHdMakFzSUVOMWJIUjFjbVU5Ym1WMWRISmhiQ3dnVUhWaWJHbGpTMlY1Vkc5clpXNDliblZzYkYwc1cwTm9ZWEowYVc1blVHeDFaMmx1TGxObGRIUnBibWR6TGtKaGMyVldhWE4xWVd4VFpYUjBhVzVuY3l3Z1ZtOXNkVzFsVUhKdlptbHNaU3dnVm1WeWMybHZiajB4TGpBdU1DNHdMQ0JEZFd4MGRYSmxQVzVsZFhSeVlXd3NJRkIxWW14cFkwdGxlVlJ2YTJWdVBXNTFiR3hkWFZ0ZEN3QUFBQWtJQUFBQUJ3QUFBQWtKQUFBQUJBWUFBQUNJQWxONWMzUmxiUzVEYjJ4c1pXTjBhVzl1Y3k1SFpXNWxjbWxqTGtScFkzUnBiMjVoY25sZ01sdGJRMmhoY25ScGJtZFFiSFZuYVc0dVUyVjBkR2x1WjNNdVNXNTBaWEoyWVd4VFpYUjBhVzVuY3l0RlMybHVaQ3dnVm05c2RXMWxVSEp2Wm1sc1pTd2dWbVZ5YzJsdmJqMHhMakF1TUM0d0xDQkRkV3gwZFhKbFBXNWxkWFJ5WVd3c0lGQjFZbXhwWTB0bGVWUnZhMlZ1UFc1MWJHeGRMRnREYUdGeWRHbHVaMUJzZFdkcGJpNVRaWFIwYVc1bmN5NUpiblJsY25aaGJDd2dWbTlzZFcxbFVISnZabWxzWlN3Z1ZtVnljMmx2YmoweExqQXVNQzR3TENCRGRXeDBkWEpsUFc1bGRYUnlZV3dzSUZCMVlteHBZMHRsZVZSdmEyVnVQVzUxYkd4ZFhRUUFBQUFIVm1WeWMybHZiZ2hEYjIxd1lYSmxjZ2hJWVhOb1UybDZaUTFMWlhsV1lXeDFaVkJoYVhKekFBTUFBd2lwQVZONWMzUmxiUzVEYjJ4c1pXTjBhVzl1Y3k1SFpXNWxjbWxqTGtWdWRXMUZjWFZoYkdsMGVVTnZiWEJoY21WeVlERmJXME5vWVhKMGFXNW5VR3gxWjJsdUxsTmxkSFJwYm1kekxrbHVkR1Z5ZG1Gc1UyVjBkR2x1WjNNclJVdHBibVFzSUZadmJIVnRaVkJ5YjJacGJHVXNJRlpsY25OcGIyNDlNUzR3TGpBdU1Dd2dRM1ZzZEhWeVpUMXVaWFYwY21Gc0xDQlFkV0pzYVdOTFpYbFViMnRsYmoxdWRXeHNYVjBJakFKVGVYTjBaVzB1UTI5c2JHVmpkR2x2Ym5NdVIyVnVaWEpwWXk1TFpYbFdZV3gxWlZCaGFYSmdNbHRiUTJoaGNuUnBibWRRYkhWbmFXNHVVMlYwZEdsdVozTXVTVzUwWlhKMllXeFRaWFIwYVc1bmN5dEZTMmx1WkN3Z1ZtOXNkVzFsVUhKdlptbHNaU3dnVm1WeWMybHZiajB4TGpBdU1DNHdMQ0JEZFd4MGRYSmxQVzVsZFhSeVlXd3NJRkIxWW14cFkwdGxlVlJ2YTJWdVBXNTFiR3hkTEZ0RGFHRnlkR2x1WjFCc2RXZHBiaTVUWlhSMGFXNW5jeTVKYm5SbGNuWmhiQ3dnVm05c2RXMWxVSEp2Wm1sc1pTd2dWbVZ5YzJsdmJqMHhMakF1TUM0d0xDQkRkV3gwZFhKbFBXNWxkWFJ5WVd3c0lGQjFZbXhwWTB0bGVWUnZhMlZ1UFc1MWJHeGRYVnRkQXdBQUFBa0tBQUFBQXdBQUFBa0xBQUFBQkFnQUFBQ2VBVk41YzNSbGJTNURiMnhzWldOMGFXOXVjeTVIWlc1bGNtbGpMa1Z1ZFcxRmNYVmhiR2wwZVVOdmJYQmhjbVZ5WURGYlcwTm9ZWEowYVc1blVHeDFaMmx1TGxObGRIUnBibWR6TGxCeWIyWnBiR1ZVZVhCbExDQldiMngxYldWUWNtOW1hV3hsTENCV1pYSnphVzl1UFRFdU1DNHdMakFzSUVOMWJIUjFjbVU5Ym1WMWRISmhiQ3dnVUhWaWJHbGpTMlY1Vkc5clpXNDliblZzYkYxZEFBQUFBQWNKQUFBQUFBRUFBQUFGQUFBQUE0a0NVM2x6ZEdWdExrTnZiR3hsWTNScGIyNXpMa2RsYm1WeWFXTXVTMlY1Vm1Gc2RXVlFZV2x5WURKYlcwTm9ZWEowYVc1blVHeDFaMmx1TGxObGRIUnBibWR6TGxCeWIyWnBiR1ZVZVhCbExDQldiMngxYldWUWNtOW1hV3hsTENCV1pYSnphVzl1UFRFdU1DNHdMakFzSUVOMWJIUjFjbVU5Ym1WMWRISmhiQ3dnVUhWaWJHbGpTMlY1Vkc5clpXNDliblZzYkYwc1cwTm9ZWEowYVc1blVHeDFaMmx1TGxObGRIUnBibWR6TGtKaGMyVldhWE4xWVd4VFpYUjBhVzVuY3l3Z1ZtOXNkVzFsVUhKdlptbHNaU3dnVm1WeWMybHZiajB4TGpBdU1DNHdMQ0JEZFd4MGRYSmxQVzVsZFhSeVlXd3NJRkIxWW14cFkwdGxlVlJ2YTJWdVBXNTFiR3hkWFFUMC8vLy9pUUpUZVhOMFpXMHVRMjlzYkdWamRHbHZibk11UjJWdVpYSnBZeTVMWlhsV1lXeDFaVkJoYVhKZ01sdGJRMmhoY25ScGJtZFFiSFZuYVc0dVUyVjBkR2x1WjNNdVVISnZabWxzWlZSNWNHVXNJRlp2YkhWdFpWQnliMlpwYkdVc0lGWmxjbk5wYjI0OU1TNHdMakF1TUN3Z1EzVnNkSFZ5WlQxdVpYVjBjbUZzTENCUWRXSnNhV05MWlhsVWIydGxiajF1ZFd4c1hTeGJRMmhoY25ScGJtZFFiSFZuYVc0dVUyVjBkR2x1WjNNdVFtRnpaVlpwYzNWaGJGTmxkSFJwYm1kekxDQldiMngxYldWUWNtOW1hV3hsTENCV1pYSnphVzl1UFRFdU1DNHdMakFzSUVOMWJIUjFjbVU5Ym1WMWRISmhiQ3dnVUhWaWJHbGpTMlY1Vkc5clpXNDliblZzYkYxZEFnQUFBQU5yWlhrRmRtRnNkV1VFQkNORGFHRnlkR2x1WjFCc2RXZHBiaTVUWlhSMGFXNW5jeTVRY205bWFXeGxWSGx3WlFJQUFBQXlRMmhoY25ScGJtZFFiSFZuYVc0dVUyVjBkR2x1WjNNdVUybHVaMnhsVm05c2RXMWxWbWx6ZFdGc1UyVjBkR2x1WjNNQ0FBQUFCZlAvLy84alEyaGhjblJwYm1kUWJIVm5hVzR1VTJWMGRHbHVaM011VUhKdlptbHNaVlI1Y0dVQkFBQUFCM1poYkhWbFgxOEFDQUlBQUFBQUFBQUFDUTRBQUFBQjhmLy8vL1QvLy84QjhQLy8vL1AvLy84QkFBQUFDUkVBQUFBQjd2Ly8vL1QvLy84QjdmLy8vL1AvLy84Q0FBQUFDUlFBQUFBQjYvLy8vL1QvLy84QjZ2Ly8vL1AvLy84REFBQUFDUmNBQUFBQjZQLy8vL1QvLy84QjUvLy8vL1AvLy84RUFBQUFDUm9BQUFBRUNnQUFBS2tCVTNsemRHVnRMa052Ykd4bFkzUnBiMjV6TGtkbGJtVnlhV011Ulc1MWJVVnhkV0ZzYVhSNVEyOXRjR0Z5WlhKZ01WdGJRMmhoY25ScGJtZFFiSFZuYVc0dVUyVjBkR2x1WjNNdVNXNTBaWEoyWVd4VFpYUjBhVzVuY3l0RlMybHVaQ3dnVm05c2RXMWxVSEp2Wm1sc1pTd2dWbVZ5YzJsdmJqMHhMakF1TUM0d0xDQkRkV3gwZFhKbFBXNWxkWFJ5WVd3c0lGQjFZbXhwWTB0bGVWUnZhMlZ1UFc1MWJHeGRYUUFBQUFBSEN3QUFBQUFCQUFBQUF3QUFBQU9LQWxONWMzUmxiUzVEYjJ4c1pXTjBhVzl1Y3k1SFpXNWxjbWxqTGt0bGVWWmhiSFZsVUdGcGNtQXlXMXREYUdGeWRHbHVaMUJzZFdkcGJpNVRaWFIwYVc1bmN5NUpiblJsY25aaGJGTmxkSFJwYm1kekswVkxhVzVrTENCV2IyeDFiV1ZRY205bWFXeGxMQ0JXWlhKemFXOXVQVEV1TUM0d0xqQXNJRU4xYkhSMWNtVTlibVYxZEhKaGJDd2dVSFZpYkdsalMyVjVWRzlyWlc0OWJuVnNiRjBzVzBOb1lYSjBhVzVuVUd4MVoybHVMbE5sZEhScGJtZHpMa2x1ZEdWeWRtRnNMQ0JXYjJ4MWJXVlFjbTltYVd4bExDQldaWEp6YVc5dVBURXVNQzR3TGpBc0lFTjFiSFIxY21VOWJtVjFkSEpoYkN3Z1VIVmliR2xqUzJWNVZHOXJaVzQ5Ym5Wc2JGMWRCT1gvLy8rS0FsTjVjM1JsYlM1RGIyeHNaV04wYVc5dWN5NUhaVzVsY21sakxrdGxlVlpoYkhWbFVHRnBjbUF5VzF0RGFHRnlkR2x1WjFCc2RXZHBiaTVUWlhSMGFXNW5jeTVKYm5SbGNuWmhiRk5sZEhScGJtZHpLMFZMYVc1a0xDQldiMngxYldWUWNtOW1hV3hsTENCV1pYSnphVzl1UFRFdU1DNHdMakFzSUVOMWJIUjFjbVU5Ym1WMWRISmhiQ3dnVUhWaWJHbGpTMlY1Vkc5clpXNDliblZzYkYwc1cwTm9ZWEowYVc1blVHeDFaMmx1TGxObGRIUnBibWR6TGtsdWRHVnlkbUZzTENCV2IyeDFiV1ZRY205bWFXeGxMQ0JXWlhKemFXOXVQVEV1TUM0d0xqQXNJRU4xYkhSMWNtVTlibVYxZEhKaGJDd2dVSFZpYkdsalMyVjVWRzlyWlc0OWJuVnNiRjFkQWdBQUFBTnJaWGtGZG1Gc2RXVUVCQzVEYUdGeWRHbHVaMUJzZFdkcGJpNVRaWFIwYVc1bmN5NUpiblJsY25aaGJGTmxkSFJwYm1kekswVkxhVzVrQWdBQUFDUkRhR0Z5ZEdsdVoxQnNkV2RwYmk1VFpYUjBhVzVuY3k1SmJuUmxjblpoYkV4aGMzUUNBQUFBQWVULy8vLzUvLy8vQUFBQUFBa2RBQUFBQWVMLy8vL2wvLy8vQWVILy8vLzUvLy8vQVFBQUFBa2dBQUFBQWQvLy8vL2wvLy8vQWQ3Ly8vLzUvLy8vQWdBQUFBa2pBQUFBQlE0QUFBQXlRMmhoY25ScGJtZFFiSFZuYVc0dVUyVjBkR2x1WjNNdVUybHVaMnhsVm05c2RXMWxWbWx6ZFdGc1UyVjBkR2x1WjNNY0FBQUFCMVpsY25OcGIyNEhUM1YwVEdsdVpRdEVhWE53YkdGNVZHVjRkQUpXUVFOUVQwTUdSRzkzYms5REJGVndUME1LVUhKcFkyVlNZVzVuWlFsRVpYWmxiRzl3VmtFS1JHVjJaV3h2Y0ZCUFF3cEZlSFJsYm1SbFpGWkJDMFY0ZEdWdVpHVmtVRTlEQ0U5MWRFeHBibVV5Q1UxcGJsWnZiSFZ0WlJCRVpYWmxiRzl3VFdsdVZtOXNkVzFsRVVWNGRHVnVaR1ZrVFdsdVZtOXNkVzFsRGtocFoyaFdiMngxYldWT2IyUmxEVXh2ZDFadmJIVnRaVTV2WkdVS1VtVnpkVzFsUm05dWRCSlNaWE4xYldWZlZHOTBZV3hXYjJ4MWJXVVRVbVZ6ZFcxbFgxSmhibWRsUTJoaGJtZGxjdzlTWlhOMWJXVmZSR1ZzZEdGQ1lYSUtVbVZ6ZFcxbFgwbHRSZ3BOWVhKclpYSmZVRTlERUUxaGNtdGxjbDlOYVc1V2IyeDFiV1VYVFdGeWEyVnlYMVpoYkhWbFFYSmxZVWhwWjJoTWIzY2JUV0Z5YTJWeVgxWnZiSFZ0WlZCeWIyWnBiR1ZJYVdkb1RHOTNCbFp2YkhWdFpRQUVCQVFFQkFRRUJBUUVCQVFFQkFRRUJBUUVCQVFFQkFRRUJBUUlKME5vWVhKMGFXNW5VR3gxWjJsdUxsTmxkSFJwYm1kekxrOTFkRXhwYm1WVFpYUjBhVzVuY3dJQUFBQWtRMmhoY25ScGJtZFFiSFZuYVc0dVUyVjBkR2x1WjNNdVZHVjRkRk5sZEhScGJtZHpBZ0FBQUNSRGFHRnlkR2x1WjFCc2RXZHBiaTVUWlhSMGFXNW5jeTVTWldOMFUyVjBkR2x1WjNNQ0FBQUFKRU5vWVhKMGFXNW5VR3gxWjJsdUxsTmxkSFJwYm1kekxsSmxZM1JUWlhSMGFXNW5jd0lBQUFBa1EyaGhjblJwYm1kUWJIVm5hVzR1VTJWMGRHbHVaM011VEdsdVpWTmxkSFJwYm1kekFnQUFBQ1JEYUdGeWRHbHVaMUJzZFdkcGJpNVRaWFIwYVc1bmN5NU1hVzVsVTJWMGRHbHVaM01DQUFBQUpFTm9ZWEowYVc1blVHeDFaMmx1TGxObGRIUnBibWR6TGxKbFkzUlRaWFIwYVc1bmN3SUFBQUFrUTJoaGNuUnBibWRRYkhWbmFXNHVVMlYwZEdsdVozTXVUR2x1WlZObGRIUnBibWR6QWdBQUFDUkRhR0Z5ZEdsdVoxQnNkV2RwYmk1VFpYUjBhVzVuY3k1TWFXNWxVMlYwZEdsdVozTUNBQUFBSkVOb1lYSjBhVzVuVUd4MVoybHVMbE5sZEhScGJtZHpMa3hwYm1WVFpYUjBhVzVuY3dJQUFBQWtRMmhoY25ScGJtZFFiSFZuYVc0dVUyVjBkR2x1WjNNdVRHbHVaVk5sZEhScGJtZHpBZ0FBQUNkRGFHRnlkR2x1WjFCc2RXZHBiaTVUWlhSMGFXNW5jeTVQZFhSTWFXNWxVMlYwZEdsdVozTUNBQUFBSkVOb1lYSjBhVzVuVUd4MVoybHVMbE5sZEhScGJtZHpMbEpsWTNSVFpYUjBhVzVuY3dJQUFBQWtRMmhoY25ScGJtZFFiSFZuYVc0dVUyVjBkR2x1WjNNdVRHbHVaVk5sZEhScGJtZHpBZ0FBQUNSRGFHRnlkR2x1WjFCc2RXZHBiaTVUWlhSMGFXNW5jeTVNYVc1bFUyVjBkR2x1WjNNQ0FBQUFKRU5vWVhKMGFXNW5VR3gxWjJsdUxsTmxkSFJwYm1kekxreHBibVZUWlhSMGFXNW5jd0lBQUFBa1EyaGhjblJwYm1kUWJIVm5hVzR1VTJWMGRHbHVaM011VEdsdVpWTmxkSFJwYm1kekFnQUFBQ1JEYUdGeWRHbHVaMUJzZFdkcGJpNVRaWFIwYVc1bmN5NUdiMjUwVTJWMGRHbHVaM01DQUFBQU1VTm9ZWEowYVc1blVHeDFaMmx1TGxObGRIUnBibWR6TGxacGMybGlhV3hwZEhsRmJHVnRaVzUwVTJWMGRHbHVaM01DQUFBQU1VTm9ZWEowYVc1blVHeDFaMmx1TGxObGRIUnBibWR6TGxacGMybGlhV3hwZEhsRmJHVnRaVzUwVTJWMGRHbHVaM01DQUFBQU1VTm9ZWEowYVc1blVHeDFaMmx1TGxObGRIUnBibWR6TGxacGMybGlhV3hwZEhsRmJHVnRaVzUwVTJWMGRHbHVaM01DQUFBQU1VTm9ZWEowYVc1blVHeDFaMmx1TGxObGRIUnBibWR6TGxacGMybGlhV3hwZEhsRmJHVnRaVzUwVTJWMGRHbHVaM01DQUFBQUpFTm9ZWEowYVc1blVHeDFaMmx1TGxObGRIUnBibWR6TGtadmJuUlRaWFIwYVc1bmN3SUFBQUFrUTJoaGNuUnBibWRRYkhWbmFXNHVVMlYwZEdsdVozTXVSbTl1ZEZObGRIUnBibWR6QWdBQUFDUkRhR0Z5ZEdsdVoxQnNkV2RwYmk1VFpYUjBhVzVuY3k1R2IyNTBVMlYwZEdsdVozTUNBQUFBSkVOb1lYSjBhVzVuVUd4MVoybHVMbE5sZEhScGJtZHpMa1p2Ym5SVFpYUjBhVzVuY3dJQUFBQWtRMmhoY25ScGJtZFFiSFZuYVc0dVUyVjBkR2x1WjNNdVVtVmpkRk5sZEhScGJtZHpBZ0FBQUFJQUFBQUZBQUFBQ1NRQUFBQUpKUUFBQUFrbUFBQUFDU2NBQUFBSktBQUFBQWtwQUFBQUNTb0FBQUFKS3dBQUFBa3NBQUFBQ1MwQUFBQUpMZ0FBQUFrdkFBQUFDVEFBQUFBSk1RQUFBQWt5QUFBQUNUTUFBQUFKTkFBQUFBazFBQUFBQ1RZQUFBQUpOd0FBQUFrNEFBQUFDVGtBQUFBSk9nQUFBQWs3QUFBQUNUd0FBQUFKUFFBQUFBaytBQUFBQVJFQUFBQU9BQUFBQlFBQUFBay9BQUFBQ1VBQUFBQUpRUUFBQUFsQ0FBQUFDVU1BQUFBSlJBQUFBQWxGQUFBQUNVWUFBQUFKUndBQUFBbElBQUFBQ1VrQUFBQUpTZ0FBQUFsTEFBQUFDVXdBQUFBSlRRQUFBQWxPQUFBQUNVOEFBQUFKVUFBQUFBbFJBQUFBQ1ZJQUFBQUpVd0FBQUFsVUFBQUFDVlVBQUFBSlZnQUFBQWxYQUFBQUNWZ0FBQUFKV1FBQUFBVVVBQUFBTWtOb1lYSjBhVzVuVUd4MVoybHVMbE5sZEhScGJtZHpMa1J2ZFdKc1pWWnZiSFZ0WlZacGMzVmhiRk5sZEhScGJtZHpId0FBQUFkV1pYSnphVzl1QjA5MWRFeHBibVVMUkdsemNHeGhlVlJsZUhRQ1ZrRURVRTlEQmtSdmQyNVBRd1JWY0U5RENsQnlhV05sVW1GdVoyVUpSR1YyWld4dmNGWkJDa1JsZG1Wc2IzQlFUME1LUlhoMFpXNWtaV1JXUVF0RmVIUmxibVJsWkZCUFF3aFBkWFJNYVc1bE1nbE5hVzVXYjJ4MWJXVVFSR1YyWld4dmNFMXBibFp2YkhWdFpSRkZlSFJsYm1SbFpFMXBibFp2YkhWdFpRNUlhV2RvVm05c2RXMWxUbTlrWlExTWIzZFdiMngxYldWT2IyUmxDbEpsYzNWdFpVWnZiblFTVW1WemRXMWxYMVJ2ZEdGc1ZtOXNkVzFsRTFKbGMzVnRaVjlTWVc1blpVTm9ZVzVuWlhNUFVtVnpkVzFsWDBSbGJIUmhRbUZ5Q2xKbGMzVnRaVjlKYlVZS1RXRnlhMlZ5WDFCUFF4Qk5ZWEpyWlhKZlRXbHVWbTlzZFcxbEYwMWhjbXRsY2w5V1lXeDFaVUZ5WldGSWFXZG9URzkzRzAxaGNtdGxjbDlXYjJ4MWJXVlFjbTltYVd4bFNHbG5hRXh2ZHc5RVpYWmxiRzl3VFdsdVJHVnNkR0VQUkdWMlpXeHZjRTFoZUVSbGJIUmhDbE5sYkd4V2IyeDFiV1VKUW5WNVZtOXNkVzFsQUFRRUJBUUVCQVFFQkFRRUJBUUVCQVFFQkFRRUJBUUVCQVFFQkFRRUJBZ25RMmhoY25ScGJtZFFiSFZuYVc0dVUyVjBkR2x1WjNNdVQzVjBUR2x1WlZObGRIUnBibWR6QWdBQUFDUkRhR0Z5ZEdsdVoxQnNkV2RwYmk1VFpYUjBhVzVuY3k1VVpYaDBVMlYwZEdsdVozTUNBQUFBSkVOb1lYSjBhVzVuVUd4MVoybHVMbE5sZEhScGJtZHpMbEpsWTNSVFpYUjBhVzVuY3dJQUFBQWtRMmhoY25ScGJtZFFiSFZuYVc0dVUyVjBkR2x1WjNNdVVtVmpkRk5sZEhScGJtZHpBZ0FBQUNSRGFHRnlkR2x1WjFCc2RXZHBiaTVUWlhSMGFXNW5jeTVNYVc1bFUyVjBkR2x1WjNNQ0FBQUFKRU5vWVhKMGFXNW5VR3gxWjJsdUxsTmxkSFJwYm1kekxreHBibVZUWlhSMGFXNW5jd0lBQUFBa1EyaGhjblJwYm1kUWJIVm5hVzR1VTJWMGRHbHVaM011VW1WamRGTmxkSFJwYm1kekFnQUFBQ1JEYUdGeWRHbHVaMUJzZFdkcGJpNVRaWFIwYVc1bmN5NU1hVzVsVTJWMGRHbHVaM01DQUFBQUpFTm9ZWEowYVc1blVHeDFaMmx1TGxObGRIUnBibWR6TGt4cGJtVlRaWFIwYVc1bmN3SUFBQUFrUTJoaGNuUnBibWRRYkhWbmFXNHVVMlYwZEdsdVozTXVUR2x1WlZObGRIUnBibWR6QWdBQUFDUkRhR0Z5ZEdsdVoxQnNkV2RwYmk1VFpYUjBhVzVuY3k1TWFXNWxVMlYwZEdsdVozTUNBQUFBSjBOb1lYSjBhVzVuVUd4MVoybHVMbE5sZEhScGJtZHpMazkxZEV4cGJtVlRaWFIwYVc1bmN3SUFBQUFrUTJoaGNuUnBibWRRYkhWbmFXNHVVMlYwZEdsdVozTXVVbVZqZEZObGRIUnBibWR6QWdBQUFDUkRhR0Z5ZEdsdVoxQnNkV2RwYmk1VFpYUjBhVzVuY3k1TWFXNWxVMlYwZEdsdVozTUNBQUFBSkVOb1lYSjBhVzVuVUd4MVoybHVMbE5sZEhScGJtZHpMa3hwYm1WVFpYUjBhVzVuY3dJQUFBQWtRMmhoY25ScGJtZFFiSFZuYVc0dVUyVjBkR2x1WjNNdVRHbHVaVk5sZEhScGJtZHpBZ0FBQUNSRGFHRnlkR2x1WjFCc2RXZHBiaTVUWlhSMGFXNW5jeTVNYVc1bFUyVjBkR2x1WjNNQ0FBQUFKRU5vWVhKMGFXNW5VR3gxWjJsdUxsTmxkSFJwYm1kekxrWnZiblJUWlhSMGFXNW5jd0lBQUFBeFEyaGhjblJwYm1kUWJIVm5hVzR1VTJWMGRHbHVaM011Vm1semFXSnBiR2wwZVVWc1pXMWxiblJUWlhSMGFXNW5jd0lBQUFBeFEyaGhjblJwYm1kUWJIVm5hVzR1VTJWMGRHbHVaM011Vm1semFXSnBiR2wwZVVWc1pXMWxiblJUWlhSMGFXNW5jd0lBQUFBeFEyaGhjblJwYm1kUWJIVm5hVzR1VTJWMGRHbHVaM011Vm1semFXSnBiR2wwZVVWc1pXMWxiblJUWlhSMGFXNW5jd0lBQUFBeFEyaGhjblJwYm1kUWJIVm5hVzR1VTJWMGRHbHVaM011Vm1semFXSnBiR2wwZVVWc1pXMWxiblJUWlhSMGFXNW5jd0lBQUFBa1EyaGhjblJwYm1kUWJIVm5hVzR1VTJWMGRHbHVaM011Um05dWRGTmxkSFJwYm1kekFnQUFBQ1JEYUdGeWRHbHVaMUJzZFdkcGJpNVRaWFIwYVc1bmN5NUdiMjUwVTJWMGRHbHVaM01DQUFBQUpFTm9ZWEowYVc1blVHeDFaMmx1TGxObGRIUnBibWR6TGtadmJuUlRaWFIwYVc1bmN3SUFBQUFrUTJoaGNuUnBibWRRYkhWbmFXNHVVMlYwZEdsdVozTXVSbTl1ZEZObGRIUnBibWR6QWdBQUFDUkRhR0Z5ZEdsdVoxQnNkV2RwYmk1VFpYUjBhVzVuY3k1TWFXNWxVMlYwZEdsdVozTUNBQUFBSkVOb1lYSjBhVzVuVUd4MVoybHVMbE5sZEhScGJtZHpMa3hwYm1WVFpYUjBhVzVuY3dJQUFBQWtRMmhoY25ScGJtZFFiSFZuYVc0dVUyVjBkR2x1WjNNdVVtVmpkRk5sZEhScGJtZHpBZ0FBQUNSRGFHRnlkR2x1WjFCc2RXZHBiaTVUWlhSMGFXNW5jeTVTWldOMFUyVjBkR2x1WjNNQ0FBQUFBZ0FBQUFVQUFBQUpXZ0FBQUFsYkFBQUFDVndBQUFBSlhRQUFBQWxlQUFBQUNWOEFBQUFKWUFBQUFBbGhBQUFBQ1dJQUFBQUpZd0FBQUFsa0FBQUFDV1VBQUFBSlpnQUFBQWxuQUFBQUNXZ0FBQUFKYVFBQUFBbHFBQUFBQ1dzQUFBQUpiQUFBQUFsdEFBQUFDVzRBQUFBSmJ3QUFBQWx3QUFBQUNYRUFBQUFKY2dBQUFBbHpBQUFBQ1hRQUFBQUpkUUFBQUFsMkFBQUFDWGNBQUFBRkZ3QUFBRE5EYUdGeWRHbHVaMUJzZFdkcGJpNVRaWFIwYVc1bmN5NVVjbWx3Y0d4bFZtOXNkVzFsVm1semRXRnNVMlYwZEdsdVozTWdBQUFBQjFabGNuTnBiMjRIVDNWMFRHbHVaUXRFYVhOd2JHRjVWR1Y0ZEFKV1FRTlFUME1HUkc5M2JrOURCRlZ3VDBNS1VISnBZMlZTWVc1blpRbEVaWFpsYkc5d1ZrRUtSR1YyWld4dmNGQlBRd3BGZUhSbGJtUmxaRlpCQzBWNGRHVnVaR1ZrVUU5RENFOTFkRXhwYm1VeUNVMXBibFp2YkhWdFpSQkVaWFpsYkc5d1RXbHVWbTlzZFcxbEVVVjRkR1Z1WkdWa1RXbHVWbTlzZFcxbERraHBaMmhXYjJ4MWJXVk9iMlJsRFV4dmQxWnZiSFZ0WlU1dlpHVUtVbVZ6ZFcxbFJtOXVkQkpTWlhOMWJXVmZWRzkwWVd4V2IyeDFiV1VUVW1WemRXMWxYMUpoYm1kbFEyaGhibWRsY3c5U1pYTjFiV1ZmUkdWc2RHRkNZWElLVW1WemRXMWxYMGx0UmdwTllYSnJaWEpmVUU5REVFMWhjbXRsY2w5TmFXNVdiMngxYldVWFRXRnlhMlZ5WDFaaGJIVmxRWEpsWVVocFoyaE1iM2NiVFdGeWEyVnlYMVp2YkhWdFpWQnliMlpwYkdWSWFXZG9URzkzRDBSbGRtVnNiM0JOYVc1RVpXeDBZUTlFWlhabGJHOXdUV0Y0UkdWc2RHRUpSRzkzYmtSbGJIUmhCMVZ3UkdWc2RHRUdWbTlzZFcxbEFBUUVCQVFFQkFRRUJBUUVCQVFFQkFRRUJBUUVCQVFFQkFRRUJBUUVCQVFJSjBOb1lYSjBhVzVuVUd4MVoybHVMbE5sZEhScGJtZHpMazkxZEV4cGJtVlRaWFIwYVc1bmN3SUFBQUFrUTJoaGNuUnBibWRRYkhWbmFXNHVVMlYwZEdsdVozTXVWR1Y0ZEZObGRIUnBibWR6QWdBQUFDUkRhR0Z5ZEdsdVoxQnNkV2RwYmk1VFpYUjBhVzVuY3k1U1pXTjBVMlYwZEdsdVozTUNBQUFBSkVOb1lYSjBhVzVuVUd4MVoybHVMbE5sZEhScGJtZHpMbEpsWTNSVFpYUjBhVzVuY3dJQUFBQWtRMmhoY25ScGJtZFFiSFZuYVc0dVUyVjBkR2x1WjNNdVRHbHVaVk5sZEhScGJtZHpBZ0FBQUNSRGFHRnlkR2x1WjFCc2RXZHBiaTVUWlhSMGFXNW5jeTVNYVc1bFUyVjBkR2x1WjNNQ0FBQUFKRU5vWVhKMGFXNW5VR3gxWjJsdUxsTmxkSFJwYm1kekxsSmxZM1JUWlhSMGFXNW5jd0lBQUFBa1EyaGhjblJwYm1kUWJIVm5hVzR1VTJWMGRHbHVaM011VEdsdVpWTmxkSFJwYm1kekFnQUFBQ1JEYUdGeWRHbHVaMUJzZFdkcGJpNVRaWFIwYVc1bmN5NU1hVzVsVTJWMGRHbHVaM01DQUFBQUpFTm9ZWEowYVc1blVHeDFaMmx1TGxObGRIUnBibWR6TGt4cGJtVlRaWFIwYVc1bmN3SUFBQUFrUTJoaGNuUnBibWRRYkhWbmFXNHVVMlYwZEdsdVozTXVUR2x1WlZObGRIUnBibWR6QWdBQUFDZERhR0Z5ZEdsdVoxQnNkV2RwYmk1VFpYUjBhVzVuY3k1UGRYUk1hVzVsVTJWMGRHbHVaM01DQUFBQUpFTm9ZWEowYVc1blVHeDFaMmx1TGxObGRIUnBibWR6TGxKbFkzUlRaWFIwYVc1bmN3SUFBQUFrUTJoaGNuUnBibWRRYkhWbmFXNHVVMlYwZEdsdVozTXVUR2x1WlZObGRIUnBibWR6QWdBQUFDUkRhR0Z5ZEdsdVoxQnNkV2RwYmk1VFpYUjBhVzVuY3k1TWFXNWxVMlYwZEdsdVozTUNBQUFBSkVOb1lYSjBhVzVuVUd4MVoybHVMbE5sZEhScGJtZHpMa3hwYm1WVFpYUjBhVzVuY3dJQUFBQWtRMmhoY25ScGJtZFFiSFZuYVc0dVUyVjBkR2x1WjNNdVRHbHVaVk5sZEhScGJtZHpBZ0FBQUNSRGFHRnlkR2x1WjFCc2RXZHBiaTVUWlhSMGFXNW5jeTVHYjI1MFUyVjBkR2x1WjNNQ0FBQUFNVU5vWVhKMGFXNW5VR3gxWjJsdUxsTmxkSFJwYm1kekxsWnBjMmxpYVd4cGRIbEZiR1Z0Wlc1MFUyVjBkR2x1WjNNQ0FBQUFNVU5vWVhKMGFXNW5VR3gxWjJsdUxsTmxkSFJwYm1kekxsWnBjMmxpYVd4cGRIbEZiR1Z0Wlc1MFUyVjBkR2x1WjNNQ0FBQUFNVU5vWVhKMGFXNW5VR3gxWjJsdUxsTmxkSFJwYm1kekxsWnBjMmxpYVd4cGRIbEZiR1Z0Wlc1MFUyVjBkR2x1WjNNQ0FBQUFNVU5vWVhKMGFXNW5VR3gxWjJsdUxsTmxkSFJwYm1kekxsWnBjMmxpYVd4cGRIbEZiR1Z0Wlc1MFUyVjBkR2x1WjNNQ0FBQUFKRU5vWVhKMGFXNW5VR3gxWjJsdUxsTmxkSFJwYm1kekxrWnZiblJUWlhSMGFXNW5jd0lBQUFBa1EyaGhjblJwYm1kUWJIVm5hVzR1VTJWMGRHbHVaM011Um05dWRGTmxkSFJwYm1kekFnQUFBQ1JEYUdGeWRHbHVaMUJzZFdkcGJpNVRaWFIwYVc1bmN5NUdiMjUwVTJWMGRHbHVaM01DQUFBQUpFTm9ZWEowYVc1blVHeDFaMmx1TGxObGRIUnBibWR6TGtadmJuUlRaWFIwYVc1bmN3SUFBQUFrUTJoaGNuUnBibWRRYkhWbmFXNHVVMlYwZEdsdVozTXVUR2x1WlZObGRIUnBibWR6QWdBQUFDUkRhR0Z5ZEdsdVoxQnNkV2RwYmk1VFpYUjBhVzVuY3k1TWFXNWxVMlYwZEdsdVozTUNBQUFBSkVOb1lYSjBhVzVuVUd4MVoybHVMbE5sZEhScGJtZHpMbEpsWTNSVFpYUjBhVzVuY3dJQUFBQWtRMmhoY25ScGJtZFFiSFZuYVc0dVUyVjBkR2x1WjNNdVVtVmpkRk5sZEhScGJtZHpBZ0FBQUNSRGFHRnlkR2x1WjFCc2RXZHBiaTVUWlhSMGFXNW5jeTVTWldOMFUyVjBkR2x1WjNNQ0FBQUFBZ0FBQUFVQUFBQUplQUFBQUFsNUFBQUFDWG9BQUFBSmV3QUFBQWw4QUFBQUNYMEFBQUFKZmdBQUFBbC9BQUFBQ1lBQUFBQUpnUUFBQUFtQ0FBQUFDWU1BQUFBSmhBQUFBQW1GQUFBQUNZWUFBQUFKaHdBQUFBbUlBQUFBQ1lrQUFBQUppZ0FBQUFtTEFBQUFDWXdBQUFBSmpRQUFBQW1PQUFBQUNZOEFBQUFKa0FBQUFBbVJBQUFBQ1pJQUFBQUprd0FBQUFtVUFBQUFDWlVBQUFBSmxnQUFBQUVhQUFBQUZBQUFBQVVBQUFBSmx3QUFBQW1ZQUFBQUNaa0FBQUFKbWdBQUFBbWJBQUFBQ1p3QUFBQUpuUUFBQUFtZUFBQUFDWjhBQUFBSm9BQUFBQW1oQUFBQUNhSUFBQUFKb3dBQUFBbWtBQUFBQ2FVQUFBQUpwZ0FBQUFtbkFBQUFDYWdBQUFBSnFRQUFBQW1xQUFBQUNhc0FBQUFKckFBQUFBbXRBQUFBQ2E0QUFBQUpyd0FBQUFtd0FBQUFDYkVBQUFBSnNnQUFBQW16QUFBQUNiUUFBQUFGSFFBQUFDUkRhR0Z5ZEdsdVoxQnNkV2RwYmk1VFpYUjBhVzVuY3k1SmJuUmxjblpoYkV4aGMzUUNBQUFBQlZWdWFYUnpCVU52ZFc1MEJBQWtRMmhoY25ScGJtZFFiSFZuYVc0dVUyVjBkR2x1WjNNdVNXNTBaWEoyWVd4VmJtbDBBZ0FBQUFnQ0FBQUFCVXYvLy84a1EyaGhjblJwYm1kUWJIVm5hVzR1VTJWMGRHbHVaM011U1c1MFpYSjJZV3hWYm1sMEFRQUFBQWQyWVd4MVpWOWZBQWdDQUFBQUFRQUFBQUVBQUFBRklBQUFBQ1ZEYUdGeWRHbHVaMUJzZFdkcGJpNVRaWFIwYVc1bmN5NUpiblJsY25aaGJFVjJaWEo1QWdBQUFBVlZibWwwY3dWRGIzVnVkQVFBSkVOb1lYSjBhVzVuVUd4MVoybHVMbE5sZEhScGJtZHpMa2x1ZEdWeWRtRnNWVzVwZEFJQUFBQUlBZ0FBQUFGSy8vLy9TLy8vL3dFQUFBQUJBQUFBQlNNQUFBQW1RMmhoY25ScGJtZFFiSFZuYVc0dVUyVjBkR2x1WjNNdVNXNTBaWEoyWVd4R2NtOXRWRzhHQUFBQUJFWnliMjBDVkc4S1ZHOUpjMDl3Wlc1bFpCQlVhVzFsV205dVpWTmxkSFJwYm1kekJFSmhjbk1LU1hOVWFXMWxaRVZ1WkFBQUFBRUFBQTBOQVFnQkFnQUFBSUE0ZCt5WnROeUlnUGpnRm1PMTNJZ0FCcmNBQUFCWlZHRnBjR1ZwSUZOMFlXNWtZWEprSUZScGJXVTdORGd3T3loVlZFTXJNRGc2TURBcElPV1BzT1dNbHp2bGo3RGxqSmZtcUpubXVwYm1tWUxwbHBNNzVZK3c1WXlYNXBlbDVZV0o1NitBNTdTRTVwbUM2WmFUT3pzQkFBQUFBUVVrQUFBQUowTm9ZWEowYVc1blVHeDFaMmx1TGxObGRIUnBibWR6TGs5MWRFeHBibVZUWlhSMGFXNW5jd1FBQUFBSFZtVnljMmx2YmdWRGIyeHZjZ2xVYUdsamEyNWxjM01GVTNSNWJHVUFBQUFBQ0FnSUNBSUFBQUFEQUFBQUFQLy8vd01BQUFBQUFBQUFCU1VBQUFBa1EyaGhjblJwYm1kUWJIVm5hVzR1VTJWMGRHbHVaM011VkdWNGRGTmxkSFJwYm1kekJBQUFBQWRXWlhKemFXOXVCVU52Ykc5eUNraGxhV2RvZEZCamJuUUZVM1I1YkdVQUFBQUFDQWdJQ0FJQUFBQURBQUFBLy8vLy8yUUFBQUFCQUFBQUJTWUFBQUFrUTJoaGNuUnBibWRRYkhWbmFXNHVVMlYwZEdsdVozTXVVbVZqZEZObGRIUnBibWR6QkFBQUFBZFdaWEp6YVc5dUJVTnZiRzl5Q2tobGFXZG9kRkJqYm5RRlUzUjViR1VBQUFBQUNBZ0lDQUlBQUFBREFBQUFnSUNBLzJRQUFBQUNBQUFBQVNjQUFBQW1BQUFBQXdBQUFNdkEvLzlrQUFBQUFnQUFBQVVvQUFBQUpFTm9ZWEowYVc1blVHeDFaMmx1TGxObGRIUnBibWR6TGt4cGJtVlRaWFIwYVc1bmN3UUFBQUFIVm1WeWMybHZiZ1ZEYjJ4dmNnbFVhR2xqYTI1bGMzTUZVM1I1YkdVQUFBQUFDQWdJQ0FJQUFBQURBQUFBQUFELy93VUFBQUFBQUFBQUFTa0FBQUFvQUFBQUF3QUFBQUNBQVA4RkFBQUFBQUFBQUFFcUFBQUFKZ0FBQUFNQUFBQUEvLy8vQ2dBQUFBUUFBQUFCS3dBQUFDZ0FBQUFEQUFBQS8vOEEvd01BQUFBQUFBQUFBU3dBQUFBb0FBQUFBd0FBQUpEdWtQOEZBQUFBQUFBQUFBRXRBQUFBS0FBQUFBTUFBQUQvQUFEL0F3QUFBQUFBQUFBQkxnQUFBQ2dBQUFBREFBQUFBSUFBL3dVQUFBQUFBQUFBQVM4QUFBQWtBQUFBQXdBQUFBQUEvLzhDQUFBQUFBQUFBQUV3QUFBQUpnQUFBQU1BQUFBQUFQLy9aQUFBQUFBQUFBQUJNUUFBQUNnQUFBQURBQUFBQUFELy93VUFBQUFBQUFBQUFUSUFBQUFvQUFBQUF3QUFBQUFBLy84RkFBQUFBQUFBQUFFekFBQUFLQUFBQUFNQUFBQ1E3cEQvQndBQUFBQUFBQUFCTkFBQUFDZ0FBQUFEQUFBQUFQLy8vd2NBQUFBQUFBQUFCVFVBQUFBa1EyaGhjblJwYm1kUWJIVm5hVzR1VTJWMGRHbHVaM011Um05dWRGTmxkSFJwYm1kekNBQUFBQWRXWlhKemFXOXVCVU52Ykc5eUNVbHpWbWx6YVdKc1pRUk9ZVzFsQkZOcGVtVUdTWE5DYjJ4a0NFbHpTWFJoYkdsakMwbHpWVzVrWlhKc2FXNWxBQUFBQVFBQUFBQUlDQUVJQVFFQkFnQUFBQU1BQUFELy8vLy9BQWE0QUFBQUFBb0FBQUFBQUFBRk5nQUFBREZEYUdGeWRHbHVaMUJzZFdkcGJpNVRaWFIwYVc1bmN5NVdhWE5wWW1sc2FYUjVSV3hsYldWdWRGTmxkSFJwYm1kekF3QUFBQWRXWlhKemFXOXVCVU52Ykc5eUNVbHpWbWx6YVdKc1pRQUFBQWdJQVFJQUFBQURBQUFBLy8vLy93RUJOd0FBQURZQUFBQURBQUFBLy8vLy93RUJPQUFBQURZQUFBQURBQUFBLy8vLy93RUJPUUFBQURZQUFBQURBQUFBLy8vLy93RUJPZ0FBQURVQUFBQURBQUFBeThELy93RUp1QUFBQUFvQUFBQUFBQUFCT3dBQUFEVUFBQUFEQUFBQUFBRC8vd0FKdUFBQUFBb0FBQUFBQUFBQlBBQUFBRFVBQUFBREFBQUEvLy8vL3dBSnVBQUFBQW9BQUFBQUFBQUJQUUFBQURVQUFBQURBQUFBLy8vLy93RUp1QUFBQUFvQUFBQUFBQUFCUGdBQUFDWUFBQUFEQUFBQS81QWUvMlFBQUFBQkFBQUFBVDhBQUFBa0FBQUFBd0FBQUFELy8vOERBQUFBQUFBQUFBRkFBQUFBSlFBQUFBTUFBQUQvLy8vL1pBQUFBQUVBQUFBQlFRQUFBQ1lBQUFBREFBQUFnSUNBLzJRQUFBQUNBQUFBQVVJQUFBQW1BQUFBQXdBQUFNdkEvLzlrQUFBQUFnQUFBQUZEQUFBQUtBQUFBQU1BQUFBQUFQLy9CUUFBQUFBQUFBQUJSQUFBQUNnQUFBQURBQUFBQUlBQS93VUFBQUFBQUFBQUFVVUFBQUFtQUFBQUF3QUFBQUQvLy84S0FBQUFCQUFBQUFGR0FBQUFLQUFBQUFNQUFBRC8vd0QvQXdBQUFBQUFBQUFCUndBQUFDZ0FBQUFEQUFBQWtPNlEvd1VBQUFBQUFBQUFBVWdBQUFBb0FBQUFBd0FBQVA4QUFQOERBQUFBQUFBQUFBRkpBQUFBS0FBQUFBTUFBQUFBZ0FEL0JRQUFBQUFBQUFBQlNnQUFBQ1FBQUFBREFBQUFBQUQvL3dJQUFBQUFBQUFBQVVzQUFBQW1BQUFBQXdBQUFBQUEvLzlrQUFBQUFBQUFBQUZNQUFBQUtBQUFBQU1BQUFBQUFQLy9CUUFBQUFBQUFBQUJUUUFBQUNnQUFBQURBQUFBQUFELy93VUFBQUFBQUFBQUFVNEFBQUFvQUFBQUF3QUFBSkR1a1A4SEFBQUFBQUFBQUFGUEFBQUFLQUFBQUFNQUFBQUEvLy8vQndBQUFBQUFBQUFCVUFBQUFEVUFBQUFEQUFBQS8vLy8vd0FKdUFBQUFBb0FBQUFBQUFBQlVRQUFBRFlBQUFBREFBQUEvLy8vL3dFQlVnQUFBRFlBQUFBREFBQUEvLy8vL3dFQlV3QUFBRFlBQUFBREFBQUEvLy8vL3dFQlZBQUFBRFlBQUFBREFBQUEvLy8vL3dFQlZRQUFBRFVBQUFBREFBQUF5OEQvL3dFSnVBQUFBQW9BQUFBQUFBQUJWZ0FBQURVQUFBQURBQUFBQUFELy93QUp1QUFBQUFvQUFBQUFBQUFCVndBQUFEVUFBQUFEQUFBQS8vLy8vd0FKdUFBQUFBb0FBQUFBQUFBQldBQUFBRFVBQUFBREFBQUEvLy8vL3dFSnVBQUFBQW9BQUFBQUFBQUJXUUFBQUNZQUFBQURBQUFBLzVBZS8yUUFBQUFCQUFBQUFWb0FBQUFrQUFBQUF3QUFBQUQvLy84REFBQUFBQUFBQUFGYkFBQUFKUUFBQUFNQUFBRC8vLy8vWkFBQUFBTUFBQUFCWEFBQUFDWUFBQUFEQUFBQWdJQ0EvMlFBQUFBQ0FBQUFBVjBBQUFBbUFBQUFBd0FBQU12QS8vOWtBQUFBQWdBQUFBRmVBQUFBS0FBQUFBTUFBQUFBQVAvL0JRQUFBQUFBQUFBQlh3QUFBQ2dBQUFBREFBQUFBSUFBL3dVQUFBQUFBQUFBQVdBQUFBQW1BQUFBQXdBQUFBRC8vLzhLQUFBQUJBQUFBQUZoQUFBQUtBQUFBQU1BQUFELy93RC9Bd0FBQUFBQUFBQUJZZ0FBQUNnQUFBQURBQUFBa082US93VUFBQUFBQUFBQUFXTUFBQUFvQUFBQUF3QUFBUDhBQVA4REFBQUFBQUFBQUFGa0FBQUFLQUFBQUFNQUFBQUFnQUQvQlFBQUFBQUFBQUFCWlFBQUFDUUFBQUFEQUFBQUFBRC8vd0lBQUFBQUFBQUFBV1lBQUFBbUFBQUFBd0FBQUFBQS8vOWtBQUFBQUFBQUFBRm5BQUFBS0FBQUFBTUFBQUFBQVAvL0JRQUFBQUFBQUFBQmFBQUFBQ2dBQUFBREFBQUFBQUQvL3dVQUFBQUFBQUFBQVdrQUFBQW9BQUFBQXdBQUFKRHVrUDhIQUFBQUFBQUFBQUZxQUFBQUtBQUFBQU1BQUFBQS8vLy9Cd0FBQUFBQUFBQUJhd0FBQURVQUFBQURBQUFBLy8vLy93QUp1QUFBQUFvQUFBQUFBQUFCYkFBQUFEWUFBQUFEQUFBQS8vLy8vd0VCYlFBQUFEWUFBQUFEQUFBQS8vLy8vd0VCYmdBQUFEWUFBQUFEQUFBQS8vLy8vd0VCYndBQUFEWUFBQUFEQUFBQS8vLy8vd0VCY0FBQUFEVUFBQUFEQUFBQXk4RC8vd0VKdUFBQUFBb0FBQUFBQUFBQmNRQUFBRFVBQUFBREFBQUFBQUQvL3dBSnVBQUFBQW9BQUFBQUFBQUJjZ0FBQURVQUFBQURBQUFBLy8vLy93QUp1QUFBQUFvQUFBQUFBQUFCY3dBQUFEVUFBQUFEQUFBQS8vLy8vd0VKdUFBQUFBb0FBQUFBQUFBQmRBQUFBQ2dBQUFBREFBQUFBQUQvL3dVQUFBQUFBQUFBQVhVQUFBQW9BQUFBQXdBQUFBQ0FBUDhGQUFBQUFBQUFBQUYyQUFBQUpnQUFBQU1BQUFBQUFQLy9aQUFBQUFFQUFBQUJkd0FBQUNZQUFBQURBQUFBQVB4OC8yUUFBQUFCQUFBQUFYZ0FBQUFrQUFBQUF3QUFBQUQvLy84REFBQUFBQUFBQUFGNUFBQUFKUUFBQUFNQUFBRC8vLy8vWkFBQUFBRUFBQUFCZWdBQUFDWUFBQUFEQUFBQWdJQ0EvMlFBQUFBQ0FBQUFBWHNBQUFBbUFBQUFBd0FBQU12QS8vOWtBQUFBQWdBQUFBRjhBQUFBS0FBQUFBTUFBQUFBQVAvL0JRQUFBQUFBQUFBQmZRQUFBQ2dBQUFBREFBQUFBSUFBL3dVQUFBQUFBQUFBQVg0QUFBQW1BQUFBQXdBQUFBRC8vLzhLQUFBQUJBQUFBQUYvQUFBQUtBQUFBQU1BQUFELy93RC9Bd0FBQUFBQUFBQUJnQUFBQUNnQUFBQURBQUFBa082US93VUFBQUFBQUFBQUFZRUFBQUFvQUFBQUF3QUFBUDhBQVA4REFBQUFBQUFBQUFHQ0FBQUFLQUFBQUFNQUFBQUFnQUQvQlFBQUFBQUFBQUFCZ3dBQUFDUUFBQUFEQUFBQUFBRC8vd0lBQUFBQUFBQUFBWVFBQUFBbUFBQUFBd0FBQUFBQS8vOWtBQUFBQUFBQUFBR0ZBQUFBS0FBQUFBTUFBQUFBQVAvL0JRQUFBQUFBQUFBQmhnQUFBQ2dBQUFBREFBQUFBQUQvL3dVQUFBQUFBQUFBQVljQUFBQW9BQUFBQXdBQUFKRHVrUDhIQUFBQUFBQUFBQUdJQUFBQUtBQUFBQU1BQUFBQS8vLy9Cd0FBQUFBQUFBQUJpUUFBQURVQUFBQURBQUFBLy8vLy93QUp1QUFBQUFvQUFBQUFBQUFCaWdBQUFEWUFBQUFEQUFBQS8vLy8vd0VCaXdBQUFEWUFBQUFEQUFBQS8vLy8vd0VCakFBQUFEWUFBQUFEQUFBQS8vLy8vd0VCalFBQUFEWUFBQUFEQUFBQS8vLy8vd0VCamdBQUFEVUFBQUFEQUFBQXk4RC8vd0VKdUFBQUFBb0FBQUFBQUFBQmp3QUFBRFVBQUFBREFBQUFBQUQvL3dBSnVBQUFBQW9BQUFBQUFBQUJrQUFBQURVQUFBQURBQUFBLy8vLy93QUp1QUFBQUFvQUFBQUFBQUFCa1FBQUFEVUFBQUFEQUFBQS8vLy8vd0VKdUFBQUFBb0FBQUFBQUFBQmtnQUFBQ2dBQUFBREFBQUFBQUQvL3dVQUFBQUFBQUFBQVpNQUFBQW9BQUFBQXdBQUFBQ0FBUDhGQUFBQUFBQUFBQUdVQUFBQUpnQUFBQU1BQUFBQUFQLy9aQUFBQUFFQUFBQUJsUUFBQUNZQUFBQURBQUFBQVB4OC8yUUFBQUFCQUFBQUFaWUFBQUFtQUFBQUF3QUFBUCtRSHY5a0FBQUFBUUFBQUFHWEFBQUFKQUFBQUFNQUFBQUEvLy8vQXdBQUFBQUFBQUFCbUFBQUFDVUFBQUFEQUFBQS8vLy8vMlFBQUFBQkFBQUFBWmtBQUFBbUFBQUFBd0FBQUlDQWdQOWtBQUFBQWdBQUFBR2FBQUFBSmdBQUFBTUFBQURMd1AvL1pBQUFBQUlBQUFBQm13QUFBQ2dBQUFBREFBQUFBQUQvL3dVQUFBQUFBQUFBQVp3QUFBQW9BQUFBQXdBQUFBQ0FBUDhGQUFBQUFBQUFBQUdkQUFBQUpnQUFBQU1BQUFBQS8vLy9DZ0FBQUFRQUFBQUJuZ0FBQUNnQUFBQURBQUFBLy84QS93TUFBQUFBQUFBQUFaOEFBQUFvQUFBQUF3QUFBSkR1a1A4RkFBQUFBQUFBQUFHZ0FBQUFLQUFBQUFNQUFBRC9BQUQvQXdBQUFBQUFBQUFCb1FBQUFDZ0FBQUFEQUFBQUFJQUEvd1VBQUFBQUFBQUFBYUlBQUFBa0FBQUFBd0FBQUFBQS8vOENBQUFBQUFBQUFBR2pBQUFBSmdBQUFBTUFBQUFBQVAvL1pBQUFBQUFBQUFBQnBBQUFBQ2dBQUFBREFBQUFBQUQvL3dVQUFBQUFBQUFBQWFVQUFBQW9BQUFBQXdBQUFBQUEvLzhGQUFBQUFBQUFBQUdtQUFBQUtBQUFBQU1BQUFDUTdwRC9Cd0FBQUFBQUFBQUJwd0FBQUNnQUFBQURBQUFBQVAvLy93Y0FBQUFBQUFBQUFhZ0FBQUExQUFBQUF3QUFBUC8vLy84QUNiZ0FBQUFLQUFBQUFBQUFBYWtBQUFBMkFBQUFBd0FBQVAvLy8vOEJBYW9BQUFBMkFBQUFBd0FBQVAvLy8vOEJBYXNBQUFBMkFBQUFBd0FBQVAvLy8vOEJBYXdBQUFBMkFBQUFBd0FBQVAvLy8vOEJBYTBBQUFBMUFBQUFBd0FBQU12QS8vOEJDYmdBQUFBS0FBQUFBQUFBQWE0QUFBQTFBQUFBQXdBQUFBQUEvLzhBQ2JnQUFBQUtBQUFBQUFBQUFhOEFBQUExQUFBQUF3QUFBUC8vLy84QUNiZ0FBQUFLQUFBQUFBQUFBYkFBQUFBMUFBQUFBd0FBQVAvLy8vOEJDYmdBQUFBS0FBQUFBQUFBQWJFQUFBQW9BQUFBQXdBQUFBQUEvLzhGQUFBQUFBQUFBQUd5QUFBQUtBQUFBQU1BQUFBQWdBRC9CUUFBQUFBQUFBQUJzd0FBQUNZQUFBQURBQUFBQUFELy8yUUFBQUFCQUFBQUFiUUFBQUFtQUFBQUF3QUFBQUQ4ZlA5a0FBQUFBUUFBQUFzPQs='
 
@@ -38342,9 +38539,9 @@ The reserved words supported in Portfolio optimization:
 	Type = '4'
 
 [Wsp\Window_9\ChartManager\IndexViewCalc]
-	BarSpacing = '3'
+	BarSpacing = '30'
 	BarsToRight = '20'
-	BarsToRightValue = '83'
+	BarsToRightValue = '2'
 	ChartShiftViewType = '0'
 	ShowEmptyPeriod = '0'
 
@@ -38617,7 +38814,7 @@ The reserved words supported in Portfolio optimization:
 
 [Wsp\Window_9\ChartManager\OptimizeManager\OptimizeManager\ClassicOptimizer\ClassicOtimizer]
 	OptReportExist = '0'
-	ReportFilePath = 'C:\Users\marco\OneDrive\文件\Optimization TOUCHANCE Futures CME.CL HOT CME 240 Minutes 20250516-225212.MCReport'
+	ReportFilePath = ''
 
 [Wsp\Window_9\ChartManager\OptimizeManager\OptimizeManager\GAProperties\GAPropContainer]
 	GABasicAlgoritmExist = 'True'
@@ -38642,9 +38839,9 @@ The reserved words supported in Portfolio optimization:
 	offspring_number = '16'
 	proximalConv = '0,99'
 	replScheme = '0'
-	ulGenCount = '43'
-	ulMinGenCount = '43'
-	ulPopSize = '49'
+	ulGenCount = '217'
+	ulMinGenCount = '217'
+	ulPopSize = '248'
 
 [Wsp\Window_9\ChartManager\OptimizeManager\OptimizeManager\MOOptimizer\MO]
 	MOReportExist = '0'
@@ -38764,7 +38961,7 @@ The reserved words supported in Portfolio optimization:
 	Underline = '0'
 
 [Wsp\Window_9\ChartManager\Strategy]
-	SignalObjectCount = '1'
+	SignalObjectCount = '2'
 
 [Wsp\Window_9\ChartManager\Strategy\AlertObject]
 	AlertEnable = '0'
@@ -38908,7 +39105,7 @@ The reserved words supported in Portfolio optimization:
 
 [Wsp\Window_9\ChartManager\Strategy\SignalObject_0]
 	IdName = 's_strategy_i_cl_test'
-	Status = '1'
+	Status = '0'
 
 [Wsp\Window_9\ChartManager\Strategy\SignalObject_0\SignalHelper]
 	CalcRTAsHistory = '1'
@@ -38926,7 +39123,7 @@ The reserved words supported in Portfolio optimization:
 	TimesPerBar = '1'
 	UseFreshSnapOnAdditionalDS = '1'
 
-[Wsp\Window_9\ChartManager\Strategy\SignalObject_0\SignalHelper\CustomInputHelperDT\Input_BBandLen]
+[Wsp\Window_9\ChartManager\Strategy\SignalObject_0\SignalHelper\CustomInputHelperDT\Input_BBandMultiplier]
 	IsInputOptimizable = '1'
 	LocalCurrentValue2 = '1'
 	Start2 = '1'
@@ -38944,19 +39141,11 @@ The reserved words supported in Portfolio optimization:
 
 [Wsp\Window_9\ChartManager\Strategy\SignalObject_0\SignalHelper\CustomInputHelperDT\Input_KBar]
 	IsInputOptimizable = '1'
-	LocalCurrentValue2 = '12'
-	Start2 = '12'
+	LocalCurrentValue2 = '60'
+	Start2 = '60'
 	Step2 = '1'
-	Stop2 = '12'
-	Value = '12'
-
-[Wsp\Window_9\ChartManager\Strategy\SignalObject_0\SignalHelper\CustomInputHelperDT\Input_MALen]
-	IsInputOptimizable = '1'
-	LocalCurrentValue2 = '19'
-	Start2 = '19'
-	Step2 = '1'
-	Stop2 = '19'
-	Value = '19'
+	Stop2 = '60'
+	Value = '60'
 
 [Wsp\Window_9\ChartManager\Strategy\SignalObject_0\SignalHelper\CustomInputHelperDT\Input_OrderSize]
 	IsInputOptimizable = '1'
@@ -38966,13 +39155,29 @@ The reserved words supported in Portfolio optimization:
 	Stop2 = '1'
 	Value = '1'
 
-[Wsp\Window_9\ChartManager\Strategy\SignalObject_0\SignalHelper\InputHelper\Input_BBandLen]
+[Wsp\Window_9\ChartManager\Strategy\SignalObject_0\SignalHelper\CustomInputHelperDT\Input_PullBack_Percent]
 	IsInputOptimizable = '1'
-	LocalCurrentValue2 = '1,4'
+	LocalCurrentValue2 = '0,007'
+	Start2 = '0,007'
+	Step2 = '1'
+	Stop2 = '0,007'
+	Value = '0.007'
+
+[Wsp\Window_9\ChartManager\Strategy\SignalObject_0\SignalHelper\CustomInputHelperDT\Input_StopLoss_Percent]
+	IsInputOptimizable = '1'
+	LocalCurrentValue2 = '0,02'
+	Start2 = '0,02'
+	Step2 = '1'
+	Stop2 = '0,02'
+	Value = '0.02'
+
+[Wsp\Window_9\ChartManager\Strategy\SignalObject_0\SignalHelper\InputHelper\Input_BBandMultiplier]
+	IsInputOptimizable = '1'
+	LocalCurrentValue2 = '1,6'
 	Start2 = '1'
 	Step2 = '0,1'
 	Stop2 = '2'
-	Value = '1.4'
+	Value = '1.6'
 
 [Wsp\Window_9\ChartManager\Strategy\SignalObject_0\SignalHelper\InputHelper\Input_Enabled]
 	IsInputOptimizable = '1'
@@ -38984,27 +39189,35 @@ The reserved words supported in Portfolio optimization:
 
 [Wsp\Window_9\ChartManager\Strategy\SignalObject_0\SignalHelper\InputHelper\Input_KBar]
 	IsInputOptimizable = '1'
-	LocalCurrentValue2 = '155'
-	Start2 = '140'
-	Step2 = '5'
-	Stop2 = '200'
-	Value = '155'
-
-[Wsp\Window_9\ChartManager\Strategy\SignalObject_0\SignalHelper\InputHelper\Input_MALen]
-	IsInputOptimizable = '1'
-	LocalCurrentValue2 = '10'
+	LocalCurrentValue2 = '145'
 	Start2 = '5'
 	Step2 = '5'
 	Stop2 = '200'
-	Value = '10'
+	Value = '145'
 
 [Wsp\Window_9\ChartManager\Strategy\SignalObject_0\SignalHelper\InputHelper\Input_OrderSize]
-	IsInputOptimizable = '0'
+	IsInputOptimizable = '1'
 	LocalCurrentValue2 = '1'
 	Start2 = '1'
 	Step2 = '1'
 	Stop2 = '1'
 	Value = '1'
+
+[Wsp\Window_9\ChartManager\Strategy\SignalObject_0\SignalHelper\InputHelper\Input_PullBack_Percent]
+	IsInputOptimizable = '1'
+	LocalCurrentValue2 = '0,018'
+	Start2 = '0,002'
+	Step2 = '0,002'
+	Stop2 = '0,04'
+	Value = '0.018'
+
+[Wsp\Window_9\ChartManager\Strategy\SignalObject_0\SignalHelper\InputHelper\Input_StopLoss_Percent]
+	IsInputOptimizable = '1'
+	LocalCurrentValue2 = '0,02'
+	Start2 = '0,002'
+	Step2 = '0,002'
+	Stop2 = '0,04'
+	Value = '0.02'
 
 [Wsp\Window_9\ChartManager\Strategy\SignalObject_0\SignalHelper\Styles\OrderType: Buy Entry\ArrowProps]
 	Color = '16711680'
@@ -39150,14 +39363,210 @@ The reserved words supported in Portfolio optimization:
 	Visible = '1'
 	Width = '2'
 
+[Wsp\Window_9\ChartManager\Strategy\SignalObject_1]
+	IdName = 's_cl_rsi_60m_short'
+	Status = '1'
+
+[Wsp\Window_9\ChartManager\Strategy\SignalObject_1\SignalHelper]
+	CalcRTAsHistory = '1'
+	GordonLamCalc = '0'
+	IOGEnabled = '0'
+	IOGMPChange = '1'
+	IOGMouse = '1'
+	IOGOrderFilled = '1'
+	IOGOrderRejected = '1'
+	IOGPortfolioCloseBtn = '1'
+	IOGTicks = '1'
+	IOGTimers = '1'
+	IOGTypeEntry = '1'
+	IOGTypeExit = '1'
+	TimesPerBar = '1'
+	UseFreshSnapOnAdditionalDS = '1'
+
+[Wsp\Window_9\ChartManager\Strategy\SignalObject_1\SignalHelper\CustomInputHelperDT\Input_Enabled]
+	IsInputOptimizable = '1'
+	LocalCurrentValue2 = '1'
+	Start2 = '1'
+	Step2 = '1'
+	Stop2 = '1'
+	Value = '1'
+
+[Wsp\Window_9\ChartManager\Strategy\SignalObject_1\SignalHelper\CustomInputHelperDT\Input_OrderSize]
+	IsInputOptimizable = '1'
+	LocalCurrentValue2 = '1'
+	Start2 = '1'
+	Step2 = '1'
+	Stop2 = '1'
+	Value = '1'
+
+[Wsp\Window_9\ChartManager\Strategy\SignalObject_1\SignalHelper\InputHelper\Input_Enabled]
+	IsInputOptimizable = '1'
+	LocalCurrentValue2 = '1'
+	Start2 = '1'
+	Step2 = '1'
+	Stop2 = '1'
+	Value = '1'
+
+[Wsp\Window_9\ChartManager\Strategy\SignalObject_1\SignalHelper\InputHelper\Input_OrderSize]
+	IsInputOptimizable = '1'
+	LocalCurrentValue2 = '1'
+	Start2 = '1'
+	Step2 = '1'
+	Stop2 = '1'
+	Value = '1'
+
+[Wsp\Window_9\ChartManager\Strategy\SignalObject_1\SignalHelper\Styles\OrderType: Buy Entry\ArrowProps]
+	Color = '16711680'
+	OrderType = '257'
+	Style = '10'
+	Width = '0'
+
+[Wsp\Window_9\ChartManager\Strategy\SignalObject_1\SignalHelper\Styles\OrderType: Buy Entry\ProfitLineProps]
+	OrderType = '257'
+	ProfitColor = '3329330'
+	Style = '2'
+	UnprofitColor = '0'
+	Visible = '1'
+	Width = '2'
+
+[Wsp\Window_9\ChartManager\Strategy\SignalObject_1\SignalHelper\Styles\OrderType: Buy Entry\SignalContractsProps]
+	ContractsColor = '16777215'
+	ContractsVisible = '1'
+
+[Wsp\Window_9\ChartManager\Strategy\SignalObject_1\SignalHelper\Styles\OrderType: Buy Entry\SignalNameProps]
+	NameColor = '16777215'
+	NameVisible = '1'
+
+[Wsp\Window_9\ChartManager\Strategy\SignalObject_1\SignalHelper\Styles\OrderType: Buy Entry\TickProps]
+	Color = '16711680'
+	OrderType = '257'
+	Style = '5'
+	Width = '0'
+
+[Wsp\Window_9\ChartManager\Strategy\SignalObject_1\SignalHelper\Styles\OrderType: Buy Entry\UnprofitLineProps]
+	OrderType = '257'
+	ProfitColor = '0'
+	Style = '2'
+	UnprofitColor = '255'
+	Visible = '1'
+	Width = '2'
+
+[Wsp\Window_9\ChartManager\Strategy\SignalObject_1\SignalHelper\Styles\OrderType: Buy Exit\ArrowProps]
+	Color = '16777215'
+	OrderType = '258'
+	Style = '10'
+	Width = '0'
+
+[Wsp\Window_9\ChartManager\Strategy\SignalObject_1\SignalHelper\Styles\OrderType: Buy Exit\ProfitLineProps]
+	OrderType = '257'
+	ProfitColor = '3329330'
+	Style = '2'
+	UnprofitColor = '0'
+	Visible = '1'
+	Width = '2'
+
+[Wsp\Window_9\ChartManager\Strategy\SignalObject_1\SignalHelper\Styles\OrderType: Buy Exit\SignalContractsProps]
+	ContractsColor = '16777215'
+	ContractsVisible = '1'
+
+[Wsp\Window_9\ChartManager\Strategy\SignalObject_1\SignalHelper\Styles\OrderType: Buy Exit\SignalNameProps]
+	NameColor = '16777215'
+	NameVisible = '1'
+
+[Wsp\Window_9\ChartManager\Strategy\SignalObject_1\SignalHelper\Styles\OrderType: Buy Exit\TickProps]
+	Color = '16777215'
+	OrderType = '258'
+	Style = '5'
+	Width = '0'
+
+[Wsp\Window_9\ChartManager\Strategy\SignalObject_1\SignalHelper\Styles\OrderType: Buy Exit\UnprofitLineProps]
+	OrderType = '257'
+	ProfitColor = '0'
+	Style = '2'
+	UnprofitColor = '255'
+	Visible = '1'
+	Width = '2'
+
+[Wsp\Window_9\ChartManager\Strategy\SignalObject_1\SignalHelper\Styles\OrderType: Sell Entry\ArrowProps]
+	Color = '255'
+	OrderType = '513'
+	Style = '10'
+	Width = '0'
+
+[Wsp\Window_9\ChartManager\Strategy\SignalObject_1\SignalHelper\Styles\OrderType: Sell Entry\ProfitLineProps]
+	OrderType = '257'
+	ProfitColor = '3329330'
+	Style = '2'
+	UnprofitColor = '0'
+	Visible = '1'
+	Width = '2'
+
+[Wsp\Window_9\ChartManager\Strategy\SignalObject_1\SignalHelper\Styles\OrderType: Sell Entry\SignalContractsProps]
+	ContractsColor = '16777215'
+	ContractsVisible = '1'
+
+[Wsp\Window_9\ChartManager\Strategy\SignalObject_1\SignalHelper\Styles\OrderType: Sell Entry\SignalNameProps]
+	NameColor = '16777215'
+	NameVisible = '1'
+
+[Wsp\Window_9\ChartManager\Strategy\SignalObject_1\SignalHelper\Styles\OrderType: Sell Entry\TickProps]
+	Color = '255'
+	OrderType = '513'
+	Style = '5'
+	Width = '0'
+
+[Wsp\Window_9\ChartManager\Strategy\SignalObject_1\SignalHelper\Styles\OrderType: Sell Entry\UnprofitLineProps]
+	OrderType = '257'
+	ProfitColor = '0'
+	Style = '2'
+	UnprofitColor = '255'
+	Visible = '1'
+	Width = '2'
+
+[Wsp\Window_9\ChartManager\Strategy\SignalObject_1\SignalHelper\Styles\OrderType: Sell Exit\ArrowProps]
+	Color = '16777215'
+	OrderType = '514'
+	Style = '10'
+	Width = '0'
+
+[Wsp\Window_9\ChartManager\Strategy\SignalObject_1\SignalHelper\Styles\OrderType: Sell Exit\ProfitLineProps]
+	OrderType = '257'
+	ProfitColor = '3329330'
+	Style = '2'
+	UnprofitColor = '0'
+	Visible = '1'
+	Width = '2'
+
+[Wsp\Window_9\ChartManager\Strategy\SignalObject_1\SignalHelper\Styles\OrderType: Sell Exit\SignalContractsProps]
+	ContractsColor = '16777215'
+	ContractsVisible = '1'
+
+[Wsp\Window_9\ChartManager\Strategy\SignalObject_1\SignalHelper\Styles\OrderType: Sell Exit\SignalNameProps]
+	NameColor = '16777215'
+	NameVisible = '1'
+
+[Wsp\Window_9\ChartManager\Strategy\SignalObject_1\SignalHelper\Styles\OrderType: Sell Exit\TickProps]
+	Color = '16777215'
+	OrderType = '514'
+	Style = '5'
+	Width = '0'
+
+[Wsp\Window_9\ChartManager\Strategy\SignalObject_1\SignalHelper\Styles\OrderType: Sell Exit\UnprofitLineProps]
+	OrderType = '257'
+	ProfitColor = '0'
+	Style = '2'
+	UnprofitColor = '255'
+	Visible = '1'
+	Width = '2'
+
 [Wsp\Window_9\ChartManager\Strategy\StrategyATPersistHelper]
 	ATOn = 'False'
 	ATOnEventID = '0'
 	Confirm = 'False'
 	NeedActivateAT = 'False'
 	Profile = 'Interactive Brokers'
-	StrategyName = 'strategy_i_cl_test'
-	SymbolName = 'CME.CL HOT - 240 Minutes - TOUCHANCE'
+	StrategyName = 'cl_rsi_60m_short'
+	SymbolName = 'CME.CL HOT - 60 Minutes - TOUCHANCE'
 
 [Wsp\Window_9\ChartManager\Strategy\StrategyHelper\DynTradeOptimizeProps\Algorithm_0]
 	CFFScriptGenetic = '// TODO: Enter your formula to replace the samples below 
@@ -39640,11 +40049,11 @@ The reserved words supported in Portfolio optimization:
 	IgnoreTickCache_v2 = '1'
 	InitCapital = '40000'
 	InterestRate = '0'
-	LIBEnabled = '1'
+	LIBEnabled = '0'
 	LIBSize = '1'
 	LIBSkipIdenticalTicks = '1'
 	LIBTimeDetalization = '0'
-	LIBType = '2'
+	LIBType = '1'
 	LimitType = '2'
 	MaximumPerPosition = '100'
 	MinimumContracts = '0'
