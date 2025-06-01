@@ -1,7 +1,7 @@
-// TXF 720 min
+// TXF 15 min
 // Backtest time: 2014/01/01 - 2014/01/01 Exchange
 // Fee (12 + 5) * 20
-// Use bar 6
+// Use bar 180
 
 
 inputs: Enabled(1), OrderSize(1);
@@ -9,7 +9,7 @@ inputs: Enabled(1), OrderSize(1);
 if Enabled = 0 then
 	#Return;
 
-vars: KBar(100), BBandMultiplier(2.4);
+vars: KBar(180), BBandMultiplier(2.1);
 vars: BBandUp(0), BBandDown(0);
 BBandUp = BollingerBand(Close, KBar, BBandMultiplier);
 BBandDown = BollingerBand(Close, KBar, -BBandMultiplier);
@@ -26,7 +26,7 @@ if BuyCond then begin
 	Buy ("LE") OrderSize contracts next bar market;
 end;
 
-vars: Profit_Percent(0.014), StopLoss_Percent(0.044);
+vars: Profit_Percent(0.006), StopLoss_Percent(0.049);
 
 if MarketPosition = 1 then begin
 
