@@ -12,16 +12,16 @@
 
 [Wsp\Window_0]
 	ContainerHeight = '718'
-	ContainerWidth = '1540'
+	ContainerWidth = '1546'
 	Flags = '2'
 	Height = '224'
 	Left = '0'
 	MinX = '-1'
 	MinY = '-1'
 	State = '3'
-	Top = '4'
+	Top = '5'
 	ViewType = '0'
-	Width = '18903'
+	Width = '2641'
 
 [Wsp\Window_0\ChartManager]
 	ChartCount = '2'
@@ -35,14 +35,14 @@
 
 [Wsp\Window_0\ChartManager\Chart_0]
 	LSeriesNum = '0'
-	PencentHeight = '0,6'
+	PencentHeight = '0,75'
 	RSeriesNum = '0'
 	SeriesCount = '2'
 	invert Scale = '0'
 
 [Wsp\Window_0\ChartManager\Chart_0\Series_0]
 	DataNumber = '0'
-	DrawableSeriesID = '{9CD2F83B-CBA7-49F5-830B-FC1E9879F2BF}'
+	DrawableSeriesID = '{83E52C5E-02DD-4BDB-BF01-690BC8B4C69C}'
 	DrawingsCount = '0'
 	ResolutionLinkId = '0'
 	ResolutionWsGlobal = '0'
@@ -59,7 +59,7 @@
 	BackTypeId = '274'
 	BackTypeName = 'Days Back'
 	BreakOnSession = '1'
-	BuildDayFromMinutes = '1'
+	BuildDayFromMinutes = '0'
 	CallPut = '0'
 	CapacityId = '180'
 	CapacityName = ''
@@ -79,9 +79,9 @@
 	ExpirationDate = '0'
 	FieldId = '201'
 	FieldName = 'Trade'
-	FinishDate2Id = '45804'
+	FinishDate2Id = '45809'
 	FinishDate2Name = ''
-	FinishDateId = '45804'
+	FinishDateId = '45809'
 	FinishDateName = ''
 	FootPrintChartType = '0'
 	KagiReversal = '10'
@@ -104,12 +104,12 @@
 	RenkoBoxSize = '10'
 	RenkoBoxSizeType = '0'
 	RequestOffline = '0'
-	ResolutionId = '4'
-	ResolutionName = 'Day'
-	ResolutionSizeId = '1'
+	ResolutionId = '2'
+	ResolutionName = 'Minute'
+	ResolutionSizeId = '30'
 	ResolutionSizeName = ''
-	SessionsId = '7342'
-	SessionsName = 'TXF.MXF.TXO.UDF.SPF|Session New'
+	SessionsId = '0'
+	SessionsName = 'Default'
 	ShowDelta = '0'
 	ShowPercent = '0'
 	ShowPhantomBars = '1'
@@ -144,8 +144,8 @@
 	ManualMode = '0'
 	MarginBottom = '5'
 	MarginTop = '5'
-	Maximum = '26397,2949245542'
-	Minimum = '15066,7050754458'
+	Maximum = '20046,5'
+	Minimum = '19046,5'
 	MovementSize.Long = '1'
 	MovementSize.Metric = 'False'
 	MovementSize.Price = '5'
@@ -1921,7 +1921,7 @@
 
 [Wsp\Window_0\ChartManager\Chart_0\Series_1]
 	CalcRealTimeAsHistory = '1'
-	DrawableSeriesID = '{B9CACDE5-2823-48B2-91E0-DE245939BEE4}'
+	DrawableSeriesID = '{AD4CBA54-0302-4E9A-BDA2-BEB22800B05D}'
 	DrawingsCount = '0'
 	InvisibleSubChart = '0'
 	SeriesType = '0'
@@ -1997,7 +1997,7 @@
 	Value = '0'
 
 [Wsp\Window_0\ChartManager\Chart_0\Series_1\IndicatorHelper\InputHelper\Input_Length]
-	Value = '20'
+	Value = '9'
 
 [Wsp\Window_0\ChartManager\Chart_0\Series_1\IndicatorHelper\InputHelper\Input_NumDevsDn]
 	Value = '-1.5'
@@ -2058,8 +2058,8 @@
 	ManualMode = '0'
 	MarginBottom = '5'
 	MarginTop = '5'
-	Maximum = '24862'
-	Minimum = '16602'
+	Maximum = '19951,5'
+	Minimum = '19141,5'
 	MovementSize.Long = '1'
 	MovementSize.Metric = 'False'
 	MovementSize.Price = '5'
@@ -2102,14 +2102,14 @@
 
 [Wsp\Window_0\ChartManager\Chart_1]
 	LSeriesNum = '0'
-	PencentHeight = '0,2'
+	PencentHeight = '0,25'
 	RSeriesNum = '0'
 	SeriesCount = '1'
 	invert Scale = '0'
 
 [Wsp\Window_0\ChartManager\Chart_1\Series_0]
 	CalcRealTimeAsHistory = '1'
-	DrawableSeriesID = '{CE68490B-F045-4C26-98C5-B3C65BF83960}'
+	DrawableSeriesID = '{151E1DF9-506C-44E3-823C-5A7B8F0F7E61}'
 	DrawingsCount = '0'
 	InvisibleSubChart = '0'
 	SeriesType = '0'
@@ -2173,22 +2173,28 @@
 	SkipIdenticalTicks = '1'
 	UpdateEveryTick = '1'
 	UpdateOnEveryTick = '1'
-	UseAddSeriesFreshSnap_v2 = '0'
-	UseFreshSnapOnAdditionalDS = '0'
+	UseAddSeriesFreshSnap_v2 = '1'
+	UseFreshSnapOnAdditionalDS = '1'
 	UserBarMode = '0'
 	UserBarRef = '50'
+
+[Wsp\Window_0\ChartManager\Chart_1\Series_0\IndicatorHelper\InputHelper\Input_ATRLength]
+	Value = '14'
+
+[Wsp\Window_0\ChartManager\Chart_1\Series_0\IndicatorHelper\InputHelper\Input_AlertLength]
+	Value = '14'
 
 [Wsp\Window_0\ChartManager\Chart_1\Series_0\IndicatorHelper\PlotHelper\Plot_1]
 	DefAlign = '2'
 	DefBKColor = '0'
-	DefColor = '255'
-	DefColor2 = '255'
+	DefColor = '65535'
+	DefColor2 = '65535'
 	DefDecimals = '5'
 	DefFormat = '1'
 	DefShowLastPriceMarker = '-1'
 	DefStyle = '0'
 	DefWidth = '0'
-	PlotType = '1'
+	PlotType = '0'
 
 [Wsp\Window_0\ChartManager\Chart_1\Series_0\IntervalObject]
 	AxisType = '0'
@@ -2201,8 +2207,8 @@
 	ManualMode = '0'
 	MarginBottom = '5'
 	MarginTop = '5'
-	Maximum = '451916,027587258'
-	Minimum = '-91242,027587258'
+	Maximum = '128,58215755438'
+	Minimum = '43,632128159906'
 	MovementSize.Long = '1'
 	MovementSize.Metric = 'False'
 	MovementSize.Price = '5'
@@ -2234,7 +2240,7 @@
 	Suffix = 'b'
 
 [Wsp\Window_0\ChartManager\Chart_1\Series_0\ShortTechInfo]
-	IdName = 'i_Volume'
+	IdName = 'ib_Averageb20Trueb20Range'
 
 [Wsp\Window_0\ChartManager\Chart_1\Series_0\VolumeObject]
 	VolumeBarWidth = '1'
@@ -2267,9 +2273,9 @@
 	Type = '4'
 
 [Wsp\Window_0\ChartManager\IndexViewCalc]
-	BarSpacing = '3'
+	BarSpacing = '23'
 	BarsToRight = '20'
-	BarsToRightValue = '71'
+	BarsToRightValue = '9'
 	ChartShiftViewType = '0'
 	ShowEmptyPeriod = '0'
 
@@ -2542,7 +2548,7 @@
 
 [Wsp\Window_0\ChartManager\OptimizeManager\OptimizeManager\ClassicOptimizer\ClassicOtimizer]
 	OptReportExist = '0'
-	ReportFilePath = 'C:\Users\marco\OneDrive\¤å¥ó\Optimization ASCII Mapping Futures TWF.TXF HOT-TOUCHANCE-TWF-FUTU TWF 1 Day 20250416-210331.MCReport'
+	ReportFilePath = ''
 
 [Wsp\Window_0\ChartManager\OptimizeManager\OptimizeManager\GAProperties\GAPropContainer]
 	GABasicAlgoritmExist = 'True'
@@ -2564,12 +2570,12 @@
 	convType = '0'
 	crossOverProb = '0,95'
 	mutationProb = '0,05'
-	offspring_number = '16'
+	offspring_number = '12'
 	proximalConv = '0,99'
 	replScheme = '0'
-	ulGenCount = '500'
-	ulMinGenCount = '100'
-	ulPopSize = '2'
+	ulGenCount = '29'
+	ulMinGenCount = '25'
+	ulPopSize = '25'
 
 [Wsp\Window_0\ChartManager\OptimizeManager\OptimizeManager\MOOptimizer\MO]
 	MOReportExist = '0'
@@ -2587,14 +2593,14 @@
 	WFIntervalType = '0'
 
 [Wsp\Window_0\ChartManager\OptimizeManager\OptimizeManager\WFOptimizer\WFO]
-	IS_size = '74961'
+	IS_size = '15713'
 	IntervalType = '0'
 	IsAnchored = '0'
 	IsDefaultInitNeeded = '0'
 	NeedForecast = '1'
 	Num_of_Runs = '5'
 	OOS_Size_Type = '0'
-	OOS_size = '7496'
+	OOS_size = '1571'
 	ReportFilePath = ''
 	Segment_type = '1'
 	Version = '1'
@@ -2851,13 +2857,13 @@
 	TimesPerBar = '1'
 	UseFreshSnapOnAdditionalDS = '1'
 
-[Wsp\Window_0\ChartManager\Strategy\SignalObject_0\SignalHelper\CustomInputHelperDT\Input_Count]
+[Wsp\Window_0\ChartManager\Strategy\SignalObject_0\SignalHelper\CustomInputHelperDT\Input_Base]
 	IsInputOptimizable = '1'
-	LocalCurrentValue2 = '8'
-	Start2 = '8'
+	LocalCurrentValue2 = '1'
+	Start2 = '1'
 	Step2 = '1'
-	Stop2 = '8'
-	Value = '8'
+	Stop2 = '1'
+	Value = '1'
 
 [Wsp\Window_0\ChartManager\Strategy\SignalObject_0\SignalHelper\CustomInputHelperDT\Input_Enabled]
 	IsInputOptimizable = '1'
@@ -2869,27 +2875,19 @@
 
 [Wsp\Window_0\ChartManager\Strategy\SignalObject_0\SignalHelper\CustomInputHelperDT\Input_Len]
 	IsInputOptimizable = '1'
-	LocalCurrentValue2 = '12'
-	Start2 = '12'
+	LocalCurrentValue2 = '23'
+	Start2 = '23'
 	Step2 = '1'
-	Stop2 = '12'
-	Value = '12'
+	Stop2 = '23'
+	Value = '23'
 
-[Wsp\Window_0\ChartManager\Strategy\SignalObject_0\SignalHelper\CustomInputHelperDT\Input_MA1Len]
+[Wsp\Window_0\ChartManager\Strategy\SignalObject_0\SignalHelper\CustomInputHelperDT\Input_NN]
 	IsInputOptimizable = '1'
-	LocalCurrentValue2 = '150'
-	Start2 = '150'
+	LocalCurrentValue2 = '3'
+	Start2 = '3'
 	Step2 = '1'
-	Stop2 = '150'
-	Value = '150'
-
-[Wsp\Window_0\ChartManager\Strategy\SignalObject_0\SignalHelper\CustomInputHelperDT\Input_MA2Len]
-	IsInputOptimizable = '1'
-	LocalCurrentValue2 = '5'
-	Start2 = '5'
-	Step2 = '1'
-	Stop2 = '5'
-	Value = '5'
+	Stop2 = '3'
+	Value = '3'
 
 [Wsp\Window_0\ChartManager\Strategy\SignalObject_0\SignalHelper\CustomInputHelperDT\Input_OrderSize]
 	IsInputOptimizable = '1'
@@ -2899,12 +2897,12 @@
 	Stop2 = '1'
 	Value = '1'
 
-[Wsp\Window_0\ChartManager\Strategy\SignalObject_0\SignalHelper\InputHelper\Input_Count]
+[Wsp\Window_0\ChartManager\Strategy\SignalObject_0\SignalHelper\InputHelper\Input_Base]
 	IsInputOptimizable = '1'
 	LocalCurrentValue2 = '1'
-	Start2 = '1'
-	Step2 = '1'
-	Stop2 = '10'
+	Start2 = '0,01'
+	Step2 = '0,01'
+	Stop2 = '0,1'
 	Value = '1'
 
 [Wsp\Window_0\ChartManager\Strategy\SignalObject_0\SignalHelper\InputHelper\Input_Enabled]
@@ -2917,27 +2915,19 @@
 
 [Wsp\Window_0\ChartManager\Strategy\SignalObject_0\SignalHelper\InputHelper\Input_Len]
 	IsInputOptimizable = '1'
-	LocalCurrentValue2 = '4'
+	LocalCurrentValue2 = '55'
+	Start2 = '5'
+	Step2 = '5'
+	Stop2 = '300'
+	Value = '55'
+
+[Wsp\Window_0\ChartManager\Strategy\SignalObject_0\SignalHelper\InputHelper\Input_NN]
+	IsInputOptimizable = '1'
+	LocalCurrentValue2 = '1,6'
 	Start2 = '1'
-	Step2 = '1'
-	Stop2 = '10'
-	Value = '4'
-
-[Wsp\Window_0\ChartManager\Strategy\SignalObject_0\SignalHelper\InputHelper\Input_MA1Len]
-	IsInputOptimizable = '1'
-	LocalCurrentValue2 = '5'
-	Start2 = '2'
-	Step2 = '1'
-	Stop2 = '30'
-	Value = '5'
-
-[Wsp\Window_0\ChartManager\Strategy\SignalObject_0\SignalHelper\InputHelper\Input_MA2Len]
-	IsInputOptimizable = '1'
-	LocalCurrentValue2 = '4'
-	Start2 = '2'
-	Step2 = '1'
-	Stop2 = '30'
-	Value = '4'
+	Step2 = '0,1'
+	Stop2 = '4'
+	Value = '1.6'
 
 [Wsp\Window_0\ChartManager\Strategy\SignalObject_0\SignalHelper\InputHelper\Input_OrderSize]
 	IsInputOptimizable = '0'
@@ -3098,7 +3088,7 @@
 	NeedActivateAT = 'False'
 	Profile = 'Interactive Brokers'
 	StrategyName = 'strategy_f_txf_test'
-	SymbolName = 'TWF.TXF HOT-TOUCHANCE-TWF-FUTU - 1 Day - ASCII Mapping'
+	SymbolName = 'TWF.TXF HOT-TOUCHANCE-TWF-FUTU - 30 Minutes - ASCII Mapping'
 
 [Wsp\Window_0\ChartManager\Strategy\StrategyHelper\DynTradeOptimizeProps\Algorithm_0]
 	CFFScriptGenetic = '// TODO: Enter your formula to replace the samples below 
@@ -3567,7 +3557,7 @@ The reserved words supported in Portfolio optimization:
 	BTOFAMode = '0'
 	BTOFAPoints = '0'
 	BTOFA_TIF = '1'
-	BarReference = '500'
+	BarReference = '1000'
 	BidIndex = '0'
 	CalcPnLInSymbolCurrency = '1'
 	CalcRealTimeAsHistory = '1'
@@ -3579,7 +3569,7 @@ The reserved words supported in Portfolio optimization:
 	FixedContracts = '1'
 	IOGSendOrdersImmediatly = '0'
 	IgnoreTickCache_v2 = '1'
-	InitCapital = '720000'
+	InitCapital = '600000'
 	InterestRate = '2'
 	LIBEnabled = '0'
 	LIBSize = '1'
