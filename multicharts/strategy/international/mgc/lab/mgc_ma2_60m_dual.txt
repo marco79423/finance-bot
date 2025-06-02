@@ -1,16 +1,16 @@
 // MGC 60 min
-// Use bar 70
+// Backtest time: 2014/01/01 - 2024/01/01 Exchange
+// Use bar 110
 
 inputs: Enabled(1), OrderSize(1);
 
 if Enabled = 0 then
 	#Return;
 
-vars: MA1Len(70), MA2Len(30), Len(14), Count(5);
+vars: MA1Len(110), MA2Len(29), Len(14), Count(12);
 
 vars: OpenCond(True);
 OpenCond = True;
-OpenCond = not IsMGCSettlementDay;
 
 vars: MA1(0), MA2(0);
 MA1 = Average(Close, MA1Len);
