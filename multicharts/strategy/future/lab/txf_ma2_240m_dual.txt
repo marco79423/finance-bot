@@ -1,4 +1,4 @@
-// TXF 60 min
+// TXF 240 min
 // Backtest time: 2014/01/01 - 2014/01/01 Exchange
 // Fee (12 + 5) * 20
 // Use bar 13
