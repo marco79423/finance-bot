@@ -1,4 +1,5 @@
 // E7 60 min
+// Backtest time: 2014/01/01 - 2024/01/01 Exchange
 // Use bar 130
 
 inputs: Enabled(1), OrderSize(1);
