@@ -67,7 +67,7 @@
         <logonCredentials inherit="None">
           <profileName scope="Local">Custom</profileName>
           <userName>marco_li@shun-way.com</userName>
-          <password>AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAvAnLbPtoXkGEpzsLGyPHpAAAAAACAAAAAAAQZgAAAAEAACAAAAAC46ho0AHVCIZ951XxvvR8r0Y2oayxNJLEiBeJGgsXKgAAAAAOgAAAAAIAACAAAACZ9JDG1yl6TOTbRaXKbYdP98Mo7CuJg2nlsVu1hLFnoyAAAAAc09q2pFhM98uK3pQL80GDLHsYJsl+uJLyvj08YeLWhkAAAAD+PY+f9JxF2CU+lLFfC+wpgm7g3YUgZFozrGjGXw/u75Iw6bGa3zAwXDnu41vVd+V5IpULU8wJc8G/FWiO9mLO</password>
+          <password>AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAvAnLbPtoXkGEpzsLGyPHpAAAAAACAAAAAAAQZgAAAAEAACAAAAAoX3rM2NuCuovtpNLkYIyLHHRwywyYYXnixwKIT7uxNwAAAAAOgAAAAAIAACAAAACOSZb+5/vO1xlIFcgBQUyz51whtG26wunWMf/XkfVT1CAAAADUH+AMdmpaWcFFx6wx3Y6pzUe6kRmcpfg8v2SEkpUX3UAAAADF3QKlyQfU0z/Qk5XK0oYC83Por0LlTLYLcyK/aWWNpRy5E4qw5O4Mk/8rNmhvw5w9k0+2CKrD44x/Um7tUOJm</password>
           <domain>MARCO-PC</domain>
         </logonCredentials>
       </server>
