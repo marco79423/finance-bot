@@ -11,6 +11,14 @@
       <fullScreen>False</fullScreen>
       <colorDepth>24</colorDepth>
     </remoteDesktop>
+    <displaySettings inherit="None">
+      <liveThumbnailUpdates>True</liveThumbnailUpdates>
+      <allowThumbnailSessionInteraction>False</allowThumbnailSessionInteraction>
+      <showDisconnectedThumbnails>True</showDisconnectedThumbnails>
+      <thumbnailScale>3</thumbnailScale>
+      <smartSizeDockedWindows>Scale</smartSizeDockedWindows>
+      <smartSizeUndockedWindows>Scale</smartSizeUndockedWindows>
+    </displaySettings>
     <group>
       <properties>
         <expanded>True</expanded>
@@ -21,6 +29,14 @@
           <expanded>True</expanded>
           <name>lab</name>
         </properties>
+        <displaySettings inherit="None">
+          <liveThumbnailUpdates>True</liveThumbnailUpdates>
+          <allowThumbnailSessionInteraction>False</allowThumbnailSessionInteraction>
+          <showDisconnectedThumbnails>True</showDisconnectedThumbnails>
+          <thumbnailScale>3</thumbnailScale>
+          <smartSizeDockedWindows>Scale</smartSizeDockedWindows>
+          <smartSizeUndockedWindows>Scale</smartSizeUndockedWindows>
+        </displaySettings>
         <server>
           <properties>
             <name>juji</name>
