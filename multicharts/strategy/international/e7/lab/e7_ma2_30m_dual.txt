@@ -1,13 +1,13 @@
 // E7 30 min
 // Backtest time: 2014/01/01 - 2024/01/01 Exchange
-// Use bar 55
+// Use bar 115
 
 inputs: Enabled(1), OrderSize(1);
 
 if Enabled = 0 then
 	#Return;
 
-vars: MA1Len(55), MA2Len(14), Len(18), Count(13);
+vars: MA1Len(115), MA2Len(22), Len(10), Count(9);
 
 vars: OpenCond(True);
 OpenCond = True;
