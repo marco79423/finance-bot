@@ -1,7 +1,7 @@
 
 [Wsp]
 	(C2526AC1-535C-4a67-92B5-101E53EA9E4B) = '{1}{2}{0}'
-	ActiveIndex = '1'
+	ActiveIndex = '2'
 	MaximizedFlag = '0'
 	ProductVersion = '15.0.27355.400'
 	Version = '1'
@@ -11,10 +11,10 @@
 	WindowCount = '0'
 
 [Wsp\Window_0]
-	ContainerHeight = '714'
+	ContainerHeight = '690'
 	ContainerWidth = '1542'
 	Flags = '0'
-	Height = '237'
+	Height = '229'
 	Left = '0'
 	MinX = '-1'
 	MinY = '-1'
@@ -79,9 +79,9 @@
 	ExpirationDate = '0'
 	FieldId = '201'
 	FieldName = 'Trade'
-	FinishDate2Id = '45809'
+	FinishDate2Id = '45822'
 	FinishDate2Name = ''
-	FinishDateId = '45809'
+	FinishDateId = '45822'
 	FinishDateName = ''
 	FootPrintChartType = '0'
 	KagiReversal = '10'
@@ -144,8 +144,8 @@
 	ManualMode = '0'
 	MarginBottom = '5'
 	MarginTop = '5'
-	Maximum = '42860,3888888889'
-	Minimum = '41152,6111111111'
+	Maximum = '43215,2222222222'
+	Minimum = '42030,7777777778'
 	MovementSize.Long = '1'
 	MovementSize.Metric = 'False'
 	MovementSize.Price = '5'
@@ -3333,10 +3333,10 @@ The reserved words supported in Portfolio optimization:
 		 32 32 20 73 65 72 69 61 6C 69 7A 61 74 69 6F 6E
 		 3A 3A 61 72 63 68 69 76 65 20 35 20 30 20 32 20
 		 31 34 20 F1 51 FA 57 20 00 4D 00 59 00 4D 00 20
-		 00 20 00 28 00 33 00 20 00 8E 7F 43 51 29 00 20
+		 00 20 00 28 00 32 00 20 00 8E 7F 43 51 29 00 20
 		 30 20 31 20 30 20 30 20 31 20 30 20 30 20 30 20
 		 31 20 30 20 30 20 30 20 30 20 30 20 34 20 30 20
-		 30 20 30 20 31 20 33 20 31 20 31 20 30 20 30 20
+		 30 20 30 20 31 20 32 20 31 20 31 20 30 20 30 20
 		 30 20 30 0A
 		}
 
@@ -3395,15 +3395,15 @@ The reserved words supported in Portfolio optimization:
 	VolumeRightScaleWidth = '50'
 
 [Wsp\Window_1]
-	ContainerHeight = '714'
+	ContainerHeight = '690'
 	ContainerWidth = '1542'
 	Flags = '0'
-	Height = '238'
+	Height = '230'
 	Left = '0'
 	MinX = '-1'
 	MinY = '-1'
 	State = '1'
-	Top = '237'
+	Top = '229'
 	ViewType = '0'
 	Width = '1542'
 
@@ -3463,9 +3463,9 @@ The reserved words supported in Portfolio optimization:
 	ExpirationDate = '0'
 	FieldId = '201'
 	FieldName = 'Trade'
-	FinishDate2Id = '45809'
+	FinishDate2Id = '45822'
 	FinishDate2Name = ''
-	FinishDateId = '45809'
+	FinishDateId = '45822'
 	FinishDateName = ''
 	FootPrintChartType = '0'
 	KagiReversal = '10'
@@ -3528,8 +3528,8 @@ The reserved words supported in Portfolio optimization:
 	ManualMode = '0'
 	MarginBottom = '5'
 	MarginTop = '5'
-	Maximum = '35096,6111111111'
-	Minimum = '33164,3888888889'
+	Maximum = '43225,5555555556'
+	Minimum = '41834,4444444444'
 	MovementSize.Long = '1'
 	MovementSize.Metric = 'False'
 	MovementSize.Price = '5'
@@ -6717,10 +6717,10 @@ The reserved words supported in Portfolio optimization:
 		 32 32 20 73 65 72 69 61 6C 69 7A 61 74 69 6F 6E
 		 3A 3A 61 72 63 68 69 76 65 20 35 20 30 20 32 20
 		 31 34 20 F1 51 FA 57 20 00 4D 00 59 00 4D 00 20
-		 00 20 00 28 00 33 00 20 00 8E 7F 43 51 29 00 20
+		 00 20 00 28 00 32 00 20 00 8E 7F 43 51 29 00 20
 		 30 20 31 20 30 20 30 20 31 20 30 20 30 20 30 20
 		 31 20 30 20 30 20 30 20 30 20 30 20 34 20 30 20
-		 30 20 30 20 31 20 33 20 31 20 31 20 30 20 30 20
+		 30 20 30 20 31 20 32 20 31 20 31 20 30 20 30 20
 		 30 20 30 0A
 		}
 
@@ -6779,15 +6779,15 @@ The reserved words supported in Portfolio optimization:
 	VolumeRightScaleWidth = '50'
 
 [Wsp\Window_2]
-	ContainerHeight = '714'
+	ContainerHeight = '690'
 	ContainerWidth = '1542'
 	Flags = '0'
-	Height = '238'
+	Height = '230'
 	Left = '0'
 	MinX = '-1'
 	MinY = '-1'
 	State = '1'
-	Top = '475'
+	Top = '459'
 	ViewType = '0'
 	Width = '1542'
 
@@ -6847,9 +6847,9 @@ The reserved words supported in Portfolio optimization:
 	ExpirationDate = '0'
 	FieldId = '201'
 	FieldName = 'Trade'
-	FinishDate2Id = '45809'
+	FinishDate2Id = '45822'
 	FinishDate2Name = ''
-	FinishDateId = '45809'
+	FinishDateId = '45822'
 	FinishDateName = ''
 	FootPrintChartType = '0'
 	KagiReversal = '10'
@@ -6912,8 +6912,8 @@ The reserved words supported in Portfolio optimization:
 	ManualMode = '0'
 	MarginBottom = '5'
 	MarginTop = '5'
-	Maximum = '43080,7777777778'
-	Minimum = '41125,2222222222'
+	Maximum = '43225,5555555556'
+	Minimum = '41834,4444444444'
 	MovementSize.Long = '1'
 	MovementSize.Metric = 'False'
 	MovementSize.Price = '5'
@@ -8860,9 +8860,9 @@ The reserved words supported in Portfolio optimization:
 	Type = '4'
 
 [Wsp\Window_2\ChartManager\IndexViewCalc]
-	BarSpacing = '18'
+	BarSpacing = '30'
 	BarsToRight = '20'
-	BarsToRightValue = '16'
+	BarsToRightValue = '10'
 	ChartShiftViewType = '0'
 	ShowEmptyPeriod = '0'
 
@@ -10101,10 +10101,10 @@ The reserved words supported in Portfolio optimization:
 		 32 32 20 73 65 72 69 61 6C 69 7A 61 74 69 6F 6E
 		 3A 3A 61 72 63 68 69 76 65 20 35 20 30 20 32 20
 		 31 34 20 F1 51 FA 57 20 00 4D 00 59 00 4D 00 20
-		 00 20 00 28 00 33 00 20 00 8E 7F 43 51 29 00 20
+		 00 20 00 28 00 32 00 20 00 8E 7F 43 51 29 00 20
 		 30 20 31 20 30 20 30 20 31 20 30 20 30 20 30 20
 		 31 20 30 20 30 20 30 20 30 20 30 20 34 20 30 20
-		 30 20 30 20 31 20 33 20 31 20 31 20 30 20 30 20
+		 30 20 30 20 31 20 32 20 31 20 31 20 30 20 30 20
 		 30 20 30 0A
 		}
 
