@@ -1,7 +1,7 @@
 
 [Wsp]
-	(C2526AC1-535C-4a67-92B5-101E53EA9E4B) = '{1}{0}'
-	ActiveIndex = '1'
+	(C2526AC1-535C-4a67-92B5-101E53EA9E4B) = '{0}{1}'
+	ActiveIndex = '0'
 	MaximizedFlag = '0'
 	ProductVersion = '15.0.27355.400'
 	Version = '1'
@@ -11,10 +11,10 @@
 	WindowCount = '0'
 
 [Wsp\Window_0]
-	ContainerHeight = '714'
+	ContainerHeight = '690'
 	ContainerWidth = '1542'
 	Flags = '0'
-	Height = '357'
+	Height = '345'
 	Left = '0'
 	MinX = '-1'
 	MinY = '-1'
@@ -79,9 +79,9 @@
 	ExpirationDate = '0'
 	FieldId = '201'
 	FieldName = 'Trade'
-	FinishDate2Id = '45800'
+	FinishDate2Id = '45822'
 	FinishDate2Name = ''
-	FinishDateId = '45800'
+	FinishDateId = '45822'
 	FinishDateName = ''
 	FootPrintChartType = '0'
 	KagiReversal = '1'
@@ -106,7 +106,7 @@
 	RequestOffline = '0'
 	ResolutionId = '2'
 	ResolutionName = 'Minute'
-	ResolutionSizeId = '60'
+	ResolutionSizeId = '360'
 	ResolutionSizeName = ''
 	SessionsId = '0'
 	SessionsName = 'Default'
@@ -115,7 +115,7 @@
 	ShowPhantomBars = '1'
 	ShowRealOpen = '0'
 	ShowWick = '0'
-	StartDateId = '43877'
+	StartDateId = '41640'
 	StartDateName = ''
 	StrikePrice = ''
 	Symbol = 'CME.E7 HOT'
@@ -144,8 +144,8 @@
 	ManualMode = '0'
 	MarginBottom = '5'
 	MarginTop = '5'
-	Maximum = '1,16912222222222'
-	Minimum = '1,01267777777778'
+	Maximum = '1,17463888888889'
+	Minimum = '0,947861111111111'
 	MovementSize.Long = '1'
 	MovementSize.Metric = 'False'
 	MovementSize.Price = '5'
@@ -2001,7 +2001,7 @@
 	Value = '12'
 
 [Wsp\Window_0\ChartManager\Chart_1\Series_0\IndicatorHelper\InputHelper\Input_FilePath]
-	Value = '"Z:\e7_ma2_60m_dual.txt"'
+	Value = '"Z:\e7_ma2_360m_dual.txt"'
 
 [Wsp\Window_0\ChartManager\Chart_1\Series_0\IndicatorHelper\InputHelper\Input_IsRecalc]
 	Value = '0'
@@ -2613,7 +2613,7 @@
 	isStatusWindowShow = '1'
 
 [Wsp\Window_0\ChartManager\Strategy\SignalObject_0]
-	IdName = 's_e7_ma2_60m_dual'
+	IdName = 's_e7_ma2_360m_dual'
 	Status = '1'
 
 [Wsp\Window_0\ChartManager\Strategy\SignalObject_0\SignalHelper]
@@ -2814,8 +2814,8 @@
 	Confirm = 'False'
 	NeedActivateAT = 'False'
 	Profile = 'Interactive Brokers'
-	StrategyName = 'e7_ma2_60m_dual'
-	SymbolName = 'CME.E7 HOT - 60 Minutes - TOUCHANCE'
+	StrategyName = 'e7_ma2_360m_dual'
+	SymbolName = 'CME.E7 HOT - 360 Minutes - TOUCHANCE'
 
 [Wsp\Window_0\ChartManager\Strategy\StrategyHelper\DynTradeOptimizeProps\Algorithm_0]
 	CFFScriptGenetic = '// TODO: Enter your formula to replace the samples below 
@@ -3284,7 +3284,7 @@ The reserved words supported in Portfolio optimization:
 	BTOFAMode = '0'
 	BTOFAPoints = '0'
 	BTOFA_TIF = '1'
-	BarReference = '500'
+	BarReference = '200'
 	BidIndex = '0'
 	CalcPnLInSymbolCurrency = '1'
 	CalcRealTimeAsHistory = '1'
@@ -3378,15 +3378,15 @@ The reserved words supported in Portfolio optimization:
 	VolumeRightScaleWidth = '50'
 
 [Wsp\Window_1]
-	ContainerHeight = '714'
+	ContainerHeight = '690'
 	ContainerWidth = '1542'
 	Flags = '0'
-	Height = '357'
+	Height = '345'
 	Left = '0'
 	MinX = '-1'
 	MinY = '-1'
 	State = '1'
-	Top = '357'
+	Top = '345'
 	ViewType = '0'
 	Width = '1542'
 
@@ -3446,9 +3446,9 @@ The reserved words supported in Portfolio optimization:
 	ExpirationDate = '0'
 	FieldId = '201'
 	FieldName = 'Trade'
-	FinishDate2Id = '45800'
+	FinishDate2Id = '45822'
 	FinishDate2Name = ''
-	FinishDateId = '45800'
+	FinishDateId = '45822'
 	FinishDateName = ''
 	FootPrintChartType = '0'
 	KagiReversal = '1'
@@ -3482,7 +3482,7 @@ The reserved words supported in Portfolio optimization:
 	ShowPhantomBars = '1'
 	ShowRealOpen = '0'
 	ShowWick = '0'
-	StartDateId = '43877'
+	StartDateId = '41640'
 	StartDateName = ''
 	StrikePrice = ''
 	Symbol = 'CME.E7 HOT'
@@ -3511,8 +3511,8 @@ The reserved words supported in Portfolio optimization:
 	ManualMode = '0'
 	MarginBottom = '5'
 	MarginTop = '5'
-	Maximum = '1,16420555555556'
-	Minimum = '1,10609444444444'
+	Maximum = '1,16631666666667'
+	Minimum = '1,10598333333333'
 	MovementSize.Long = '1'
 	MovementSize.Metric = 'False'
 	MovementSize.Price = '5'
@@ -5368,7 +5368,7 @@ The reserved words supported in Portfolio optimization:
 	Value = '12'
 
 [Wsp\Window_1\ChartManager\Chart_1\Series_0\IndicatorHelper\InputHelper\Input_FilePath]
-	Value = '"Z:\e7_ma_15m_dual.txt"'
+	Value = '"Z:\e7_ma2_15m_dual.txt"'
 
 [Wsp\Window_1\ChartManager\Chart_1\Series_0\IndicatorHelper\InputHelper\Input_IsRecalc]
 	Value = '0'
@@ -5980,7 +5980,7 @@ The reserved words supported in Portfolio optimization:
 	isStatusWindowShow = '1'
 
 [Wsp\Window_1\ChartManager\Strategy\SignalObject_0]
-	IdName = 's_e7_ma_15m_dual'
+	IdName = 's_e7_ma2_15m_dual'
 	Status = '1'
 
 [Wsp\Window_1\ChartManager\Strategy\SignalObject_0\SignalHelper]
@@ -6181,7 +6181,7 @@ The reserved words supported in Portfolio optimization:
 	Confirm = 'False'
 	NeedActivateAT = 'False'
 	Profile = 'Interactive Brokers'
-	StrategyName = 'e7_ma_15m_dual'
+	StrategyName = 'e7_ma2_15m_dual'
 	SymbolName = 'CME.E7 HOT - 15 Minutes - TOUCHANCE'
 
 [Wsp\Window_1\ChartManager\Strategy\StrategyHelper\DynTradeOptimizeProps\Algorithm_0]
@@ -6651,7 +6651,7 @@ The reserved words supported in Portfolio optimization:
 	BTOFAMode = '0'
 	BTOFAPoints = '0'
 	BTOFA_TIF = '1'
-	BarReference = '500'
+	BarReference = '200'
 	BidIndex = '0'
 	CalcPnLInSymbolCurrency = '1'
 	CalcRealTimeAsHistory = '1'
