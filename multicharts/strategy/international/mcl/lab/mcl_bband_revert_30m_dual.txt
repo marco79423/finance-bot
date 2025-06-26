@@ -1,6 +1,6 @@
 // MCL 30 min
 // Backtest time: 2022/01/20 - 2024/06/01 Exchange
-// Use bar 85
+// Use bar 40
 
 inputs: Enabled(1), OrderSize(1);
 
@@ -8,7 +8,7 @@ if Enabled = 0 then
 	#Return;
 
 
-vars:: KBar(180), BBandMultiplier(2);
+vars:: KBar(40), BBandMultiplier(3.2);
 vars: BBandUp(0), BBandDown(0);
 BBandUp = BollingerBand(Close, KBar, BBandMultiplier);
 BBandDown = BollingerBand(Close, KBar, -BBandMultiplier);
@@ -30,7 +30,7 @@ if ShortCond then begin
 end;
 
 
-vars: PullBack_Percent(0.04), StopLoss_Percent(0.025);
+vars: PullBack_Percent(0.007), StopLoss_Percent(0.14);
 
 if MarketPosition = 1 then begin
 	if OpenPositionProfit > 0 and Close < HighSinceEntry - EntryPrice * PullBack_Percent then begin
