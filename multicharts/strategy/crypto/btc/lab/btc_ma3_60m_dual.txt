@@ -1,6 +1,6 @@
-// BTC 30 min
+// BTC 60 min
 // start time: 2019/10/01 00:00 +00:00
-// Use bar 11
+// Use bar 5
 
 inputs: Enabled(1), OrderSize(1);
 
@@ -14,7 +14,7 @@ end else begin
 	RevisedOrderSize = OrderSize;
 end;
 
-vars: ShortMALen(6), LongMALen(11), Len(18), Count(14);
+vars: ShortMALen(5), LongMALen(6), Len(17), Count(13);
 
 vars: OpenCond(True);
 OpenCond = True;
