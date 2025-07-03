@@ -11,17 +11,17 @@
 	WindowCount = '0'
 
 [Wsp\Window_0]
-	ContainerHeight = '1171'
-	ContainerWidth = '2349'
+	ContainerHeight = '761'
+	ContainerWidth = '1491'
 	Flags = '0'
-	Height = '385'
+	Height = '250'
 	Left = '0'
 	MinX = '-1'
 	MinY = '-1'
 	State = '1'
 	Top = '0'
 	ViewType = '0'
-	Width = '2349'
+	Width = '1491'
 
 [Wsp\Window_0\ChartManager]
 	ChartCount = '2'
@@ -144,8 +144,8 @@
 	ManualMode = '0'
 	MarginBottom = '5'
 	MarginTop = '5'
-	Maximum = '669,777777777778'
-	Minimum = '614,222222222222'
+	Maximum = '671,466666666667'
+	Minimum = '646,133333333333'
 	MovementSize.Long = '1'
 	MovementSize.Metric = 'False'
 	MovementSize.Price = '5'
@@ -2094,7 +2094,7 @@
 [Wsp\Window_0\ChartManager\IndexViewCalc]
 	BarSpacing = '23'
 	BarsToRight = '10'
-	BarsToRightValue = '10'
+	BarsToRightValue = '6'
 	ChartShiftViewType = '0'
 	ShowEmptyPeriod = '0'
 
@@ -3352,17 +3352,17 @@ The reserved words supported in Portfolio optimization:
 	VolumeRightScaleWidth = '50'
 
 [Wsp\Window_1]
-	ContainerHeight = '1171'
-	ContainerWidth = '2349'
+	ContainerHeight = '761'
+	ContainerWidth = '1491'
 	Flags = '0'
-	Height = '386'
+	Height = '251'
 	Left = '0'
 	MinX = '-1'
 	MinY = '-1'
 	State = '1'
-	Top = '385'
+	Top = '250'
 	ViewType = '0'
-	Width = '2349'
+	Width = '1491'
 
 [Wsp\Window_1\ChartManager]
 	ChartCount = '2'
@@ -3485,8 +3485,8 @@ The reserved words supported in Portfolio optimization:
 	ManualMode = '0'
 	MarginBottom = '5'
 	MarginTop = '5'
-	Maximum = '672,027777777778'
-	Minimum = '595,472222222222'
+	Maximum = '674,138888888889'
+	Minimum = '595,361111111111'
 	MovementSize.Long = '1'
 	MovementSize.Metric = 'False'
 	MovementSize.Price = '5'
@@ -5435,7 +5435,7 @@ The reserved words supported in Portfolio optimization:
 [Wsp\Window_1\ChartManager\IndexViewCalc]
 	BarSpacing = '23'
 	BarsToRight = '10'
-	BarsToRightValue = '10'
+	BarsToRightValue = '6'
 	ChartShiftViewType = '0'
 	ShowEmptyPeriod = '0'
 
@@ -6693,17 +6693,17 @@ The reserved words supported in Portfolio optimization:
 	VolumeRightScaleWidth = '50'
 
 [Wsp\Window_2]
-	ContainerHeight = '1171'
-	ContainerWidth = '2349'
+	ContainerHeight = '761'
+	ContainerWidth = '1491'
 	Flags = '0'
-	Height = '392'
+	Height = '254'
 	Left = '0'
 	MinX = '-1'
 	MinY = '-1'
 	State = '1'
-	Top = '774'
+	Top = '503'
 	ViewType = '0'
-	Width = '2349'
+	Width = '1491'
 
 [Wsp\Window_2\ChartManager]
 	ChartCount = '2'
@@ -6826,8 +6826,8 @@ The reserved words supported in Portfolio optimization:
 	ManualMode = '0'
 	MarginBottom = '5'
 	MarginTop = '5'
-	Maximum = '797,872222222222'
-	Minimum = '530,427777777778'
+	Maximum = '677,222222222222'
+	Minimum = '536,777777777778'
 	MovementSize.Long = '1'
 	MovementSize.Metric = 'False'
 	MovementSize.Price = '5'
@@ -8776,7 +8776,7 @@ The reserved words supported in Portfolio optimization:
 [Wsp\Window_2\ChartManager\IndexViewCalc]
 	BarSpacing = '23'
 	BarsToRight = '10'
-	BarsToRightValue = '10'
+	BarsToRightValue = '6'
 	ChartShiftViewType = '0'
 	ShowEmptyPeriod = '0'
 
