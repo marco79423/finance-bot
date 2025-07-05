@@ -1,4 +1,4 @@
-// ETH 30 min
+// ETH 60 min
 // Backtest time: 2019/12/01 - 2024/01/01 +00:00
 // Use bar 30
 
@@ -14,7 +14,7 @@ end else begin
 	RevisedOrderSize = OrderSize;
 end;
 
-vars: ShortMALen(5), LongMALen(8), Len(13), Count(12);
+vars: ShortMALen(5), LongMALen(8), Len(18), Count(16);
 
 vars: OpenCond(True);
 OpenCond = True;
