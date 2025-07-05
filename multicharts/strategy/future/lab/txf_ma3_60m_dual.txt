@@ -1,4 +1,4 @@
-// TXF 30 min
+// TXF 60 min
 // Backtest time: 2014/01/01 - 2014/01/01 Exchange
 // Fee (12 + 5) * 20
 // Use bar 19
@@ -10,7 +10,7 @@ if Enabled = 0 then
 	#Return;
 
 
-vars: ShortMALen(6), LongMALen(7), Len(18), Count(16);
+vars: ShortMALen(5), LongMALen(6), Len(13), Count(10);
 
 vars: OpenCond(True);
 OpenCond = True;
