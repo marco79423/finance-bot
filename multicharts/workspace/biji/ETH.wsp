@@ -11,17 +11,17 @@
 	WindowCount = '0'
 
 [Wsp\Window_0]
-	ContainerHeight = '1171'
-	ContainerWidth = '2349'
+	ContainerHeight = '761'
+	ContainerWidth = '1491'
 	Flags = '0'
-	Height = '581'
+	Height = '380'
 	Left = '0'
 	MinX = '-1'
 	MinY = '-1'
 	State = '1'
 	Top = '0'
 	ViewType = '0'
-	Width = '1166'
+	Width = '745'
 
 [Wsp\Window_0\ChartManager]
 	ChartCount = '2'
@@ -79,9 +79,9 @@
 	ExpirationDate = '0'
 	FieldId = '201'
 	FieldName = 'Trade'
-	FinishDate2Id = '45841'
+	FinishDate2Id = '45844'
 	FinishDate2Name = ''
-	FinishDateId = '45841'
+	FinishDateId = '45844'
 	FinishDateName = ''
 	FootPrintChartType = '0'
 	KagiReversal = '0,1'
@@ -106,7 +106,7 @@
 	RequestOffline = '0'
 	ResolutionId = '2'
 	ResolutionName = 'Minute'
-	ResolutionSizeId = '60'
+	ResolutionSizeId = '720'
 	ResolutionSizeName = ''
 	SessionsId = '0'
 	SessionsName = 'Default'
@@ -144,8 +144,8 @@
 	ManualMode = '0'
 	MarginBottom = '5'
 	MarginTop = '5'
-	Maximum = '2646,37777777778'
-	Minimum = '2082,82222222222'
+	Maximum = '2962,05555555556'
+	Minimum = '1300,94444444444'
 	MovementSize.Long = '1'
 	MovementSize.Metric = 'False'
 	MovementSize.Price = '5'
@@ -2001,7 +2001,7 @@
 	Value = '12'
 
 [Wsp\Window_0\ChartManager\Chart_1\Series_0\IndicatorHelper\InputHelper\Input_FilePath]
-	Value = '"Z:\eth_ma2_60m_dual.txt"'
+	Value = '"Z:\eth_ma2_720m_dual.txt"'
 
 [Wsp\Window_0\ChartManager\Chart_1\Series_0\IndicatorHelper\InputHelper\Input_IsRecalc]
 	Value = '0'
@@ -2094,7 +2094,7 @@
 [Wsp\Window_0\ChartManager\IndexViewCalc]
 	BarSpacing = '3'
 	BarsToRight = '10'
-	BarsToRightValue = '36'
+	BarsToRightValue = '23'
 	ChartShiftViewType = '0'
 	ShowEmptyPeriod = '0'
 
@@ -2613,7 +2613,7 @@
 	isStatusWindowShow = '1'
 
 [Wsp\Window_0\ChartManager\Strategy\SignalObject_0]
-	IdName = 's_eth_ma2_60m_dual'
+	IdName = 's_eth_ma2_720m_dual'
 	Status = '1'
 
 [Wsp\Window_0\ChartManager\Strategy\SignalObject_0\SignalHelper]
@@ -2814,8 +2814,8 @@
 	Confirm = 'False'
 	NeedActivateAT = 'False'
 	Profile = 'Interactive Brokers'
-	StrategyName = 'eth_ma2_60m_dual'
-	SymbolName = 'ETHUSDT - 60 Minutes - Binance'
+	StrategyName = 'eth_ma2_720m_dual'
+	SymbolName = 'ETHUSDT - 720 Minutes - Binance'
 
 [Wsp\Window_0\ChartManager\Strategy\StrategyHelper\DynTradeOptimizeProps\Algorithm_0]
 	CFFScriptGenetic = '// TODO: Enter your formula to replace the samples below 
@@ -3352,17 +3352,17 @@ The reserved words supported in Portfolio optimization:
 	VolumeRightScaleWidth = '50'
 
 [Wsp\Window_1]
-	ContainerHeight = '1171'
-	ContainerWidth = '2349'
+	ContainerHeight = '761'
+	ContainerWidth = '1491'
 	Flags = '0'
-	Height = '582'
+	Height = '381'
 	Left = '0'
 	MinX = '-1'
 	MinY = '-1'
 	State = '1'
-	Top = '581'
+	Top = '380'
 	ViewType = '0'
-	Width = '1166'
+	Width = '745'
 
 [Wsp\Window_1\ChartManager]
 	ChartCount = '2'
@@ -3420,9 +3420,9 @@ The reserved words supported in Portfolio optimization:
 	ExpirationDate = '0'
 	FieldId = '201'
 	FieldName = 'Trade'
-	FinishDate2Id = '45841'
+	FinishDate2Id = '45844'
 	FinishDate2Name = ''
-	FinishDateId = '45841'
+	FinishDateId = '45844'
 	FinishDateName = ''
 	FootPrintChartType = '0'
 	KagiReversal = '0,1'
@@ -3447,7 +3447,7 @@ The reserved words supported in Portfolio optimization:
 	RequestOffline = '0'
 	ResolutionId = '2'
 	ResolutionName = 'Minute'
-	ResolutionSizeId = '720'
+	ResolutionSizeId = '15'
 	ResolutionSizeName = ''
 	SessionsId = '0'
 	SessionsName = 'Default'
@@ -3485,8 +3485,8 @@ The reserved words supported in Portfolio optimization:
 	ManualMode = '0'
 	MarginBottom = '5'
 	MarginTop = '5'
-	Maximum = '3550,41166666667'
-	Minimum = '1269,97833333333'
+	Maximum = '2609,12055555556'
+	Minimum = '2465,90944444444'
 	MovementSize.Long = '1'
 	MovementSize.Metric = 'False'
 	MovementSize.Price = '5'
@@ -5342,7 +5342,7 @@ The reserved words supported in Portfolio optimization:
 	Value = '12'
 
 [Wsp\Window_1\ChartManager\Chart_1\Series_0\IndicatorHelper\InputHelper\Input_FilePath]
-	Value = '"Z:\eth_ma2_720m_dual.txt"'
+	Value = '"Z:\eth_ma_15m_dual.txt"'
 
 [Wsp\Window_1\ChartManager\Chart_1\Series_0\IndicatorHelper\InputHelper\Input_IsRecalc]
 	Value = '0'
@@ -5435,7 +5435,7 @@ The reserved words supported in Portfolio optimization:
 [Wsp\Window_1\ChartManager\IndexViewCalc]
 	BarSpacing = '3'
 	BarsToRight = '10'
-	BarsToRightValue = '36'
+	BarsToRightValue = '23'
 	ChartShiftViewType = '0'
 	ShowEmptyPeriod = '0'
 
@@ -5954,7 +5954,7 @@ The reserved words supported in Portfolio optimization:
 	isStatusWindowShow = '1'
 
 [Wsp\Window_1\ChartManager\Strategy\SignalObject_0]
-	IdName = 's_eth_ma2_720m_dual'
+	IdName = 's_eth_ma_15m_dual'
 	Status = '1'
 
 [Wsp\Window_1\ChartManager\Strategy\SignalObject_0\SignalHelper]
@@ -6155,8 +6155,8 @@ The reserved words supported in Portfolio optimization:
 	Confirm = 'False'
 	NeedActivateAT = 'False'
 	Profile = 'Interactive Brokers'
-	StrategyName = 'eth_ma2_720m_dual'
-	SymbolName = 'ETHUSDT - 720 Minutes - Binance'
+	StrategyName = 'eth_ma_15m_dual'
+	SymbolName = 'ETHUSDT - 15 Minutes - Binance'
 
 [Wsp\Window_1\ChartManager\Strategy\StrategyHelper\DynTradeOptimizeProps\Algorithm_0]
 	CFFScriptGenetic = '// TODO: Enter your formula to replace the samples below 
@@ -6693,17 +6693,17 @@ The reserved words supported in Portfolio optimization:
 	VolumeRightScaleWidth = '50'
 
 [Wsp\Window_2]
-	ContainerHeight = '1171'
-	ContainerWidth = '2349'
+	ContainerHeight = '761'
+	ContainerWidth = '1491'
 	Flags = '0'
-	Height = '581'
-	Left = '1166'
+	Height = '380'
+	Left = '745'
 	MinX = '-1'
 	MinY = '-1'
 	State = '1'
 	Top = '0'
 	ViewType = '0'
-	Width = '1167'
+	Width = '746'
 
 [Wsp\Window_2\ChartManager]
 	ChartCount = '2'
@@ -6761,9 +6761,9 @@ The reserved words supported in Portfolio optimization:
 	ExpirationDate = '0'
 	FieldId = '201'
 	FieldName = 'Trade'
-	FinishDate2Id = '45841'
+	FinishDate2Id = '45844'
 	FinishDate2Name = ''
-	FinishDateId = '45841'
+	FinishDateId = '45844'
 	FinishDateName = ''
 	FootPrintChartType = '0'
 	KagiReversal = '0,1'
@@ -6788,7 +6788,7 @@ The reserved words supported in Portfolio optimization:
 	RequestOffline = '0'
 	ResolutionId = '2'
 	ResolutionName = 'Minute'
-	ResolutionSizeId = '15'
+	ResolutionSizeId = '120'
 	ResolutionSizeName = ''
 	SessionsId = '0'
 	SessionsName = 'Default'
@@ -6826,8 +6826,8 @@ The reserved words supported in Portfolio optimization:
 	ManualMode = '0'
 	MarginBottom = '5'
 	MarginTop = '5'
-	Maximum = '2632,12611111111'
-	Minimum = '2353,60388888889'
+	Maximum = '2664,11111111111'
+	Minimum = '2081,88888888889'
 	MovementSize.Long = '1'
 	MovementSize.Metric = 'False'
 	MovementSize.Price = '5'
@@ -8683,7 +8683,7 @@ The reserved words supported in Portfolio optimization:
 	Value = '12'
 
 [Wsp\Window_2\ChartManager\Chart_1\Series_0\IndicatorHelper\InputHelper\Input_FilePath]
-	Value = '"Z:\eth_ma_15m_dual.txt"'
+	Value = '"Z:\eth_ma2_120m_dual.txt"'
 
 [Wsp\Window_2\ChartManager\Chart_1\Series_0\IndicatorHelper\InputHelper\Input_IsRecalc]
 	Value = '0'
@@ -8776,7 +8776,7 @@ The reserved words supported in Portfolio optimization:
 [Wsp\Window_2\ChartManager\IndexViewCalc]
 	BarSpacing = '3'
 	BarsToRight = '10'
-	BarsToRightValue = '36'
+	BarsToRightValue = '23'
 	ChartShiftViewType = '0'
 	ShowEmptyPeriod = '0'
 
@@ -9295,7 +9295,7 @@ The reserved words supported in Portfolio optimization:
 	isStatusWindowShow = '1'
 
 [Wsp\Window_2\ChartManager\Strategy\SignalObject_0]
-	IdName = 's_eth_ma_15m_dual'
+	IdName = 's_eth_ma_120m_dual'
 	Status = '1'
 
 [Wsp\Window_2\ChartManager\Strategy\SignalObject_0\SignalHelper]
@@ -9496,8 +9496,8 @@ The reserved words supported in Portfolio optimization:
 	Confirm = 'False'
 	NeedActivateAT = 'False'
 	Profile = 'Interactive Brokers'
-	StrategyName = 'eth_ma_15m_dual'
-	SymbolName = 'ETHUSDT - 15 Minutes - Binance'
+	StrategyName = 'eth_ma_120m_dual'
+	SymbolName = 'ETHUSDT - 120 Minutes - Binance'
 
 [Wsp\Window_2\ChartManager\Strategy\StrategyHelper\DynTradeOptimizeProps\Algorithm_0]
 	CFFScriptGenetic = '// TODO: Enter your formula to replace the samples below 
@@ -10034,17 +10034,17 @@ The reserved words supported in Portfolio optimization:
 	VolumeRightScaleWidth = '50'
 
 [Wsp\Window_3]
-	ContainerHeight = '1171'
-	ContainerWidth = '2349'
+	ContainerHeight = '761'
+	ContainerWidth = '1491'
 	Flags = '0'
-	Height = '582'
-	Left = '1166'
+	Height = '381'
+	Left = '745'
 	MinX = '-1'
 	MinY = '-1'
 	State = '1'
-	Top = '581'
+	Top = '380'
 	ViewType = '0'
-	Width = '1167'
+	Width = '746'
 
 [Wsp\Window_3\ChartManager]
 	ChartCount = '2'
@@ -10102,9 +10102,9 @@ The reserved words supported in Portfolio optimization:
 	ExpirationDate = '0'
 	FieldId = '201'
 	FieldName = 'Trade'
-	FinishDate2Id = '45841'
+	FinishDate2Id = '45844'
 	FinishDate2Name = ''
-	FinishDateId = '45841'
+	FinishDateId = '45844'
 	FinishDateName = ''
 	FootPrintChartType = '0'
 	KagiReversal = '0,1'
@@ -10129,7 +10129,7 @@ The reserved words supported in Portfolio optimization:
 	RequestOffline = '0'
 	ResolutionId = '2'
 	ResolutionName = 'Minute'
-	ResolutionSizeId = '120'
+	ResolutionSizeId = '60'
 	ResolutionSizeName = ''
 	SessionsId = '0'
 	SessionsName = 'Default'
@@ -10167,8 +10167,8 @@ The reserved words supported in Portfolio optimization:
 	ManualMode = '0'
 	MarginBottom = '5'
 	MarginTop = '5'
-	Maximum = '2921,66666666667'
-	Minimum = '2068,33333333333'
+	Maximum = '2953,77055555556'
+	Minimum = '2138,35944444444'
 	MovementSize.Long = '1'
 	MovementSize.Metric = 'False'
 	MovementSize.Price = '5'
@@ -12024,7 +12024,7 @@ The reserved words supported in Portfolio optimization:
 	Value = '12'
 
 [Wsp\Window_3\ChartManager\Chart_1\Series_0\IndicatorHelper\InputHelper\Input_FilePath]
-	Value = '"Z:\eth_ma2_120m_dual.txt"'
+	Value = '"Z:\eth_ma3_60m_dual.txt"'
 
 [Wsp\Window_3\ChartManager\Chart_1\Series_0\IndicatorHelper\InputHelper\Input_IsRecalc]
 	Value = '0'
@@ -12117,7 +12117,7 @@ The reserved words supported in Portfolio optimization:
 [Wsp\Window_3\ChartManager\IndexViewCalc]
 	BarSpacing = '3'
 	BarsToRight = '10'
-	BarsToRightValue = '36'
+	BarsToRightValue = '23'
 	ChartShiftViewType = '0'
 	ShowEmptyPeriod = '0'
 
@@ -12636,7 +12636,7 @@ The reserved words supported in Portfolio optimization:
 	isStatusWindowShow = '1'
 
 [Wsp\Window_3\ChartManager\Strategy\SignalObject_0]
-	IdName = 's_eth_ma_120m_dual'
+	IdName = 's_eth_ma3_60m_dual'
 	Status = '1'
 
 [Wsp\Window_3\ChartManager\Strategy\SignalObject_0\SignalHelper]
@@ -12837,8 +12837,8 @@ The reserved words supported in Portfolio optimization:
 	Confirm = 'False'
 	NeedActivateAT = 'False'
 	Profile = 'Interactive Brokers'
-	StrategyName = 'eth_ma_120m_dual'
-	SymbolName = 'ETHUSDT - 120 Minutes - Binance'
+	StrategyName = 'eth_ma3_60m_dual'
+	SymbolName = 'ETHUSDT - 60 Minutes - Binance'
 
 [Wsp\Window_3\ChartManager\Strategy\StrategyHelper\DynTradeOptimizeProps\Algorithm_0]
 	CFFScriptGenetic = '// TODO: Enter your formula to replace the samples below 
