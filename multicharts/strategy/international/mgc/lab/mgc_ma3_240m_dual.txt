@@ -1,6 +1,6 @@
 // MGC 240 min
 // Backtest time: 2014/01/01 - 2024/01/01 Exchange
-// Use bar 25
+// Use bar 31
 
 inputs: Enabled(1), OrderSize(1);
 
