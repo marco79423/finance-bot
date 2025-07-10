@@ -10,7 +10,7 @@ if Enabled = 0 then
 	#Return;
 
 
-vars: ShortMALen(15), LongMALen(16), Len(5), Count(6);
+vars: ShortMALen(15), LongMALen(16), Len(8), Count(6);
 
 vars: OpenCond(True);
 OpenCond = True;
