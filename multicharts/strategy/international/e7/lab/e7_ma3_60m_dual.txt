@@ -1,0 +1,32 @@
+// E7 60 min
+// Backtest time: 2014/01/01 - 2024/01/01 Exchange
+// Use bar 23
+
+inputs: Enabled(1), OrderSize(1);
+
+if Enabled = 0 then
+	#Return;
+
+vars: ShortMALen(22), LongMALen(23), Len(22), Count(20);
+
+vars: OpenCond(True);
+OpenCond = True;
+
+vars: ShortMA(0), LongMA(0);
+ShortMA = Average(Close, ShortMALen);
+LongMA = Average(Close, LongMALen);
+
+vars: BuyCond(True);
+BuyCond = OpenCond;
+BuyCond = BuyCond and CountIF(ShortMA > LongMA, Len) > Count;
+if BuyCond then begin
+	Buy ("LE") OrderSize contracts next bar market;
+end;
+
+vars: ShortCond(True);
+ShortCond = OpenCond;
+ShortCond = ShortCond and CountIF(ShortMA < LongMA, Len) > Count;
+if ShortCond then begin
+	SellShort ("SE") OrderSize contracts next bar market;
+end;
+
