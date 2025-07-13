@@ -1,0 +1,39 @@
+// ATOM 480 min
+// Backtest time: 2020/03/01 - 2024/01/01 +00:00
+
+
+inputs: Enabled(1), OrderSize(1);
+
+if Enabled = 0 then
+	#Return;
+
+vars: RevisedOrderSize(OrderSize);
+if Round(1000 / Close, 0) > 1 then begin
+	RevisedOrderSize = Round(1000 / Close, 0) * OrderSize;
+end else begin
+	RevisedOrderSize = OrderSize;
+end;
+
+vars: ShortMALen(8), LongMALen(11), Len(20), Count(10);
+
+vars: OpenCond(True);
+OpenCond = True;
+
+vars: ShortMA(0), LongMA(0);
+ShortMA = Average(Close, ShortMALen);
+LongMA = Average(Close, LongMALen);
+
+vars: BuyCond(True);
+BuyCond = OpenCond;
+BuyCond = BuyCond and CountIF(ShortMA > LongMA, Len) > Count;
+if BuyCond then begin
+	Buy ("LE") RevisedOrderSize contracts next bar market;
+end;
+
+vars: ShortCond(True);
+ShortCond = OpenCond;
+ShortCond = ShortCond and CountIF(ShortMA < LongMA, Len) > Count;
+if ShortCond then begin
+	SellShort ("SE") RevisedOrderSize contracts next bar market;
+end;
+
