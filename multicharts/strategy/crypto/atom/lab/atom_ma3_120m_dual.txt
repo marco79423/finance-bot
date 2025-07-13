@@ -1,4 +1,4 @@
-// ATOM 30 min
+// ATOM 120 min
 // Backtest time: 2020/03/01 - 2024/01/01 +00:00
 
 
@@ -14,7 +14,7 @@ end else begin
 	RevisedOrderSize = OrderSize;
 end;
 
-vars: ShortMALen(4), LongMALen(10), Len(20), Count(19);
+vars: ShortMALen(5), LongMALen(10), Len(19), Count(16);
 
 vars: OpenCond(True);
 OpenCond = True;
