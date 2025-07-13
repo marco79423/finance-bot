@@ -1,5 +1,5 @@
-// SOL 15 min
-// start time: 2020/10/01 00:00 +00:00
+// ATOM 30 min
+// Backtest time: 2020/03/01 - 2024/01/01 +00:00
 // Use bar 180
 
 inputs: Enabled(1), OrderSize(1);
@@ -14,7 +14,7 @@ end else begin
 	RevisedOrderSize = OrderSize;
 end;
 
-vars: ShortMALen(5), LongMALen(6), Len(19), Count(16);
+vars: ShortMALen(4), LongMALen(10), Len(20), Count(19);
 
 vars: OpenCond(True);
 OpenCond = True;
