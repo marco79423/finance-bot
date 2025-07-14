@@ -9,7 +9,7 @@ if Enabled = 0 then
 
 vars: RevisedOrderSize(OrderSize);
 if Round(10000 / Close, 0) > 1 then begin
-	RevisedOrderSize = Round(1000 / Close, 0) * OrderSize;
+	RevisedOrderSize = Round(10000 / Close, 0) * OrderSize;
 end else begin
 	RevisedOrderSize = OrderSize;
 end;
