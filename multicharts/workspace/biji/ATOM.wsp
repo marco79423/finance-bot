@@ -11,17 +11,17 @@
 	WindowCount = '0'
 
 [Wsp\Window_0]
-	ContainerHeight = '800'
-	ContainerWidth = '1507'
+	ContainerHeight = '761'
+	ContainerWidth = '1491'
 	Flags = '0'
-	Height = '397'
+	Height = '380'
 	Left = '0'
 	MinX = '-1'
 	MinY = '-1'
 	State = '1'
 	Top = '0'
 	ViewType = '0'
-	Width = '750'
+	Width = '745'
 
 [Wsp\Window_0\ChartManager]
 	ChartCount = '1'
@@ -79,9 +79,9 @@
 	ExpirationDate = '0'
 	FieldId = '201'
 	FieldName = 'Trade'
-	FinishDate2Id = '45850'
+	FinishDate2Id = '45852'
 	FinishDate2Name = ''
-	FinishDateId = '45850'
+	FinishDateId = '45852'
 	FinishDateName = ''
 	FootPrintChartType = '0'
 	KagiReversal = '0,1'
@@ -144,8 +144,8 @@
 	ManualMode = '0'
 	MarginBottom = '5'
 	MarginTop = '5'
-	Maximum = '4,80316666666667'
-	Minimum = '4,55983333333333'
+	Maximum = '4,86222222222222'
+	Minimum = '4,65777777777778'
 	MovementSize.Long = '1'
 	MovementSize.Metric = 'False'
 	MovementSize.Price = '5'
@@ -2309,8 +2309,8 @@
 	ManualMode = '0'
 	MarginBottom = '5'
 	MarginTop = '5'
-	Maximum = '10,1546460987284'
-	Minimum = '-10,1546460987284'
+	Maximum = '11,2829401096982'
+	Minimum = '-11,2829401096982'
 	MovementSize.Long = '1'
 	MovementSize.Metric = 'False'
 	MovementSize.Price = '5'
@@ -3317,17 +3317,17 @@ The reserved words supported in Portfolio optimization:
 	VolumeRightScaleWidth = '50'
 
 [Wsp\Window_1]
-	ContainerHeight = '800'
-	ContainerWidth = '1507'
+	ContainerHeight = '761'
+	ContainerWidth = '1491'
 	Flags = '0'
-	Height = '400'
+	Height = '381'
 	Left = '0'
 	MinX = '-1'
 	MinY = '-1'
 	State = '1'
-	Top = '397'
+	Top = '380'
 	ViewType = '0'
-	Width = '750'
+	Width = '745'
 
 [Wsp\Window_1\ChartManager]
 	ChartCount = '1'
@@ -3385,9 +3385,9 @@ The reserved words supported in Portfolio optimization:
 	ExpirationDate = '0'
 	FieldId = '201'
 	FieldName = 'Trade'
-	FinishDate2Id = '45850'
+	FinishDate2Id = '45852'
 	FinishDate2Name = ''
-	FinishDateId = '45850'
+	FinishDateId = '45852'
 	FinishDateName = ''
 	FootPrintChartType = '0'
 	KagiReversal = '0,1'
@@ -3450,8 +3450,8 @@ The reserved words supported in Portfolio optimization:
 	ManualMode = '0'
 	MarginBottom = '5'
 	MarginTop = '5'
-	Maximum = '4,8235'
-	Minimum = '4,2535'
+	Maximum = '4,87038888888889'
+	Minimum = '4,50261111111111'
 	MovementSize.Long = '1'
 	MovementSize.Metric = 'False'
 	MovementSize.Price = '5'
@@ -5615,8 +5615,8 @@ The reserved words supported in Portfolio optimization:
 	ManualMode = '0'
 	MarginBottom = '5'
 	MarginTop = '5'
-	Maximum = '11,2829401096982'
-	Minimum = '-11,2829401096982'
+	Maximum = '12,5366001218869'
+	Minimum = '-12,5366001218869'
 	MovementSize.Long = '1'
 	MovementSize.Metric = 'False'
 	MovementSize.Price = '5'
@@ -6623,17 +6623,17 @@ The reserved words supported in Portfolio optimization:
 	VolumeRightScaleWidth = '50'
 
 [Wsp\Window_2]
-	ContainerHeight = '800'
-	ContainerWidth = '1507'
+	ContainerHeight = '761'
+	ContainerWidth = '1491'
 	Flags = '0'
-	Height = '397'
-	Left = '750'
+	Height = '380'
+	Left = '745'
 	MinX = '-1'
 	MinY = '-1'
 	State = '1'
 	Top = '0'
 	ViewType = '0'
-	Width = '753'
+	Width = '746'
 
 [Wsp\Window_2\ChartManager]
 	ChartCount = '1'
@@ -6691,9 +6691,9 @@ The reserved words supported in Portfolio optimization:
 	ExpirationDate = '0'
 	FieldId = '201'
 	FieldName = 'Trade'
-	FinishDate2Id = '45850'
+	FinishDate2Id = '45852'
 	FinishDate2Name = ''
-	FinishDateId = '45850'
+	FinishDateId = '45852'
 	FinishDateName = ''
 	FootPrintChartType = '0'
 	KagiReversal = '0,1'
@@ -6718,7 +6718,7 @@ The reserved words supported in Portfolio optimization:
 	RequestOffline = '0'
 	ResolutionId = '2'
 	ResolutionName = 'Minute'
-	ResolutionSizeId = '120'
+	ResolutionSizeId = '720'
 	ResolutionSizeName = ''
 	SessionsId = '0'
 	SessionsName = 'Default'
@@ -6756,8 +6756,8 @@ The reserved words supported in Portfolio optimization:
 	ManualMode = '0'
 	MarginBottom = '5'
 	MarginTop = '5'
-	Maximum = '4,83683333333333'
-	Minimum = '4,00016666666667'
+	Maximum = '4,91588888888889'
+	Minimum = '3,63811111111111'
 	MovementSize.Long = '1'
 	MovementSize.Metric = 'False'
 	MovementSize.Price = '5'
@@ -8896,7 +8896,7 @@ The reserved words supported in Portfolio optimization:
 	Value = '12'
 
 [Wsp\Window_2\ChartManager\OFFSeries_0\IndicatorHelper\InputHelper\Input_FilePath]
-	Value = '"Z:\atom_ma2_120m_dual.txt"'
+	Value = '"Z:\atom_ma2_720m_dual.txt"'
 
 [Wsp\Window_2\ChartManager\OFFSeries_0\IndicatorHelper\InputHelper\Input_IsRecalc]
 	Value = '0'
@@ -8921,8 +8921,8 @@ The reserved words supported in Portfolio optimization:
 	ManualMode = '0'
 	MarginBottom = '5'
 	MarginTop = '5'
-	Maximum = '12,5366001218869'
-	Minimum = '-12,5366001218869'
+	Maximum = '15,4772841010949'
+	Minimum = '-15,4772841010949'
 	MovementSize.Long = '1'
 	MovementSize.Metric = 'False'
 	MovementSize.Price = '5'
@@ -9190,7 +9190,7 @@ The reserved words supported in Portfolio optimization:
 	isStatusWindowShow = '1'
 
 [Wsp\Window_2\ChartManager\Strategy\SignalObject_0]
-	IdName = 's_atom_ma2_120m_dual'
+	IdName = 's_atom_ma2_720m_dual'
 	Status = '1'
 
 [Wsp\Window_2\ChartManager\Strategy\SignalObject_0\SignalHelper]
@@ -9391,8 +9391,8 @@ The reserved words supported in Portfolio optimization:
 	Confirm = 'False'
 	NeedActivateAT = 'False'
 	Profile = 'Interactive Brokers'
-	StrategyName = 'atom_ma2_120m_dual'
-	SymbolName = 'ATOMUSDT - 120 Minutes - Binance'
+	StrategyName = 'atom_ma2_720m_dual'
+	SymbolName = 'ATOMUSDT - 720 Minutes - Binance'
 
 [Wsp\Window_2\ChartManager\Strategy\StrategyHelper\DynTradeOptimizeProps\Algorithm_0]
 	CFFScriptGenetic = '// TODO: Enter your formula to replace the samples below 
@@ -9929,17 +9929,17 @@ The reserved words supported in Portfolio optimization:
 	VolumeRightScaleWidth = '50'
 
 [Wsp\Window_3]
-	ContainerHeight = '800'
-	ContainerWidth = '1507'
+	ContainerHeight = '761'
+	ContainerWidth = '1491'
 	Flags = '0'
-	Height = '400'
-	Left = '750'
+	Height = '381'
+	Left = '745'
 	MinX = '-1'
 	MinY = '-1'
 	State = '1'
-	Top = '397'
+	Top = '380'
 	ViewType = '0'
-	Width = '753'
+	Width = '746'
 
 [Wsp\Window_3\ChartManager]
 	ChartCount = '1'
@@ -9997,9 +9997,9 @@ The reserved words supported in Portfolio optimization:
 	ExpirationDate = '0'
 	FieldId = '201'
 	FieldName = 'Trade'
-	FinishDate2Id = '45850'
+	FinishDate2Id = '45852'
 	FinishDate2Name = ''
-	FinishDateId = '45850'
+	FinishDateId = '45852'
 	FinishDateName = ''
 	FootPrintChartType = '0'
 	KagiReversal = '0,1'
@@ -10024,7 +10024,7 @@ The reserved words supported in Portfolio optimization:
 	RequestOffline = '0'
 	ResolutionId = '2'
 	ResolutionName = 'Minute'
-	ResolutionSizeId = '720'
+	ResolutionSizeId = '60'
 	ResolutionSizeName = ''
 	SessionsId = '0'
 	SessionsName = 'Default'
@@ -10062,8 +10062,8 @@ The reserved words supported in Portfolio optimization:
 	ManualMode = '0'
 	MarginBottom = '5'
 	MarginTop = '5'
-	Maximum = '4,86444444444444'
-	Minimum = '3,47555555555556'
+	Maximum = '4,87038888888889'
+	Minimum = '4,50261111111111'
 	MovementSize.Long = '1'
 	MovementSize.Metric = 'False'
 	MovementSize.Price = '5'
@@ -12202,7 +12202,7 @@ The reserved words supported in Portfolio optimization:
 	Value = '12'
 
 [Wsp\Window_3\ChartManager\OFFSeries_0\IndicatorHelper\InputHelper\Input_FilePath]
-	Value = '"Z:\atom_ma2_720m_dual.txt"'
+	Value = '"Z:\atom_ma3_60m_dual.txt"'
 
 [Wsp\Window_3\ChartManager\OFFSeries_0\IndicatorHelper\InputHelper\Input_IsRecalc]
 	Value = '0'
@@ -12227,8 +12227,8 @@ The reserved words supported in Portfolio optimization:
 	ManualMode = '0'
 	MarginBottom = '5'
 	MarginTop = '5'
-	Maximum = '13,9295556909854'
-	Minimum = '-13,9295556909854'
+	Maximum = '15,4772841010949'
+	Minimum = '-15,4772841010949'
 	MovementSize.Long = '1'
 	MovementSize.Metric = 'False'
 	MovementSize.Price = '5'
@@ -12496,7 +12496,7 @@ The reserved words supported in Portfolio optimization:
 	isStatusWindowShow = '1'
 
 [Wsp\Window_3\ChartManager\Strategy\SignalObject_0]
-	IdName = 's_atom_ma2_720m_dual'
+	IdName = 's_atom_ma3_60m_dual'
 	Status = '1'
 
 [Wsp\Window_3\ChartManager\Strategy\SignalObject_0\SignalHelper]
@@ -12697,8 +12697,8 @@ The reserved words supported in Portfolio optimization:
 	Confirm = 'False'
 	NeedActivateAT = 'False'
 	Profile = 'Interactive Brokers'
-	StrategyName = 'atom_ma2_720m_dual'
-	SymbolName = 'ATOMUSDT - 720 Minutes - Binance'
+	StrategyName = 'atom_ma3_60m_dual'
+	SymbolName = 'ATOMUSDT - 60 Minutes - Binance'
 
 [Wsp\Window_3\ChartManager\Strategy\StrategyHelper\DynTradeOptimizeProps\Algorithm_0]
 	CFFScriptGenetic = '// TODO: Enter your formula to replace the samples below 
