@@ -16,7 +16,7 @@ if RSI(Close, RSILen) < 100 - RSIValue then begin
 	SellShort ( "SE" ) OrderSize contracts next bar market;
 end;
 
-inputs: PullBack_Percent(0.008), StopLoss_Percent(0.03);
+vars: PullBack_Percent(0.008), StopLoss_Percent(0.03);
 
 if MarketPosition = 1 then begin
 	if OpenPositionProfit > 0 and Close < HighSinceEntry - EntryPrice * PullBack_Percent then begin
