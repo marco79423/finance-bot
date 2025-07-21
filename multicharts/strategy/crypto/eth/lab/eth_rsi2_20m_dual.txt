@@ -1,4 +1,4 @@
-// ETH 5 min
+// ETH 20 min
 // Backtest time: 2019/12/01 - 2024/01/01 +00:00
 
 
@@ -14,7 +14,7 @@ end else begin
 	RevisedOrderSize = OrderSize;
 end;
 
-vars: RSILen(18), RSIValue(84);
+vars: RSILen(16), RSIValue(74);
 
 if RSI(Close, RSILen) > RSIValue then begin
 	Buy ("LE") RevisedOrderSize contracts next bar market;
@@ -24,7 +24,7 @@ if RSI(Close, RSILen) < 100 - RSIValue then begin
 	SellShort ( "SE" ) RevisedOrderSize contracts next bar market;
 end;
 
-vars: PullBack_Percent(0.02), StopLoss_Percent(0.025);
+vars: PullBack_Percent(0.012), StopLoss_Percent(0.025);
 
 if MarketPosition = 1 then begin
 	if OpenPositionProfit > 0 and Close < HighSinceEntry - EntryPrice * PullBack_Percent then begin

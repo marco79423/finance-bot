@@ -1,4 +1,4 @@
-// ETH 60 min
+// ETH 15 min
 // Backtest time: 2019/12/01 - 2024/01/01 +00:00
 
 
