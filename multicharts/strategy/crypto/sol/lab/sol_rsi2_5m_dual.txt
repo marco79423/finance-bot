@@ -1,5 +1,5 @@
-// BNB 480 min
-// Backtest time: 2020/03/01 - 2024/01/01 +00:00
+// SOL 5 min
+// Backtest time: 2020/10/01 - 2024/01/01 +00:00
 
 inputs: Enabled(1), OrderSize(1);
 
@@ -7,13 +7,13 @@ if Enabled = 0 then
 	#Return;
 
 vars: RevisedOrderSize(OrderSize);
-if Round(10000/ Close, 0) > 1 then begin
-	RevisedOrderSize = Round(10000/ Close, 0) * OrderSize;
+if Round(1000 / Close, 0) > 1 then begin
+	RevisedOrderSize = Round(1000 / Close, 0) * OrderSize;
 end else begin
 	RevisedOrderSize = OrderSize;
 end;
 
-vars: RSILen(17), RSIValue(63);
+vars: RSILen(24), RSIValue(80);
 
 if RSI(Close, RSILen) > RSIValue then begin
 	Buy ("LE") RevisedOrderSize contracts next bar market;
@@ -23,7 +23,7 @@ if RSI(Close, RSILen) < 100 - RSIValue then begin
 	SellShort ( "SE" ) RevisedOrderSize contracts next bar market;
 end;
 
-vars: PullBack_Percent(0.05), StopLoss_Percent(0.065);
+vars: PullBack_Percent(0.019), StopLoss_Percent(0.035);
 
 if MarketPosition = 1 then begin
 	if OpenPositionProfit > 0 and Close < HighSinceEntry - EntryPrice * PullBack_Percent then begin
@@ -44,3 +44,4 @@ if MarketPosition = -1 then begin
 		BuyToCover ("SX_SL") all contracts next bar market;
 	end;
 end;
+
