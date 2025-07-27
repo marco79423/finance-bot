@@ -7,7 +7,7 @@ inputs: Enabled(1), OrderSize(1);
 if Enabled = 0 then
 	#Return;
 
-vars: RSILen(46), RSIValue(66);
+vars: RSILen(57), RSIValue(63);
 
 if RSI(Close, RSILen) > RSIValue then begin
 	Buy ("LE") OrderSize contracts next bar market;
@@ -17,7 +17,7 @@ if RSI(Close, RSILen) < 100 - RSIValue then begin
 	SellShort ( "SE" ) OrderSize contracts next bar market;
 end;
 
-vars: PullBack_Percent(0.02), StopLoss_Percent(0.13);
+vars: PullBack_Percent(0.02), StopLoss_Percent(0.115);
 
 if MarketPosition = 1 then begin
 	if OpenPositionProfit > 0 and Close < HighSinceEntry - EntryPrice * PullBack_Percent then begin
