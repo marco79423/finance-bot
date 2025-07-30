@@ -1,0 +1,42 @@
+// MNQ 240 min
+// Backtest time: 2020/03/01 - 2024/01/01 Exchange
+
+inputs: Enabled(1), OrderSize(1);
+
+if Enabled = 0 then
+	#Return;
+
+vars: KBar(7), BBandMultiplier(2);
+vars: BBandUp(0), BBandDown(0);
+BBandUp = BollingerBand(Close, KBar, BBandMultiplier);
+BBandDown = BollingerBand(Close, KBar, -BBandMultiplier);
+
+if Close > BBandUp then begin
+	Buy ("LE") OrderSize contracts next bar market;
+end;
+
+if Close < BBandDown then begin
+	SellShort ( "SE" ) OrderSize contracts next bar market;
+end;
+
+vars: PullBack_Percent(0.004), StopLoss_Percent(0.02);
+
+if MarketPosition = 1 then begin
+	if OpenPositionProfit > 0 and Close < HighSinceEntry - EntryPrice * PullBack_Percent then begin
+		Sell ("LX_PT") all contracts next bar market;
+	end;
+
+	if Low < EntryPrice - StopLoss_Percent * EntryPrice then begin
+		Sell ("LX_SL") all contracts next bar market;
+	end;
+end;
+
+if MarketPosition = -1 then begin
+	if OpenPositionProfit > 0 and Close > LowSinceEntry + EntryPrice * PullBack_Percent then begin
+		BuyToCover ("SX_PT") all contracts next bar market;
+	end;
+
+	if High > EntryPrice + StopLoss_Percent * EntryPrice then begin
+		BuyToCover ("SX_SL") all contracts next bar market;
+	end;
+end;
