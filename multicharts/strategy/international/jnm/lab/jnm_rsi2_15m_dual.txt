@@ -7,7 +7,7 @@ if Enabled = 0 then
 	#Return;
 
 
-vars: RSILen(9), RSIValue(84);
+vars: RSILen(10), RSIValue(83);
 
 if RSI(Close, RSILen) > RSIValue then begin
 	Buy ("LE") OrderSize contracts next bar market;
