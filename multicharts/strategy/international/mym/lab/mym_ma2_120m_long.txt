@@ -8,24 +8,19 @@ if Enabled = 0 then
 
 vars: LongMALen(65), ShortMALen(14), Len(6), Count(1);
 
-vars: OpenCond(True);
-OpenCond = True;
-
 vars: LongMA(0), ShortMA(0);
 LongMA = Average(Close, LongMALen);
 ShortMA = Average(Close, ShortMALen);
 
 vars: BuyCond(True);
-BuyCond = OpenCond;
-BuyCond = BuyCond and LongMA > ShortMA;
+BuyCond = LongMA > ShortMA;
 BuyCond = BuyCond and CountIF(Close > LongMA, Len) > Count;
 if BuyCond then begin
 	Buy ("LE") OrderSize contracts next bar market;
 end;
 
 vars: ShellCond(True);
-ShellCond = OpenCond;
-ShellCond = ShellCond and LongMA < ShortMA;
+ShellCond = LongMA < ShortMA;
 ShellCond = ShellCond and CountIF(Close < LongMA, Len) > Count;
 if ShellCond then begin
 	Sell ("LX") all contracts next bar market;
