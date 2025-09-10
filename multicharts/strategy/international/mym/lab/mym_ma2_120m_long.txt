@@ -1,4 +1,4 @@
-// MYM 15 min
+// MYM 120 min
 // Backtest time: 2020/03/01 - 2024/01/01 Exchange
 
 inputs: Enabled(1), OrderSize(1);
@@ -6,27 +6,27 @@ inputs: Enabled(1), OrderSize(1);
 if Enabled = 0 then
 	#Return;
 
-vars: MA1Len(65), MA2Len(14), Len(6), Count(1);
+vars: LongMALen(65), ShortMALen(14), Len(6), Count(1);
 
 vars: OpenCond(True);
 OpenCond = True;
 
-vars: MA1(0), MA2(0);
-MA1 = Average(Close, MA1Len);
-MA2 = Average(Close, MA2Len);
+vars: LongMA(0), ShortMA(0);
+LongMA = Average(Close, LongMALen);
+ShortMA = Average(Close, ShortMALen);
 
 vars: BuyCond(True);
 BuyCond = OpenCond;
-BuyCond = BuyCond and MA1 > MA2;
-BuyCond = BuyCond and CountIF(Close > MA1, Len) > Count;
+BuyCond = BuyCond and LongMA > ShortMA;
+BuyCond = BuyCond and CountIF(Close > LongMA, Len) > Count;
 if BuyCond then begin
 	Buy ("LE") OrderSize contracts next bar market;
 end;
 
-vars: ShortCond(True);
-ShortCond = OpenCond;
-ShortCond = ShortCond and MA1 < MA2;
-ShortCond = ShortCond and CountIF(Close < MA1, Len) > Count;
-if ShortCond then begin
+vars: ShellCond(True);
+ShellCond = OpenCond;
+ShellCond = ShellCond and LongMA < ShortMA;
+ShellCond = ShellCond and CountIF(Close < LongMA, Len) > Count;
+if ShellCond then begin
 	Sell ("LX") all contracts next bar market;
 end;
