@@ -19,9 +19,9 @@ if BuyCond then begin
 	Buy ("LE") OrderSize contracts next bar market;
 end;
 
-vars: ShellCond(True);
-ShellCond = LongMA < ShortMA;
-ShellCond = ShellCond and CountIF(Close < LongMA, Len) > Count;
-if ShellCond then begin
+vars: SellCond(True);
+SellCond = LongMA < ShortMA;
+SellCond = SellCond and CountIF(Close < LongMA, Len) > Count;
+if SellCond then begin
 	Sell ("LX") all contracts next bar market;
 end;
