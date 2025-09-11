@@ -1,27 +1,28 @@
-// MNQ 15 min
+// MNQ 120 min
 // Backtest time: 2020/03/01 - 2024/01/01 Exchange
+// Version: 2
 
 inputs: Enabled(1), OrderSize(1);
 
 if Enabled = 0 then
 	#Return;
 
-vars: LongMALen(35), ShortMALen(9), Len(10), Count(3);
+vars: ShortMALen(5), LongMALen(10), Len(4), Count(2);
 
-vars: LongMA(0), ShortMA(0);
-LongMA = Average(Close, LongMALen);
+vars: ShortMA(0), LongMA(0);
 ShortMA = Average(Close, ShortMALen);
+LongMA = Average(Close, LongMALen);
 
 vars: BuyCond(True);
-BuyCond = LongMA > ShortMA;
-BuyCond = BuyCond and CountIF(Close > LongMA, Len) > Count;
+BuyCond = ShortMA > LongMA;
+BuyCond = BuyCond and CountIF(Close > ShortMA, Len) > Count;
 if BuyCond then begin
 	Buy ("LE") OrderSize contracts next bar market;
 end;
 
 vars: SellCond(True);
-SellCond = LongMA < ShortMA;
-SellCond = SellCond and CountIF(Close < LongMA, Len) > Count;
+SellCond = ShortMA < LongMA;
+SellCond = SellCond and CountIF(Close < ShortMA, Len) > Count;
 if SellCond then begin
 	Sell ("LX") all contracts next bar market;
 end;
