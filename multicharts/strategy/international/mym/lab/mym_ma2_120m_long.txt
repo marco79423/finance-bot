@@ -6,7 +6,7 @@ inputs: Enabled(1), OrderSize(1);
 if Enabled = 0 then
 	#Return;
 
-vars: LongMALen(65), ShortMALen(14), Len(6), Count(1);
+vars: LongMALen(50), ShortMALen(9), Len(10), Count(3);
 
 vars: LongMA(0), ShortMA(0);
 LongMA = Average(Close, LongMALen);
