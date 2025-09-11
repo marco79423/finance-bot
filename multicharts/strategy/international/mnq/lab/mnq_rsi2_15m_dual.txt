@@ -1,0 +1,22 @@
+// MNQ 15 min
+// Backtest time: 2020/03/01 - 2024/01/01 Exchange
+// Version: 1
+
+inputs: Enabled(1), OrderSize(1);
+
+if Enabled = 0 then
+	#Return;
+
+vars: RSILen(14), RSIEntryThreshold(62), RSIExitThreshold(72);
+
+vars: RSIValue(0);
+RSIValue = RSI(Close, RSILen);
+
+if RSIValue cross over RSIEntryThreshold then begin
+	Buy ("LE") OrderSize contracts next bar market;
+end;
+
+if RSIValue cross under RSIExitThreshold then begin
+	Sell ("LX") all contracts next bar market;
+end;
+
