@@ -1,6 +1,6 @@
 // MNQ 60 min
 // Backtest time: 2020/03/01 - 2024/01/01 Exchange
-// Version: 1
+
 
 inputs: Enabled(1), OrderSize(1);
 
