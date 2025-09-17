@@ -1,4 +1,4 @@
-// SB 60 min
+// SB 120 min
 // Backtest time: 2015/09/01 - 2024/01/01 Exchange
 
 inputs: Enabled(1), OrderSize(1);
@@ -6,7 +6,7 @@ inputs: Enabled(1), OrderSize(1);
 if Enabled = 0 then
 	#Return;
 
-vars: MA1Len(60), MA2Len(7), Len(9), Count(4);
+vars: MA1Len(94), MA2Len(5), Len(10), Count(6);
 
 vars: OpenCond(True);
 OpenCond = True;
