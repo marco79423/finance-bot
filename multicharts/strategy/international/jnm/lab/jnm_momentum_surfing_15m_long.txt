@@ -6,7 +6,8 @@ inputs: Enabled(1), OrderSize(1);
 if Enabled = 0 then
 	#Return;
 
-vars: Len(8), NN(2.8);
+
+vars: Len(7), NN(2.8);
 vars: BigK(0);
 BigK = StandardDev(Close, Len, 1) * NN ;
 
@@ -17,10 +18,12 @@ end;
 vars: Base(0.025);
 vars: Profit_Percent(2 * Base), StopLoss_Percent(1 * Base);
 
-if OpenPositionProfit > 0 and Close > EntryPrice + EntryPrice * Profit_Percent then begin
-	Sell ("LX_PT") all contracts next bar market;
-end;
+if MarketPosition <> 0 then begin
+	if OpenPositionProfit > 0 and Close > EntryPrice + EntryPrice * Profit_Percent then begin
+		Sell ("LX_PT") all contracts next bar market;
+	end;
 
-if Close < EntryPrice - EntryPrice * StopLoss_Percent then begin
-	Sell ("LX_ST") all contracts next bar market;
+	if Close < EntryPrice - EntryPrice * StopLoss_Percent then begin
+		Sell ("LX_ST") all contracts next bar market;
+	end;
 end;
