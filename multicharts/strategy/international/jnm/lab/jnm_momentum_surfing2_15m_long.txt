@@ -7,7 +7,7 @@ if Enabled = 0 then
 	#Return;
 
 
-vars: Len(7), NN(3);
+vars: Len(5), NN(3.1);
 vars: BigK(0);
 BigK = StandardDev(Close, Len, 1) * NN ;
 
@@ -15,12 +15,10 @@ if Close > AvgPrice[1] + BigK then begin
 	Buy ("LE") OrderSize contracts next bar market;
 end;
 
-vars: Profit_Percent(0.036), StopLoss_Percent(0.036);
+vars: PullBack_Percent(0.014);
 
-if OpenPositionProfit > 0 and Close > EntryPrice + EntryPrice * Profit_Percent then begin
-	Sell ("LX_PT") all contracts next bar market;
-end;
-
-if Close < EntryPrice - EntryPrice * StopLoss_Percent then begin
-	Sell ("LX_ST") all contracts next bar market;
+if MarketPosition <> 0 then begin
+	if Close < HighSinceEntry - EntryPrice * PullBack_Percent then begin
+		Sell ("LX") all contracts next bar market;
+	end;
 end;
