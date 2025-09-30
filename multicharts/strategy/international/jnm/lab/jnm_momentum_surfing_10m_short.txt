@@ -28,7 +28,6 @@ if MarketPosition <> 0 then begin
 
 	if Close > EntryPrice + StopLoss_Percent * EntryPrice then begin
 		BuyToCover ("SX_SL") all contracts next bar market;
-		print("SX_SL");
 	end;
 end;
 
