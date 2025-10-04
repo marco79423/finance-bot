@@ -7,7 +7,7 @@ if Enabled = 0 then
 	#Return;
 
 
-vars: Len(165), NN(2.45);
+vars: Len(165), NN(2.44);
 vars: BigK(0);
 BigK = StandardDev(Close, Len, 1) * NN;
 
