@@ -7,7 +7,7 @@ if Enabled = 0 then
 	#Return;
 
 
-vars: Len(160), NN(2.55);
+vars: Len(165), NN(2.61);
 vars: BigK(0);
 BigK = StandardDev(Close, Len, 1) * NN;
 
@@ -19,7 +19,7 @@ if MarketPosition >= 0 then begin
 	SellShort ("SE") OrderSize contracts next bar AvgPrice - BigK stop;
 end;
 
-vars: PullBackPercent(0.007);
+vars: PullBackPercent(0.010);
 
 if MarketPosition = 1 then begin
 	Sell ("LX_PT") all contracts next bar HighSinceEntry - EntryPrice * PullBackPercent stop;
