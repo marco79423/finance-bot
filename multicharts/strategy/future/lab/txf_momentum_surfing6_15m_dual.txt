@@ -1,0 +1,36 @@
+// TXF 15 min
+// Backtest time: 2014/01/01 - 2014/01/01 Exchange
+// Fee (12 + 5) * 20
+
+
+inputs: Enabled(1), OrderSize(1);
+
+if Enabled = 0 then
+	#Return;
+
+vars: OpenCond(True);
+OpenCond = not (IsTXFSettlementDay and 1200 < Time and Time < 1400);
+OpenCond = OpenCond and not (0845 <= Time and Time <= 0847);
+OpenCond = OpenCond and not (1500 <= Time and Time <= 1502);
+
+vars: Len(80), NN(1.96);
+vars: BigK(0);
+BigK = StandardDev(Close, Len, 1) * NN;
+
+if OpenCond and MarketPosition <= 0 then begin
+	Buy ("LE") OrderSize contracts next bar AvgPrice + BigK stop;
+end;
+
+if MarketPosition >= 0 then begin
+	SellShort ("SE") OrderSize contracts next bar AvgPrice - BigK stop;
+end;
+
+vars: PullBackPercent(0.012);
+
+if MarketPosition = 1 then begin
+	Sell ("LX_PT") all contracts next bar HighSinceEntry - EntryPrice * PullBackPercent stop;
+end;
+
+if MarketPosition = -1 then begin
+	BuyToCover ("SX_PT") all contracts next bar LowSinceEntry + EntryPrice * PullBackPercent stop;
+end;
