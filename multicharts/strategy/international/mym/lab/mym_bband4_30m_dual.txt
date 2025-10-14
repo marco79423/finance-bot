@@ -20,7 +20,7 @@ if Close < BBandDown then begin
 	SellShort ( "SE" ) OrderSize contracts next bar market;
 end;
 
-vars: PullBackPercent(0.025), StopLossPercent(0.02);
+vars: PullBackPercent(0.024), StopLossPercent(0.02);
 
 if MarketPosition = 1 then begin
 	if HighSinceEntry > EntryPrice then begin
