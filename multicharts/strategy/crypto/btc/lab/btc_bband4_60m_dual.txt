@@ -1,4 +1,4 @@
-// BTC 30 min
+// BTC 60 min
 // Backtest time: 2019/10/01 - 2024/01/01 +00:00
 
 inputs: Enabled(1), OrderSize(1);
@@ -14,7 +14,7 @@ end else begin
 end;
 
 
-vars: KBar(35), BBandMultiplier(3.3);
+vars: KBar(18), BBandMultiplier(3);
 vars: BBandUp(0), BBandDown(0);
 BBandUp = BollingerBand(Close, KBar, BBandMultiplier);
 BBandDown = BollingerBand(Close, KBar, -BBandMultiplier);
@@ -27,7 +27,7 @@ if Close < BBandDown then begin
 	SellShort ( "SE" ) RevisedOrderSize contracts next bar market;
 end;
 
-vars: PullBackPercent(0.04), StopLossPercent(0.01);
+vars: PullBackPercent(0.034), StopLossPercent(0.013);
 
 if MarketPosition = 1 then begin
 	if HighSinceEntry > EntryPrice then begin
