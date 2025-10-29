@@ -1,33 +1,24 @@
 // MCL 360 min
-// Backtest time: 2022/01/20 00:00 - 2024/01/01 Exchange
-// Use bar 8
+// Backtest time: 2022/01/20 - 2024/06/01 Exchange
+// Compliance: 1
+
 
 inputs: Enabled(1), OrderSize(1);
 
 if Enabled = 0 then
 	#Return;
 
-vars: MA1Len(40), MA2Len(20), Len(15), Count(3);
 
-vars: OpenCond(True);
-OpenCond = True;
+vars: FastMALen(20), SlowMALen(40), LookBackLen(15), ThresholdCount(3);
+vars: FastMA(0), SlowMA(0);
 
-vars: MA1(0), MA2(0);
-MA1 = Average(Close, MA1Len);
-MA2 = Average(Close, MA2Len);
+FastMA = Average(Close, FastMALen);
+SlowMA = Average(Close, SlowMALen);
 
-vars: BuyCond(True);
-BuyCond = OpenCond;
-BuyCond = BuyCond and MA1 > MA2;
-BuyCond = BuyCond and CountIF(Close > MA1, Len) > Count;
-if BuyCond then begin
+if FastMA < SlowMA and CountIF(Close > SlowMA, LookBackLen) > ThresholdCount then begin
 	Buy ("LE") OrderSize contracts next bar market;
 end;
 
-vars: ShortCond(True);
-ShortCond = OpenCond;
-ShortCond = ShortCond and MA1 < MA2;
-ShortCond = ShortCond and CountIF(Close < MA1, Len) > Count;
-if ShortCond then begin
+if FastMA > SlowMA and CountIF(Close < SlowMA, LookBackLen) > ThresholdCount then begin
 	SellShort ("SE") OrderSize contracts next bar market;
 end;
