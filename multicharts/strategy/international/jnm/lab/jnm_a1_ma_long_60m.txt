@@ -1,0 +1,26 @@
+// JNM 60 min
+// Backtest time: 2014/01/01 - 2024/01/01 Exchange
+// Compliance: 1
+
+
+inputs: Enabled(1), OrderSize(1);
+
+if Enabled = 0 then
+	#Return;
+
+
+vars: FastMALen(40), SlowMALen(95), LookBackLen(3), ThresholdCount(2);
+vars: FastMA(0), SlowMA(0);
+
+FastMA = Average(Close, FastMALen);
+SlowMA = Average(Close, SlowMALen);
+
+if CountIF(FastMA > SlowMA, LookBackLen) > ThresholdCount then begin
+	Buy ("LE") OrderSize contracts next bar market;
+end;
+
+if MarketPosition = 1 then begin
+	if CountIF(FastMA < SlowMA, LookBackLen) > ThresholdCount then begin
+		Sell ("LX") all contracts next bar market;
+	end;
+end;
