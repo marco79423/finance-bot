@@ -1,6 +1,6 @@
 // JNM 60 min
 // Backtest time: 2014/01/01 - 2024/01/01 Exchange
-// Compliance: 1
+// Compliance: 0
 
 
 inputs: Enabled(1), OrderSize(1);
