@@ -9,7 +9,7 @@ if Enabled = 0 then
 	#Return;
 
 
-vars: MALength(3), KBar(135), BBandMultiplier(2), ADXLength(14), ADXMax(29), BasePercent(0.07), LossMultiplier(1);
+vars: MALength(3), KBar(135), BBandMultiplier(2), ADXMax(29), BasePercent(0.07), LossMultiplier(1);
 
 vars: MA(0);
 MA = Average(Close, MALength);
@@ -19,7 +19,7 @@ BBandDown = BollingerBand(Close, KBar, -BBandMultiplier);
 BBandUp = BollingerBand(Close, KBar, BBandMultiplier);
 
 
-if ADX(ADXLength) < ADXMax then begin
+if ADX(14) < ADXMax then begin
 	if Close > MA and Close < BBandDown then begin
 		Buy ("LE") OrderSize contracts next bar market;
 	end;
