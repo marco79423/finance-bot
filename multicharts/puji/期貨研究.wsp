@@ -13,14 +13,14 @@
 	ContainerHeight = '765'
 	ContainerWidth = '1546'
 	Flags = '2'
-	Height = '433'
+	Height = '431'
 	Left = '0'
 	MinX = '-1'
 	MinY = '-1'
 	State = '3'
-	Top = '59'
+	Top = '58'
 	ViewType = '0'
-	Width = '1276'
+	Width = '1413'
 
 [Wsp\Window_0\ChartManager]
 	ChartCount = '2'
