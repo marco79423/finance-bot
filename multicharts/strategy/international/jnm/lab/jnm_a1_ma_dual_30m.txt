@@ -1,6 +1,6 @@
 // JNM 30 min
-// Backtest time: 2014/01/01 - 2024/01/01 Exchange
-// Compliance: 0
+// Backtest time: 2018/01/01 - 2024/01/01 Exchange
+// Compliance: 1
 
 
 inputs: Enabled(1), OrderSize(1);
@@ -9,18 +9,29 @@ if Enabled = 0 then
 	#Return;
 
 
-vars: FastMALen(50), SlowMALen(170), LookBackLen(3), ThresholdCount(2);
-vars: FastMA(0), SlowMA(0);
+vars: SmallMALen(20), MidMALen(95), LongMALen(215), BreakoutLen(30);
 
-FastMA = Average(Close, FastMALen);
-SlowMA = Average(Close, SlowMALen);
+vars: SmallMA(1), MidMA(1), LongMA(1);
+SmallMA = Average(Close, SmallMALen);
+MidMA = Average(Close, MidMALen);
+LongMA = Average(Close, LongMALen);
 
-if CountIF(FastMA > SlowMA, LookBackLen) > ThresholdCount then begin
-	Buy ("LE") OrderSize contracts next bar market;
+vars: Bullish(True), Bearish(False);
+Bullish = SmallMA > MidMA and MidMA > LongMA;
+Bearish = SmallMA < MidMA and MidMA < LongMA;
+
+vars: UpBreak(0), DownBreak(0);
+UpBreak = Highest(Close, BreakoutLen);
+DownBreak = Lowest(Close, BreakoutLen);
+
+if Bullish then begin
+	if Close = UpBreak then begin
+		Buy ("LE") OrderSize contracts next bar market;
+	end;
 end;
 
-if MarketPosition = 1 then begin
-	if CountIF(FastMA < SlowMA, LookBackLen) > ThresholdCount then begin
-		Sell ("LX") all contracts next bar market;
+if Bearish then begin
+	if Close = DownBreak then begin
+		SellShort ("SE") OrderSize contracts next bar market;
 	end;
 end;
