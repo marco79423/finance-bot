@@ -22,15 +22,3 @@ end;
 if Close < BBandDown then begin
 	SellShort ("SE") OrderSize contracts next bar market;
 end;
-
-if MarketPosition = 1 then begin
-	if Close < BBandOut then begin
-		Sell ("LX") all contracts next bar market;
-	end;
-end;
-
-if MarketPosition = -1 then begin
-	if Close > BBandOut then begin
-		BuyToCover ("SX") all contracts next bar market;
-	end;
-end;
