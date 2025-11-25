@@ -1,4 +1,4 @@
-// TXF 15 min
+// TXF 30 min
 // Backtest time: 2018/01/01 - 2014/01/01 Exchange
 // Compliance: 1
 
@@ -8,7 +8,7 @@ if Enabled = 0 then
 	#Return;
 
 
-vars: StdDevLength(105), StdDevMultiplier(1.9), PullBackPercent(0.085), StopLossPercent(0.025);
+vars: StdDevLength(60), StdDevMultiplier(1.35), PullBackPercent(0.1), StopLossPercent(0.03);
 
 vars: BigK(0);
 BigK = StandardDev(Close, StdDevLength, 1) * StdDevMultiplier;
