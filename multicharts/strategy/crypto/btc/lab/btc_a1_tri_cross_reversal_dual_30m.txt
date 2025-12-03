@@ -22,10 +22,14 @@ MidMA = Average(Close, MidMALen);
 LongMA = Average(Close, LongMALen);
 
 
-if MarketPosition <= 0 and SmallMA > LongMA and MidMA < LongMA then begin
-	Buy ("LE") RevisedOrderSize contracts next bar market;
+if MarketPosition <= 0 then begin
+	if SmallMA > LongMA and MidMA < LongMA then begin
+		Buy ("LE") RevisedOrderSize contracts next bar market;
+	end;
 end;
 
-if MarketPosition >= 0 and SmallMA < LongMA and MidMA > LongMA then begin
-	SellShort ("SE") RevisedOrderSize contracts next bar market;
+if MarketPosition >= 0 then begin
+	if SmallMA < LongMA and MidMA > LongMA then begin
+		SellShort ("SE") RevisedOrderSize contracts next bar market;
+	end;
 end;
