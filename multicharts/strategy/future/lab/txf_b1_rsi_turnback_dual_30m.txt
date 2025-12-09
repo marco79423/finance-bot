@@ -1,0 +1,49 @@
+// TXF 15 min
+// Backtest time: 2018/01/01 - 2024/01/01 Exchange
+// Compliance: 1
+
+inputs: Enabled(1), OrderSize(1);
+
+if Enabled = 0 then
+	#Return;
+
+vars: ADXMax(30), RSILen(80), RSIBuyLevel(30), RSISellLevel(65), RSIExitLevel(45), MaxBarsHold(65);
+
+vars: RSIValue(0);
+RSIValue = RSI(Close, RSILen);
+
+vars: OpenCond(True);
+OpenCond = not (IsTXFSettlementDay and 1200 < Time and Time < 1400);
+OpenCond = OpenCond and not (0845 <= Time and Time <= 0847);
+OpenCond = OpenCond and not (1500 <= Time and Time <= 1502);
+OpenCond = ADX(14) < ADXMax;
+
+if MarketPosition = 0 and OpenCond then begin
+	if RSIValue < RSIBuyLevel then begin
+		Buy ( "LE" ) OrderSize contracts next bar market;
+	end;
+
+	if RSIValue > RSISellLevel then begin
+		SellShort ( "SE" ) OrderSize contracts next bar market;
+	end;
+end;
+
+if MarketPosition = 1 then begin
+    if RSIValue >= RSIExitLevel then begin
+        Sell ("LX_Out") all contracts next bar market;
+    end;
+
+    if BarsSinceEntry >= MaxBarsHold then begin
+        Sell ("LX_Timeout") all contracts next bar market;
+    end;
+end;
+
+if MarketPosition = -1 then begin
+    if RSIValue <= RSIExitLevel then begin
+        BuyToCover ("SX_Out") all contracts next bar market;
+    end;
+
+    if BarsSinceEntry >= MaxBarsHold then begin
+        BuyToCover ("SX_Timeout") all contracts next bar market;
+    end;
+end;
