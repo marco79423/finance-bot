@@ -1,4 +1,4 @@
-// TXF 30 min
+// TXF 20 min
 // Backtest time: 2018/01/01 - 2024/01/01 Exchange
 // Compliance: 1
 
