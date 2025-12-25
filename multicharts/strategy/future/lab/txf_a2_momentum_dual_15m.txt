@@ -8,35 +8,50 @@ if Enabled = 0 then
 	#Return;
 
 
-vars: StdDevLength(105), StdDevMultiplier(1.9), PullBackPercent(0.085), StopLossPercent(0.025);
+vars: LookBackN(290), BasePercent(0.008), ProfitMultiplier(1.2), MaxEntriesPerDay(2);
 
-vars: BigK(0);
-BigK = StandardDev(Close, StdDevLength, 1) * StdDevMultiplier;
+vars: ProfitPercent(0), StopLossPercent(0);
+ProfitPercent = ProfitMultiplier * BasePercent;
+StopLossPercent = BasePercent;
 
 vars: OpenCond(True);
 OpenCond = not (IsTXFSettlementDay and 1200 < Time and Time < 1400);
 OpenCond = OpenCond and not (0845 <= Time and Time <= 0847);
 OpenCond = OpenCond and not (1500 <= Time and Time <= 1502);
+OpenCond = OpenCond and EntriesToday(Date) < MaxEntriesPerDay;
 
 if OpenCond and MarketPosition <= 0 then begin
-	Buy ("LE") OrderSize contracts next bar AvgPrice + BigK stop;
+	Buy ("LE") OrderSize contracts next bar Highest(High, LookBackN) stop;
 end;
 
 if OpenCond and MarketPosition >= 0 then begin
-	SellShort ("SE") OrderSize contracts next bar AvgPrice - BigK stop;
+	SellShort ("SE") OrderSize contracts next bar Lowest(Low, LookBackN) stop;
 end;
 
 if MarketPosition = 1 then begin
-	if HighSinceEntry > EntryPrice then begin
-		Sell ("LX_PT") all contracts next bar HighSinceEntry - EntryPrice * PullBackPercent stop;
+	if IsTXFSettlementDay and 1200 < Time and Time < 1400 then begin
+		Sell ("LX_Settle") all contracts next bar market;
 	end;
-	Sell ("LX_ST") all contracts next bar EntryPrice * (1 - StopLossPercent) stop;
+
+    if Close > (1 + ProfitPercent) * EntryPrice then begin
+		Sell ("LX_PT") all contracts next bar market;
+	end;
+
+	if Close < (1 - StopLossPercent) * EntryPrice then begin
+		Sell ("LX_SL") all contracts next bar market;
+	end;
 end;
 
 if MarketPosition = -1 then begin
-	if LowSinceEntry < EntryPrice then begin
-		BuyToCover ("SX_PT") all contracts next bar LowSinceEntry + EntryPrice * PullBackPercent stop;
+	if IsTXFSettlementDay and 1200 < Time and Time < 1400 then begin
+		BuyToCover ("SX_Settle") all contracts next bar market;
 	end;
-	BuyToCover ("SX_ST") all contracts next bar EntryPrice * (1 + StopLossPercent) stop;
-end;
 
+    if Close < (1 - ProfitPercent) * EntryPrice then begin
+		BuyToCover ("SX_PT") all contracts next bar market;
+	end;
+
+	if Close > (1 + StopLossPercent) * EntryPrice then begin
+		BuyToCover ("SX_SL") all contracts next bar market;
+	end;
+end;
