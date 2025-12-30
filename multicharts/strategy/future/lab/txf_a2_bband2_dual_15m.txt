@@ -1,0 +1,61 @@
+// TXF 15 min
+// Backtest time: 2018/01/01 - 2014/01/01 Exchange
+// Compliance: 1
+
+inputs: Enabled(1), OrderSize(1);
+
+if Enabled = 0 then
+	#Return;
+
+
+vars: KBar(35), BBandMultiplier(3.7), BasePercent(0.01), ProfitMultiplier(1.5), MaxEntriesPerDay(1);
+
+vars: BBandUp(0), BBandDown(0);
+BBandUp = BollingerBand(Close, KBar, BBandMultiplier);
+BBandDown = BollingerBand(Close, KBar, -BBandMultiplier);
+
+vars: ProfitPercent(0), StopLossPercent(0);
+ProfitPercent = ProfitMultiplier * BasePercent;
+StopLossPercent = BasePercent;
+
+vars: OpenCond(True);
+OpenCond = not (IsTXFSettlementDay and 1200 < Time and Time < 1400);
+OpenCond = OpenCond and not (0845 <= Time and Time <= 0847);
+OpenCond = OpenCond and not (1500 <= Time and Time <= 1502);
+OpenCond = OpenCond and EntriesToday(Date) < MaxEntriesPerDay;
+
+if OpenCond and Close > BBandUp then begin
+	Buy ("LE") OrderSize contracts next bar market;
+end;
+
+if OpenCond and Close < BBandDown then begin
+	SellShort ( "SE" ) OrderSize contracts next bar market;
+end;
+
+if MarketPosition = 1 then begin
+	if IsTXFSettlementDay and 1200 < Time and Time < 1400 then begin
+		Sell ("LX_Settle") all contracts next bar market;
+	end;
+
+    if Close > (1 + ProfitPercent) * EntryPrice then begin
+		Sell ("LX_PT") all contracts next bar market;
+	end;
+
+	if Close < (1 - StopLossPercent) * EntryPrice then begin
+		Sell ("LX_SL") all contracts next bar market;
+	end;
+end;
+
+if MarketPosition = -1 then begin
+	if IsTXFSettlementDay and 1200 < Time and Time < 1400 then begin
+		BuyToCover ("SX_Settle") all contracts next bar market;
+	end;
+
+    if Close < (1 - ProfitPercent) * EntryPrice then begin
+		BuyToCover ("SX_PT") all contracts next bar market;
+	end;
+
+	if Close > (1 + StopLossPercent) * EntryPrice then begin
+		BuyToCover ("SX_SL") all contracts next bar market;
+	end;
+end;
