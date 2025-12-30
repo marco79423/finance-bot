@@ -14,14 +14,14 @@ end else begin
 	RevisedOrderSize = OrderSize;
 end;
 
-vars: LookBackN(395), BasePercent(0.035), ProfitMultiplier(1.2), MaxEntriesPerDay(4);
+vars: LookBackN(395), BasePercent(0.035), ProfitMultiplier(1.2), MaxEntriesPerDay(3);
 
 vars: ProfitPercent(0), StopLossPercent(0);
 ProfitPercent = ProfitMultiplier * BasePercent;
 StopLossPercent = BasePercent;
 
 vars: OpenCond(True);
-OpenCond = OpenCond and EntriesToday(Date) < MaxEntriesPerDay;
+OpenCond = OpenCond and EntriesToday(Date) <= MaxEntriesPerDay;
 
 if OpenCond and MarketPosition <= 0 then begin
 	Buy ("LE") RevisedOrderSize contracts next bar Highest(High, LookBackN) stop;
