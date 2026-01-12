@@ -1,5 +1,6 @@
 // TXF 10 min
 // Backtest time: 2018/01/01 - 2014/01/01 Exchange
+// Fee (12 + 5) * 20
 // Compliance: 1
 
 inputs: Enabled(1), OrderSize(1);
