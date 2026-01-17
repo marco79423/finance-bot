@@ -10,17 +10,17 @@
 	WindowCount = '0'
 
 [Wsp\Window_0]
-	ContainerHeight = '703'
-	ContainerWidth = '1300'
+	ContainerHeight = '765'
+	ContainerWidth = '1546'
 	Flags = '2'
-	Height = '429'
+	Height = '424'
 	Left = '0'
 	MinX = '-1'
 	MinY = '-1'
 	State = '3'
-	Top = '57'
+	Top = '55'
 	ViewType = '0'
-	Width = '1564'
+	Width = '1649'
 
 [Wsp\Window_0\ChartManager]
 	ChartCount = '2'
@@ -1852,7 +1852,7 @@
 [Wsp\Window_0\ChartManager\IndexViewCalc]
 	BarSpacing = '76'
 	BarsToRight = '20'
-	BarsToRightValue = '3'
+	BarsToRightValue = '4'
 	ChartShiftViewType = '0'
 	ShowEmptyPeriod = '0'
 
